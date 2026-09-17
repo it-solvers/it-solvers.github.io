@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 웹브라우저 탭 및 북마크 아이콘 (파비콘) -->
+    <link rel="icon" href="https://it-solvers.github.io/images/logo.png" type="image/png">
+    
+    <!--네이버 사이트 소유확인 -->
+    <meta name="naver-site-verification" content="22cbb3d40e322dc05c44cb4569dbf9450dff8b4d" />
+
+    <!-- 메인 SEO 메타 태그 -->
+    <title>아이티해결단 | 소프트웨어·앱 개발 및 IT자산 맞춤 공급 솔루션</title>
+    <meta name="description" content="아이티해결단(IT Solvers) | 맞춤형 소프트웨어·웹·앱 개발, 기존 시스템 고도화 및 유지보수, 기관·기업 맞춤 IT자산 공급, 업무용 PC 납품 및 초기 환경 구축 전문">
+    <meta name="keywords" content="아이티해결단, IT Solvers, 소프트웨어개발, 맞춤앱개발, IT자산공급, 기업PC납품, 컴퓨터설치, 시스템유지보수, 금융SI, 렌터카ERP, 이혁">
+    <meta name="author" content="아이티해결단 (단장 이혁)">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://it-solvers.github.io/">
+
+    <!-- Open Graph (카카오톡, 네이버 블로그/밴드, 페이스북 공유 최적화) -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+    <meta property="og:title" content="아이티해결단 | 복잡한 IT 문제, 해결에서 시작합니다.">
+    <meta property="og:description" content="소프트웨어·앱 개발부터 기관 및 기업 IT자산 공급, 맞춤 PC 설치까지 한 곳에서 상담받으세요.">
+    <meta property="og:url" content="https://it-solvers.github.io/">
+    <meta property="og:image" content="https://it-solvers.github.io/images/og-image.png">
+    <meta property="og:image:alt" content="아이티해결단 로고 및 대표 서비스">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="아이티해결단 | IT Solvers">
+    <meta name="twitter:description" content="소프트웨어·앱 맞춤 개발 및 유지보수, 기관·회사 IT자산 공급, 컴퓨터 판매·설치">
+    <meta name="twitter:image" content="https://it-solvers.github.io/images/og-image.png">
+
+    <!-- 검색엔진 소유확인 태그 -->
+    <!-- <meta name="naver-site-verification" content="네이버_서치어드바이저_코드" /> -->
+    <!-- <meta name="google-site-verification" content="구글_서치콘솔_코드" /> -->
+
+    <!-- Schema.org 구조화 데이터 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "아이티해결단 (IT Solvers)",
+      "url": "https://it-solvers.github.io/",
+      "logo": "https://it-solvers.github.io/images/logo.png",
+      "image": "https://it-solvers.github.io/images/og-image.png",
+      "description": "소프트웨어 및 맞춤 앱 개발, IT자산 공급, 시스템 구축 및 유지보수 전문 기업",
+      "founder": {
+        "@type": "Person",
+        "name": "이혁",
+        "jobTitle": "단장"
+      },
+      "email": "itsolvers@naver.com",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "IT 주요 서비스",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "소프트웨어 · 앱 맞춤 개발 및 유지보수"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "기관 및 회사 IT자산 공급"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "맞춤형 컴퓨터 판매 및 현장 설치"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans KR",
+                "Malgun Gothic",
+                sans-serif;
+            color: #172033;
+            background: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(255,255,255,0.95);
+            border-bottom: 1px solid #eeeeee;
+
+            backdrop-filter: blur(10px);
+        }
+
+        .nav {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-weight: 800;
+            font-size: 20px;
+
+            letter-spacing: -1px;
+        }
+
+        .logo-mark {
+            width: 70px;
+            height: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: transparent;
+            border-radius: 0;
+
+            overflow: hidden;
+        }
+
+        .logo-mark img {
+            width: 70px;
+            height: 50px;
+            object-fit: contain;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+
+            font-size: 14px;
+            color: #475467;
+        }
+
+        nav a:hover {
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 120px 0 110px;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    #edf4ff 0,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #f8faff 100%
+                );
+        }
+
+        .hero-label {
+            display: inline-block;
+
+            padding: 7px 13px;
+            margin-bottom: 22px;
+
+            border-radius: 20px;
+
+            background: #edf4ff;
+            color: #2563eb;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            margin: 0;
+
+            max-width: 780px;
+
+            font-size: clamp(42px, 6vw, 70px);
+
+            line-height: 1.1;
+
+            letter-spacing: -4px;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero-text {
+            margin: 28px 0 35px;
+
+            max-width: 650px;
+
+            color: #667085;
+
+            font-size: 18px;
+        }
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 13px 21px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .button-primary {
+            color: white;
+            background: #2563eb;
+        }
+
+        .button-primary:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        section {
+            padding: 95px 0;
+        }
+
+        .section-title {
+            margin-bottom: 42px;
+        }
+
+        .section-label {
+            color: #2563eb;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            letter-spacing: 1px;
+        }
+
+        .section-title h2 {
+            margin: 8px 0 10px;
+
+            font-size: 42px;
+
+            line-height: 1.2;
+
+            letter-spacing: -2px;
+        }
+
+        .section-title p {
+            margin: 0;
+
+            color: #667085;
+        }
+
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            background: #f8f9fb;
+        }
+
+        .service-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .service-card {
+            padding: 32px;
+
+            min-height: 280px;
+
+            background: white;
+
+            border: 1px solid #e8ebf0;
+
+            border-radius: 16px;
+        }
+
+        .service-icon {
+            width: 46px;
+            height: 46px;
+
+            margin-bottom: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #edf4ff;
+            color: #2563eb;
+
+            font-weight: 900;
+        }
+
+        .service-card h3 {
+            margin: 0 0 12px;
+
+            font-size: 20px;
+
+            letter-spacing: -0.7px;
+        }
+
+        .service-card p {
+            margin: 0;
+
+            color: #667085;
+
+            font-size: 15px;
+        }
+
+        .service-card ul {
+            padding: 0;
+            margin: 20px 0 0;
+
+            list-style: none;
+
+            color: #475467;
+
+            font-size: 14px;
+        }
+
+        .service-card li {
+            margin: 6px 0;
+        }
+
+        .service-card li::before {
+            content: "·";
+
+            margin-right: 8px;
+
+            color: #2563eb;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 80px;
+
+            align-items: center;
+        }
+
+        .about h2 {
+            margin-top: 8px;
+
+            font-size: 42px;
+
+            line-height: 1.2;
+
+            letter-spacing: -2px;
+        }
+
+        .about p {
+            color: #667085;
+        }
+
+        .principles {
+            display: grid;
+
+            gap: 14px;
+        }
+
+        .principle {
+            padding: 20px;
+
+            border: 1px solid #e8ebf0;
+
+            border-radius: 13px;
+
+            background: white;
+        }
+
+        .principle strong {
+            display: block;
+
+            margin-bottom: 4px;
+        }
+
+        .principle span {
+            color: #667085;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 950px;
+        }
+
+        .history-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px 24px;
+            background: white;
+            border: 1px solid #e8ebf0;
+            border-radius: 12px;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .history-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .history-date {
+            font-weight: 800;
+            color: #2563eb;
+            font-size: 15px;
+            white-space: nowrap;
+            min-width: 155px;
+        }
+
+        .history-desc {
+            color: #172033;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .history-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .history-client {
+            font-size: 13px;
+            color: #475467;
+            background: #f8f9fb;
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid #eaecf0;
+        }
+
+        .history-role {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2563eb;
+            background: #edf4ff;
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        .history-env {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-top: 8px;
+            border-top: 1px dashed #f0f2f5;
+            font-size: 12px;
+        }
+
+        .env-tag {
+            color: #475467;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+
+        /* =========================
+           PROCESS
+        ========================= */
+
+        .process {
+            background: #f8f9fb;
+        }
+
+        .process-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .process-card {
+            position: relative;
+
+            padding: 28px;
+
+            min-height: 185px;
+
+            background: white;
+
+            border: 1px solid #e8ebf0;
+
+            border-radius: 14px;
+        }
+
+        .process-number {
+            color: #2563eb;
+
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .process-card h3 {
+            margin: 9px 0 8px;
+
+            font-size: 18px;
+        }
+
+        .process-card p {
+            margin: 0;
+
+            color: #667085;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            padding: 100px 0;
+
+            text-align: center;
+
+            color: white;
+
+            background: #172033;
+        }
+
+        .contact .section-label {
+            color: #9dbdff;
+        }
+
+        .contact h2 {
+            margin: 10px 0;
+
+            font-size: 42px;
+
+            letter-spacing: -2px;
+        }
+
+        .contact p {
+            margin: 0 auto 30px;
+
+            max-width: 620px;
+
+            color: #b9c2d0;
+        }
+
+        .contact-email {
+            margin: 0 auto;
+        }
+
+        .contact-email a {
+            display: inline-block;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0;
+            padding: 12px 28px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            transition: 0.2s;
+        }
+
+        .contact-email a:hover {
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 28px 0;
+
+            background: #111827;
+
+            color: #98a2b3;
+
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 80px 0 70px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+
+                letter-spacing: -2.5px;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .section-title h2,
+            .about h2,
+            .contact h2 {
+                font-size: 32px;
+            }
+
+            .service-grid,
+            .about-grid,
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                gap: 35px;
+            }
+
+            .process-card {
+                min-height: auto;
+            }
+
+            .history-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .history-main {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .history-meta {
+                align-self: flex-start;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="container nav">
+
+        <a href="#" class="logo" title="아이티해결단 메인으로 이동">
+
+            <span class="logo-mark">
+                <img src="https://it-solvers.github.io/images/logo.png" alt="Logo" />
+            </span>
+
+            <span>
+                아이티해결단(IT Solvers)
+            </span>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#services">
+                서비스
+            </a>
+
+            <a href="#about">
+                아이티해결단
+            </a>
+
+            <a href="#history">
+                주요실적
+            </a>
+
+            <a href="#process">
+                진행순서
+            </a>
+
+            <a href="#contact">
+                문의
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <!--span class="hero-label">
+            IT Solvers
+        </span-->
+
+
+        <h1>
+
+            복잡한 IT 문제,<br>
+
+            <span>
+                해결
+            </span>에서 시작합니다.
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            소프트웨어와 앱 개발부터
+            IT자산 공급과 컴퓨터 설치까지.
+
+            필요한 IT 업무를 한 곳에서
+            상담하고 해결할 수 있도록 돕습니다.
+
+        </p>
+
+
+        <a href="#contact"
+           class="button button-primary"
+           title="상담 문의 섹션으로 이동">
+
+            상담 문의하기
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section id="services"
+         class="services">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span class="section-label">
+                SERVICES
+            </span>
+
+            <h2>
+                필요한 IT를 해결합니다.
+            </h2>
+
+            <p>
+                개발부터 장비 공급과 설치까지
+                실무에 필요한 서비스를 제공합니다.
+            </p>
+
+        </div>
+
+
+
+        <div class="service-grid">
+
+
+            <!-- 서비스 01 -->
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    01
+                </div>
+
+                <h3>
+                    소프트웨어 · 앱 개발
+                </h3>
+
+                <p>
+                    업무에 필요한 프로그램과 앱을
+                    목적에 맞게 개발합니다.
+                </p>
+
+                <ul>
+
+                    <li>
+                        업무용 소프트웨어 개발
+                    </li>
+
+                    <li>
+                        웹 · 앱 맞춤 개발
+                    </li>
+
+                    <li>
+                        기존 시스템 유지보수
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+
+            <!-- 서비스 02 -->
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    02
+                </div>
+
+                <h3>
+                    IT자산 공급
+                </h3>
+
+                <p>
+                    기관과 회사에서 필요한
+                    IT 장비를 상담하고 공급합니다.
+                </p>
+
+                <ul>
+
+                    <li>
+                        노트북 · 데스크탑
+                    </li>
+
+                    <li>
+                        모니터 및 주변기기
+                    </li>
+
+                    <li>
+                        기관 · 회사 IT자산 공급
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+
+            <!-- 서비스 03 -->
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    03
+                </div>
+
+                <h3>
+                    컴퓨터 판매 · 설치
+                </h3>
+
+                <p>
+                    사용 목적과 예산에 맞는
+                    컴퓨터를 구성하고 설치합니다.
+                </p>
+
+                <ul>
+
+                    <li>
+                        맞춤형 PC 구성
+                    </li>
+
+                    <li>
+                        Windows 및 프로그램 설치
+                    </li>
+
+                    <li>
+                        초기 환경 설정 및 점검
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about"
+         class="about">
+
+    <div class="container about-grid">
+
+
+        <div>
+
+            <span class="section-label">
+                IT SOLVERS
+            </span>
+
+
+            <h2>
+
+                필요한 것을 듣고,<br>
+
+                해결책을 찾습니다.
+
+            </h2>
+
+
+            <p>
+
+                IT는 기술 자체보다
+                실제 사용하는 사람과
+                업무에 맞는 해결책이 중요합니다.
+
+            </p>
+
+
+            <p>
+
+                아이티해결단은 소프트웨어 개발과 유지보수,
+                IT장비 공급 및 설치 등 다양한 IT 업무를
+                하나의 창구에서 상담할 수 있도록 돕습니다.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="principles">
+
+
+            <div class="principle">
+
+                <strong>
+                    필요한 만큼
+                </strong>
+
+                <span>
+                    과도한 구성보다 실제 업무에 필요한
+                    환경을 생각합니다.
+                </span>
+
+            </div>
+
+
+
+            <div class="principle">
+
+                <strong>
+                    알기 쉽게
+                </strong>
+
+                <span>
+                    기술적인 내용을 사용자가
+                    이해하기 쉽게 설명합니다.
+                </span>
+
+            </div>
+
+
+
+            <div class="principle">
+
+                <strong>
+                    끝까지
+                </strong>
+
+                <span>
+                    설치 이후의 유지보수와 관리까지
+                    함께 생각합니다.
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     HISTORY
+========================= -->
+
+<section id="history"
+         class="history">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <span class="section-label">
+                HISTORY & TRACK RECORD
+            </span>
+
+            <h2>
+                주요 프로젝트 및 납품 실적
+            </h2>
+
+            <p>
+                기관 및 기업과의 신뢰를 바탕으로 지속 가능한 IT 서비스를 제공합니다.
+            </p>
+
+        </div>
+
+
+        <div class="history-list">
+
+            <!-- IT자산 납품 실적 -->
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2026.09</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">김포시 아동보호전문기관 IT자산 납품</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">김포시 아동보호전문기관</span>
+                        <span class="history-role">IT자산 공급</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 소프트웨어 개발 프로젝트 실적 -->
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2024.07 - 2025.09</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">신한은행 新종합금융시스템 2.0 innovation 프로젝트</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">신한은행 종합금융부</span>
+                        <span class="history-role">PL / 분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Linux</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">MyBatis</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">BXM</span>
+                    <span class="env-tag">WebSquare5</span>
+                    <span class="env-tag">Report Designer</span>
+                    <span class="env-tag">EAI/MCI</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2023.07 - 2023.12</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리금융캐피탈 대여자산 사후관리 고도화 프로젝트</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">우리금융캐피탈</span>
+                        <span class="history-role">PL</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">DB2</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">XFrame</span>
+                    <span class="env-tag">Jira</span>
+                    <span class="env-tag">EAI/MCI</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2022.08 - 2023.06</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">중소 렌터카 중개 플랫폼(SaaS)</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)비즈앤플랫폼</span>
+                        <span class="history-role">PM / 분석·설계</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">AWS</span>
+                    <span class="env-tag">Linux</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">Vue 3.0</span>
+                    <span class="env-tag">Typescript</span>
+                    <span class="env-tag">MySQL</span>
+                    <span class="env-tag">IntelliJ</span>
+                    <span class="env-tag">VS Code</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Git</span>
+                    <span class="env-tag">RESTful API</span>
+                    <span class="env-tag">토스결제</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2022.04 - 2022.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">렌트노트 시스템 구축 (렌터카 ERP 고도화)</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)핀카</span>
+                        <span class="history-role">PL</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Linux</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">React</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">MySQL</span>
+                    <span class="env-tag">VS Code</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Git</span>
+                    <span class="env-tag">RESTful API</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2021.05 - 2021.12</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">신한 My Car 커넥트 프로젝트</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">신한카드</span>
+                        <span class="history-role">PL</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Linux</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">jQuery</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">EAI/MCI</span>
+                    <span class="env-tag">Devon Framework</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2020.08 - 2021.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">하나캐피탈 렌터카 고도화 프로젝트</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">하나캐피탈</span>
+                        <span class="history-role">PL</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Miplatform</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2019.07 - 2020.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">우리카드</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Miplatform</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2017.03 - 2019.06</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">우리FIS</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Miplatform</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2016.08 - 2017.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)성욱</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Win10</span>
+                    <span class="env-tag">C#</span>
+                    <span class="env-tag">MySQL</span>
+                    <span class="env-tag">Visual Studio 2016</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2016.04 - 2016.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)성욱</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Win10</span>
+                    <span class="env-tag">C#</span>
+                    <span class="env-tag">MySQL</span>
+                    <span class="env-tag">Visual Studio 2016</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2014.08 - 2015.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">JB우리캐피탈 차세대 프로젝트</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">JB우리캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">WebSquare</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2013.11 - 2014.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">산은캐피탈 오토금융 고도화 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">산은캐피탈</span>
+                        <span class="history-role">분석·설계</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">IBM S814 (IBM i7.3)</span>
+                    <span class="env-tag">RPG</span>
+                    <span class="env-tag">DB2</span>
+                    <span class="env-tag">Magic</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2010.02 - 2011.01</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성카드 차세대 시스템 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">삼성카드</span>
+                        <span class="history-role">분석·설계</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Unix</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2009.11 - 2010.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">리스 패키지 고도화</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)비즈시스템</span>
+                        <span class="history-role">분석·설계</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Linux</span>
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">MySQL</span>
+                    <span class="env-tag">Eclipse</span>
+                    <span class="env-tag">Miplatform</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2008.06 - 2009.11</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">두산캐피탈 차세대 시스템 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">두산캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2005.10 - 2006.08</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">KTRental 신경영 시스템 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">KTRental</span>
+                        <span class="history-role">분석·설계</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2005.03 - 2005.09</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">기은캐피탈 리스시스템 고도화</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">기은캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Delphi</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2004.12 - 2005.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">연합캐피탈 리스시스템 고도화</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">연합캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Delphi</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2003.10 - 2004.11</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 통합 리스 시스템 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">삼성캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2003.04 - 2003.07</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 SAP 인터페이스 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">삼성캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2003.01 - 2003.04</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 내구재리스 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">삼성캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2002.04 - 2002.11</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 오토리스 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">삼성캐피탈</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2001.02 - 2002.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">한국국제협력단 통합정보시스템 개발</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">한국국제협력단(KOICA)</span>
+                        <span class="history-role">분석·설계·개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Oracle</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">2000.08 - 2000.12</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">농협중앙회 경영정보시스템 고도화</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">농협중앙회</span>
+                        <span class="history-role">개발</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">Informix</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">1998.03 - 2000.06</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">대동케이블 Web ERP 개발/운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)대동케이블</span>
+                        <span class="history-role">개발 / 운영</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">Java</span>
+                    <span class="env-tag">JSP</span>
+                    <span class="env-tag">JavaScript</span>
+                    <span class="env-tag">MSSQL</span>
+                </div>
+            </article>
+
+            <article class="history-item">
+                <div class="history-header">
+                    <div class="history-main">
+                        <div class="history-date">1994.11 - 1998.02</div>
+                        <h3 class="history-desc" style="margin:0; font-size:17px;">전산실 - 기본공정제어시스템(BPCS) 운영</h3>
+                    </div>
+                    <div class="history-meta">
+                        <span class="history-client">(주)대동케이블</span>
+                        <span class="history-role">개발 / 운영</span>
+                    </div>
+                </div>
+                <div class="history-env">
+                    <span class="env-tag">IBM AS400 (OS400)</span>
+                    <span class="env-tag">RPG</span>
+                    <span class="env-tag">DB2</span>
+                    <span class="env-tag">AS/SET</span>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     PROCESS
+========================= -->
+
+<section id="process"
+         class="process">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span class="section-label">
+                PROCESS
+            </span>
+
+            <h2>
+                진행순서
+            </h2>
+
+            <p>
+                견적부터 납품과 대금 지급까지
+                명확하게 진행합니다.
+            </p>
+
+        </div>
+
+
+
+        <div class="process-grid">
+
+
+            <!-- 01 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    01
+                </span>
+
+                <h3>
+                    견적서
+                </h3>
+
+                <p>
+                    요청하신 내용을 확인하고
+                    견적서를 제공합니다.
+                </p>
+
+            </div>
+
+
+
+            <!-- 02 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    02
+                </span>
+
+                <h3>
+                    계약(전자계약 또는 서면계약)
+                </h3>
+
+                <p>
+                    견적 내용을 확인한 후
+                    계약을 진행합니다.
+                </p>
+
+            </div>
+
+
+
+            <!-- 03 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    03
+                </span>
+
+                <h3>
+                    전자세금계산서 발행
+                </h3>
+
+                <p>
+                    계약 조건에 따라
+                    전자세금계산서를 발행합니다.
+                </p>
+
+            </div>
+
+
+
+            <!-- 04 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    04
+                </span>
+
+                <h3>
+                    설치 · 납품
+                </h3>
+
+                <p>
+                    제품 납품과 필요한 설치 및
+                    초기 설정을 진행합니다.
+                </p>
+
+            </div>
+
+
+
+            <!-- 05 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    05
+                </span>
+
+                <h3>
+                    대금 지급
+                </h3>
+
+                <p>
+                    납품 및 검수 완료 후
+                    대금을 지급받습니다.
+                </p>
+
+            </div>
+
+
+
+            <!-- 06 -->
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    06
+                </span>
+
+                <h3>
+                    거래 마무리
+                </h3>
+
+                <p>
+                    납품 내용을 확인하고
+                    거래를 마무리합니다.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section id="contact"
+         class="contact">
+
+    <div class="container">
+
+
+        <span class="section-label">
+            CONTACT
+        </span>
+
+
+        <h2>
+            IT 문제가 있으신가요?
+        </h2>
+
+
+        <p>
+
+            소프트웨어 개발부터 컴퓨터와 IT자산까지
+            필요한 내용을 편하게 문의해주세요.
+
+        </p>
+
+
+        <div class="contact-email">
+            <a href="mailto:itsolvers@naver.com" title="아이티해결단 이메일 문의하기">
+                itsolvers@naver.com
+            </a>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+            <strong>
+                아이티해결단 (IT Solvers)
+            </strong>
+            <span style="margin-left: 8px; opacity: 0.8;">| 단장 이혁</span>
+        </div>
+
+
+        <div>
+            © 2026 IT Solvers. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>
