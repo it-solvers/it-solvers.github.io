@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://it-solvers.github.io/sitemap.xml
+Sitemap: https://itsolvers.co.kr/sitemap.xml
