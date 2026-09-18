@@ -15,7 +15,7 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://it-solvers.github.io/">
 
-    <!-- Open Graph (카카오톡, 네이버 블로그/밴드, 페이스북 공유 최적화) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
@@ -32,10 +32,7 @@
     <meta name="twitter:image" content="https://it-solvers.github.io/images/og-image.png">
 
     <!-- 검색엔진 소유확인 태그 -->
-
-    <!--네이버 사이트 소유확인 -->
     <meta name="naver-site-verification" content="22cbb3d40e322dc05c44cb4569dbf9450dff8b4d" />
-    <!--구글 사이트 소유확인 -->
     <meta name="google-site-verification" content="2m6ZXJVq7Hb5_CkMr53odi8VkVVZNgV9Qp4vW3UgQjE" />
 
     <!-- Schema.org 구조화 데이터 (JSON-LD) -->
@@ -85,6 +82,17 @@
     </script>
 
     <style>
+        :root {
+            /* 3가지 주요 세련된 컬러 팔레트 */
+            --color-primary: #0F172A;   /* Primary: 메인 다크 네이비 */
+            --color-accent: #D97706;    /* Accent: warm 앰버 골드 (포인트 색상) */
+            --color-bg-alt: #F8FAFC;    /* Neutral Background: 연한 슬레이트 백그라운드 */
+            
+            --color-text-main: #1E293B;
+            --color-text-sub: #64748B;
+            --color-border: #E2E8F0;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -102,7 +110,7 @@
                 "Noto Sans KR",
                 "Malgun Gothic",
                 sans-serif;
-            color: #172033;
+            color: var(--color-text-main);
             background: #ffffff;
             line-height: 1.6;
         }
@@ -120,23 +128,20 @@
 
 
         /* =========================
-           HEADER
+           HEADER (상단 유지)
         ========================= */
 
         header {
             position: sticky;
             top: 0;
             z-index: 100;
-
             background: rgba(255,255,255,0.95);
             border-bottom: 1px solid #eeeeee;
-
             backdrop-filter: blur(10px);
         }
 
         .nav {
             height: 72px;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -145,26 +150,20 @@
         .logo {
             display: flex;
             align-items: center;
-
             gap: 10px;
-
             font-weight: 800;
             font-size: 20px;
-
             letter-spacing: -1px;
         }
 
         .logo-mark {
             width: 70px;
             height: 50px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             background: transparent;
             border-radius: 0;
-
             overflow: hidden;
         }
 
@@ -178,13 +177,12 @@
         nav {
             display: flex;
             gap: 30px;
-
             font-size: 14px;
             color: #475467;
         }
 
         nav a:hover {
-            color: #2563eb;
+            color: var(--color-accent);
         }
 
 
@@ -194,84 +192,71 @@
 
         .hero {
             padding: 120px 0 110px;
-
             background:
                 radial-gradient(
                     circle at 80% 20%,
-                    #edf4ff 0,
-                    transparent 35%
+                    #fef3c7 0,
+                    transparent 30%
                 ),
                 linear-gradient(
                     180deg,
                     #ffffff 0%,
-                    #f8faff 100%
+                    var(--color-bg-alt) 100%
                 );
         }
 
         .hero-label {
             display: inline-block;
-
             padding: 7px 13px;
             margin-bottom: 22px;
-
             border-radius: 20px;
-
-            background: #edf4ff;
-            color: #2563eb;
-
+            background: #fffbeb;
+            color: var(--color-accent);
+            border: 1px solid #fde68a;
             font-size: 13px;
             font-weight: 700;
         }
 
         .hero h1 {
             margin: 0;
-
             max-width: 780px;
-
             font-size: clamp(42px, 6vw, 70px);
-
             line-height: 1.1;
-
             letter-spacing: -4px;
+            color: var(--color-primary);
         }
 
         .hero h1 span {
-            color: #2563eb;
+            color: var(--color-accent);
         }
 
         .hero-text {
             margin: 28px 0 35px;
-
             max-width: 650px;
-
-            color: #667085;
-
+            color: var(--color-text-sub);
             font-size: 18px;
         }
 
         .button {
             display: inline-flex;
-
             align-items: center;
             justify-content: center;
-
-            padding: 13px 21px;
-
-            border-radius: 9px;
-
-            font-size: 14px;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
-
             transition: 0.2s;
         }
 
         .button-primary {
             color: white;
-            background: #2563eb;
+            background: var(--color-primary);
+            border: 1px solid var(--color-primary);
         }
 
         .button-primary:hover {
-            background: #1d4ed8;
+            background: var(--color-accent);
+            border-color: var(--color-accent);
         }
 
 
@@ -288,28 +273,23 @@
         }
 
         .section-label {
-            color: #2563eb;
-
+            color: var(--color-accent);
             font-size: 13px;
             font-weight: 800;
-
             letter-spacing: 1px;
         }
 
         .section-title h2 {
             margin: 8px 0 10px;
-
             font-size: 42px;
-
             line-height: 1.2;
-
             letter-spacing: -2px;
+            color: var(--color-primary);
         }
 
         .section-title p {
             margin: 0;
-
-            color: #667085;
+            color: var(--color-text-sub);
         }
 
 
@@ -318,71 +298,60 @@
         ========================= */
 
         .services {
-            background: #f8f9fb;
+            background: var(--color-bg-alt);
         }
 
         .service-grid {
             display: grid;
-
             grid-template-columns: repeat(3, 1fr);
-
             gap: 20px;
         }
 
         .service-card {
             padding: 32px;
-
             min-height: 280px;
-
             background: white;
-
-            border: 1px solid #e8ebf0;
-
+            border: 1px solid var(--color-border);
             border-radius: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
         }
 
         .service-icon {
             width: 46px;
             height: 46px;
-
             margin-bottom: 25px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             border-radius: 12px;
-
-            background: #edf4ff;
-            color: #2563eb;
-
+            background: var(--color-primary);
+            color: #ffffff;
             font-weight: 900;
         }
 
         .service-card h3 {
             margin: 0 0 12px;
-
             font-size: 20px;
-
             letter-spacing: -0.7px;
+            color: var(--color-primary);
         }
 
         .service-card p {
             margin: 0;
-
-            color: #667085;
-
+            color: var(--color-text-sub);
             font-size: 15px;
         }
 
         .service-card ul {
             padding: 0;
             margin: 20px 0 0;
-
             list-style: none;
-
-            color: #475467;
-
+            color: var(--color-text-main);
             font-size: 14px;
         }
 
@@ -392,11 +361,8 @@
 
         .service-card li::before {
             content: "·";
-
             margin-right: 8px;
-
-            color: #2563eb;
-
+            color: var(--color-accent);
             font-weight: bold;
         }
 
@@ -407,53 +373,44 @@
 
         .about-grid {
             display: grid;
-
             grid-template-columns: 1fr 1fr;
-
             gap: 80px;
-
             align-items: center;
         }
 
         .about h2 {
             margin-top: 8px;
-
             font-size: 42px;
-
             line-height: 1.2;
-
             letter-spacing: -2px;
+            color: var(--color-primary);
         }
 
         .about p {
-            color: #667085;
+            color: var(--color-text-sub);
         }
 
         .principles {
             display: grid;
-
             gap: 14px;
         }
 
         .principle {
             padding: 20px;
-
-            border: 1px solid #e8ebf0;
-
-            border-radius: 13px;
-
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-accent);
+            border-radius: 8px;
             background: white;
         }
 
         .principle strong {
             display: block;
-
             margin-bottom: 4px;
+            color: var(--color-primary);
         }
 
         .principle span {
-            color: #667085;
-
+            color: var(--color-text-sub);
             font-size: 14px;
         }
 
@@ -475,7 +432,7 @@
             gap: 10px;
             padding: 20px 24px;
             background: white;
-            border: 1px solid #e8ebf0;
+            border: 1px solid var(--color-border);
             border-radius: 12px;
         }
 
@@ -495,16 +452,16 @@
         }
 
         .history-date {
-            font-weight: 800;
-            color: #2563eb;
-            font-size: 15px;
+            font-weight: 500;              /* 굵기를 얇게 변경 (800 -> 500) */
+            color: #64748B;                /* 차분하고 눈에 잘 띄지 않는 차콜 회색 */
+            font-size: 14px;               /* 크기를 살짝 줄임 (15px -> 14px) */
             white-space: nowrap;
             min-width: 155px;
         }
 
         .history-desc {
-            color: #172033;
-            font-size: 17px;
+            color: var(--color-primary);
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.3px;
         }
@@ -518,18 +475,18 @@
 
         .history-client {
             font-size: 13px;
-            color: #475467;
-            background: #f8f9fb;
+            color: var(--color-text-sub);
+            background: var(--color-bg-alt);
             padding: 3px 10px;
             border-radius: 6px;
-            border: 1px solid #eaecf0;
+            border: 1px solid var(--color-border);
         }
 
         .history-role {
             font-size: 13px;
             font-weight: 700;
-            color: #2563eb;
-            background: #edf4ff;
+            color: var(--color-primary);
+            background: #F1F5F9;
             padding: 3px 10px;
             border-radius: 6px;
         }
@@ -540,13 +497,13 @@
             flex-wrap: wrap;
             gap: 6px;
             padding-top: 8px;
-            border-top: 1px dashed #f0f2f5;
+            border-top: 1px dashed var(--color-border);
             font-size: 12px;
         }
 
         .env-tag {
-            color: #475467;
-            background: #f1f5f9;
+            color: var(--color-text-sub);
+            background: var(--color-bg-alt);
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: 500;
@@ -558,49 +515,55 @@
         ========================= */
 
         .process {
-            background: #f8f9fb;
+            background: var(--color-bg-alt);
         }
 
         .process-grid {
             display: grid;
-
             grid-template-columns: repeat(3, 1fr);
-
             gap: 18px;
         }
 
         .process-card {
             position: relative;
-
             padding: 28px;
-
             min-height: 185px;
-
             background: white;
-
-            border: 1px solid #e8ebf0;
-
+            border: 1px solid var(--color-border);
             border-radius: 14px;
+
+            /* ⬇️ 이 부분을 원하는 밝은 색상 코드로 변경해주세요 ⬇️ */
+            border-top: 3px solid #38BDF8; /* 예: 시원하고 밝은 소프트 블루 */
         }
 
+        /* 1. 기본 숫자 스타일을 STEP 배지 스타일로 변경 */
         .process-number {
-            color: #2563eb;
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
 
-            font-size: 13px;
-            font-weight: 900;
+            color: #0284C7;       /* 텍스트: 또렷한 파란색 */
+            background: #E0F2FE;  /* 배경: 아주 옅고 밝은 하늘색 */
+
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* STEP 문구 추가 효과 (기존 '01' 자리에 'STEP 01' 스타일링 적용) */
+        .process-number::before {
+            content: "STEP ";
         }
 
         .process-card h3 {
             margin: 9px 0 8px;
-
             font-size: 18px;
+            color: var(--color-primary);
         }
 
         .process-card p {
             margin: 0;
-
-            color: #667085;
-
+            color: var(--color-text-sub);
             font-size: 14px;
         }
 
@@ -611,62 +574,50 @@
 
         .contact {
             padding: 100px 0;
-
             text-align: center;
-
             color: white;
-
-            background: #172033;
+            background: var(--color-primary);
         }
 
+        /* CONTACT 라벨: 주황색 노란색 제거 후 소프트 블루로 통일 */
         .contact .section-label {
-            color: #9dbdff;
+            color: #38BDF8;
         }
 
         .contact h2 {
             margin: 10px 0;
-
             font-size: 42px;
-
             letter-spacing: -2px;
         }
 
         .contact p {
             margin: 0 auto 30px;
-
             max-width: 620px;
-
-            color: #b9c2d0;
+            color: #94A3B8;
         }
 
         .contact-email {
             margin: 0 auto;
         }
 
+        /* 문의하기 버튼: 깔끔하고 세련된 화이트 버튼으로 수정 */
         .contact-email a {
             display: inline-block;
             padding: 14px 34px;
-            background: #ffffff;
-            color: #2563eb;
+            background: #ffffff;             /* 배경: 깨끗한 흰색 */
+            color: var(--color-primary);     /* 글자: 다크 네이비 */
             text-decoration: none;
-            border-radius: 7px;
-            font-weight: 600;
-            box-shadow: 0 4px 0 #dbeafe, 0 6px 12px rgba(0, 0, 0, 0.12);
-            transition: all 0.15s ease;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.2s ease;
         }
 
+        /* 마우스 호버 시: 과하지 않게 살짝 밝아지고 띄워지는 효과 */
         .contact-email a:hover {
-            background: #eff6ff;
-            color: #1d4ed8;
+            background: #F1F5F9;             /* 마우스 올렸을 때 소프트 그레이 */
+            color: var(--color-primary);
             transform: translateY(-2px);
-            box-shadow: 0 6px 0 #dbeafe, 0 8px 16px rgba(0, 0, 0, 0.15);
         }
-
-        .contact-email a:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #dbeafe, 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-
 
         /* =========================
            FOOTER
@@ -674,43 +625,31 @@
 
         footer {
             padding: 28px 0;
-
-            background: #111827;
-
-            color: #98a2b3;
-
+            background: #020617;
+            color: #64748B;
             font-size: 13px;
         }
 
         .footer-inner {
             display: flex;
-
             justify-content: space-between;
-
             gap: 20px;
-
             flex-wrap: wrap;
         }
 
         /* =========================
-        MOBILE MENU
+        MOBILE MENU & RESPONSIVE
         ========================= */
 
         .menu-toggle {
             display: none;
-
             width: 44px;
             height: 44px;
-
             padding: 9px;
-
             border: 0;
             border-radius: 8px;
-
             background: transparent;
-
             cursor: pointer;
-
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -719,109 +658,69 @@
 
         .menu-toggle span {
             display: block;
-
             width: 23px;
             height: 2px;
-
             background: #172033;
-
             border-radius: 2px;
-
             transition: 0.2s;
         }
-
-
-        /* =========================
-        MOBILE
-        ========================= */
 
         @media (max-width: 800px) {
 
             .nav {
                 position: relative;
-
                 height: auto;
                 min-height: 72px;
-
                 padding: 10px 0;
             }
 
-
-            /* 로고 */
             .logo {
                 gap: 8px;
-
                 font-size: 17px;
-
                 letter-spacing: -0.8px;
             }
 
-            .logo-mark {
+            .logo-mark, .logo-mark img {
                 width: 52px;
                 height: 42px;
             }
 
-            .logo-mark img {
-                width: 52px;
-                height: 42px;
-            }
-
-
-            /* 햄버거 버튼 표시 */
             .menu-toggle {
                 display: flex;
             }
 
-
-            /* 모바일 메뉴 */
             nav {
                 display: none;
-
                 position: absolute;
-
                 top: calc(100% + 1px);
                 left: 0;
                 right: 0;
-
                 padding: 10px;
-
                 background: rgba(255,255,255,0.98);
-
                 border: 1px solid #eeeeee;
                 border-top: 0;
-
                 box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-
                 border-radius: 0 0 12px 12px;
-
                 flex-direction: column;
                 gap: 2px;
-
                 font-size: 14px;
             }
 
-
-            /* 메뉴가 열린 상태 */
             nav.mobile-open {
                 display: flex;
             }
 
-
             nav a {
                 display: block;
-
                 padding: 12px 14px;
-
                 border-radius: 8px;
             }
 
             nav a:hover {
-                background: #f8f9fb;
-                color: #2563eb;
+                background: var(--color-bg-alt);
+                color: var(--color-accent);
             }
 
-
-            /* 햄버거 → X 모양 */
             .menu-toggle.active span:nth-child(1) {
                 transform: translateY(7px) rotate(45deg);
             }
@@ -834,9 +733,6 @@
                 transform: translateY(-7px) rotate(-45deg);
             }
 
-
-            /* HERO */
-
             .hero {
                 padding: 80px 0 70px;
             }
@@ -845,9 +741,6 @@
                 font-size: 45px;
                 letter-spacing: -2.5px;
             }
-
-
-            /* SECTION */
 
             section {
                 padding: 70px 0;
@@ -858,9 +751,6 @@
             .contact h2 {
                 font-size: 32px;
             }
-
-
-            /* GRID */
 
             .service-grid,
             .about-grid,
@@ -876,35 +766,21 @@
                 min-height: auto;
             }
 
-
-            /* HISTORY */
-
-            .history-header {
+            .history-header, .history-main {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 8px;
-            }
-
-            .history-main {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
             }
 
             .history-meta {
                 align-self: flex-start;
             }
 
-
-            /* FOOTER */
-
             .footer-inner {
                 flex-direction: column;
                 gap: 8px;
             }
-
         }
-
     </style>
 </head>
 
@@ -989,11 +865,6 @@
 <section class="hero">
 
     <div class="container">
-
-        <!--span class="hero-label">
-            IT Solvers
-        </span-->
-
 
         <h1>
 
@@ -2077,7 +1948,7 @@
 
 <footer>
 
-    <div>
+    <div class="container">
         <strong>
             아이티해결단 (IT Solvers)
         </strong>
