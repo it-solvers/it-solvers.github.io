@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- 웹브라우저 탭 및 북마크 아이콘 (파비콘) -->
     <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
 
     <!-- 메인 SEO 메타 태그 -->
     <title>아이티해결단 | 소프트웨어·앱 개발 및 IT자산 맞춤 공급 솔루션</title>
     <meta name="description" content="아이티해결단(IT Solvers) | 소프트웨어·웹·앱 개발, 시스템 유지보수, IT자산·PC 맞춤 공급 및 구축">
-    <meta name="keywords" content="아이티해결단, IT Solvers, 금융SI, 금융SM, 오토리스, 장기렌터카, 캐피탈, 소프트웨어개발, 맞춤앱개발, IT자산공급, 기업PC납품, 컴퓨터설치, 시스템유지보수, 이혁">
+    <meta name="keywords"
+        content="아이티해결단, IT Solvers, 금융SI, 금융SM, 오토리스, 장기렌터카, 캐피탈, 소프트웨어개발, 맞춤앱개발, IT자산공급, 기업PC납품, 컴퓨터설치, 시스템유지보수, 이혁">
     <meta name="author" content="아이티해결단 (단장 이혁)">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://itsolvers.co.kr/">
@@ -34,9 +36,34 @@
     <!-- 검색엔진 소유확인 태그 -->
 
     <!--네이버 사이트 소유확인 -->
-    <meta name="naver-site-verification" content="3ff3c97b71f52d7181c04450574d4140f8352e47" /> <!--네이버 itsolvers.co.kr 블로그 소유확인 -->
+    <meta name="naver-site-verification" content="3ff3c97b71f52d7181c04450574d4140f8352e47" />
+    <!--네이버 itsolvers.co.kr 블로그 소유확인 -->
     <!--구글 사이트 소유확인 -->
-    <meta name="google-site-verification" content="VlALNpq1bQ9Gy3Bum2gN0z7zN-B54fHn98LA9p4_fxc" /> <!--구글 itsolvers.co.kr 블로그 소유확인 -->
+    <meta name="google-site-verification" content="VlALNpq1bQ9Gy3Bum2gN0z7zN-B54fHn98LA9p4_fxc" />
+    <!--구글 itsolvers.co.kr 블로그 소유확인 -->
+
+    <script>
+        /* ========================= */
+        /* THEME INITIALIZATION       */
+        /* ========================= */
+
+        (function () {
+
+            /* 브라우저 설정에 따라 localStorage 접근이 막혀 있어도 오류 없이 동작하도록 보호 */
+            var savedTheme = null;
+
+            try {
+                savedTheme = localStorage.getItem("theme");
+            } catch (e) { }
+
+            if (savedTheme === "light") {
+                document.documentElement.classList.remove("dark-mode");
+            } else {
+                document.documentElement.classList.add("dark-mode");
+            }
+
+        })();
+    </script>
 
     <!-- Schema.org 구조화 데이터 (JSON-LD) -->
     <script type="application/ld+json">
@@ -128,7 +155,7 @@
             top: 0;
             z-index: 100;
 
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid #eeeeee;
 
             backdrop-filter: blur(10px);
@@ -196,16 +223,12 @@
             padding: 120px 0 110px;
 
             background:
-                radial-gradient(
-                    circle at 80% 20%,
+                radial-gradient(circle at 80% 20%,
                     #edf4ff 0,
-                    transparent 35%
-                ),
-                linear-gradient(
-                    180deg,
+                    transparent 35%),
+                linear-gradient(180deg,
                     #ffffff 0%,
-                    #f8faff 100%
-                );
+                    #f8faff 100%);
         }
 
         .hero-label {
@@ -783,12 +806,12 @@
 
                 padding: 10px;
 
-                background: rgba(255,255,255,0.98);
+                background: rgba(255, 255, 255, 0.98);
 
                 border: 1px solid #eeeeee;
                 border-top: 0;
 
-                box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 
                 border-radius: 0 0 12px 12px;
 
@@ -903,6 +926,274 @@
 
         }
 
+        /* =========================
+        THEME TOGGLE
+        ========================= */
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+
+            padding: 5px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 999px;
+
+            background: #ffffff;
+            color: #172033;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .theme-toggle span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 28px;
+
+            border-radius: 999px;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+        /* 선택된 모드 표시(밝게: ☀ / 어둡게: ☾) - 색상은 항상 동일, 위치만 이동 */
+        .theme-toggle .light {
+            background: #dbeafe;
+        }
+
+        .theme-toggle .dark {
+            background: transparent;
+        }
+
+        /* 키보드 조작 시 포커스 표시 */
+        .theme-toggle:focus-visible,
+        .menu-toggle:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 2px;
+        }
+
+
+        /* =========================
+        DARK MODE
+        ========================= */
+
+        /* ========================= */
+        /* HEADER - LIGHT MODE       */
+        /* 다크 모드에서도 상단 고정 */
+        /* ========================= */
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            color: #101828;
+        }
+
+        nav {
+            color: #475467;
+        }
+
+        nav a:hover {
+            color: #155eef;
+        }
+
+        html.dark-mode {
+            color: #e5e7eb;
+            background: #111827;
+        }
+
+        /* [수정 3] body 에 흰색 배경(#ffffff)이 고정되어 있어서
+           배경 색이 따로 없는 ABOUT(IT SOLVERS), HISTORY 섹션이
+           다크 모드에서 하얗게 보이던 문제를 해결 */
+        html.dark-mode body {
+            color: #e5e7eb;
+            background: #111827;
+        }
+
+        html.dark-mode .hero {
+            background:
+                radial-gradient(circle at 80% 20%,
+                    #172554 0,
+                    transparent 35%),
+                linear-gradient(180deg,
+                    #111827 0%,
+                    #0f172a 100%);
+        }
+
+        html.dark-mode .hero-label {
+            background: #172554;
+            color: #93b4ff;
+        }
+
+        html.dark-mode .hero h1 {
+            color: #f8fafc;
+        }
+
+        html.dark-mode .hero h1 span {
+            color: #60a5fa;
+        }
+
+        html.dark-mode .hero-text {
+            color: #aab4c3;
+        }
+
+        html.dark-mode .section-label {
+            color: #7da7ff;
+        }
+
+        html.dark-mode .section-title h2,
+        html.dark-mode .about h2 {
+            color: #f3f4f6;
+        }
+
+        html.dark-mode .section-title p,
+        html.dark-mode .about p {
+            color: #aab4c3;
+        }
+
+
+        /* SERVICES */
+
+        html.dark-mode .services,
+        html.dark-mode .process {
+            background: #0f172a;
+        }
+
+        html.dark-mode .service-card,
+        html.dark-mode .process-card,
+        html.dark-mode .principle,
+        html.dark-mode .history-item {
+            background: #172033;
+            border-color: #2b3648;
+        }
+
+        html.dark-mode .service-card h3,
+        html.dark-mode .process-card h3,
+        html.dark-mode .principle strong,
+        html.dark-mode .history-desc {
+            color: #f3f4f6;
+        }
+
+        html.dark-mode .service-card p,
+        html.dark-mode .process-card p,
+        html.dark-mode .principle span {
+            color: #aab4c3;
+        }
+
+        html.dark-mode .service-icon {
+            background: #1e3a5f;
+            color: #8db4ff;
+        }
+
+        html.dark-mode .process-number {
+            color: #8db4ff;
+        }
+
+        html.dark-mode .service-card ul {
+            color: #c5cedb;
+        }
+
+        html.dark-mode .service-card li::before {
+            color: #60a5fa;
+        }
+
+
+        /* HISTORY */
+
+        html.dark-mode .history-date {
+            color: #b7c0ce;
+        }
+
+        html.dark-mode .history-client {
+            color: #c5cedb;
+            background: #202b3d;
+            border-color: #344054;
+        }
+
+        html.dark-mode .history-role {
+            color: #b9d0ff;
+            background: #1e3a5f;
+        }
+
+        html.dark-mode .history-env {
+            border-top-color: #2b3648;
+        }
+
+        html.dark-mode .env-tag {
+            color: #c5cedb;
+            background: #202b3d;
+        }
+
+
+        /* THEME BUTTON
+           [수정 1] 헤더가 항상 흰색이므로 버튼 바탕/테두리는 다크 모드에서도 바꾸지 않음
+           (선택 표시만 ☀ → ☾ 로 이동) */
+
+        html.dark-mode .theme-toggle .light {
+            background: transparent;
+        }
+
+        html.dark-mode .theme-toggle .dark {
+            background: #dbeafe;
+        }
+
+
+        /* MOBILE */
+
+        /* ========================= */
+        /* MOBILE NAV - LIGHT MODE   */
+        /* ========================= */
+
+        @media (max-width: 800px) {
+
+            nav {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+            }
+
+            nav a:hover {
+                background: #f8fafc;
+            }
+
+        }
+
+        /* [수정 1] 햄버거 버튼 선 색상은 헤더(항상 흰색)에 맞춰 고정 -
+           기존의 다크 모드용 흰색 규칙은 흰 헤더 위에서 보이지 않아 삭제 */
+
+
+        /* CONTACT */
+
+        html.dark-mode .contact {
+            background: #080d16;
+        }
+
+
+        /* =========================
+        THEME TOGGLE MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .theme-toggle {
+                margin-left: auto;
+                margin-right: 4px;
+            }
+
+            .theme-toggle span {
+                width: 30px;
+                height: 27px;
+            }
+
+        }
     </style>
 </head>
 
@@ -910,1227 +1201,1262 @@
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
 
-<header>
+    <header>
 
-    <div class="container nav">
+        <div class="container nav">
 
-        <a href="#" class="logo" title="아이티해결단 메인으로 이동">
+            <a href="#" class="logo" title="아이티해결단 메인으로 이동">
 
-            <span class="logo-mark">
-                <img src="https://itsolvers.co.kr/images/logo.png"
-                     alt="아이티해결단 로고" />
-            </span>
+                <span class="logo-mark">
+                    <img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고" />
+                </span>
 
-            <span>
-                아이티해결단(IT Solvers)
-            </span>
+                <span>
+                    아이티해결단(IT Solvers)
+                </span>
 
-        </a>
-
-
-        <!-- 데스크톱 메뉴 -->
-        <nav id="mainNav">
-
-            <a href="#services">
-                서비스
             </a>
 
-            <a href="#about">
-                아이티해결단
-            </a>
 
-            <a href="#history">
-                주요실적
-            </a>
+            <!-- 데스크톱 메뉴 -->
+            <nav id="mainNav">
 
-            <a href="#process">
-                진행순서
-            </a>
+                <a href="#services">
+                    서비스
+                </a>
 
-            <a href="#contact">
-                문의
-            </a>
+                <a href="#about">
+                    아이티해결단
+                </a>
 
-        </nav>
+                <a href="#history">
+                    주요실적
+                </a>
 
+                <a href="#process">
+                    진행순서
+                </a>
 
-        <!-- 모바일 햄버거 버튼 -->
-        <button class="menu-toggle"
-                type="button"
-                aria-label="메뉴 열기"
-                aria-expanded="false"
-                onclick="toggleMenu()">
+                <a href="#contact">
+                    문의
+                </a>
 
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-    </div>
-
-</header>
+            </nav>
 
 
+            <!-- 모바일 햄버거 버튼 -->
+            <button class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" onclick="toggleMenu()">
 
-<main>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+            <!-- 밝기 / 어둡게 전환 -->
+            <button class="theme-toggle" type="button" title="화면 밝기 전환" aria-label="어두운 화면 모드" aria-pressed="true"
+                onclick="toggleTheme()">
+
+                <span class="light">☀</span>
+                <span class="dark">☾</span>
+
+            </button>
+
+        </div>
+
+    </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
 
-<section class="hero">
+    <main>
 
-    <div class="container">
 
-        <!--span class="hero-label">
+        <!-- ========================= -->
+        <!-- HERO -->
+        <!-- ========================= -->
+
+        <section class="hero">
+
+            <div class="container">
+
+                <!--span class="hero-label">
             IT Solvers
         </span-->
 
 
-        <h1>
+                <h1>
 
-            복잡한 IT 문제,<br>
+                    복잡한 IT 문제,<br>
 
-            <span>
-                해결
-            </span>에서 시작합니다.
+                    <span>
+                        해결
+                    </span>에서 시작합니다.
 
-        </h1>
-
-
-        <p class="hero-text">
-
-            소프트웨어와 앱 개발부터
-            IT자산 공급과 컴퓨터 설치까지.
-
-            필요한 IT 업무를 한 곳에서
-            상담하고 해결할 수 있도록 돕습니다.
-
-        </p>
+                </h1>
 
 
-        <a href="#contact"
-           class="button button-primary"
-           title="상담 문의 섹션으로 이동">
+                <p class="hero-text">
 
-            상담 문의하기
+                    소프트웨어와 앱 개발부터
+                    IT자산 공급과 컴퓨터 설치까지.
 
-        </a>
+                    필요한 IT 업무를 한 곳에서
+                    상담하고 해결할 수 있도록 돕습니다.
 
-    </div>
+                </p>
 
-</section>
+
+                <a href="#contact" class="button button-primary" title="상담 문의 섹션으로 이동">
+
+                    상담 문의하기
+
+                </a>
+
+            </div>
+
+        </section>
 
 
 
-<!-- =========================
-     SERVICES
-========================= -->
+        <!-- ========================= -->
+        <!-- SERVICES -->
+        <!-- ========================= -->
 
-<section id="services"
-         class="services">
+        <section id="services" class="services">
 
-    <div class="container">
+            <div class="container">
 
 
-        <div class="section-title">
+                <div class="section-title">
 
-            <span class="section-label">
-                SERVICES
+                    <span class="section-label">
+                        SERVICES
+                    </span>
+
+                    <h2>
+                        필요한 IT를 해결합니다.
+                    </h2>
+
+                    <p>
+                        개발부터 장비 공급과 설치까지
+                        실무에 필요한 서비스를 제공합니다.
+                    </p>
+
+                </div>
+
+
+
+                <div class="service-grid">
+
+
+                    <!-- 서비스 01 -->
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            01
+                        </div>
+
+                        <h3>
+                            소프트웨어 · 앱 개발
+                        </h3>
+
+                        <p>
+                            업무에 필요한 프로그램과 앱을
+                            목적에 맞게 개발합니다.
+                        </p>
+
+                        <ul>
+
+                            <li>
+                                업무용 소프트웨어 개발
+                            </li>
+
+                            <li>
+                                웹 · 앱 맞춤 개발
+                            </li>
+
+                            <li>
+                                기존 시스템 유지보수
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+
+                    <!-- 서비스 02 -->
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            02
+                        </div>
+
+                        <h3>
+                            IT자산 공급
+                        </h3>
+
+                        <p>
+                            기관과 회사에서 필요한
+                            IT 장비를 상담하고 공급합니다.
+                        </p>
+
+                        <ul>
+
+                            <li>
+                                노트북 · 데스크탑
+                            </li>
+
+                            <li>
+                                모니터 및 주변기기
+                            </li>
+
+                            <li>
+                                기관 · 회사 IT자산 공급
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+
+                    <!-- 서비스 03 -->
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            03
+                        </div>
+
+                        <h3>
+                            컴퓨터 판매 · 설치
+                        </h3>
+
+                        <p>
+                            사용 목적과 예산에 맞는
+                            컴퓨터를 구성하고 설치합니다.
+                        </p>
+
+                        <ul>
+
+                            <li>
+                                맞춤형 PC 구성
+                            </li>
+
+                            <li>
+                                Windows 및 프로그램 설치
+                            </li>
+
+                            <li>
+                                초기 환경 설정 및 점검
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- ABOUT -->
+        <!-- ========================= -->
+
+        <section id="about" class="about">
+
+            <div class="container about-grid">
+
+
+                <div>
+
+                    <span class="section-label">
+                        IT SOLVERS
+                    </span>
+
+
+                    <h2>
+
+                        필요한 것을 듣고,<br>
+
+                        해결책을 찾습니다.
+
+                    </h2>
+
+
+                    <p>
+
+                        IT는 기술 자체보다
+                        실제 사용하는 사람과
+                        업무에 맞는 해결책이 중요합니다.
+
+                    </p>
+
+
+                    <p>
+
+                        아이티해결단은 소프트웨어 개발과 유지보수,
+                        IT장비 공급 및 설치 등 다양한 IT 업무를
+                        하나의 창구에서 상담할 수 있도록 돕습니다.
+
+                    </p>
+
+                </div>
+
+
+
+                <div class="principles">
+
+
+                    <div class="principle">
+
+                        <strong>
+                            필요한 만큼
+                        </strong>
+
+                        <span>
+                            과도한 구성보다 실제 업무에 필요한
+                            환경을 생각합니다.
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="principle">
+
+                        <strong>
+                            알기 쉽게
+                        </strong>
+
+                        <span>
+                            기술적인 내용을 사용자가
+                            이해하기 쉽게 설명합니다.
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="principle">
+
+                        <strong>
+                            끝까지
+                        </strong>
+
+                        <span>
+                            설치 이후의 유지보수와 관리까지
+                            함께 생각합니다.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- HISTORY -->
+        <!-- ========================= -->
+
+        <section id="history" class="history">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        HISTORY & TRACK RECORD
+                    </span>
+
+                    <h2>
+                        주요 프로젝트 및 납품 실적
+                    </h2>
+
+                    <p>
+                        기관 및 기업과의 신뢰를 바탕으로 지속 가능한 IT 서비스를 제공합니다.
+                    </p>
+
+                </div>
+
+
+                <div class="history-list">
+
+                    <!-- IT자산 납품 실적 -->
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2026.09</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">김포시 아동보호전문기관 IT자산 납품</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">김포시 아동보호전문기관</span>
+                                <span class="history-role">IT자산 공급</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 소프트웨어 개발 프로젝트 실적 -->
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2024.07 - 2025.09</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">신한은행 新종합금융시스템 2.0 innovation
+                                    프로젝트</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">신한은행 종합금융부</span>
+                                <span class="history-role">PL / 분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MyBatis</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">BXM</span>
+                            <span class="env-tag">WebSquare5</span>
+                            <span class="env-tag">Report Designer</span>
+                            <span class="env-tag">EAI/MCI</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2023.07 - 2023.12</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">우리금융캐피탈 대여자산 사후관리 고도화 프로젝트
+                                </h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">우리금융캐피탈</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">XFrame</span>
+                            <span class="env-tag">Jira</span>
+                            <span class="env-tag">EAI/MCI</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2022.08 - 2023.06</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">중소 렌터카 중개 플랫폼(SaaS)</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)비즈앤플랫폼</span>
+                                <span class="history-role">PM / 분석·설계</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">AWS</span>
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">Vue 3.0</span>
+                            <span class="env-tag">Typescript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">IntelliJ</span>
+                            <span class="env-tag">VS Code</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Git</span>
+                            <span class="env-tag">RESTful API</span>
+                            <span class="env-tag">토스결제</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2022.04 - 2022.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">렌트노트 시스템 구축 (렌터카 ERP 고도화)
+                                </h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)핀카</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">React</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">VS Code</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Git</span>
+                            <span class="env-tag">RESTful API</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2021.05 - 2021.12</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">신한 My Car 커넥트 프로젝트</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">신한카드</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">jQuery</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">EAI/MCI</span>
+                            <span class="env-tag">Devon Framework</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2020.08 - 2021.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">하나캐피탈 렌터카 고도화 프로젝트</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">하나캐피탈</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2019.07 - 2020.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">우리카드</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2017.03 - 2019.06</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">우리FIS</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2016.08 - 2017.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)성욱</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Win10</span>
+                            <span class="env-tag">C#</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Visual Studio 2016</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2016.04 - 2016.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)성욱</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Win10</span>
+                            <span class="env-tag">C#</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Visual Studio 2016</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2014.08 - 2015.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">JB우리캐피탈 차세대 프로젝트</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">JB우리캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">WebSquare</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2013.11 - 2014.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">산은캐피탈 오토금융 고도화 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">산은캐피탈</span>
+                                <span class="history-role">분석·설계</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">IBM S814 (IBM i7.3)</span>
+                            <span class="env-tag">RPG</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">Magic</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2010.02 - 2011.01</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">삼성카드 차세대 시스템 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">삼성카드</span>
+                                <span class="history-role">분석·설계</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2009.11 - 2010.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">리스 패키지 고도화</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)비즈시스템</span>
+                                <span class="history-role">분석·설계</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2008.06 - 2009.11</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">두산캐피탈 차세대 시스템 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">두산캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2005.10 - 2006.08</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">KTRental 신경영 시스템 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">KTRental</span>
+                                <span class="history-role">분석·설계</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2005.03 - 2005.09</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">기은캐피탈 리스시스템 고도화</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">기은캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Delphi</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2004.12 - 2005.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">연합캐피탈 리스시스템 고도화</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">연합캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Delphi</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2003.10 - 2004.11</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 통합 리스 시스템 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">삼성캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2003.04 - 2003.07</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 SAP 인터페이스 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">삼성캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2003.01 - 2003.04</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 내구재리스 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">삼성캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2002.04 - 2002.11</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 오토리스 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">삼성캐피탈</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2001.02 - 2002.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">한국국제협력단 통합정보시스템 개발</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">한국국제협력단(KOICA)</span>
+                                <span class="history-role">분석·설계·개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">2000.08 - 2000.12</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">농협중앙회 경영정보시스템 고도화</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">농협중앙회</span>
+                                <span class="history-role">개발</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Informix</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">1998.03 - 2000.06</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">대동케이블 Web ERP 개발/운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)대동케이블</span>
+                                <span class="history-role">개발 / 운영</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MSSQL</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">1994.11 - 1998.02</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">기본공정제어시스템(BPCS) 운영</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">(주)대동케이블</span>
+                                <span class="history-role">개발 / 운영</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">IBM AS400 (OS400)</span>
+                            <span class="env-tag">RPG</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">AS/SET</span>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- PROCESS -->
+        <!-- ========================= -->
+
+        <section id="process" class="process">
+
+            <div class="container">
+
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        PROCESS
+                    </span>
+
+                    <h2>
+                        진행순서
+                    </h2>
+
+                    <p>
+                        견적부터 납품과 대금 지급까지
+                        명확하게 진행합니다.
+                    </p>
+
+                </div>
+
+
+
+                <div class="process-grid">
+
+
+                    <!-- 01 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            01
+                        </span>
+
+                        <h3>
+                            견적서
+                        </h3>
+
+                        <p>
+                            요청하신 내용을 확인하고
+                            견적서를 제공합니다.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- 02 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            02
+                        </span>
+
+                        <h3>
+                            계약(전자계약 또는 서면계약)
+                        </h3>
+
+                        <p>
+                            견적 내용을 확인한 후
+                            계약을 진행합니다.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- 03 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            03
+                        </span>
+
+                        <h3>
+                            결제 및 증빙
+                        </h3>
+
+                        <p>
+                            전자세금계산서, 현금영수증,
+                            카드 결제를 지원합니다.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- 04 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            04
+                        </span>
+
+                        <h3>
+                            설치 · 납품
+                        </h3>
+
+                        <p>
+                            제품 납품과 필요한 설치 및
+                            초기 설정을 진행합니다.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- 05 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            05
+                        </span>
+
+                        <h3>
+                            대금 지급
+                        </h3>
+
+                        <p>
+                            납품 및 검수 완료 후
+                            대금을 지급받습니다.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- 06 -->
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            06
+                        </span>
+
+                        <h3>
+                            거래 마무리
+                        </h3>
+
+                        <p>
+                            납품 내용을 확인하고
+                            거래를 마무리합니다.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- CONTACT -->
+        <!-- ========================= -->
+
+        <section id="contact" class="contact">
+
+            <div class="container">
+
+
+                <span class="section-label">
+                    CONTACT
+                </span>
+
+
+                <h2>
+                    IT 문제가 있으신가요?
+                </h2>
+
+
+                <p>
+
+                    소프트웨어 개발부터 컴퓨터와 IT자산까지
+                    필요한 내용을 편하게 문의해주세요.
+
+                </p>
+
+
+                <div class="contact-email">
+                    <a href="mailto:itsolvers@naver.com" title="아이티해결단에 이메일로 문의하기">
+                        문의하기
+                    </a>
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <div class="container">
+            <strong>
+                아이티해결단 (IT Solvers)
+            </strong>
+
+            <span style="margin-left: 8px; opacity: 0.8;">
+                | 단장 이혁
             </span>
 
-            <h2>
-                필요한 IT를 해결합니다.
-            </h2>
-
-            <p>
-                개발부터 장비 공급과 설치까지
-                실무에 필요한 서비스를 제공합니다.
-            </p>
-
-        </div>
-
-
-
-        <div class="service-grid">
-
-
-            <!-- 서비스 01 -->
-
-            <article class="service-card">
-
-                <div class="service-icon">
-                    01
-                </div>
-
-                <h3>
-                    소프트웨어 · 앱 개발
-                </h3>
-
-                <p>
-                    업무에 필요한 프로그램과 앱을
-                    목적에 맞게 개발합니다.
-                </p>
-
-                <ul>
-
-                    <li>
-                        업무용 소프트웨어 개발
-                    </li>
-
-                    <li>
-                        웹 · 앱 맞춤 개발
-                    </li>
-
-                    <li>
-                        기존 시스템 유지보수
-                    </li>
-
-                </ul>
-
-            </article>
-
-
-
-            <!-- 서비스 02 -->
-
-            <article class="service-card">
-
-                <div class="service-icon">
-                    02
-                </div>
-
-                <h3>
-                    IT자산 공급
-                </h3>
-
-                <p>
-                    기관과 회사에서 필요한
-                    IT 장비를 상담하고 공급합니다.
-                </p>
-
-                <ul>
-
-                    <li>
-                        노트북 · 데스크탑
-                    </li>
-
-                    <li>
-                        모니터 및 주변기기
-                    </li>
-
-                    <li>
-                        기관 · 회사 IT자산 공급
-                    </li>
-
-                </ul>
-
-            </article>
-
-
-
-            <!-- 서비스 03 -->
-
-            <article class="service-card">
-
-                <div class="service-icon">
-                    03
-                </div>
-
-                <h3>
-                    컴퓨터 판매 · 설치
-                </h3>
-
-                <p>
-                    사용 목적과 예산에 맞는
-                    컴퓨터를 구성하고 설치합니다.
-                </p>
-
-                <ul>
-
-                    <li>
-                        맞춤형 PC 구성
-                    </li>
-
-                    <li>
-                        Windows 및 프로그램 설치
-                    </li>
-
-                    <li>
-                        초기 환경 설정 및 점검
-                    </li>
-
-                </ul>
-
-            </article>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     ABOUT
-========================= -->
-
-<section id="about"
-         class="about">
-
-    <div class="container about-grid">
-
-
-        <div>
-
-            <span class="section-label">
-                IT SOLVERS
+            <span style="margin-left: 8px; opacity: 0.8;">
+                | 사업자등록번호 364-11-03265
             </span>
-
-
-            <h2>
-
-                필요한 것을 듣고,<br>
-
-                해결책을 찾습니다.
-
-            </h2>
-
-
-            <p>
-
-                IT는 기술 자체보다
-                실제 사용하는 사람과
-                업무에 맞는 해결책이 중요합니다.
-
-            </p>
-
-
-            <p>
-
-                아이티해결단은 소프트웨어 개발과 유지보수,
-                IT장비 공급 및 설치 등 다양한 IT 업무를
-                하나의 창구에서 상담할 수 있도록 돕습니다.
-
-            </p>
-
         </div>
 
+    </footer>
 
+    <script>
 
-        <div class="principles">
+        function toggleMenu() {
 
+            const nav = document.getElementById("mainNav");
+            const button = document.querySelector(".menu-toggle");
 
-            <div class="principle">
+            const isOpen = nav.classList.toggle("mobile-open");
 
-                <strong>
-                    필요한 만큼
-                </strong>
+            button.classList.toggle("active", isOpen);
 
-                <span>
-                    과도한 구성보다 실제 업무에 필요한
-                    환경을 생각합니다.
-                </span>
+            button.setAttribute("aria-expanded", isOpen);
 
-            </div>
+            button.setAttribute(
+                "aria-label",
+                isOpen ? "메뉴 닫기" : "메뉴 열기"
+            );
+        }
 
 
+        /* 모바일 메뉴에서 항목 선택하면 자동으로 닫기 */
 
-            <div class="principle">
+        document.querySelectorAll("#mainNav a").forEach(function (link) {
 
-                <strong>
-                    알기 쉽게
-                </strong>
+            link.addEventListener("click", function () {
 
-                <span>
-                    기술적인 내용을 사용자가
-                    이해하기 쉽게 설명합니다.
-                </span>
+                const nav = document.getElementById("mainNav");
+                const button = document.querySelector(".menu-toggle");
 
-            </div>
+                nav.classList.remove("mobile-open");
+                button.classList.remove("active");
 
+                button.setAttribute("aria-expanded", "false");
+                button.setAttribute("aria-label", "메뉴 열기");
 
+            });
 
-            <div class="principle">
+        });
 
-                <strong>
-                    끝까지
-                </strong>
+        /* =========================
+        DARK / LIGHT MODE
+        기본값: DARK
+        (초기 적용은 문서 상단 head 영역의 스크립트에서 처리 - html 태그에 dark-mode 클래스)
+        ========================= */
 
-                <span>
-                    설치 이후의 유지보수와 관리까지
-                    함께 생각합니다.
-                </span>
+        /* 버튼 상태 표시(접근성 속성) 갱신 */
+        function updateThemeButton() {
 
-            </div>
+            const button = document.querySelector(".theme-toggle");
 
+            if (!button) return;
 
-        </div>
+            const isDark = document.documentElement.classList.contains("dark-mode");
 
-    </div>
+            button.setAttribute("aria-pressed", isDark ? "true" : "false");
+        }
 
-</section>
 
+        /* [수정 2] 버튼에서 호출하는 toggleTheme() 이 정의되어 있지 않아 동작하지 않던 문제 */
+        function toggleTheme() {
 
+            const isDark = document.documentElement.classList.toggle("dark-mode");
 
-<!-- =========================
-     HISTORY
-========================= -->
+            try {
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+            } catch (e) { }
 
-<section id="history"
-         class="history">
+            updateThemeButton();
+        }
 
-    <div class="container">
 
-        <div class="section-title">
+        updateThemeButton();
 
-            <span class="section-label">
-                HISTORY & TRACK RECORD
-            </span>
-
-            <h2>
-                주요 프로젝트 및 납품 실적
-            </h2>
-
-            <p>
-                기관 및 기업과의 신뢰를 바탕으로 지속 가능한 IT 서비스를 제공합니다.
-            </p>
-
-        </div>
-
-
-        <div class="history-list">
-
-            <!-- IT자산 납품 실적 -->
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2026.09</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">김포시 아동보호전문기관 IT자산 납품</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">김포시 아동보호전문기관</span>
-                        <span class="history-role">IT자산 공급</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 소프트웨어 개발 프로젝트 실적 -->
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2024.07 - 2025.09</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">신한은행 新종합금융시스템 2.0 innovation 프로젝트</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">신한은행 종합금융부</span>
-                        <span class="history-role">PL / 분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Linux</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">MyBatis</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">BXM</span>
-                    <span class="env-tag">WebSquare5</span>
-                    <span class="env-tag">Report Designer</span>
-                    <span class="env-tag">EAI/MCI</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2023.07 - 2023.12</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리금융캐피탈 대여자산 사후관리 고도화 프로젝트</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">우리금융캐피탈</span>
-                        <span class="history-role">PL</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">DB2</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">XFrame</span>
-                    <span class="env-tag">Jira</span>
-                    <span class="env-tag">EAI/MCI</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2022.08 - 2023.06</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">중소 렌터카 중개 플랫폼(SaaS)</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)비즈앤플랫폼</span>
-                        <span class="history-role">PM / 분석·설계</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">AWS</span>
-                    <span class="env-tag">Linux</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">Vue 3.0</span>
-                    <span class="env-tag">Typescript</span>
-                    <span class="env-tag">MySQL</span>
-                    <span class="env-tag">IntelliJ</span>
-                    <span class="env-tag">VS Code</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Git</span>
-                    <span class="env-tag">RESTful API</span>
-                    <span class="env-tag">토스결제</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2022.04 - 2022.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">렌트노트 시스템 구축 (렌터카 ERP 고도화)</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)핀카</span>
-                        <span class="history-role">PL</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Linux</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">React</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">MySQL</span>
-                    <span class="env-tag">VS Code</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Git</span>
-                    <span class="env-tag">RESTful API</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2021.05 - 2021.12</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">신한 My Car 커넥트 프로젝트</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">신한카드</span>
-                        <span class="history-role">PL</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Linux</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">jQuery</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">EAI/MCI</span>
-                    <span class="env-tag">Devon Framework</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2020.08 - 2021.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">하나캐피탈 렌터카 고도화 프로젝트</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">하나캐피탈</span>
-                        <span class="history-role">PL</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Miplatform</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2019.07 - 2020.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">우리카드</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Miplatform</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2017.03 - 2019.06</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">우리카드 리스/렌트 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">우리FIS</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Miplatform</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2016.08 - 2017.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)성욱</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Win10</span>
-                    <span class="env-tag">C#</span>
-                    <span class="env-tag">MySQL</span>
-                    <span class="env-tag">Visual Studio 2016</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2016.04 - 2016.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">공정프로세스전산화 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)성욱</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Win10</span>
-                    <span class="env-tag">C#</span>
-                    <span class="env-tag">MySQL</span>
-                    <span class="env-tag">Visual Studio 2016</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2014.08 - 2015.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">JB우리캐피탈 차세대 프로젝트</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">JB우리캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">WebSquare</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2013.11 - 2014.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">산은캐피탈 오토금융 고도화 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">산은캐피탈</span>
-                        <span class="history-role">분석·설계</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">IBM S814 (IBM i7.3)</span>
-                    <span class="env-tag">RPG</span>
-                    <span class="env-tag">DB2</span>
-                    <span class="env-tag">Magic</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2010.02 - 2011.01</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성카드 차세대 시스템 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">삼성카드</span>
-                        <span class="history-role">분석·설계</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Unix</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2009.11 - 2010.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">리스 패키지 고도화</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)비즈시스템</span>
-                        <span class="history-role">분석·설계</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Linux</span>
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">MySQL</span>
-                    <span class="env-tag">Eclipse</span>
-                    <span class="env-tag">Miplatform</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2008.06 - 2009.11</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">두산캐피탈 차세대 시스템 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">두산캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2005.10 - 2006.08</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">KTRental 신경영 시스템 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">KTRental</span>
-                        <span class="history-role">분석·설계</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2005.03 - 2005.09</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">기은캐피탈 리스시스템 고도화</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">기은캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Delphi</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2004.12 - 2005.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">연합캐피탈 리스시스템 고도화</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">연합캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Delphi</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2003.10 - 2004.11</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 통합 리스 시스템 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">삼성캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2003.04 - 2003.07</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 SAP 인터페이스 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">삼성캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2003.01 - 2003.04</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 내구재리스 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">삼성캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2002.04 - 2002.11</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">삼성캐피탈 오토리스 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">삼성캐피탈</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2001.02 - 2002.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">한국국제협력단 통합정보시스템 개발</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">한국국제협력단(KOICA)</span>
-                        <span class="history-role">분석·설계·개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Oracle</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">2000.08 - 2000.12</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">농협중앙회 경영정보시스템 고도화</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">농협중앙회</span>
-                        <span class="history-role">개발</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">Informix</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">1998.03 - 2000.06</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">대동케이블 Web ERP 개발/운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)대동케이블</span>
-                        <span class="history-role">개발 / 운영</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">Java</span>
-                    <span class="env-tag">JSP</span>
-                    <span class="env-tag">JavaScript</span>
-                    <span class="env-tag">MSSQL</span>
-                </div>
-            </article>
-
-            <article class="history-item">
-                <div class="history-header">
-                    <div class="history-main">
-                        <div class="history-date">1994.11 - 1998.02</div>
-                        <h3 class="history-desc" style="margin:0; font-size:17px;">기본공정제어시스템(BPCS) 운영</h3>
-                    </div>
-                    <div class="history-meta">
-                        <span class="history-client">(주)대동케이블</span>
-                        <span class="history-role">개발 / 운영</span>
-                    </div>
-                </div>
-                <div class="history-env">
-                    <span class="env-tag">IBM AS400 (OS400)</span>
-                    <span class="env-tag">RPG</span>
-                    <span class="env-tag">DB2</span>
-                    <span class="env-tag">AS/SET</span>
-                </div>
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     PROCESS
-========================= -->
-
-<section id="process"
-         class="process">
-
-    <div class="container">
-
-
-        <div class="section-title">
-
-            <span class="section-label">
-                PROCESS
-            </span>
-
-            <h2>
-                진행순서
-            </h2>
-
-            <p>
-                견적부터 납품과 대금 지급까지
-                명확하게 진행합니다.
-            </p>
-
-        </div>
-
-
-
-        <div class="process-grid">
-
-
-            <!-- 01 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    01
-                </span>
-
-                <h3>
-                    견적서
-                </h3>
-
-                <p>
-                    요청하신 내용을 확인하고
-                    견적서를 제공합니다.
-                </p>
-
-            </div>
-
-
-
-            <!-- 02 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    02
-                </span>
-
-                <h3>
-                    계약(전자계약 또는 서면계약)
-                </h3>
-
-                <p>
-                    견적 내용을 확인한 후
-                    계약을 진행합니다.
-                </p>
-
-            </div>
-
-
-
-            <!-- 03 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    03
-                </span>
-
-                <h3>
-                    결제 및 증빙
-                </h3>
-
-                <p>
-                    전자세금계산서, 현금영수증,
-                    카드 결제를 지원합니다.
-                </p>
-
-            </div>
-
-
-
-            <!-- 04 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    04
-                </span>
-
-                <h3>
-                    설치 · 납품
-                </h3>
-
-                <p>
-                    제품 납품과 필요한 설치 및
-                    초기 설정을 진행합니다.
-                </p>
-
-            </div>
-
-
-
-            <!-- 05 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    05
-                </span>
-
-                <h3>
-                    대금 지급
-                </h3>
-
-                <p>
-                    납품 및 검수 완료 후
-                    대금을 지급받습니다.
-                </p>
-
-            </div>
-
-
-
-            <!-- 06 -->
-
-            <div class="process-card">
-
-                <span class="process-number">
-                    06
-                </span>
-
-                <h3>
-                    거래 마무리
-                </h3>
-
-                <p>
-                    납품 내용을 확인하고
-                    거래를 마무리합니다.
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     CONTACT
-========================= -->
-
-<section id="contact"
-         class="contact">
-
-    <div class="container">
-
-
-        <span class="section-label">
-            CONTACT
-        </span>
-
-
-        <h2>
-            IT 문제가 있으신가요?
-        </h2>
-
-
-        <p>
-
-            소프트웨어 개발부터 컴퓨터와 IT자산까지
-            필요한 내용을 편하게 문의해주세요.
-
-        </p>
-
-
-        <div class="contact-email">
-            <a href="mailto:itsolvers@naver.com" title="아이티해결단에 이메일로 문의하기">
-                문의하기
-            </a>
-        </div>
-
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    <div>
-        <strong>
-            아이티해결단 (IT Solvers)
-        </strong>
-
-        <span style="margin-left: 8px; opacity: 0.8;">
-            | 단장 이혁
-        </span>
-
-        <span style="margin-left: 8px; opacity: 0.8;">
-            | 사업자등록번호 364-11-03265
-        </span>
-    </div>
-
-</footer>
-
-<script>
-
-function toggleMenu() {
-
-    const nav = document.getElementById("mainNav");
-    const button = document.querySelector(".menu-toggle");
-
-    const isOpen = nav.classList.toggle("mobile-open");
-
-    button.classList.toggle("active", isOpen);
-
-    button.setAttribute("aria-expanded", isOpen);
-
-    button.setAttribute(
-        "aria-label",
-        isOpen ? "메뉴 닫기" : "메뉴 열기"
-    );
-}
-
-
-/* 모바일 메뉴에서 항목 선택하면 자동으로 닫기 */
-
-document.querySelectorAll("#mainNav a").forEach(function(link) {
-
-    link.addEventListener("click", function() {
-
-        const nav = document.getElementById("mainNav");
-        const button = document.querySelector(".menu-toggle");
-
-        nav.classList.remove("mobile-open");
-        button.classList.remove("active");
-
-        button.setAttribute("aria-expanded", "false");
-        button.setAttribute("aria-label", "메뉴 열기");
-
-    });
-
-});
-
-</script>
+    </script>
 
 </body>
+
 </html>
