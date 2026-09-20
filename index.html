@@ -170,20 +170,26 @@
         }
 
         .logo {
+            --logo-h: clamp(34px, 5vw, 50px);
+            /* 로고 이미지 높이 (변수: 값을 이름 붙여 재사용) */
+
             display: flex;
             align-items: center;
-
-            gap: 10px;
+            gap: clamp(6px, 1vw, 10px);
+            white-space: nowrap;
+            /* 글자가 두 줄로 꺾이지 않게 */
 
             font-weight: 800;
-            font-size: 20px;
-
+            font-size: clamp(16px, 2.2vw, 20px);
             letter-spacing: -1px;
         }
 
         .logo-mark {
-            width: 70px;
-            height: 50px;
+            height: var(--logo-h);
+            aspect-ratio: 7 / 5;
+            /* 가로세로 비율 고정 (기존 70×50과 동일) */
+            flex-shrink: 0;
+            /* 좁은 화면에서 찌그러지지 않게 */
 
             display: flex;
             align-items: center;
@@ -191,15 +197,21 @@
 
             background: transparent;
             border-radius: 0;
-
             overflow: hidden;
         }
 
         .logo-mark img {
-            width: 70px;
-            height: 50px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
+            /* 비율 유지하며 영역 안에 맞춤 */
             display: block;
+        }
+
+        .logo .logo-text {
+            font-size: clamp(13px, 2vw, 20px);
+            /* 약 1000px 이상 20px, 600px 이하 13px */
+            white-space: nowrap;
         }
 
         nav {
