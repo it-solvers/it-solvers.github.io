@@ -1,0 +1,1119 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        sans-serif;
+    color: #172033;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: 90%;
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #eeeeee;
+
+    backdrop-filter: blur(10px);
+}
+
+.nav {
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    --logo-h: clamp(34px, 5vw, 50px);
+    /* 로고 이미지 높이 (변수: 값을 이름 붙여 재사용) */
+
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 10px);
+    white-space: nowrap;
+    /* 글자가 두 줄로 꺾이지 않게 */
+
+    font-weight: 800;
+    font-size: clamp(16px, 2.2vw, 20px);
+    letter-spacing: -1px;
+}
+
+.logo-mark {
+    height: var(--logo-h);
+    aspect-ratio: 7 / 5;
+    /* 가로세로 비율 고정 (기존 70×50과 동일) */
+    flex-shrink: 0;
+    /* 좁은 화면에서 찌그러지지 않게 */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.logo-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 비율 유지하며 영역 안에 맞춤 */
+    display: block;
+}
+
+.logo .logo-text {
+    font-size: clamp(13px, 2vw, 20px);
+    /* 약 1000px 이상 20px, 600px 이하 13px */
+    white-space: nowrap;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+
+    font-size: 14px;
+    color: #475467;
+}
+
+nav a:hover {
+    color: #2563eb;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    padding: 120px 0 110px;
+
+    background:
+        radial-gradient(circle at 80% 20%,
+            #edf4ff 0,
+            transparent 35%),
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8faff 100%);
+}
+
+.hero-label {
+    display: inline-block;
+
+    padding: 7px 13px;
+    margin-bottom: 22px;
+
+    border-radius: 20px;
+
+    background: #edf4ff;
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.hero h1 {
+    margin: 0;
+
+    max-width: 780px;
+
+    font-size: clamp(42px, 6vw, 70px);
+
+    line-height: 1.1;
+
+    letter-spacing: -4px;
+}
+
+.hero h1 span {
+    color: #2563eb;
+}
+
+.hero-text {
+    margin: 28px 0 35px;
+
+    max-width: 650px;
+
+    color: #667085;
+
+    font-size: 18px;
+}
+
+.button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 21px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.button-primary {
+    color: white;
+    background: #2563eb;
+}
+
+.button-primary:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   SECTION DIVIDERS
+   (배경색 대비 대신 구분선으로 섹션 경계 표시 -
+   다크 모드에서도 안정적으로 보이도록)
+========================= */
+
+main > section:not(.hero) {
+    border-top: 1px solid #eef0f5;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+section {
+    padding: 95px 0;
+}
+
+.section-title {
+    margin-bottom: 42px;
+}
+
+.section-label {
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.section-title h2 {
+    margin: 8px 0 10px;
+
+    font-size: 42px;
+
+    line-height: 1.2;
+
+    letter-spacing: -2px;
+}
+
+.section-title p {
+    margin: 0;
+
+    color: #667085;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services {
+    background: #f8f9fb;
+}
+
+.service-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.service-card {
+    padding: 32px;
+
+    min-height: 280px;
+
+    background: white;
+
+    border: 1px solid #e8ebf0;
+
+    border-radius: 16px;
+}
+
+.service-icon {
+    width: 46px;
+    height: 46px;
+
+    margin-bottom: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #edf4ff;
+    color: #5a4be4;
+
+    font-weight: 900;
+}
+
+.service-card h3 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+
+    letter-spacing: -0.7px;
+}
+
+.service-card p {
+    margin: 0;
+
+    color: #667085;
+
+    font-size: 15px;
+}
+
+.service-card ul {
+    padding: 0;
+    margin: 20px 0 0;
+
+    list-style: none;
+
+    color: #475467;
+
+    font-size: 14px;
+}
+
+.service-card li {
+    margin: 6px 0;
+}
+
+.service-card li::before {
+    content: "·";
+
+    margin-right: 8px;
+
+    color: #2563eb;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.about h2 {
+    margin-top: 8px;
+
+    font-size: 42px;
+
+    line-height: 1.2;
+
+    letter-spacing: -2px;
+}
+
+.about p {
+    color: #667085;
+}
+
+.principles {
+    display: grid;
+
+    gap: 14px;
+}
+
+.principle {
+    padding: 20px;
+
+    border: 1px solid #e8ebf0;
+
+    border-radius: 13px;
+
+    background: white;
+}
+
+.principle strong {
+    display: block;
+
+    margin-bottom: 4px;
+}
+
+.principle span {
+    color: #667085;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 950px;
+}
+
+.history-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 24px;
+    background: white;
+    border: 1px solid #e8ebf0;
+    border-radius: 12px;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.history-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.history-date {
+    color: #33353a;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.history-desc {
+    color: #172033;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.history-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.history-client {
+    font-size: 13px;
+    color: #475467;
+    background: #f8f9fb;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid #eaecf0;
+}
+
+.history-role {
+    font-size: 13px;
+    font-weight: 500;
+    color: #31323d;
+    background: #edf4ff;
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+
+.history-env {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed #f0f2f5;
+    font-size: 12px;
+}
+
+.env-tag {
+    color: #475467;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+
+/* =========================
+   INSIGHTS
+========================= */
+
+.insights {
+    background: #f8f9fb;
+}
+
+
+/* =========================
+   PROCESS
+========================= */
+
+.process {
+    background: #f8f9fb;
+}
+
+.process-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.process-card {
+    position: relative;
+
+    padding: 28px;
+
+    min-height: 185px;
+
+    background: white;
+
+    border: 1px solid #e8ebf0;
+
+    border-radius: 14px;
+}
+
+.process-number {
+    color: #435e99;
+
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.process-card h3 {
+    margin: 9px 0 8px;
+
+    font-size: 18px;
+}
+
+.process-card p {
+    margin: 0;
+
+    color: #667085;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact {
+    padding: 100px 0;
+
+    text-align: center;
+
+    color: white;
+
+    background: #172033;
+}
+
+.contact .section-label {
+    color: #9dbdff;
+}
+
+.contact h2 {
+    margin: 10px 0;
+
+    font-size: 42px;
+
+    letter-spacing: -2px;
+}
+
+.contact p {
+    margin: 0 auto 30px;
+
+    max-width: 620px;
+
+    color: #b9c2d0;
+}
+
+.contact-email {
+    margin: 0 auto;
+}
+
+.contact-email a {
+    display: inline-block;
+    padding: 14px 34px;
+    background: #ffffff;
+    color: #2563eb;
+    text-decoration: none;
+    border-radius: 7px;
+    font-weight: 600;
+    box-shadow: 0 4px 0 #dbeafe, 0 6px 12px rgba(0, 0, 0, 0.12);
+    transition: all 0.15s ease;
+}
+
+.contact-email a:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #dbeafe, 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-email a:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #dbeafe, 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 28px 0;
+
+    background: #111827;
+
+    color: #98a2b3;
+
+    font-size: 13px;
+}
+
+.footer-inner {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+/* =========================
+MOBILE MENU
+========================= */
+
+.menu-toggle {
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 9px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu-toggle span {
+    display: block;
+
+    width: 23px;
+    height: 2px;
+
+    background: #172033;
+
+    border-radius: 2px;
+
+    transition: 0.2s;
+}
+
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .nav {
+        position: relative;
+
+        height: auto;
+        min-height: 72px;
+
+        padding: 10px 0;
+    }
+
+
+    /* 로고 */
+    .logo {
+        gap: 8px;
+
+        font-size: 17px;
+
+        letter-spacing: -0.8px;
+    }
+
+    .logo-mark {
+        width: 52px;
+        height: 42px;
+    }
+
+    .logo-mark img {
+        width: 52px;
+        height: 42px;
+    }
+
+
+    /* 햄버거 버튼 표시 */
+    .menu-toggle {
+        display: flex;
+    }
+
+
+    /* 모바일 메뉴 */
+    nav {
+        display: none;
+
+        position: absolute;
+
+        top: calc(100% + 1px);
+        left: 0;
+        right: 0;
+
+        padding: 10px;
+
+        background: rgba(255, 255, 255, 0.98);
+
+        border: 1px solid #eeeeee;
+        border-top: 0;
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+        border-radius: 0 0 12px 12px;
+
+        flex-direction: column;
+        gap: 2px;
+
+        font-size: 14px;
+    }
+
+
+    /* 메뉴가 열린 상태 */
+    nav.mobile-open {
+        display: flex;
+    }
+
+
+    nav a {
+        display: block;
+
+        padding: 12px 14px;
+
+        border-radius: 8px;
+    }
+
+    nav a:hover {
+        background: #f8f9fb;
+        color: #2563eb;
+    }
+
+
+    /* 햄버거 → X 모양 */
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+
+    /* HERO */
+
+    .hero {
+        padding: 80px 0 70px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+        letter-spacing: -2.5px;
+    }
+
+
+    /* SECTION */
+
+    section {
+        padding: 70px 0;
+    }
+
+    .section-title h2,
+    .about h2,
+    .contact h2 {
+        font-size: 32px;
+    }
+
+
+    /* GRID */
+
+    .service-grid,
+    .about-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-grid {
+        gap: 35px;
+    }
+
+    .process-card {
+        min-height: auto;
+    }
+
+
+    /* HISTORY */
+
+    .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .history-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .history-meta {
+        align-self: flex-start;
+    }
+
+
+    /* FOOTER */
+
+    .footer-inner {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+}
+
+/* =========================
+THEME TOGGLE
+========================= */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    padding: 5px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+
+    background: #ffffff;
+    color: #172033;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.theme-toggle span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 28px;
+
+    border-radius: 999px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+/* 선택된 모드 표시(밝게: ☀ / 어둡게: ☾) - 색상은 항상 동일, 위치만 이동 */
+.theme-toggle .light {
+    background: #dbeafe;
+}
+
+.theme-toggle .dark {
+    background: transparent;
+}
+
+/* 키보드 조작 시 포커스 표시 */
+.theme-toggle:focus-visible,
+.menu-toggle:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+
+/* =========================
+DARK MODE
+========================= */
+
+/* ========================= */
+/* HEADER - LIGHT MODE       */
+/* 다크 모드에서도 상단 고정 */
+/* ========================= */
+
+header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+    color: #101828;
+}
+
+nav {
+    color: #475467;
+}
+
+nav a:hover {
+    color: #155eef;
+}
+
+html.dark-mode {
+    color: #e5e7eb;
+    background: #111827;
+}
+
+/* [수정 3] body 에 흰색 배경(#ffffff)이 고정되어 있어서
+   배경 색이 따로 없는 ABOUT(IT SOLVERS), HISTORY 섹션이
+   다크 모드에서 하얗게 보이던 문제를 해결 */
+html.dark-mode body {
+    color: #e5e7eb;
+    background: #111827;
+}
+
+html.dark-mode main > section:not(.hero) {
+    border-top-color: #232e42;
+}
+
+html.dark-mode .hero {
+    background:
+        radial-gradient(circle at 80% 20%,
+            #172554 0,
+            transparent 35%),
+        linear-gradient(180deg,
+            #111827 0%,
+            #0f172a 100%);
+}
+
+html.dark-mode .hero-label {
+    background: #172554;
+    color: #93b4ff;
+}
+
+html.dark-mode .hero h1 {
+    color: #f8fafc;
+}
+
+html.dark-mode .hero h1 span {
+    color: #60a5fa;
+}
+
+html.dark-mode .hero-text {
+    color: #aab4c3;
+}
+
+html.dark-mode .section-label {
+    color: #7da7ff;
+}
+
+html.dark-mode .section-title h2,
+html.dark-mode .about h2 {
+    color: #f3f4f6;
+}
+
+html.dark-mode .section-title p,
+html.dark-mode .about p {
+    color: #aab4c3;
+}
+
+
+/* SERVICES */
+
+html.dark-mode .services,
+html.dark-mode .insights,
+html.dark-mode .process {
+    background: #0f172a;
+}
+
+html.dark-mode .service-card,
+html.dark-mode .process-card,
+html.dark-mode .principle,
+html.dark-mode .history-item {
+    background: #172033;
+    border-color: #2b3648;
+}
+
+html.dark-mode .service-card h3,
+html.dark-mode .process-card h3,
+html.dark-mode .principle strong,
+html.dark-mode .history-desc {
+    color: #f3f4f6;
+}
+
+html.dark-mode .service-card p,
+html.dark-mode .process-card p,
+html.dark-mode .principle span {
+    color: #aab4c3;
+}
+
+html.dark-mode .service-icon {
+    background: #1e3a5f;
+    color: #8db4ff;
+}
+
+html.dark-mode .process-number {
+    color: #8db4ff;
+}
+
+html.dark-mode .service-card ul {
+    color: #c5cedb;
+}
+
+html.dark-mode .service-card li::before {
+    color: #60a5fa;
+}
+
+
+/* HISTORY */
+
+html.dark-mode .history-date {
+    color: #b7c0ce;
+}
+
+html.dark-mode .history-client {
+    color: #c5cedb;
+    background: #202b3d;
+    border-color: #344054;
+}
+
+html.dark-mode .history-role {
+    color: #b9d0ff;
+    background: #1e3a5f;
+}
+
+html.dark-mode .history-env {
+    border-top-color: #2b3648;
+}
+
+html.dark-mode .env-tag {
+    color: #c5cedb;
+    background: #202b3d;
+}
+
+
+/* THEME BUTTON
+   [수정 1] 헤더가 항상 흰색이므로 버튼 바탕/테두리는 다크 모드에서도 바꾸지 않음
+   (선택 표시만 ☀ → ☾ 로 이동) */
+
+html.dark-mode .theme-toggle .light {
+    background: transparent;
+}
+
+html.dark-mode .theme-toggle .dark {
+    background: #dbeafe;
+}
+
+
+/* MOBILE */
+
+/* ========================= */
+/* MOBILE NAV - LIGHT MODE   */
+/* ========================= */
+
+@media (max-width: 800px) {
+
+    nav {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    nav a:hover {
+        background: #f8fafc;
+    }
+
+}
+
+/* [수정 1] 햄버거 버튼 선 색상은 헤더(항상 흰색)에 맞춰 고정 -
+   기존의 다크 모드용 흰색 규칙은 흰 헤더 위에서 보이지 않아 삭제 */
+
+
+/* CONTACT */
+
+html.dark-mode .contact {
+    background: #080d16;
+}
+
+
+/* =========================
+THEME TOGGLE MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .theme-toggle {
+        margin-left: auto;
+        margin-right: 4px;
+    }
+
+    .theme-toggle span {
+        width: 30px;
+        height: 27px;
+    }
+
+}
