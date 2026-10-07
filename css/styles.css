@@ -462,22 +462,26 @@ section {
     text-decoration: underline;
 }
 
-.insights .insight-link-cue {
-    display: inline-block;
+.insight-link-cue {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
     margin-left: 3px;
-    padding: 0 4px;
-    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
     background: var(--site-accent-soft);
     color: var(--site-accent);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0;
+    line-height: 1;
     vertical-align: 3px;
     white-space: nowrap;
 }
 
-.insights .history-desc a:hover .insight-link-cue,
-.insights .history-desc a:focus-visible .insight-link-cue {
+.history-desc a:hover .insight-link-cue,
+.history-desc a:focus-visible .insight-link-cue {
     background: var(--site-accent);
     color: #fff;
     text-decoration: none;
