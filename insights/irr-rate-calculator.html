@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+<title>리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단</title>
+<meta name="description" content="목표 연 IRR을 입력하면 목표 수익률에 맞는 월 순수리스료를 계산하고 연 내재금리를 역산합니다. 차량대금, 리스 기간, 잔가와 보험료·자동차세 현금흐름을 반영해 확인해 보세요.">
+<meta name="author" content="아이티해결단 (IT Solvers)">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://itsolvers.co.kr/insights/irr-rate-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+<meta property="og:title" content="리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단">
+<meta property="og:description" content="목표 연 IRR을 입력해 월 순수리스료를 계산하고 연 내재금리를 역산하세요. 보험료·자동차세 현금흐름도 반영합니다.">
+<meta property="og:url" content="https://itsolvers.co.kr/insights/irr-rate-calculator.html">
+<meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+<meta property="og:image:alt" content="아이티해결단 로고">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단">
+<meta name="twitter:description" content="목표 연 IRR을 입력해 월 순수리스료를 구하고 연 내재금리를 역산하는 계산기입니다.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "목표 IRR 기반 리스 금리 역산 계산기",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "ko-KR",
+  "url": "https://itsolvers.co.kr/insights/irr-rate-calculator.html",
+  "description": "목표 연 IRR을 입력하면 월 순수리스료를 계산하고, 해당 리스료와 잔가를 기준으로 연 내재금리를 역산하는 웹 계산기. 보험료·자동차세 현금흐름을 반영합니다.",
+  "author": {
+    "@type": "Organization",
+    "name": "아이티해결단 (IT Solvers)",
+    "url": "https://itsolvers.co.kr/"
+  }
+}
+</script>
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#fff; --text:#1f2933; --muted:#6b7785;
+    --line:#dde3ea; --accent:#1d5fd1; --accent-weak:#e8f0fc; --warn:#b42318;
+  }
+  *{box-sizing:border-box}
+  body{display:flex;flex-direction:column;min-height:100vh;margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.5}
+  .wrap{flex:1;max-width:960px;margin:0 auto;padding:24px 16px 48px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+  .card h2{font-size:16px;margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+  input,select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;
+    font-size:15px;background:#fff;color:var(--text)}
+  input:focus,select:focus{outline:2px solid var(--accent-weak);border-color:var(--accent)}
+  .hint{font-size:12px;color:var(--muted);margin-top:3px}
+  .btns{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  #cfScroll .cf-detail{display:none}
+  #cfScroll.show-details .cf-detail{display:table-cell}
+  #cfDetailsBtn{margin-top:12px}
+  button{padding:10px 18px;border-radius:6px;border:1px solid var(--accent);
+    background:var(--accent);color:#fff;font-size:15px;cursor:pointer}
+  button.ghost{background:#fff;color:var(--accent)}
+  .error{color:var(--warn);font-size:14px;margin-top:10px;display:none}
+  .result-main{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .stat{background:var(--accent-weak);border-radius:8px;padding:14px}
+  .stat .k{font-size:12px;color:var(--muted)}
+  .stat .v{font-size:20px;font-weight:700;margin-top:2px;word-break:keep-all}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:center}
+  th{background:#f0f3f7;position:sticky;top:0}
+  .scroll{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:6px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px}
+  details summary{cursor:pointer;font-weight:600;font-size:14px}
+  #result{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a href="../index.html" class="logo" title="아이티해결단 메인으로 이동">
+      <span class="logo-mark">
+        <img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고">
+      </span>
+      <span>아이티해결단</span>
+    </a>
+  </div>
+</header>
+<main class="wrap">
+  <h1>목표 IRR 입력으로 리스 금리 역산</h1>
+  <p class="sub">목표 연 IRR을 입력하면 먼저 목표 수익률에 맞는 월 순수리스료를 계산하고, 해당 리스료와 잔가를 기준으로 연 내재금리를 역산합니다. 보험료·자동차세의 실제 지급 시점도 현금흐름에 반영합니다.</p>
+
+  <div class="card">
+    <h2>입력 조건</h2>
+    <div class="grid">
+      <div><label for="carPrice">차량대금 (원)</label><input id="carPrice" type="text" inputmode="numeric" value="50,000,000"></div>
+      <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
+      <div><label for="targetIrr">목표 연 IRR (%)</label><input id="targetIrr" type="number" step="0.0001" value="3.7412"></div>
+      <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
+      <div><label for="guaranteed">보증잔가 (원)</label><input id="guaranteed" type="text" inputmode="numeric" value="5,000,000"></div>
+      <div><label for="unguaranteed">무보증잔가 (원)</label><input id="unguaranteed" type="text" inputmode="numeric" value="15,000,000"></div>
+      <div><label for="insurance">연 보험료 (원)</label><input id="insurance" type="text" inputmode="numeric" value="2,100,000"></div>
+      <div><label for="carTax">연 자동차세 (원)</label><input id="carTax" type="text" inputmode="numeric" value="1,200,000"></div>
+      <div>
+        <label for="deliveryMonth">인도월</label>
+        <select id="deliveryMonth"></select>
+        <div class="hint">기본값은 오늘 날짜의 월입니다. 첫 해 자동차세는 인도월~12월 비율로 계산</div>
+      </div>
+    </div>
+    <div class="btns">
+      <button id="calcBtn" type="button">계산하기</button>
+      <button id="resetBtn" type="button" class="ghost">초기값으로</button>
+    </div>
+    <div id="error" class="error"></div>
+  </div>
+
+  <div id="result">
+    <div class="card">
+      <h2>계산 결과</h2>
+      <div class="result-main">
+        <div class="stat"><div class="k">순수 리스료 (월, 원 단위 절사)</div><div class="v" id="rPure"></div></div>
+        <div class="stat"><div class="k">고객 청구 총 월 리스료</div><div class="v" id="rTotal"></div></div>
+        <div class="stat"><div class="k">검산: 실제 연 IRR</div><div class="v" id="rIrr"></div></div>
+        <div class="stat"><div class="k">역산 내재금리 (연)</div><div class="v" id="rImplicit"></div></div>
+      </div>
+      <p class="note" id="rNote"></p>
+    </div>
+
+    <div class="card">
+      <h2>고객 청구 총 월 리스료는 왜 더 클까요?</h2>
+      <table id="billTable"></table>
+      <p class="note">
+        순수 리스료는 목표 IRR(내부수익률)을 맞추기 위한 금액입니다.
+        보험료와 자동차세는 회사가 보험사·지자체에 먼저 내고, 그 금액을 고객에게 12개월로 나누어 매월 받는 것이라
+        청구서에는 순수 리스료에 더해 표시됩니다. 지급 시점(목돈)과 수납 시점(매월 분할)이 달라서
+        이 차이가 현금흐름과 IRR 계산에 반영됩니다.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>보험료·자동차세 실제 지급 스케줄</h2>
+      <div class="grid">
+        <div>
+          <strong style="font-size:14px">보험료</strong>
+          <div class="scroll" style="max-height:220px"><table id="insTable"></table></div>
+        </div>
+        <div>
+          <strong style="font-size:14px">자동차세</strong>
+          <div class="scroll" style="max-height:220px"><table id="taxTable"></table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+        <h2 style="margin:0 0 14px;">월별 현금흐름</h2>
+        <span class="note" style="margin:0 0 14px;">단위: 원</span>
+      </div>
+      <div class="scroll" id="cfScroll"><table id="cfTable"></table></div>
+      <button id="cfDetailsBtn" type="button" aria-controls="cfTable" aria-expanded="false">자세히 보기</button>
+      <p class="note">
+        년월은 현재 년도와 선택한 인도월을 기준으로 회차마다 한 달씩 증가합니다.
+        0개월차는 인도 시점이며, (−)는 회사가 내는 돈, (+)는 회사가 받는 돈입니다.
+        「고객 청구액」은 순수 리스료 + 보험료 수납 + 자동차세 수납이며, 순현금흐름 계산에는 각 항목이 따로 들어갑니다.
+      </p>
+    </div>
+  </div>
+</main>
+
+<!-- ===== 계산 로직 (화면과 분리된 순수 함수) ===== -->
+<script id="core">
+/* CORE-START */
+function 보험료지급스케줄(개월수, 연보험료) {
+  const 목록 = [];
+  for (let m = 0; m < 개월수; m += 12) 목록.push({ month: m, amount: 연보험료 });
+  return 목록;
+}
+
+function 차세지급스케줄(인도월, 개월수, 연차세) {
+  const 목록 = [];
+  const 첫해_잔여월 = 13 - 인도월;
+  목록.push({ month: 0, amount: 연차세 * (첫해_잔여월 / 12) });
+  let d = 첫해_잔여월;
+  while (d < 개월수) {
+    목록.push({ month: d, amount: 연차세 });
+    d += 12;
+  }
+  return 목록;
+}
+
+function 월IRR계산(cashflows) {
+  function npv(rate) {
+    let sum = 0;
+    for (let t = 0; t < cashflows.length; t++) sum += cashflows[t] / Math.pow(1 + rate, t);
+    return sum;
+  }
+  let low = -0.9, high = 10;
+  for (let i = 0; i < 500; i++) {
+    const mid = (low + high) / 2;
+    if (npv(mid) > 0) low = mid; else high = mid;
+  }
+  return (low + high) / 2;
+}
+
+function 계산(입력) {
+  const { 차량대금, 개월수, 목표IRR_연, 월수수료, 보증잔가, 무보증잔가, 연보험료, 연차세, 인도월 } = 입력;
+  const 잔가 = 보증잔가 + 무보증잔가;
+  const 월보험료 = 연보험료 / 12;
+  const 월차세 = 연차세 / 12;
+
+  function 연IRR_정밀(순수리스료) {
+    const cf = new Array(개월수 + 1).fill(0);
+    cf[0] -= 차량대금;
+    for (let t = 1; t <= 개월수; t++) {
+      let v = 순수리스료 + 월보험료 + 월차세 - 월수수료;
+      if (t === 개월수) v += 잔가;
+      cf[t] += v;
+    }
+    for (const p of 보험료지급스케줄(개월수, 연보험료)) cf[p.month] -= p.amount;
+    for (const p of 차세지급스케줄(인도월, 개월수, 연차세)) cf[p.month] -= p.amount;
+    return { 연IRR: 월IRR계산(cf) * 12, cashflows: cf };
+  }
+
+  function 리스료탐색() {
+    let low = 0, high = 차량대금;
+    for (let i = 0; i < 200; i++) {
+      const mid = (low + high) / 2;
+      if (연IRR_정밀(Math.floor(mid)).연IRR < 목표IRR_연) low = mid; else high = mid;
+    }
+    return Math.floor((low + high) / 2);
+  }
+
+  function 최종잔액계산(연금리, 리스료) {
+    const 월금리 = 연금리 / 12;
+    let 잔액 = 차량대금;
+    for (let t = 1; t <= 개월수; t++) 잔액 = 잔액 + Math.floor(잔액 * 월금리) - 리스료;
+    return 잔액;
+  }
+
+  function 내재금리탐색(리스료) {
+    let low = -0.5, high = 1.0;
+    for (let i = 0; i < 200; i++) {
+      const mid = (low + high) / 2;
+      if (최종잔액계산(mid, 리스료) < 잔가) low = mid; else high = mid;
+    }
+    return (low + high) / 2;
+  }
+
+  const 순수리스료 = 리스료탐색();
+  const 결과 = 연IRR_정밀(순수리스료);
+  const 내재금리 = 내재금리탐색(순수리스료);
+  return {
+    순수리스료,
+    고객청구_총_리스료: 순수리스료 + 월보험료 + 월차세,
+    월보험료, 월차세, 잔가,
+    검산_연IRR: 결과.연IRR,
+    내재금리,
+    검증_최종잔액: 최종잔액계산(내재금리, 순수리스료),
+    cashflows: 결과.cashflows,
+    보험료스케줄: 보험료지급스케줄(개월수, 연보험료),
+    차세스케줄: 차세지급스케줄(인도월, 개월수, 연차세)
+  };
+}
+// 월별 현금흐름을 항목별로 풀어서 반환 (화면 표시용)
+function 현금흐름상세(입력, r) {
+  const n = 입력.개월수;
+  const 보험지급 = new Array(n + 1).fill(0);
+  const 차세지급 = new Array(n + 1).fill(0);
+  r.보험료스케줄.forEach(p => 보험지급[p.month] += p.amount);
+  r.차세스케줄.forEach(p => 차세지급[p.month] += p.amount);
+  const 행 = [];
+  for (let t = 0; t <= n; t++) {
+    const 수납 = t >= 1;
+    const 항목 = {
+      개월차: t,
+      차량대금: t === 0 ? -입력.차량대금 : 0,
+      보험료지급: -보험지급[t],
+      차세지급: -차세지급[t],
+      수수료: 수납 ? -입력.월수수료 : 0,
+      순수리스료: 수납 ? r.순수리스료 : 0,
+      보험료수납: 수납 ? r.월보험료 : 0,
+      차세수납: 수납 ? r.월차세 : 0,
+      잔가: t === n ? r.잔가 : 0
+    };
+    항목.고객청구액 = 항목.순수리스료 + 항목.보험료수납 + 항목.차세수납;
+    항목.순현금흐름 = 항목.차량대금 + 항목.보험료지급 + 항목.차세지급 + 항목.수수료 +
+      항목.순수리스료 + 항목.보험료수납 + 항목.차세수납 + 항목.잔가;
+    행.push(항목);
+  }
+  return 행;
+}
+/* CORE-END */
+</script>
+
+<!-- ===== 화면 처리 ===== -->
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const won = n => Math.round(n).toLocaleString('ko-KR') + '원';
+  const pct = (n, d) => (n * 100).toFixed(d) + '%';
+
+  // 인도월 기본값: 현재 시스템 일자의 월
+  const 현재월 = new Date().getMonth() + 1;
+  const sel = $('deliveryMonth');
+  for (let m = 1; m <= 12; m++) {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m + '월';
+    if (m === 현재월) o.selected = true;
+    sel.appendChild(o);
+  }
+
+  const moneyIds = ['carPrice', 'monthlyFee', 'guaranteed', 'unguaranteed', 'insurance', 'carTax'];
+  const parseMoney = s => Number(String(s).replace(/[^0-9.\-]/g, ''));
+  moneyIds.forEach(id => {
+    $(id).addEventListener('blur', () => {
+      const v = parseMoney($(id).value);
+      if (!isNaN(v)) $(id).value = v.toLocaleString('ko-KR');
+    });
+  });
+
+  const defaults = {
+    carPrice: '50,000,000', months: '36', targetIrr: '3.7412', monthlyFee: '0',
+    guaranteed: '5,000,000', unguaranteed: '15,000,000',
+    insurance: '2,100,000', carTax: '1,200,000', deliveryMonth: String(현재월)
+  };
+
+  function showError(msg) {
+    const e = $('error');
+    e.textContent = msg;
+    e.style.display = msg ? 'block' : 'none';
+  }
+
+  function tableHtml(head, rows) {
+    return '<tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr>' +
+      rows.map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('');
+  }
+
+  function detailTableHtml(head, rows, detailColumns) {
+    const cell = (tag, value, index) =>
+      '<' + tag + (detailColumns.includes(index) ? ' class="cf-detail"' : '') + '>' + value + '</' + tag + '>';
+    return '<tr>' + head.map((h, i) => cell('th', h, i)).join('') + '</tr>' +
+      rows.map(row => '<tr>' + row.map((value, i) => cell('td', value, i)).join('') + '</tr>').join('');
+  }
+
+  function run() {
+    showError('');
+    const 입력 = {
+      차량대금: parseMoney($('carPrice').value),
+      개월수: Number($('months').value),
+      목표IRR_연: Number($('targetIrr').value) / 100,
+      월수수료: parseMoney($('monthlyFee').value),
+      보증잔가: parseMoney($('guaranteed').value),
+      무보증잔가: parseMoney($('unguaranteed').value),
+      연보험료: parseMoney($('insurance').value),
+      연차세: parseMoney($('carTax').value),
+      인도월: Number($('deliveryMonth').value)
+    };
+
+    for (const k in 입력) {
+      if (!isFinite(입력[k])) { showError('입력값을 확인해 주세요: ' + k); return; }
+    }
+    if (입력.차량대금 <= 0) { showError('차량대금은 0보다 커야 합니다.'); return; }
+    if (!Number.isInteger(입력.개월수) || 입력.개월수 < 1 || 입력.개월수 > 120) {
+      showError('리스 기간은 1~120 사이의 정수(개월)로 입력해 주세요.'); return;
+    }
+    if (입력.보증잔가 + 입력.무보증잔가 > 입력.차량대금) {
+      showError('잔가 합계가 차량대금보다 클 수 없습니다.'); return;
+    }
+
+    const r = 계산(입력);
+
+    $('rPure').textContent = won(r.순수리스료);
+    $('rTotal').textContent = won(r.고객청구_총_리스료);
+    $('rIrr').textContent = pct(r.검산_연IRR, 4);
+    $('rImplicit').textContent = pct(r.내재금리, 4);
+    $('rNote').textContent =
+      '월 보험료 ' + won(r.월보험료) + ' + 월 자동차세 ' + won(r.월차세) +
+      '(고객에게 매월 균등 수납) · 잔가 합계 ' + won(r.잔가) +
+      ' · 내재금리로 상각 시 최종잔액 ' + won(r.검증_최종잔액) + ' (잔가와 비교)';
+
+    $('insTable').innerHTML = tableHtml(['개월차', '지급액'],
+      r.보험료스케줄.map(p => [p.month, won(p.amount)]));
+    $('taxTable').innerHTML = tableHtml(['개월차', '지급액'],
+      r.차세스케줄.map(p => [p.month, won(p.amount)]));
+
+    $('billTable').innerHTML = tableHtml(['구분', '월 금액', '설명'], [
+      ['순수 리스료', won(r.순수리스료), '목표 IRR을 맞추도록 역산한 금액'],
+      ['+ 월 보험료', won(r.월보험료), '연 보험료 ' + won(입력.연보험료) + ' ÷ 12'],
+      ['+ 월 자동차세', won(r.월차세), '연 자동차세 ' + won(입력.연차세) + ' ÷ 12'],
+      ['<strong>= 고객 청구 총 월 리스료</strong>', '<strong>' + won(r.고객청구_총_리스료) + '</strong>', '매월 고객에게 청구하는 금액']
+    ]);
+
+    const 금액표시 = v => Math.round(v).toLocaleString('ko-KR');
+    const 항목금액표시 = v => v === 0 ? '-' : 금액표시(v);
+    const 상세 = 현금흐름상세(입력, r);
+    const 기준연도 = new Date().getFullYear();
+    const 년월표시 = 회차 => {
+      const 날짜 = new Date(기준연도, 입력.인도월 - 1 + 회차);
+      return 날짜.getFullYear() + '.' + String(날짜.getMonth() + 1).padStart(2, '0');
+    };
+    $('cfTable').innerHTML = detailTableHtml(
+      ['회차', '년월', '고객 청구액', '차량대금 (−)', '보험료 지급 (−)', '자동차세 지급 (−)',
+       '수수료 (−)', '순수 리스료 (+)', '보험료 수납 (+)', '자동차세 수납 (+)', '잔가 (+)', '순현금흐름'],
+      상세.map(x => [x.개월차, 년월표시(x.개월차), 항목금액표시(x.고객청구액), 항목금액표시(x.차량대금),
+        항목금액표시(x.보험료지급), 항목금액표시(x.차세지급), 항목금액표시(x.수수료),
+        항목금액표시(x.순수리스료), 항목금액표시(x.보험료수납), 항목금액표시(x.차세수납),
+        항목금액표시(x.잔가), 금액표시(x.순현금흐름)]),
+      [3, 4, 5, 6, 7, 8, 9, 10, 11]);
+
+    $('result').style.display = 'block';
+  }
+
+  $('calcBtn').addEventListener('click', run);
+  $('cfDetailsBtn').addEventListener('click', () => {
+    const expanded = $('cfDetailsBtn').getAttribute('aria-expanded') !== 'true';
+    $('cfScroll').classList.toggle('show-details', expanded);
+    $('cfDetailsBtn').setAttribute('aria-expanded', String(expanded));
+    $('cfDetailsBtn').textContent = expanded ? '간략히 보기' : '자세히 보기';
+  });
+  $('resetBtn').addEventListener('click', () => {
+    $('carPrice').value = defaults.carPrice; $('months').value = defaults.months;
+    $('targetIrr').value = defaults.targetIrr; $('monthlyFee').value = defaults.monthlyFee;
+    $('guaranteed').value = defaults.guaranteed; $('unguaranteed').value = defaults.unguaranteed;
+    $('insurance').value = defaults.insurance; $('carTax').value = defaults.carTax;
+    $('deliveryMonth').value = defaults.deliveryMonth;
+    showError(''); $('result').style.display = 'none';
+  });
+  document.querySelectorAll('input').forEach(i =>
+    i.addEventListener('keydown', e => { if (e.key === 'Enter') run(); }));
+})();
+</script>
+<footer>
+  <div class="container">
+    <strong>아이티해결단 (IT Solvers)</strong>
+    <span style="margin-left: 8px; opacity: 0.8;">| 단장 이혁</span>
+    <span style="margin-left: 8px; opacity: 0.8;">| 사업자등록번호 364-11-03265</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,3 +1,16 @@
+:root {
+    --site-background: #ffffff;
+    --site-surface: #ffffff;
+    --site-text: #172033;
+    --site-muted: #667085;
+    --site-secondary: #475467;
+    --site-accent: #2563eb;
+    --site-accent-hover: #1d4ed8;
+    --site-accent-soft: #edf4ff;
+    --site-border: #e8ebf0;
+    --site-surface-subtle: #f8f9fb;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -15,8 +28,8 @@ body {
         "Noto Sans KR",
         "Malgun Gothic",
         sans-serif;
-    color: #172033;
-    background: #ffffff;
+    color: var(--site-text);
+    background: var(--site-background);
     line-height: 1.6;
 }
 
@@ -105,11 +118,11 @@ nav {
     gap: 30px;
 
     font-size: 14px;
-    color: #475467;
+    color: var(--site-secondary);
 }
 
 nav a:hover {
-    color: #2563eb;
+    color: var(--site-accent);
 }
 
 
@@ -122,7 +135,7 @@ nav a:hover {
 
     background:
         radial-gradient(circle at 80% 20%,
-            #edf4ff 0,
+            var(--site-accent-soft) 0,
             transparent 35%),
         linear-gradient(180deg,
             #ffffff 0%,
@@ -137,8 +150,8 @@ nav a:hover {
 
     border-radius: 20px;
 
-    background: #edf4ff;
-    color: #2563eb;
+    background: var(--site-accent-soft);
+    color: var(--site-accent);
 
     font-size: 13px;
     font-weight: 700;
@@ -157,7 +170,7 @@ nav a:hover {
 }
 
 .hero h1 span {
-    color: #2563eb;
+    color: var(--site-accent);
 }
 
 .hero-text {
@@ -165,7 +178,7 @@ nav a:hover {
 
     max-width: 650px;
 
-    color: #667085;
+    color: var(--site-muted);
 
     font-size: 18px;
 }
@@ -188,11 +201,11 @@ nav a:hover {
 
 .button-primary {
     color: white;
-    background: #2563eb;
+    background: var(--site-accent);
 }
 
 .button-primary:hover {
-    background: #1d4ed8;
+    background: var(--site-accent-hover);
 }
 
 
@@ -220,7 +233,7 @@ section {
 }
 
 .section-label {
-    color: #2563eb;
+    color: var(--site-accent);
 
     font-size: 13px;
     font-weight: 800;
@@ -437,6 +450,16 @@ section {
     font-size: 17px;
     font-weight: 700;
     letter-spacing: -0.3px;
+}
+
+.history-desc a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.history-desc a:hover,
+.history-desc a:focus-visible {
+    text-decoration: underline;
 }
 
 .history-meta {
