@@ -41,7 +41,7 @@
 
     .calculator-main {
       flex: 1;
-      width: min(90%, 960px);
+      width: min(calc(100% - 32px), 960px);
       margin: 0 auto;
       padding: 48px 0;
     }
@@ -59,6 +59,7 @@
     }
 
     .calculator-card {
+      min-width: 0;
       margin-top: 24px;
       padding: 24px;
       border: 1px solid #e8ebf0;
@@ -69,7 +70,7 @@
     .calculator-grid,
     .calculator-results {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
       gap: 16px;
     }
 
@@ -138,8 +139,9 @@
     .calculator-result-value {
       margin-top: 4px;
       color: #172033;
-      font-size: 24px;
+      font-size: clamp(18px, 3vw, 24px);
       font-weight: 800;
+      overflow-wrap: anywhere;
     }
 
     .calculator-note {
@@ -225,13 +227,74 @@
       white-space: pre;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 760px) {
       .calculator-main {
-        padding: 32px 0;
+        padding: 28px 0;
       }
 
       .calculator-card {
-        padding: 18px;
+        margin-top: 16px;
+        padding: 20px;
+      }
+
+      .calculator-grid,
+      .calculator-results {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .developer-formula,
+      .formula-equation {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .calculator-main {
+        width: min(calc(100% - 24px), 960px);
+        padding: 20px 0 32px;
+      }
+
+      .calculator-main h1 {
+        font-size: clamp(24px, 8vw, 32px);
+        letter-spacing: -0.7px;
+      }
+
+      .calculator-card {
+        padding: 16px;
+      }
+
+      .calculator-grid,
+      .calculator-results {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .calculator-field input {
+        min-height: 44px;
+        font-size: 16px;
+      }
+
+      .calculator-actions,
+      .calculator-button {
+        width: 100%;
+      }
+
+      .calculator-result {
+        padding: 14px;
+      }
+
+      .developer-formula {
+        margin: 16px 0;
+        padding: 12px;
+      }
+
+      .developer-formula pre,
+      .language-examples pre {
+        font-size: 12px;
+      }
+
+      .language-examples summary {
+        padding: 12px;
       }
     }
   </style>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>리스 현금흐름 기준 IRR 계산기 | 보험료·자동차세 반영 | 아이티해결단</title>
+  <meta name="description" content="차량가격, 리스 기간, 연 금리, 월 수수료, 보증·무보증 잔가 합계, 보험료·자동차세를 입력해 월 리스료와 실제 현금흐름 기준 연 IRR을 계산합니다.">
+  <meta name="author" content="아이티해결단 (IT Solvers)">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+  <meta property="og:title" content="리스 현금흐름 기준 IRR 계산기 | 아이티해결단">
+  <meta property="og:description" content="연 금리로 월 리스료를 계산하고 보험료·자동차세 납부 시점을 반영한 현금흐름의 연 IRR을 계산합니다.">
+  <meta property="og:url" content="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "리스 현금흐름 기준 IRR 계산기",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "ko-KR",
+    "url": "https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html",
+    "description": "연 금리로 계산한 월 리스료와 보증·무보증 잔가 합계, 보험료·자동차세의 실제 지급 시점을 반영해 현금흐름 IRR을 계산합니다.",
+    "educationalUse": "리스 현금흐름과 IRR 계산 학습",
+    "author": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "url": "https://itsolvers.co.kr/"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #fff;
+      --text: #1f2933;
+      --muted: #667085;
+      --line: #dde3ea;
+      --accent: #1d5fd1;
+      --accent-weak: #e8f0fc;
+      --warn: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { flex: 1; width: min(100% - 32px, 960px); min-width: 0; margin: 0 auto; padding: 28px 0 48px; }
+    h1 { margin: 0 0 6px; font-size: clamp(22px, 4vw, 30px); overflow-wrap: anywhere; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 8px 0; }
+    .sub, .note { color: var(--muted); font-size: 13px; }
+    .card { min-width: 0; margin-top: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+    .grid, .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 14px; }
+    label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 13px; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #cbd3dc; border-radius: 6px; color: var(--text); background: #fff; font: inherit; }
+    input:focus, select:focus { outline: 2px solid var(--accent-weak); border-color: var(--accent); }
+    .hint { margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    button { padding: 10px 16px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+    button.secondary { background: #fff; color: var(--accent); }
+    .error { margin-top: 12px; color: var(--warn); }
+    .result { padding: 14px; border-radius: 8px; background: var(--accent-weak); }
+    .result-label { color: var(--muted); font-size: 12px; }
+    .result-value { margin-top: 3px; font-size: clamp(17px, 2.5vw, 21px); font-weight: 700; overflow-wrap: anywhere; }
+    .scenario h3 { margin-top: 0; }
+    .scroll { min-width: 0; overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 6px; -webkit-overflow-scrolling: touch; }
+    #cfScroll .cf-detail { display: none; }
+    #cfScroll.show-details .cf-detail { display: table-cell; }
+    #cfDetailsBtn {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.5;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      white-space: nowrap;
+    }
+    #cfDetailsBtn:hover, #cfDetailsBtn:focus-visible { color: #174aa5; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th { position: sticky; top: 0; background: #f0f3f7; }
+    th:first-child, td:first-child { text-align: center; }
+    details summary { color: var(--accent); font-weight: 600; cursor: pointer; }
+    .pdf-viewer { margin-top: 16px; }
+    .pdf-viewer summary { color: var(--accent); font-size: 15px; }
+    .pdf-viewer iframe { display: block; width: 100%; height: min(75vh, 900px); min-height: 480px; margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; }
+    .pdf-fallback { margin-bottom: 0; font-size: 13px; }
+    .source-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .source-links a { display: inline-block; padding: 9px 14px; border: 1px solid var(--accent); border-radius: 6px; color: var(--accent); font-weight: 600; }
+    .source-links a:hover, .source-links a:focus-visible { background: var(--accent-weak); }
+    pre { overflow: auto; padding: 14px; border-radius: 8px; background: #f5f7fa; font: 13px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { overflow-wrap: anywhere; }
+    .results { margin-top: 14px; }
+    #output[hidden], #error[hidden] { display: none; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, 960px); padding-top: 24px; }
+      .grid, .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .actions { align-items: stretch; }
+      .actions button { flex: 1 1 180px; }
+      .source-links { gap: 8px; }
+      .source-links a { overflow-wrap: anywhere; }
+    }
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 24px, 960px); padding-top: 18px; padding-bottom: 32px; }
+      h1 { font-size: clamp(21px, 7vw, 27px); }
+      h2 { font-size: 17px; }
+      .card { padding: 16px; }
+      .grid, .results { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      input, select { min-height: 44px; font-size: 16px; }
+      .actions { flex-direction: column; }
+      .actions button { width: 100%; flex-basis: auto; }
+      .source-links { flex-direction: column; }
+      .source-links a { text-align: center; }
+      .pdf-viewer iframe { height: 60vh; min-height: 320px; }
+      #cashflowHeading { font-size: 16px; }
+      .cashflow-heading { align-items: flex-start !important; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="아이티해결단 메인으로 이동">
+        <span class="logo-mark"><img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고"></span>
+        <span>아이티해결단</span>
+      </a>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>리스 현금흐름 기준 IRR 계산기</h1>
+    <p class="sub">차량가격·기간·연 금리·잔가를 입력해 월 리스료를 계산하고, 보험료·자동차세의 실제 지급 시점을 반영한 현금흐름으로 연 환산 IRR을 구합니다.</p>
+
+    <section class="card" aria-labelledby="howHeading">
+      <h2 id="howHeading">계산 방식</h2>
+      <ol>
+        <li>연 금리를 12로 나누어 월 금리를 구하고, 보증잔가와 무보증잔가의 합계를 만기 잔가로 사용해 월 리스료를 계산합니다.</li>
+        <li>월별 현금흐름에 고객의 리스료·보험료·자동차세 수납액을 반영합니다.</li>
+        <li>보험료는 인도 시점부터 12개월마다 전액 납부하고, 자동차세는 인도월 기준 첫해분을 비례 계산한 뒤 매년 납부합니다.</li>
+        <li>차량대금의 초기 유출과 만기 잔가 유입을 포함한 현금흐름의 NPV가 0이 되는 월 IRR을 이분법으로 구하고, 제공하신 계산식에 따라 <code>월 IRR × 12</code>로 연 환산합니다.</li>
+      </ol>
+      <p>입력 금리는 월 리스료를 산출하는 데 사용됩니다. 계산 결과의 IRR은 보험료·자동차세를 실제로 납부하는 시점까지 반영한 현금흐름에서 별도로 구하므로 입력 금리와 달라질 수 있습니다.</p>
+      <p class="note">이 계산기는 입력 조건에 따른 현금흐름 분석용 참고 도구입니다. 실제 계약 조건이나 금융리스·운용리스의 회계상 수익인식을 의미하지 않습니다.</p>
+      <details class="pdf-viewer">
+        <summary>리스 현금흐름과 IRR 계산 설명 PDF 보기</summary>
+        <iframe src="lease-cashflow-irr-calc-flow.pdf#navpanes=0&view=FitH" title="리스 현금흐름과 IRR 계산 설명 PDF" loading="lazy"></iframe>
+        <p class="pdf-fallback">
+          PDF가 표시되지 않으면 <a href="lease-cashflow-irr-calc-flow.pdf" target="_blank" rel="noopener">새 탭에서 열기</a>를 선택하세요.
+        </p>
+      </details>
+      <h3>Java·JavaScript·Python 구현 예제</h3>
+      <p>현재 페이지의 금리·현금흐름 계산 예제를 내려받을 수 있습니다.</p>
+      <div class="source-links" aria-label="프로그래밍 언어별 소스 코드 다운로드">
+        <a href="lease-cashflow-irr-calculator.java" download>Java 소스 다운로드</a>
+        <a href="lease-cashflow-irr-calculator.js" download>JavaScript 소스 다운로드</a>
+        <a href="lease-cashflow-irr-calculator.py" download>Python 소스 다운로드</a>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="inputHeading">
+      <h2 id="inputHeading">계산 조건</h2>
+      <div class="grid">
+        <div><label for="vehiclePrice">차량가격 (원)</label><input id="vehiclePrice" type="text" inputmode="numeric" value="50,000,000"></div>
+        <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
+        <div><label for="annualRate">연 금리 (%)</label><input id="annualRate" type="number" min="0" step="0.01" value="5.5"></div>
+        <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
+        <div><label for="annualInsurance">연 보험료 (원)</label><input id="annualInsurance" type="text" inputmode="numeric" value="2,100,000"></div>
+        <div><label for="annualTax">연 자동차세 (원)</label><input id="annualTax" type="text" inputmode="numeric" value="1,200,000"></div>
+        <div><label for="residualValue">만기 잔가 합계 (보증+무보증, 원)</label><input id="residualValue" type="text" inputmode="numeric" value="20,000,000"></div>
+        <div>
+          <label for="deliveryMonth">인도월</label>
+          <select id="deliveryMonth"></select>
+          <div class="hint">기본값은 현재 월입니다. 첫해 자동차세를 인도월~12월 비율로 계산합니다.</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="calculateButton" type="button">IRR 계산하기</button>
+        <button id="resetButton" class="secondary" type="button">초기값으로</button>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <div id="output" hidden>
+      <section class="card" aria-labelledby="resultHeading">
+        <h2 id="resultHeading">계산 결과</h2>
+        <div class="grid">
+          <div class="result"><div class="result-label">월 순수 리스료</div><div class="result-value" id="monthlyLeaseResult"></div></div>
+          <div class="result"><div class="result-label">고객 청구 총 월 리스료</div><div class="result-value" id="monthlyTotal"></div></div>
+          <div class="result"><div class="result-label">월 보험료 고객 수납</div><div class="result-value" id="monthlyInsurance"></div></div>
+          <div class="result"><div class="result-label">월 자동차세 고객 수납</div><div class="result-value" id="monthlyTax"></div></div>
+          <div class="result"><div class="result-label">연 환산 현금흐름 IRR</div><div class="result-value" id="annualIRR"></div></div>
+        </div>
+        <p class="note">
+          고객 청구 총 월 리스료 = 월 순수 리스료 + 월 보험료 고객 수납 + 월 자동차세 고객 수납입니다.
+          월 수수료는 고객 청구액에 더하지 않고, IRR 현금흐름에서 월별 유출로 반영합니다.
+        </p>
+        <p class="note" id="resultNote"></p>
+      </section>
+      <section class="card" aria-labelledby="cashflowHeading">
+        <div class="cashflow-heading" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <h2 id="cashflowHeading" style="margin:0;">월별 현금흐름</h2>
+            <button id="cfDetailsBtn" type="button" aria-controls="cashflowTable" aria-expanded="false">자세히 보기</button>
+          </div>
+          <span class="note" style="margin:0;">단위: 원</span>
+        </div>
+        <div class="scroll" id="cfScroll"><table id="cashflowTable"></table></div>
+        <p class="note">
+          년월은 현재 연도와 선택한 인도월을 기준으로 회차마다 한 달씩 증가합니다.
+          0개월차는 인도 시점이며, (−)는 현금 유출, (+)는 현금 유입입니다.
+          고객 청구액은 월 순수 리스료와 보험료·자동차세 수납액의 합입니다.
+        </p>
+      </section>
+    </div>
+
+  </main>
+  <footer>
+    <div class="container">
+      <strong>아이티해결단 (IT Solvers)</strong>
+      <span style="margin-left: 8px; opacity: 0.8;">| 단장 이혁</span>
+      <span style="margin-left: 8px; opacity: 0.8;">| 사업자등록번호 364-11-03265</span>
+    </div>
+  </footer>
+  <script src="lease-cashflow-irr-calculator.js" defer></script>
+</body>
+</html>
