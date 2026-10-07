@@ -93,6 +93,8 @@
       white-space: nowrap;
     }
     #cfDetailsBtn:hover, #cfDetailsBtn:focus-visible { color: #174aa5; }
+    .cashflow-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .cashflow-heading-title { display: flex; align-items: center; gap: 10px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
     th { position: sticky; top: 0; background: #f0f3f7; }
@@ -130,7 +132,7 @@
       .source-links a { text-align: center; }
       .pdf-viewer iframe { height: 60vh; min-height: 320px; }
       #cashflowHeading { font-size: 16px; }
-      .cashflow-heading { align-items: flex-start !important; flex-direction: column; }
+      .cashflow-heading { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -213,8 +215,8 @@
         <p class="note" id="resultNote"></p>
       </section>
       <section class="card" aria-labelledby="cashflowHeading">
-        <div class="cashflow-heading" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;">
-          <div style="display:flex; align-items:center; gap:10px;">
+        <div class="cashflow-heading">
+          <div class="cashflow-heading-title">
             <h2 id="cashflowHeading" style="margin:0;">월별 현금흐름</h2>
             <button id="cfDetailsBtn" type="button" aria-controls="cashflowTable" aria-expanded="false">자세히 보기</button>
           </div>
