@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>리스료 계산기 | 차량대금·기간·금리·잔가 | 아이티해결단</title>
+  <meta name="description" content="차량대금, 리스 기간, 연 금리와 만기 잔가를 입력해 월 리스료를 계산해 보세요. 보험료·자동차세·수수료를 제외한 기본 계산 결과를 제공합니다.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+  <meta property="og:title" content="리스료 계산기 | 아이티해결단">
+  <meta property="og:description" content="차량대금·리스 기간·연 금리·잔가를 바탕으로 월 리스료를 계산합니다.">
+  <meta property="og:url" content="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "리스료 계산기",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "ko-KR",
+    "url": "https://itsolvers.co.kr/insights/lease-payment-calculator.html",
+    "description": "차량대금, 리스 기간, 연 금리와 만기 잔가로 월 리스료를 계산하는 웹 계산기.",
+    "author": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "url": "https://itsolvers.co.kr/"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .calculator-main {
+      flex: 1;
+      width: min(90%, 960px);
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+
+    .calculator-main h1 {
+      margin: 0 0 8px;
+      color: #172033;
+      font-size: clamp(28px, 4vw, 36px);
+      letter-spacing: -1px;
+    }
+
+    .calculator-intro,
+    .calculator-note {
+      color: #667085;
+    }
+
+    .calculator-card {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid #e8ebf0;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .calculator-grid,
+    .calculator-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .calculator-field label {
+      display: block;
+      margin-bottom: 6px;
+      color: #475467;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .calculator-field input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      color: #172033;
+      font: inherit;
+    }
+
+    .calculator-field input:focus {
+      border-color: #2563eb;
+      outline: 2px solid #edf4ff;
+    }
+
+    .calculator-actions {
+      margin-top: 20px;
+    }
+
+    .calculator-button {
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .calculator-button:hover {
+      background: #1d4ed8;
+    }
+
+    .calculator-error {
+      margin-top: 12px;
+      color: #b42318;
+    }
+
+    .calculator-results {
+      margin-top: 24px;
+    }
+
+    .calculator-result {
+      padding: 18px;
+      border-radius: 10px;
+      background: #edf4ff;
+    }
+
+    .calculator-result-label {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .calculator-result-value {
+      margin-top: 4px;
+      color: #172033;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .calculator-note {
+      margin: 18px 0 0;
+      font-size: 13px;
+    }
+
+    .formula-card h2 {
+      margin-top: 0;
+    }
+
+    .formula-equation {
+      display: block;
+      overflow-x: auto;
+      margin: 16px 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #f8f9fb;
+      color: #172033;
+      font-size: 15px;
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+
+    .formula-card p,
+    .formula-card li {
+      color: #475467;
+    }
+
+    .formula-card code {
+      overflow-wrap: anywhere;
+      color: #172033;
+    }
+
+    .developer-formula {
+      margin: 20px 0;
+      padding: 16px;
+      border: 1px solid #e8ebf0;
+      border-radius: 8px;
+      background: #f8f9fb;
+    }
+
+    .developer-formula h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .developer-formula pre {
+      overflow-x: auto;
+      margin: 0;
+      color: #172033;
+      font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .language-examples {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .language-examples details {
+      overflow: hidden;
+      border: 1px solid #e8ebf0;
+      border-radius: 8px;
+    }
+
+    .language-examples summary {
+      padding: 12px 16px;
+      color: #172033;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-examples pre {
+      overflow-x: auto;
+      margin: 0;
+      padding: 16px;
+      border-top: 1px solid #e8ebf0;
+      background: #f8f9fb;
+      color: #172033;
+      font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+    }
+
+    @media (max-width: 600px) {
+      .calculator-main {
+        padding: 32px 0;
+      }
+
+      .calculator-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="아이티해결단 메인으로 이동">
+        <span class="logo-mark">
+          <img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고">
+        </span>
+        <span>아이티해결단</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="calculator-main">
+    <h1>리스료 계산기</h1>
+    <p class="calculator-intro">
+      차량대금, 리스 기간, 연 금리와 만기 잔가를 입력해 월 리스료를 계산합니다.
+    </p>
+
+    <section class="calculator-card formula-card" aria-labelledby="formulaHeading">
+      <h2 id="formulaHeading">리스료 계산 공식과 엑셀·구글 시트 PMT 함수</h2>
+      <p>
+        계산 조건을 입력하고 계산 버튼을 누르면 아래 코드로 월 리스료를 계산합니다.
+      </p>
+      <div class="developer-formula">
+        <h3>월 리스료 계산 버튼에서 실행되는 코드</h3>
+        <pre><code>const monthlyRate = annualRate / 100 / 12;
+const monthlyPayment = monthlyRate === 0
+  ? (vehiclePrice - residualValue) / termMonths
+  : (vehiclePrice - residualValue / Math.pow(1 + monthlyRate, termMonths)) *
+    monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));</code></pre>
+
+      </div>
+      <h3>Java·JavaScript·Python 계산식 예제</h3>
+      <p>
+        아래 함수는 페이지의 계산 버튼과 같은 월 리스료 산식을 사용합니다.
+        연 금리는 퍼센트 값(예: 5는 5%)으로 전달하고, 잔가는 보증잔가와 무보증잔가의 합으로 입력합니다.
+      </p>
+      <div class="language-examples">
+        <details>
+          <summary>Java 코드 보기</summary>
+          <pre><code>static double calculateLeasePayment(
+    double vehiclePrice,
+    int termMonths,
+    double annualRatePercent,
+    double residualValue
+) {
+    double monthlyRate = annualRatePercent / 100.0 / 12.0;
+    if (monthlyRate == 0.0) {
+        return (vehiclePrice - residualValue) / termMonths;
+    }
+
+    return (vehiclePrice
+        - residualValue / Math.pow(1.0 + monthlyRate, termMonths))
+        * monthlyRate
+        / (1.0 - Math.pow(1.0 + monthlyRate, -termMonths));
+}</code></pre>
+        </details>
+        <details>
+          <summary>JavaScript 코드 보기</summary>
+          <pre><code>function calculateLeasePayment(
+  vehiclePrice,
+  termMonths,
+  annualRatePercent,
+  residualValue
+) {
+  const monthlyRate = annualRatePercent / 100 / 12;
+  if (monthlyRate === 0) {
+    return (vehiclePrice - residualValue) / termMonths;
+  }
+
+  return (vehiclePrice
+    - residualValue / Math.pow(1 + monthlyRate, termMonths))
+    * monthlyRate
+    / (1 - Math.pow(1 + monthlyRate, -termMonths));
+}</code></pre>
+        </details>
+        <details>
+          <summary>Python 코드 보기</summary>
+          <pre><code>def calculate_lease_payment(
+    vehicle_price,
+    term_months,
+    annual_rate_percent,
+    residual_value,
+):
+    monthly_rate = annual_rate_percent / 100 / 12
+    if monthly_rate == 0:
+        return (vehicle_price - residual_value) / term_months
+
+    return (
+        vehicle_price
+        - residual_value / (1 + monthly_rate) ** term_months
+    ) * monthly_rate / (1 - (1 + monthly_rate) ** -term_months)</code></pre>
+        </details>
+      </div>
+      <ul>
+        <li>연 금리가 0%이면 월 리스료 = (차량대금 − 만기 잔가) ÷ 개월 수로 계산합니다.</li>
+      </ul>
+      <h3>엑셀·구글 시트 PMT 함수 예시</h3>
+      <p>예를 들어 A1에 차량대금, A2에 리스 기간(개월), A3에 연 금리(%), A4에 만기 잔가를 입력했다면:</p>
+      <code class="formula-equation">=PMT(A3/100/12, A2, -A1, A4)</code>
+      <p>
+        차량대금은 현재 지급하는 금액이라 음수(<code>-A1</code>)로, 만기 잔가는 마지막에 회수되는 금액이라 양수(<code>A4</code>)로 입력합니다.
+        PMT의 기본 지급 시점은 매월 말이며, 위 식은 계산기와 같이 월 금리를 연 금리의 12분의 1로 계산합니다.
+        월초 납부 조건이나 별도 수수료·보험료·세금이 있으면 결과가 달라집니다.
+      </p>
+    </section>
+
+    <section class="calculator-card" aria-labelledby="inputHeading">
+      <h2 id="inputHeading">계산 조건</h2>
+      <div class="calculator-grid">
+        <div class="calculator-field">
+          <label for="vehiclePrice">차량대금 (원)</label>
+          <input id="vehiclePrice" type="number" min="1" step="10000" value="50000000">
+        </div>
+        <div class="calculator-field">
+          <label for="termMonths">리스 기간 (개월)</label>
+          <input id="termMonths" type="number" min="1" max="120" step="1" value="36">
+        </div>
+        <div class="calculator-field">
+          <label for="annualRate">연 금리 (%)</label>
+          <input id="annualRate" type="number" min="0" step="0.01" value="5">
+        </div>
+        <div class="calculator-field">
+          <label for="residualValue">만기 잔가 (보증+무보증, 원)</label>
+          <input id="residualValue" type="number" min="0" step="10000" value="15000000">
+        </div>
+      </div>
+      <div class="calculator-actions">
+        <button class="calculator-button" id="calculateButton" type="button">월 리스료 계산</button>
+      </div>
+      <p class="calculator-error" id="calculatorError" role="alert" hidden></p>
+
+      <div class="calculator-results" id="calculatorResults" aria-live="polite" hidden>
+        <div class="calculator-result">
+          <div class="calculator-result-label">월 리스료</div>
+          <div class="calculator-result-value" id="monthlyPayment"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">월 원금 (첫 달)</div>
+          <div class="calculator-result-value" id="monthlyPrincipal"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">월 이자 (첫 달)</div>
+          <div class="calculator-result-value" id="monthlyInterest"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">전체 리스료</div>
+          <div class="calculator-result-value" id="totalPayments"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">전체 원금</div>
+          <div class="calculator-result-value" id="totalPrincipal"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">전체 이자</div>
+          <div class="calculator-result-value" id="totalInterest"></div>
+        </div>
+      </div>
+      <p class="calculator-note">
+        월 원금과 월 이자는 첫 달 기준입니다. 전체 원금은 월 리스료로 상환하는 원금(차량대금 − 만기 잔가)이며,
+        전체 이자는 전체 리스료에서 전체 원금을 뺀 금액입니다. 만기 잔가는 전체 원금에 포함되지 않으며,
+        이 계산은 금융리스·운용리스의 회계상 수익인식액을 나타내지 않습니다. 보험료·자동차세·수수료 및 세금은 제외한 참고용 계산입니다.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <strong>아이티해결단 (IT Solvers)</strong>
+      <span style="margin-left: 8px; opacity: 0.8;">| 단장 이혁</span>
+      <span style="margin-left: 8px; opacity: 0.8;">| 사업자등록번호 364-11-03265</span>
+    </div>
+  </footer>
+
+  <script>
+    const formFields = {
+      vehiclePrice: document.getElementById('vehiclePrice'),
+      termMonths: document.getElementById('termMonths'),
+      annualRate: document.getElementById('annualRate'),
+      residualValue: document.getElementById('residualValue')
+    };
+    const errorMessage = document.getElementById('calculatorError');
+    const results = document.getElementById('calculatorResults');
+    const formatWon = value => Math.round(value).toLocaleString('ko-KR') + '원';
+
+    function calculateLeasePayment() {
+      errorMessage.hidden = true;
+      results.hidden = true;
+
+      const vehiclePrice = Number(formFields.vehiclePrice.value);
+      const termMonths = Number(formFields.termMonths.value);
+      const annualRate = Number(formFields.annualRate.value);
+      const residualValue = Number(formFields.residualValue.value);
+
+      if (Object.values(formFields).some(field => field.value.trim() === '') ||
+          ![vehiclePrice, termMonths, annualRate, residualValue].every(Number.isFinite)) {
+        errorMessage.textContent = '모든 계산 조건을 입력해 주세요.';
+        errorMessage.hidden = false;
+        return;
+      }
+      if (vehiclePrice <= 0 || !Number.isInteger(termMonths) || termMonths < 1 || termMonths > 120 ||
+          annualRate < 0 || residualValue < 0 || residualValue > vehiclePrice) {
+        errorMessage.textContent = '차량대금, 기간, 금리와 잔가를 확인해 주세요. 잔가는 차량대금을 넘을 수 없습니다.';
+        errorMessage.hidden = false;
+        return;
+      }
+
+      const monthlyRate = annualRate / 100 / 12;
+      const monthlyPayment = monthlyRate === 0
+        ? (vehiclePrice - residualValue) / termMonths
+        : (vehiclePrice - residualValue / Math.pow(1 + monthlyRate, termMonths)) *
+          monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
+      const monthlyInterest = vehiclePrice * monthlyRate;
+      const monthlyPrincipal = monthlyPayment - monthlyInterest;
+      const totalPayments = monthlyPayment * termMonths;
+      const totalPrincipal = vehiclePrice - residualValue;
+      const totalInterest = totalPayments - totalPrincipal;
+
+      document.getElementById('monthlyPayment').textContent = formatWon(monthlyPayment);
+      document.getElementById('monthlyPrincipal').textContent = formatWon(monthlyPrincipal);
+      document.getElementById('monthlyInterest').textContent = formatWon(monthlyInterest);
+      document.getElementById('totalPayments').textContent = formatWon(totalPayments);
+      document.getElementById('totalPrincipal').textContent = formatWon(totalPrincipal);
+      document.getElementById('totalInterest').textContent = formatWon(totalInterest);
+      results.hidden = false;
+    }
+
+    document.getElementById('calculateButton').addEventListener('click', calculateLeasePayment);
+    Object.values(formFields).forEach(field => {
+      field.addEventListener('keydown', event => {
+        if (event.key === 'Enter') calculateLeasePayment();
+      });
+    });
+  </script>
+</body>
+</html>

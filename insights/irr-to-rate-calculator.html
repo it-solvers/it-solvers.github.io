@@ -4,32 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
-<title>리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단</title>
-<meta name="description" content="목표 연 IRR을 입력하면 목표 수익률에 맞는 월 순수리스료를 계산하고 연 내재금리를 역산합니다. 차량대금, 리스 기간, 잔가와 보험료·자동차세 현금흐름을 반영해 확인해 보세요.">
+<title>목표 IRR 기준 금리 역산 계산기 | 시행착오법·이분법 설명 | 아이티해결단</title>
+<meta name="description" content="목표 IRR 기준 금리 역산 계산기로 목표 연 IRR에 맞는 순수 리스료를 구해 보세요. 시행착오법과 이분법의 차이, 범위를 절반씩 좁혀 답을 찾는 계산 원리를 설명합니다.">
 <meta name="author" content="아이티해결단 (IT Solvers)">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://itsolvers.co.kr/insights/irr-rate-calculator.html">
+<link rel="canonical" href="https://itsolvers.co.kr/insights/irr-to-rate-calculator.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
-<meta property="og:title" content="리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단">
-<meta property="og:description" content="목표 연 IRR을 입력해 월 순수리스료를 계산하고 연 내재금리를 역산하세요. 보험료·자동차세 현금흐름도 반영합니다.">
-<meta property="og:url" content="https://itsolvers.co.kr/insights/irr-rate-calculator.html">
+<meta property="og:title" content="목표 IRR 기준 금리 역산 계산기 | 시행착오법·이분법 설명 | 아이티해결단">
+<meta property="og:description" content="목표 IRR 기준 금리 역산 원리와 시행착오법·이분법의 차이를 단계별로 확인하세요.">
+<meta property="og:url" content="https://itsolvers.co.kr/insights/irr-to-rate-calculator.html">
 <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
 <meta property="og:image:alt" content="아이티해결단 로고">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="리스 금리 역산 계산기 | 목표 IRR 입력 | 아이티해결단">
-<meta name="twitter:description" content="목표 연 IRR을 입력해 월 순수리스료를 구하고 연 내재금리를 역산하는 계산기입니다.">
+<meta name="twitter:title" content="목표 IRR 기준 금리 역산 계산기 | 시행착오법·이분법 설명 | 아이티해결단">
+<meta name="twitter:description" content="목표 IRR 기준 금리 역산 원리와 이분법 계산 과정을 쉽게 설명합니다.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "목표 IRR 기반 리스 금리 역산 계산기",
+  "name": "목표 IRR 기준 금리 역산 계산기 - 시행착오법과 이분법",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
   "inLanguage": "ko-KR",
-  "url": "https://itsolvers.co.kr/insights/irr-rate-calculator.html",
-  "description": "목표 연 IRR을 입력하면 월 순수리스료를 계산하고, 해당 리스료와 잔가를 기준으로 연 내재금리를 역산하는 웹 계산기. 보험료·자동차세 현금흐름을 반영합니다.",
+  "url": "https://itsolvers.co.kr/insights/irr-to-rate-calculator.html",
+  "description": "목표 IRR 기준으로 리스료를 시행착오법의 구체적인 알고리즘인 이분법으로 역산하는 계산기와 교육용 설명입니다.",
+  "educationalUse": "목표 IRR 기준 금리 역산, 시행착오법과 이분법 학습",
+  "featureList": [
+    "목표 IRR에 맞는 월 순수리스료 역산",
+    "이분법(Bisection Method)의 반복 계산 단계 설명",
+    "보험료·자동차세 지급 시점을 반영한 현금흐름 확인"
+  ],
   "author": {
     "@type": "Organization",
     "name": "아이티해결단 (IT Solvers)",
@@ -61,7 +67,10 @@
   .btns{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
   #cfScroll .cf-detail{display:none}
   #cfScroll.show-details .cf-detail{display:table-cell}
-  #cfDetailsBtn{margin-top:12px}
+  #cfDetailsBtn{margin:0;padding:0;border:0;background:transparent;color:var(--accent);
+    font-size:12px;line-height:1.5;text-decoration:underline;text-underline-offset:2px;
+    white-space:nowrap}
+  #cfDetailsBtn:hover,#cfDetailsBtn:focus-visible{color:#174aa5}
   button{padding:10px 18px;border-radius:6px;border:1px solid var(--accent);
     background:var(--accent);color:#fff;font-size:15px;cursor:pointer}
   button.ghost{background:#fff;color:var(--accent)}
@@ -77,6 +86,15 @@
   .scroll{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:6px}
   .note{font-size:12px;color:var(--muted);margin-top:8px}
   details summary{cursor:pointer;font-weight:600;font-size:14px}
+  .pdf-viewer{margin-top:16px}
+  .pdf-viewer summary{color:var(--accent);font-size:15px}
+  .pdf-viewer iframe{display:block;width:100%;height:min(75vh,900px);min-height:480px;
+    margin-top:12px;border:1px solid var(--line);border-radius:8px}
+  .pdf-fallback{margin-bottom:0;font-size:13px}
+  .source-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .source-links a{display:inline-block;padding:9px 14px;border:1px solid var(--accent);
+    border-radius:6px;color:var(--accent);font-weight:600}
+  .source-links a:hover,.source-links a:focus-visible{background:var(--accent-weak)}
   #result{display:none}
 </style>
 </head>
@@ -92,8 +110,62 @@
   </div>
 </header>
 <main class="wrap">
-  <h1>목표 IRR 입력으로 리스 금리 역산</h1>
-  <p class="sub">목표 연 IRR을 입력하면 먼저 목표 수익률에 맞는 월 순수리스료를 계산하고, 해당 리스료와 잔가를 기준으로 연 내재금리를 역산합니다. 보험료·자동차세의 실제 지급 시점도 현금흐름에 반영합니다.</p>
+  <h1>목표 IRR 기준 금리 역산: 시행착오법과 이분법</h1>
+  <p class="sub">목표 연 IRR을 입력해 월 순수리스료를 구하는 원리와 이분법 계산 과정을 알아보고, 차량대금·잔가·보험료·자동차세를 반영한 현금흐름을 확인해 보세요.</p>
+
+  <section class="card" aria-labelledby="irr-method-heading">
+    <h2 id="irr-method-heading">목표 IRR 기준 금리 역산 원리</h2>
+    <p>
+      IRR(내부수익률)은 계약 기간의 현금 유입과 유출을 반영해 투자 수익률을 계산하는 지표입니다.
+      목표 IRR에서 월 리스료를 한 번에 구하는 간단한 공식이 없으므로,
+      후보 리스료로 현금흐름의 IRR을 계산하고 목표와 비교해 조정하는 수치 탐색을 합니다.
+      차량대금, 월별 수납액, 보험료·자동차세의 실제 지급 시점과 만기 잔가를 현금흐름에 반영합니다.
+    </p>
+    <p>
+      계산 결과의 ‘역산 내재금리’는 산출된 순수리스료와 잔가를 기준으로 다시 구한 연 금리입니다.
+      목표 IRR과 실제 연 IRR을 함께 비교해 계산 결과를 확인할 수 있습니다.
+    </p>
+    <h3>전체 접근: 시행착오법 (Trial and Error Method)</h3>
+    <p>
+      리스료를 하나 가정하고 그 리스료로 IRR을 계산한 뒤 목표 IRR과 비교합니다.
+      일치하지 않으면 리스료를 조정해 다시 계산하는 과정을 반복하여 목표에 맞는 값을 찾습니다.
+    </p>
+    <h3>구체적인 알고리즘: 이분법 (Bisection Method)</h3>
+    <p>
+      시행착오를 무작위로 반복하지 않고, 답이 포함된 범위를 매번 절반씩 좁혀가는 체계적인 수치 탐색 방법입니다.
+    </p>
+    <ol>
+      <li>리스료 범위를 최소 0원부터 최대 차량대금까지 설정합니다.</li>
+      <li>범위의 정가운데 값을 리스료 후보로 정하고, 해당 리스료의 연 IRR을 계산합니다.</li>
+      <li>계산된 IRR이 목표보다 크면 리스료가 큰 것이므로 상한을 낮춥니다.</li>
+      <li>계산된 IRR이 목표보다 작으면 리스료가 작은 것이므로 하한을 올립니다.</li>
+      <li>좁아진 범위에서 다시 가운데 값을 계산하는 과정을 코드에서 200회 반복합니다.</li>
+    </ol>
+    <p>
+      <strong>한 줄 정리:</strong> 시행착오법은 목표값을 찾기 위해 반복 계산하는 전체 접근이고,
+      이분법은 그 안에서 탐색 범위를 절반씩 줄이는 구체적인 방법입니다.
+      따라서 둘은 서로 반대되는 개념이 아니라 전체 접근과 구체적인 알고리즘의 관계입니다.
+    </p>
+    <h3>이분법(Bisection)과 이진법(Binary)은 같은 뜻인가요?</h3>
+    <p>
+      아닙니다. 이분법은 답을 찾기 위해 범위를 둘로 나누는 수치 계산 방법이고,
+      이진법은 0과 1로 수를 표현하는 수 체계입니다. 영어 표기가 비슷하지만 서로 다른 개념입니다.
+    </p>
+    <details class="pdf-viewer">
+      <summary>목표 IRR 기준 금리 역산 현금흐름 설명 PDF 보기</summary>
+      <iframe src="irr-rate-cal-flow.pdf#navpanes=0&view=FitH" title="목표 IRR 기준 금리 역산 현금흐름 설명 PDF" loading="lazy"></iframe>
+      <p class="pdf-fallback">
+        PDF가 표시되지 않으면 <a href="irr-rate-cal-flow.pdf" target="_blank" rel="noopener">새 탭에서 열기</a>를 선택하세요.
+      </p>
+    </details>
+    <h3>Java·JavaScript·Python 구현 예제</h3>
+    <p>같은 IRR 기반 리스료 역산 과정을 구현한 v0.3 소스 코드입니다. 원하는 언어의 파일을 내려받아 확인할 수 있습니다.</p>
+    <div class="source-links" aria-label="프로그래밍 언어별 소스 코드 다운로드">
+      <a href="irr-rate-calculator_v0.3.java" download>Java 소스 다운로드</a>
+      <a href="irr-rate-calculator_v0.3.js" download>JavaScript 소스 다운로드</a>
+      <a href="irr-rate-calculator_v0.3.py" download>Python 소스 다운로드</a>
+    </div>
+  </section>
 
   <div class="card">
     <h2>입력 조건</h2>
@@ -157,12 +229,14 @@
     </div>
 
     <div class="card">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-        <h2 style="margin:0 0 14px;">월별 현금흐름</h2>
-        <span class="note" style="margin:0 0 14px;">단위: 원</span>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h2 style="margin:0;">월별 현금흐름</h2>
+          <button id="cfDetailsBtn" type="button" aria-controls="cfTable" aria-expanded="false">자세히 보기</button>
+        </div>
+        <span class="note" style="margin:0;">단위: 원</span>
       </div>
       <div class="scroll" id="cfScroll"><table id="cfTable"></table></div>
-      <button id="cfDetailsBtn" type="button" aria-controls="cfTable" aria-expanded="false">자세히 보기</button>
       <p class="note">
         년월은 현재 년도와 선택한 인도월을 기준으로 회차마다 한 달씩 증가합니다.
         0개월차는 인도 시점이며, (−)는 회사가 내는 돈, (+)는 회사가 받는 돈입니다.

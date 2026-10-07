@@ -462,6 +462,27 @@ section {
     text-decoration: underline;
 }
 
+.insights .insight-link-cue {
+    display: inline-block;
+    margin-left: 3px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--site-accent-soft);
+    color: var(--site-accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0;
+    vertical-align: 3px;
+    white-space: nowrap;
+}
+
+.insights .history-desc a:hover .insight-link-cue,
+.insights .history-desc a:focus-visible .insight-link-cue {
+    background: var(--site-accent);
+    color: #fff;
+    text-decoration: none;
+}
+
 .history-meta {
     display: flex;
     align-items: center;

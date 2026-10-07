@@ -7,7 +7,19 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://itsolvers.co.kr/insights/irr-rate-calculator.html</loc>
+    <loc>https://itsolvers.co.kr/insights/irr-to-rate-calculator.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itsolvers.co.kr/insights/lease-payment-calculator.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itsolvers.co.kr/insights/rate-to-irr-calculator.html</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

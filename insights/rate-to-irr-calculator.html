@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>리스 금리로 IRR 계산하기 | 보증·무보증 잔가 비교 | 아이티해결단</title>
+  <meta name="description" content="리스 금리와 차량가격, 기간, 연 보험료·자동차세, 보증·무보증 잔가를 입력해 월 리스료와 연 환산 IRR을 계산합니다. 매월 고객 수납과 연 1회 실제 납부 현금흐름을 반영합니다.">
+  <meta name="author" content="아이티해결단 (IT Solvers)">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/insights/rate-to-irr-calculator.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+  <meta property="og:title" content="리스 금리로 IRR 계산하기 | 아이티해결단">
+  <meta property="og:description" content="리스 금리 기준 월 리스료와 현금흐름 IRR을 계산하고 보증·무보증 잔가 결과를 비교해 보세요.">
+  <meta property="og:url" content="https://itsolvers.co.kr/insights/rate-to-irr-calculator.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "리스 금리 기준 IRR 계산기",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "ko-KR",
+    "url": "https://itsolvers.co.kr/insights/rate-to-irr-calculator.html",
+    "description": "리스 금리로 계산한 월 리스료와 보험료·자동차세의 실제 지급 시점을 반영한 연 환산 IRR을 계산하고 보증·무보증 잔가를 비교합니다.",
+    "educationalUse": "리스 현금흐름과 IRR 계산 학습",
+    "author": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "url": "https://itsolvers.co.kr/"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #fff;
+      --text: #1f2933;
+      --muted: #667085;
+      --line: #dde3ea;
+      --accent: #1d5fd1;
+      --accent-weak: #e8f0fc;
+      --warn: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { flex: 1; width: min(100% - 32px, 960px); margin: 0 auto; padding: 28px 0 48px; }
+    h1 { margin: 0 0 6px; font-size: clamp(22px, 4vw, 30px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 8px 0; }
+    .sub, .note { color: var(--muted); font-size: 13px; }
+    .card { margin-top: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+    .grid, .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+    label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 13px; }
+    input { width: 100%; padding: 10px; border: 1px solid #cbd3dc; border-radius: 6px; color: var(--text); font: inherit; }
+    input:focus { outline: 2px solid var(--accent-weak); border-color: var(--accent); }
+    .hint { margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .actions { display: flex; gap: 8px; margin-top: 16px; }
+    button { padding: 10px 16px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+    button.secondary { background: #fff; color: var(--accent); }
+    .error { margin-top: 12px; color: var(--warn); }
+    .result { padding: 14px; border-radius: 8px; background: var(--accent-weak); }
+    .result-label { color: var(--muted); font-size: 12px; }
+    .result-value { margin-top: 3px; font-size: 21px; font-weight: 700; word-break: keep-all; }
+    .scenario h3 { margin-top: 0; }
+    .scroll { overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th { position: sticky; top: 0; background: #f0f3f7; }
+    th:first-child, td:first-child { text-align: center; }
+    details summary { color: var(--accent); font-weight: 600; cursor: pointer; }
+    pre { overflow: auto; padding: 14px; border-radius: 8px; background: #f5f7fa; font: 13px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { overflow-wrap: anywhere; }
+    .results { margin-top: 14px; }
+    #output[hidden], #error[hidden] { display: none; }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 24px, 960px); padding-top: 20px; }
+      .card { padding: 16px; }
+      .actions { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="아이티해결단 메인으로 이동">
+        <span class="logo-mark"><img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고"></span>
+        <span>아이티해결단</span>
+      </a>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>리스 금리로 IRR 계산하기</h1>
+    <p class="sub">금리로 월 리스료를 산출한 뒤, 보험료·자동차세의 고객 수납과 실제 연간 납부 현금흐름을 반영해 IRR을 계산합니다.</p>
+
+    <section class="card" aria-labelledby="howHeading">
+      <h2 id="howHeading">계산 방식</h2>
+      <p>입력한 연 금리를 12로 나눠 월 금리로 바꾸고, 보증잔가와 무보증잔가를 각각 반영해 월 리스료를 계산합니다.</p>
+      <p>현금흐름에는 차량가격의 초기 유출, 매월 리스료와 보험료·자동차세 수납액, 지정한 월의 보험료·자동차세 연간 납부액, 계약 종료 시 잔가 유입을 반영합니다.</p>
+      <p>월 IRR은 현금흐름의 순현재가치(NPV)가 0이 되는 월 수익률입니다. 이 페이지는 이분법으로 월 IRR을 구한 뒤 <code>(1 + 월 IRR)<sup>12</sup> − 1</code>로 연 환산합니다.</p>
+      <p class="note">이 계산기는 입력 조건에 따른 현금흐름 분석용 참고 도구입니다. 실제 계약 조건이나 금융리스·운용리스의 회계상 수익인식을 의미하지 않습니다.</p>
+    </section>
+
+    <section class="card" aria-labelledby="inputHeading">
+      <h2 id="inputHeading">계산 조건</h2>
+      <div class="grid">
+        <div><label for="vehiclePrice">차량가격 (원)</label><input id="vehiclePrice" type="number" min="1" step="10000" value="50000000"></div>
+        <div><label for="annualRate">연 금리 (%)</label><input id="annualRate" type="number" min="0" step="0.01" value="5.5"></div>
+        <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
+        <div><label for="annualInsurance">연 보험료 (원)</label><input id="annualInsurance" type="number" min="0" step="1000" value="2100000"></div>
+        <div><label for="annualTax">연 자동차세 (원)</label><input id="annualTax" type="number" min="0" step="1000" value="1200000"></div>
+        <div><label for="guaranteedRV">보증잔가 (원)</label><input id="guaranteedRV" type="number" min="0" step="10000" value="5000000"></div>
+        <div><label for="nonGuaranteedRV">무보증잔가 (원)</label><input id="nonGuaranteedRV" type="number" min="0" step="10000" value="15000000"></div>
+        <div>
+          <label for="insuranceMonth">연 보험료 납부 월</label>
+          <input id="insuranceMonth" type="number" min="1" max="12" step="1" value="1">
+          <div class="hint">1~12월 중 연 보험료를 실제 납부하는 월</div>
+        </div>
+        <div>
+          <label for="taxMonth">연 자동차세 납부 월</label>
+          <input id="taxMonth" type="number" min="1" max="12" step="1" value="6">
+          <div class="hint">1~12월 중 자동차세를 실제 납부하는 월</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="calculateButton" type="button">IRR 계산하기</button>
+        <button id="resetButton" class="secondary" type="button">초기값으로</button>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <div id="output" hidden>
+      <section class="card" aria-labelledby="resultHeading">
+        <h2 id="resultHeading">계산 결과 비교</h2>
+        <div class="grid">
+          <div class="scenario">
+            <h3>보증잔가 기준</h3>
+            <div class="results">
+              <div class="result"><div class="result-label">월 리스료</div><div class="result-value" id="guaranteedPayment"></div></div>
+              <div class="result"><div class="result-label">월 보험료 고객 수납</div><div class="result-value" id="monthlyInsurance"></div></div>
+              <div class="result"><div class="result-label">월 자동차세 고객 수납</div><div class="result-value" id="monthlyTax"></div></div>
+              <div class="result"><div class="result-label">연 환산 IRR</div><div class="result-value" id="guaranteedIRR"></div></div>
+            </div>
+          </div>
+          <div class="scenario">
+            <h3>무보증잔가 기준</h3>
+            <div class="results">
+              <div class="result"><div class="result-label">월 리스료</div><div class="result-value" id="nonGuaranteedPayment"></div></div>
+              <div class="result"><div class="result-label">월 보험료 고객 수납</div><div class="result-value" id="monthlyInsurance2"></div></div>
+              <div class="result"><div class="result-label">월 자동차세 고객 수납</div><div class="result-value" id="monthlyTax2"></div></div>
+              <div class="result"><div class="result-label">연 환산 IRR</div><div class="result-value" id="nonGuaranteedIRR"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="cashflowHeading">
+        <h2 id="cashflowHeading">월별 현금흐름과 IRR 계산</h2>
+        <p class="note">(−)는 현금 유출, (+)는 현금 유입입니다. 보험료와 자동차세는 고객에게 매월 12분의 1씩 수납하고, 실제 납부월에는 연간 금액 전액을 유출로 표시합니다.</p>
+        <div class="scroll"><table id="cashflowTable"></table></div>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="sourceHeading">
+      <h2 id="sourceHeading">JavaScript 계산 코드</h2>
+      <p>아래 예제는 입력한 금리로 월 리스료와 현금흐름을 만들고, 월 IRR을 이분법으로 계산해 연 환산하는 핵심 구조입니다.</p>
+      <details>
+        <summary>코드 예제 펼쳐 보기</summary>
+        <pre><code>function calculateIRR(cashFlows) {
+  function npv(monthlyRate) {
+    return cashFlows.reduce(
+      (sum, cashFlow, month) => sum + cashFlow / (1 + monthlyRate) ** month,
+      0
+    );
+  }
+
+  let low = -0.9;
+  let high = 10;
+  const lowNpv = npv(low);
+  const highNpv = npv(high);
+  if (!Number.isFinite(lowNpv) || !Number.isFinite(highNpv) ||
+      (lowNpv > 0) === (highNpv > 0)) {
+    return null;
+  }
+
+  for (let i = 0; i &lt; 500; i++) {
+    const mid = (low + high) / 2;
+    if (npv(mid) > 0) low = mid;
+    else high = mid;
+  }
+  return (low + high) / 2;
+}</code></pre>
+      </details>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <strong>아이티해결단 (IT Solvers)</strong>
+      <span style="margin-left: 8px; opacity: 0.8;">| 단장 이혁</span>
+      <span style="margin-left: 8px; opacity: 0.8;">| 사업자등록번호 364-11-03265</span>
+    </div>
+  </footer>
+  <script>
+    const fieldIds = [
+      'vehiclePrice', 'annualRate', 'months', 'annualInsurance', 'annualTax',
+      'guaranteedRV', 'nonGuaranteedRV', 'insuranceMonth', 'taxMonth'
+    ];
+    const defaults = {
+      vehiclePrice: 50000000, annualRate: 5.5, months: 36, annualInsurance: 2100000,
+      annualTax: 1200000, guaranteedRV: 5000000, nonGuaranteedRV: 15000000,
+      insuranceMonth: 1, taxMonth: 6
+    };
+    const $ = id => document.getElementById(id);
+    const money = value => Math.round(value).toLocaleString('ko-KR') + '원';
+    const percent = value => (value * 100).toFixed(3) + '%';
+
+    function calculateIRR(cashFlows) {
+      function npv(monthlyRate) {
+        let sum = 0;
+        for (let month = 0; month < cashFlows.length; month++) {
+          sum += cashFlows[month] / Math.pow(1 + monthlyRate, month);
+        }
+        return sum;
+      }
+
+      let low = -0.9;
+      let high = 10;
+      const lowNpv = npv(low);
+      const highNpv = npv(high);
+      if (!Number.isFinite(lowNpv) || !Number.isFinite(highNpv) ||
+          (lowNpv > 0) === (highNpv > 0)) {
+        return null;
+      }
+
+      for (let i = 0; i < 500; i++) {
+        const mid = (low + high) / 2;
+        if (npv(mid) > 0) low = mid;
+        else high = mid;
+      }
+      return (low + high) / 2;
+    }
+
+    function calculateScenario(input, residualValue, label) {
+      const monthlyRate = input.annualRate / 100 / 12;
+      const monthlyLease = monthlyRate === 0
+        ? (input.vehiclePrice - residualValue) / input.months
+        : (input.vehiclePrice - residualValue / Math.pow(1 + monthlyRate, input.months)) *
+          monthlyRate / (1 - Math.pow(1 + monthlyRate, -input.months));
+      const monthlyInsuranceIn = input.annualInsurance / 12;
+      const monthlyTaxIn = input.annualTax / 12;
+      const cashFlows = new Array(input.months + 1).fill(0);
+      cashFlows[0] = -input.vehiclePrice;
+
+      for (let month = 1; month <= input.months; month++) {
+        cashFlows[month] += monthlyLease + monthlyInsuranceIn + monthlyTaxIn;
+        const monthOfYear = ((month - 1) % 12) + 1;
+        if (monthOfYear === input.insuranceMonth) cashFlows[month] -= input.annualInsurance;
+        if (monthOfYear === input.taxMonth) cashFlows[month] -= input.annualTax;
+      }
+      cashFlows[input.months] += residualValue;
+
+      const irrMonthly = calculateIRR(cashFlows);
+      const irrAnnual = irrMonthly === null ? null : Math.pow(1 + irrMonthly, 12) - 1;
+      return {
+        label,
+        monthlyLease,
+        monthlyInsuranceIn,
+        monthlyTaxIn,
+        residualValue,
+        cashFlows,
+        irrMonthly,
+        irrAnnual
+      };
+    }
+
+    function readInput() {
+      const values = Object.fromEntries(fieldIds.map(id => [id, Number($(id).value)]));
+      if (fieldIds.some(id => $(id).value.trim() === '') ||
+          Object.values(values).some(value => !Number.isFinite(value))) {
+        throw new Error('모든 계산 조건에 유효한 숫자를 입력해 주세요.');
+      }
+      if (values.vehiclePrice <= 0 || values.annualRate < 0 ||
+          !Number.isInteger(values.months) || values.months < 1 || values.months > 120 ||
+          values.annualInsurance < 0 || values.annualTax < 0 ||
+          values.guaranteedRV < 0 || values.guaranteedRV > values.vehiclePrice ||
+          values.nonGuaranteedRV < 0 || values.nonGuaranteedRV > values.vehiclePrice ||
+          !Number.isInteger(values.insuranceMonth) || values.insuranceMonth < 1 || values.insuranceMonth > 12 ||
+          !Number.isInteger(values.taxMonth) || values.taxMonth < 1 || values.taxMonth > 12) {
+        throw new Error('차량가격·기간·보험료·자동차세·잔가·납부 월 조건을 확인해 주세요.');
+      }
+      return values;
+    }
+
+    function renderCashflows(guaranteed, nonGuaranteed) {
+      const rows = [
+        ['<th>회차</th><th>보증잔가 기준 현금흐름</th><th>무보증잔가 기준 현금흐름</th>']
+      ];
+      for (let month = 0; month < guaranteed.cashFlows.length; month++) {
+        rows.push('<td>' + month + '</td><td>' + money(guaranteed.cashFlows[month]) +
+          '</td><td>' + money(nonGuaranteed.cashFlows[month]) + '</td>');
+      }
+      $('cashflowTable').innerHTML =
+        '<thead>' + rows[0].join('') + '</thead><tbody>' +
+        rows.slice(1).map(row => '<tr>' + row + '</tr>').join('') + '</tbody>';
+    }
+
+    function calculate() {
+      $('error').hidden = true;
+      $('output').hidden = true;
+      let input;
+      try {
+        input = readInput();
+      } catch (error) {
+        $('error').textContent = error.message;
+        $('error').hidden = false;
+        return;
+      }
+
+      const guaranteed = calculateScenario(input, input.guaranteedRV, '보증잔가');
+      const nonGuaranteed = calculateScenario(input, input.nonGuaranteedRV, '무보증잔가');
+      if (guaranteed.irrAnnual === null || nonGuaranteed.irrAnnual === null) {
+        $('error').textContent = '입력한 현금흐름에서 IRR을 계산할 수 없습니다. 금액과 기간을 확인해 주세요.';
+        $('error').hidden = false;
+        return;
+      }
+
+      $('guaranteedPayment').textContent = money(guaranteed.monthlyLease);
+      $('monthlyInsurance').textContent = money(guaranteed.monthlyInsuranceIn);
+      $('monthlyTax').textContent = money(guaranteed.monthlyTaxIn);
+      $('guaranteedIRR').textContent = percent(guaranteed.irrAnnual);
+      $('nonGuaranteedPayment').textContent = money(nonGuaranteed.monthlyLease);
+      $('monthlyInsurance2').textContent = money(nonGuaranteed.monthlyInsuranceIn);
+      $('monthlyTax2').textContent = money(nonGuaranteed.monthlyTaxIn);
+      $('nonGuaranteedIRR').textContent = percent(nonGuaranteed.irrAnnual);
+      renderCashflows(guaranteed, nonGuaranteed);
+      $('output').hidden = false;
+    }
+
+    $('calculateButton').addEventListener('click', calculate);
+    $('resetButton').addEventListener('click', () => {
+      for (const [id, value] of Object.entries(defaults)) $(id).value = value;
+      $('error').hidden = true;
+      $('output').hidden = true;
+    });
+    fieldIds.forEach(id => $(id).addEventListener('keydown', event => {
+      if (event.key === 'Enter') calculate();
+    }));
+    calculate();
+  </script>
+</body>
+</html>
