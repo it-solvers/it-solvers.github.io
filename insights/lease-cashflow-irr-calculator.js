@@ -249,10 +249,6 @@ if (typeof document !== 'undefined') {
     $('error').hidden = true;
     $('output').hidden = true;
   });
-  fieldIds.forEach(id => $(id).addEventListener('keydown', event => {
-    if (event.key === 'Enter') calculate();
-  }));
-  calculate();
 }
 
 if (typeof module !== 'undefined' && module.exports) {
