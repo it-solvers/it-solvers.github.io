@@ -1536,6 +1536,19 @@ body.lease-page {
     color: var(--lo-text);
 }
 
+.lease-overview .note.key-point {
+    padding: 16px 18px;
+    border-left: 4px solid var(--lo-accent, #2563eb);
+    background: var(--lo-accent-weak, #eef4ff);
+}
+
+.lease-overview .note.key-point strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1.1em;
+    color: var(--lo-accent, #2563eb);
+}
+
 body.lease-page footer .container span {
     margin-left: 8px;
     opacity: .8;
