@@ -1212,6 +1212,56 @@ body.lease-page {
     font-size: 16px;
 }
 
+.lease-overview h4 {
+    margin: 16px 0 6px;
+    font-size: 15px;
+    color: var(--lo-accent);
+}
+
+.lease-overview .lease-table-wrap {
+    margin: 8px 0;
+    overflow-x: auto;
+}
+
+.lease-overview .lease-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+.lease-overview .lease-table th,
+.lease-overview .lease-table td {
+    padding: 8px 10px;
+    border: 1px solid var(--lo-border, #d9e0ea);
+    text-align: left;
+}
+
+.lease-overview .lease-table th {
+    background: var(--lo-accent-weak);
+}
+
+.lease-overview .lease-table.num td:nth-child(2) {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.lease-overview .lease-table.compare {
+    table-layout: fixed;
+}
+
+.lease-overview .lease-table.compare th:first-child,
+.lease-overview .lease-table.compare td:first-child {
+    width: 16%;
+    font-weight: 700;
+    background: var(--lo-accent-weak);
+}
+
+.lease-overview .lease-table.compare td {
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+
 .lease-overview p {
     margin: 8px 0;
 }
@@ -1516,6 +1566,44 @@ body.lease-page footer .container span {
     .lease-overview > section.card,
     .lease-overview > nav.card {
         padding: 16px;
+    }
+
+    .lease-overview .lease-table.compare,
+    .lease-overview .lease-table.compare tbody,
+    .lease-overview .lease-table.compare tr,
+    .lease-overview .lease-table.compare td {
+        display: block;
+        width: 100%;
+    }
+
+    .lease-overview .lease-table.compare thead {
+        display: none;
+    }
+
+    .lease-overview .lease-table.compare tr {
+        margin-bottom: 12px;
+        border: 1px solid var(--lo-border, #d9e0ea);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .lease-overview .lease-table.compare td {
+        border: 0;
+        border-top: 1px solid var(--lo-border, #d9e0ea);
+    }
+
+    .lease-overview .lease-table.compare td:first-child {
+        width: 100%;
+        border-top: 0;
+    }
+
+    .lease-overview .lease-table.compare td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 2px;
+        color: var(--lo-accent);
+        font-size: 12px;
+        font-weight: 700;
     }
 }
 
