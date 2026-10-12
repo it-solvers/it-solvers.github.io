@@ -1165,3 +1165,368 @@ THEME TOGGLE MOBILE
     }
 
 }
+
+
+/* =========================
+   INSIGHT PAGE: 리스 개요
+   (기존 인사이트 계산기 페이지와 동일한 톤)
+========================= */
+
+body.lease-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f5f7fa;
+    line-height: 1.5;
+}
+
+.lease-overview {
+    --lo-text: #1f2933;
+    --lo-muted: #667085;
+    --lo-line: #dde3ea;
+    --lo-accent: #1d5fd1;
+    --lo-accent-weak: #e8f0fc;
+
+    flex: 1;
+    width: min(100% - 32px, 960px);
+    min-width: 0;
+    margin: 0 auto;
+    padding: 28px 0 48px;
+    color: var(--lo-text);
+    word-break: keep-all;
+}
+
+.lease-overview h1 {
+    margin: 0 0 6px;
+    font-size: clamp(22px, 4vw, 30px);
+    overflow-wrap: anywhere;
+}
+
+.lease-overview h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+}
+
+.lease-overview h3 {
+    margin: 20px 0 8px;
+    font-size: 16px;
+}
+
+.lease-overview p {
+    margin: 8px 0;
+}
+
+.lease-overview .sub,
+.lease-overview .note {
+    color: var(--lo-muted);
+    font-size: 13px;
+}
+
+.lease-overview > section.card,
+.lease-overview > nav.card {
+    min-width: 0;
+    margin-top: 16px;
+    padding: 20px;
+    border: 1px solid var(--lo-line);
+    border-radius: 10px;
+    background: #fff;
+    scroll-margin-top: 88px;
+}
+
+.lease-overview .toc {
+    display: block;
+    position: static;
+    gap: 0;
+    box-shadow: none;
+    font-size: inherit;
+    color: inherit;
+}
+
+.lease-overview .toc a {
+    display: inline;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+}
+
+.lease-overview .toc h2 {
+    font-size: 16px;
+}
+
+.lease-overview .toc ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: toc;
+    font-size: 14px;
+}
+
+.lease-overview .toc li {
+    counter-increment: toc;
+}
+
+.lease-overview .toc li::before {
+    content: counter(toc) ". ";
+    color: var(--lo-muted);
+}
+
+.lease-overview .toc a {
+    color: var(--lo-accent);
+    font-weight: 600;
+}
+
+.lease-overview .toc a:hover {
+    text-decoration: underline;
+}
+
+.lease-overview .definition {
+    margin: 12px 0 16px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--lo-accent);
+    border-radius: 0 8px 8px 0;
+    background: var(--lo-accent-weak);
+}
+
+.lease-overview .benefit-grid,
+.lease-overview .comparison,
+.lease-overview .lease-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.lease-overview .benefit,
+.lease-overview .lease-item {
+    padding: 16px;
+    border: 1px solid var(--lo-line);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.lease-overview .benefit-number {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: var(--lo-accent-weak);
+    color: var(--lo-accent);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.lease-overview .benefit h3,
+.lease-overview .lease-item h3 {
+    margin: 0 0 6px;
+}
+
+.lease-overview .benefit p,
+.lease-overview .lease-item p {
+    margin: 0;
+    color: var(--lo-muted);
+    font-size: 14px;
+}
+
+.lease-overview .lease-item .en {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--lo-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    overflow-wrap: anywhere;
+}
+
+.lease-overview .placeholder {
+    margin-top: 14px;
+    padding: 14px;
+    border: 1px dashed #cbd3dc;
+    border-radius: 8px;
+    color: var(--lo-muted);
+    font-size: 14px;
+}
+
+.lease-overview .placeholder strong {
+    color: var(--lo-text);
+}
+
+.lease-overview .type-panel {
+    padding: 16px;
+    border: 1px solid var(--lo-line);
+    border-radius: 8px;
+}
+
+.lease-overview .type-panel.finance {
+    background: var(--lo-accent-weak);
+    border-color: #c9dbf7;
+}
+
+.lease-overview .type-panel.operating {
+    background: #f5f7fa;
+}
+
+.lease-overview .type-panel h3 {
+    margin: 0 0 6px;
+}
+
+.lease-overview .type-panel p {
+    margin: 0;
+    color: var(--lo-muted);
+    font-size: 14px;
+}
+
+.lease-overview .criteria {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: criteria;
+}
+
+.lease-overview .criteria li {
+    position: relative;
+    margin: 10px 0;
+    padding: 12px 14px 12px 52px;
+    border: 1px solid var(--lo-line);
+    border-radius: 8px;
+    font-size: 14px;
+    counter-increment: criteria;
+}
+
+.lease-overview .criteria li::before {
+    content: counter(criteria);
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--lo-accent-weak);
+    color: var(--lo-accent);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.lease-overview .criteria strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 15px;
+}
+
+.lease-overview .formula {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #f0f3f7;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.lease-overview .change-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.lease-overview .flow-step {
+    display: grid;
+    place-items: center;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid var(--lo-line);
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.lease-overview .flow-arrow {
+    color: var(--lo-accent);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.lease-overview .flow-figure {
+    margin: 16px 0;
+    text-align: center;
+}
+
+.lease-overview .flow-figure img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--lo-line);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.lease-overview .flow-figure figcaption {
+    margin-top: 8px;
+    color: var(--lo-muted);
+    font-size: 13px;
+}
+
+.lease-overview .note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #f5f7fa;
+}
+
+.lease-overview .note strong {
+    color: var(--lo-text);
+}
+
+body.lease-page footer .container span {
+    margin-left: 8px;
+    opacity: .8;
+}
+
+@media (max-width: 760px) {
+    .lease-overview {
+        padding-top: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .lease-overview .benefit-grid,
+    .lease-overview .comparison,
+    .lease-overview .lease-list {
+        grid-template-columns: 1fr;
+    }
+
+    .lease-overview .change-flow {
+        grid-template-columns: 1fr;
+    }
+
+    .lease-overview .flow-arrow {
+        text-align: center;
+        transform: rotate(90deg);
+    }
+
+    .lease-overview > section.card,
+    .lease-overview > nav.card {
+        padding: 16px;
+    }
+}
+
+@media print {
+    body.lease-page header,
+    body.lease-page footer,
+    .lease-overview .toc {
+        display: none;
+    }
+
+    .lease-overview > section.card {
+        break-inside: avoid;
+    }
+}
