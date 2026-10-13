@@ -23,6 +23,9 @@
   <meta name="author" content="아이티해결단 (IT Solvers)">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
   <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
@@ -119,9 +122,12 @@
     .pdf-viewer summary { color: var(--accent); font-size: 15px; }
     .pdf-viewer iframe { display: block; width: 100%; height: min(75vh, 900px); min-height: 480px; margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; }
     .pdf-fallback { margin-bottom: 0; font-size: 13px; }
-    .source-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-    .source-links a { display: inline-block; padding: 9px 14px; border: 1px solid var(--accent); border-radius: 6px; color: var(--accent); font-weight: 600; }
-    .source-links a:hover, .source-links a:focus-visible { background: var(--accent-weak); }
+    .language-examples { display: grid; gap: 10px; margin-top: 16px; }
+    .language-examples details { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; }
+    .language-examples summary { padding: 12px 16px; color: var(--text); font-weight: 700; cursor: pointer; }
+    .language-examples .code-block { overflow: auto; max-height: 520px; margin: 0; padding: 16px; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: #f8f9fb; color: var(--text); cursor: copy; font-size: 14px; line-height: 1.7; white-space: pre; }
+    .language-examples .code-block:hover { background: var(--accent-weak); }
+    .copy-hint { margin: 0; padding: 8px 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
     pre { overflow: auto; padding: 14px; border-radius: 8px; background: #f5f7fa; font: 13px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
     code { overflow-wrap: anywhere; }
     .results { margin-top: 14px; }
@@ -131,8 +137,7 @@
       .grid, .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .actions { align-items: stretch; }
       .actions button { flex: 1 1 180px; }
-      .source-links { gap: 8px; }
-      .source-links a { overflow-wrap: anywhere; }
+      .language-examples .code-block { font-size: 12px; padding: 12px; }
     }
     @media (max-width: 520px) {
       .wrap { width: min(100% - 24px, 960px); padding-top: 18px; padding-bottom: 32px; }
@@ -143,8 +148,6 @@
       input, select { min-height: 44px; font-size: 16px; }
       .actions { flex-direction: column; }
       .actions button { width: 100%; flex-basis: auto; }
-      .source-links { flex-direction: column; }
-      .source-links a { text-align: center; }
       .pdf-viewer iframe { height: 60vh; min-height: 320px; }
       #cashflowHeading { font-size: 16px; }
       .cashflow-heading { align-items: flex-start; flex-direction: column; }
@@ -182,11 +185,23 @@
         </p>
       </details>
       <h3>Java·JavaScript·Python 구현 예제</h3>
-      <p>현재 페이지의 금리·현금흐름 계산 예제를 내려받을 수 있습니다.</p>
-      <div class="source-links" aria-label="프로그래밍 언어별 소스 코드 다운로드">
-        <a href="lease-cashflow-irr-calculator.java" download>Java 소스 다운로드</a>
-        <a href="lease-cashflow-irr-calculator.js" download>JavaScript 소스 다운로드</a>
-        <a href="lease-cashflow-irr-calculator.py" download>Python 소스 다운로드</a>
+      <p>현재 페이지의 금리·현금흐름 계산 예제입니다. 원하는 언어의 코드 보기를 열고 코드 영역을 클릭하면 전체 코드가 복사됩니다.</p>
+      <div class="language-examples" aria-label="프로그래밍 언어별 소스 코드">
+        <details data-src="lease-cashflow-irr-calculator.java">
+          <summary>Java 코드 보기</summary>
+          <pre class="code-block" tabindex="0" title="클릭하면 전체 코드가 복사됩니다"><code>불러오는 중…</code></pre>
+          <p class="copy-hint">코드를 클릭하면 전체가 복사됩니다.</p>
+        </details>
+        <details data-src="lease-cashflow-irr-calculator.js">
+          <summary>JavaScript 코드 보기</summary>
+          <pre class="code-block" tabindex="0" title="클릭하면 전체 코드가 복사됩니다"><code>불러오는 중…</code></pre>
+          <p class="copy-hint">코드를 클릭하면 전체가 복사됩니다.</p>
+        </details>
+        <details data-src="lease-cashflow-irr-calculator.py">
+          <summary>Python 코드 보기</summary>
+          <pre class="code-block" tabindex="0" title="클릭하면 전체 코드가 복사됩니다"><code>불러오는 중…</code></pre>
+          <p class="copy-hint">코드를 클릭하면 전체가 복사됩니다.</p>
+        </details>
       </div>
     </section>
 
@@ -255,5 +270,41 @@
     </div>
   </footer>
   <script src="lease-cashflow-irr-calculator.js" defer></script>
+  <script>
+    document.querySelectorAll('.language-examples details[data-src]').forEach(function (details) {
+      var code = details.querySelector('code');
+      var pre = details.querySelector('pre');
+      var hint = details.querySelector('.copy-hint');
+      var loaded = false;
+      details.addEventListener('toggle', function () {
+        if (!details.open || loaded) return;
+        loaded = true;
+        fetch(details.dataset.src).then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          return r.text();
+        }).then(function (text) {
+          code.textContent = text;
+        }).catch(function () {
+          loaded = false;
+          code.textContent = '코드를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+        });
+      });
+      pre.addEventListener('click', function () {
+        var selection = window.getSelection();
+        if (selection.toString()) return;
+        var range = document.createRange();
+        range.selectNodeContents(code);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        var done = function () { hint.textContent = '전체 코드가 복사되었습니다.'; };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(code.textContent).then(done, function () { document.execCommand('copy'); done(); });
+        } else {
+          document.execCommand('copy');
+          done();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

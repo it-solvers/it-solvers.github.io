@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <title>Back-Solve a Lease Payment from a Target IRR | IT Solvers</title>
+  <meta name="description" content="Estimate the base monthly lease payment that matches a target annualized cash-flow IRR, using a bisection search.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/en/insights/irr-to-rate-calculator.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/irr-to-rate-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/irr-to-rate-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/irr-to-rate-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="IT Solvers">
+  <meta property="og:title" content="Back-Solve a Lease Payment from a Target IRR | IT Solvers">
+  <meta property="og:description" content="Use a bisection search to estimate the lease payment that matches a target annualized cash-flow IRR.">
+  <meta property="og:url" content="https://itsolvers.co.kr/en/insights/irr-to-rate-calculator.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Back-Solve a Lease Payment from a Target IRR | IT Solvers">
+  <meta name="twitter:description" content="Estimate a lease payment for a target cash-flow IRR using a bisection method.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Target IRR Lease Payment Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "en",
+    "url": "https://itsolvers.co.kr/en/insights/irr-to-rate-calculator.html",
+    "description": "An illustrative calculator that uses bisection to estimate a lease payment for a target cash-flow IRR.",
+    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
+  }
+  </script>
+<link rel="stylesheet" href="../../css/styles.css">
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#fff; --text:#1f2933; --muted:#6b7785;
+    --line:#dde3ea; --accent:#1d5fd1; --accent-weak:#e8f0fc; --warn:#b42318;
+  }
+  *{box-sizing:border-box}
+  body{display:flex;flex-direction:column;min-height:100vh;margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.5}
+  .wrap{flex:1;max-width:960px;margin:0 auto;padding:24px 16px 48px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+  .card h2{font-size:16px;margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+  input,select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;
+    font-size:15px;background:#fff;color:var(--text)}
+  input:focus,select:focus{outline:2px solid var(--accent-weak);border-color:var(--accent)}
+  .hint{font-size:12px;color:var(--muted);margin-top:3px}
+  .btns{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  #cfScroll .cf-detail{display:none}
+  #cfScroll.show-details .cf-detail{display:table-cell}
+  #cfDetailsBtn{margin:0;padding:0;border:0;background:transparent;color:var(--accent);
+    font-size:12px;line-height:1.5;text-decoration:underline;text-underline-offset:2px;
+    white-space:nowrap}
+  #cfDetailsBtn:hover,#cfDetailsBtn:focus-visible{color:#174aa5}
+  button{padding:10px 18px;border-radius:6px;border:1px solid var(--accent);
+    background:var(--accent);color:#fff;font-size:15px;cursor:pointer}
+  button.ghost{background:#fff;color:var(--accent)}
+  .error{color:var(--warn);font-size:14px;margin-top:10px;display:none}
+  .result-main{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .stat{background:var(--accent-weak);border-radius:8px;padding:14px}
+  .stat .k{font-size:12px;color:var(--muted)}
+  .stat .v{font-size:20px;font-weight:700;margin-top:2px;word-break:keep-all}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child{text-align:center}
+  th{background:#f0f3f7;position:sticky;top:0}
+  .scroll{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:6px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px}
+  details summary{cursor:pointer;font-weight:600;font-size:14px}
+  .pdf-viewer{margin-top:16px}
+  .pdf-viewer summary{color:var(--accent);font-size:15px}
+  .pdf-viewer iframe{display:block;width:100%;height:min(75vh,900px);min-height:480px;
+    margin-top:12px;border:1px solid var(--line);border-radius:8px}
+  .pdf-fallback{margin-bottom:0;font-size:13px}
+  .language-examples{display:grid;gap:10px;margin-top:16px}
+  .language-examples details{overflow:hidden;border:1px solid var(--line);border-radius:8px}
+  .language-examples summary{padding:12px 16px;color:var(--text);font-weight:700;cursor:pointer}
+  .language-examples .code-block{overflow:auto;max-height:520px;margin:0;padding:16px;
+    border-top:1px solid var(--line);background:#f8f9fb;color:var(--text);cursor:copy;
+    font:14px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}
+  .language-examples .code-block:hover{background:var(--accent-weak)}
+  .copy-hint{margin:0;padding:8px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  @media (max-width:520px){.language-examples .code-block{font-size:12px;padding:12px}}
+  #result{display:none}
+  .language-link{font-size:13px;color:var(--muted);white-space:nowrap}
+  .language-link:hover,.language-link:focus-visible{color:var(--accent)}
+  .footer-company{display:flex;flex-direction:column;gap:0}
+  .footer-company strong{color:#fff}
+  .translation-note{font-size:11px;text-align:right;margin:0;align-self:center}
+  .translation-note a{text-decoration:underline}
+  @media(max-width:800px){.translation-note{text-align:left;align-self:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a href="../index.html" class="logo" title="Go to the IT Solvers home page">
+      <span class="logo-mark">
+        <img src="https://itsolvers.co.kr/images/logo.png" alt="IT Solvers logo">
+      </span>
+      <span class="logo-text">IT Solvers</span>
+    </a>
+    <a class="language-link" href="../../index.html" lang="ko">한국어</a>
+  </div>
+</header>
+<main class="wrap">
+  <h1>Back-Solve a Lease Payment from a Target IRR: Trial and Error and Bisection</h1>
+  <p class="sub">Learn how to find a base monthly lease payment for a target annualized IRR, how bisection narrows the search, and how the model handles vehicle price, residual value, insurance, and vehicle tax. Amounts are shown in U.S. dollars.</p>
+
+  <section class="card" aria-labelledby="irr-method-heading">
+    <h2 id="irr-method-heading">How the Target-IRR Back-Solve Works</h2>
+    <p>
+      IRR (internal rate of return) measures investment return using cash inflows and outflows over the contract term.
+      There is no simple closed-form formula for a monthly lease payment at a target IRR, so
+      the calculator uses a numerical search: it calculates the IRR for a candidate payment, compares it with the target, and adjusts the candidate.
+      Modeled cash flows include the vehicle price, monthly customer collections, the actual payment timing of insurance and vehicle tax, and the residual value at the end of the term.
+    </p>
+    <p>
+      The implied annual rate is recalculated from the resulting base lease payment and residual value.
+      Compare the target IRR with the calculated annualized IRR to verify the result.
+    </p>
+    <h3>Overall approach: trial and error</h3>
+    <p>
+      Assume a lease payment, calculate the IRR for that payment, and compare it with the target.
+      Adjust the payment and repeat until it approaches the target.
+    </p>
+    <h3>Specific algorithm: bisection method</h3>
+    <p>
+      Instead of making random adjustments, bisection is a systematic numerical search that halves the range containing the answer at each step.
+    </p>
+    <ol>
+      <li>Set the payment range from $0 to the vehicle price.</li>
+      <li>Use the midpoint as the candidate payment and calculate its annualized IRR.</li>
+      <li>If the calculated IRR is above the target, lower the upper bound because the payment is too high.</li>
+      <li>If the calculated IRR is below the target, raise the lower bound because the payment is too low.</li>
+      <li>Repeat the midpoint calculation 200 times as the range narrows.</li>
+    </ol>
+    <p>
+      <strong>In short:</strong> Trial and error is the overall iterative approach to finding a target value, while
+      bisection is the specific algorithm that halves the search range.
+      They are complementary concepts, not opposites.
+    </p>
+    <details class="pdf-viewer">
+      <summary>View the target-IRR payment cash-flow explanation (PDF)</summary>
+      <iframe src="../../insights/irr-to-rate-cal-flow.pdf#navpanes=0&view=FitH" title="Target-IRR payment cash-flow explanation" loading="lazy"></iframe>
+      <p class="pdf-fallback">
+        The diagram labels are in Korean. If the PDF is not displayed, <a href="../../insights/irr-to-rate-cal-flow.pdf" target="_blank" rel="noopener">open it in a new tab</a>.
+      </p>
+    </details>
+    <h3>Java, JavaScript, and Python implementation examples</h3>
+    <p>Open the v0.3 source code for the same IRR-based lease-payment calculation in your preferred language. Click the code to copy all of it.</p>
+    <p class="note">Annualized IRR is calculated as monthly IRR × 12, not effective annual compounding.</p>
+    <div class="language-examples" aria-label="Code examples by programming language">
+      <details data-src="irr-to-rate-calculator_v0.3.java">
+        <summary>View Java code</summary>
+        <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+        <p class="copy-hint">Click the code to copy all of it</p>
+      </details>
+      <details data-src="irr-to-rate-calculator_v0.3.js">
+        <summary>View JavaScript code</summary>
+        <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+        <p class="copy-hint">Click the code to copy all of it</p>
+      </details>
+      <details data-src="irr-to-rate-calculator_v0.3.py">
+        <summary>View Python code</summary>
+        <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+        <p class="copy-hint">Click the code to copy all of it</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="card">
+    <h2>Inputs</h2>
+    <div class="grid">
+      <div><label for="carPrice">Vehicle price ($)</label><input id="carPrice" type="text" inputmode="numeric" value="37,000"></div>
+      <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
+      <div><label for="targetIrr">Target ann. IRR (%)</label><input id="targetIrr" type="number" step="0.0001" value="3.7412"></div>
+      <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
+      <div><label for="guaranteed">Guaranteed residual value ($)</label><input id="guaranteed" type="text" inputmode="numeric" value="3,700"></div>
+      <div><label for="unguaranteed">Unguaranteed residual value ($)</label><input id="unguaranteed" type="text" inputmode="numeric" value="11,100"></div>
+      <div><label for="insurance">Ann. insurance ($)</label><input id="insurance" type="text" inputmode="numeric" value="1,554"></div>
+      <div><label for="carTax">Ann. vehicle tax ($)</label><input id="carTax" type="text" inputmode="numeric" value="888"></div>
+      <div>
+        <label for="deliveryMonth">Delivery month</label>
+        <select id="deliveryMonth"></select>
+        <div class="hint">Defaults to the current month. First-year vehicle tax is prorated from the delivery month through December.</div>
+      </div>
+    </div>
+    <div class="btns">
+      <button id="calcBtn" type="button">Calculate target payment</button>
+      <button id="resetBtn" type="button" class="ghost">Restore defaults</button>
+    </div>
+    <div id="error" class="error"></div>
+  </div>
+
+  <div id="result">
+    <div class="card">
+      <h2>Estimated results</h2>
+      <div class="result-main">
+        <div class="stat"><div class="k">Base monthly lease payment (rounded down to whole dollars)</div><div class="v" id="rPure"></div></div>
+        <div class="stat"><div class="k">Total monthly customer bill</div><div class="v" id="rTotal"></div></div>
+        <div class="stat"><div class="k">Target ann. IRR</div><div class="v" id="rTargetIrr"></div></div>
+        <div class="stat"><div class="k">Calculated ann. IRR</div><div class="v" id="rIrr"></div></div>
+        <div class="stat"><div class="k">Implied annual rate</div><div class="v" id="rImplicit"></div></div>
+      </div>
+      <p class="note" id="rNote"></p>
+    </div>
+
+    <div class="card">
+      <h2>Why is the total monthly lease billed to the customer higher?</h2>
+      <table id="billTable"></table>
+      <p class="note">
+        The base lease payment is the amount solved for to meet the target IRR.
+        Insurance and vehicle tax are paid upfront by the lessor to insurers or tax authorities, then collected from the customer in monthly installments, so
+        they are added to the base payment on the bill. Because payment timing differs from collection timing,
+        the difference is reflected in the cash flows and IRR.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Insurance and vehicle tax payment schedules</h2>
+      <div class="grid">
+        <div>
+          <strong style="font-size:14px">Insurance</strong>
+          <div class="scroll" style="max-height:220px"><table id="insTable"></table></div>
+        </div>
+        <div>
+          <strong style="font-size:14px">Vehicle tax</strong>
+          <div class="scroll" style="max-height:220px"><table id="taxTable"></table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h2 style="margin:0;">Monthly cash flows</h2>
+          <button id="cfDetailsBtn" type="button" aria-controls="cfTable" aria-expanded="false">Show details</button>
+        </div>
+        <span class="note" style="margin:0;">Amounts in USD</span>
+      </div>
+      <div class="scroll" id="cfScroll"><table id="cfTable"></table></div>
+      <p class="note">
+        Periods advance one month at a time from the selected delivery month in the current year.
+        Month 0 is the delivery date; (−) indicates cash paid by the lessor and (+) indicates cash received.
+        “Customer bill” is the base lease payment plus insurance and vehicle-tax collections; each component is shown separately in net cash flow.
+      </p>
+    </div>
+  </div>
+  <p class="note"><strong>For illustration only.</strong> Amounts are displayed in U.S. dollars, but the insurance and vehicle-tax timing assumptions are carried over from the Korean version. They are not U.S. GAAP, accounting, or tax rules, and this is not a financing quote or contractual payment.</p>
+</main>
+
+<!-- ===== Calculation logic (pure functions, separate from the UI) ===== -->
+<script id="core">
+/* CORE-START */
+function insurancePaymentSchedule(months, annualInsurance) {
+  const schedule = [];
+  for (let m = 0; m < months; m += 12) schedule.push({ month: m, amount: annualInsurance });
+  return schedule;
+}
+
+function vehicleTaxPaymentSchedule(deliveryMonth, months, annualVehicleTax) {
+  const schedule = [];
+  const firstYearRemainingMonths = 13 - deliveryMonth;
+  schedule.push({ month: 0, amount: annualVehicleTax * (firstYearRemainingMonths / 12) });
+  let d = firstYearRemainingMonths;
+  while (d < months) {
+    schedule.push({ month: d, amount: annualVehicleTax });
+    d += 12;
+  }
+  return schedule;
+}
+
+function calculateMonthlyIRR(cashflows) {
+  function npv(rate) {
+    let sum = 0;
+    for (let t = 0; t < cashflows.length; t++) sum += cashflows[t] / Math.pow(1 + rate, t);
+    return sum;
+  }
+  let low = -0.9, high = 10;
+  for (let i = 0; i < 500; i++) {
+    const mid = (low + high) / 2;
+    if (npv(mid) > 0) low = mid; else high = mid;
+  }
+  return (low + high) / 2;
+}
+
+function calculateLeasePayment(input) {
+  const { vehiclePrice, months, targetAnnualIRR, monthlyFee, guaranteedResidual, unguaranteedResidual, annualInsurance, annualVehicleTax, deliveryMonth } = input;
+  const residualValue = guaranteedResidual + unguaranteedResidual;
+  const monthlyInsurance = annualInsurance / 12;
+  const monthlyVehicleTax = annualVehicleTax / 12;
+
+  function preciseAnnualIRR(baseLeasePayment) {
+    const cf = new Array(months + 1).fill(0);
+    cf[0] -= vehiclePrice;
+    for (let t = 1; t <= months; t++) {
+      let v = baseLeasePayment + monthlyInsurance + monthlyVehicleTax - monthlyFee;
+      if (t === months) v += residualValue;
+      cf[t] += v;
+    }
+    for (const p of insurancePaymentSchedule(months, annualInsurance)) cf[p.month] -= p.amount;
+    for (const p of vehicleTaxPaymentSchedule(deliveryMonth, months, annualVehicleTax)) cf[p.month] -= p.amount;
+    return { annualIRR: calculateMonthlyIRR(cf) * 12, cashflows: cf };
+  }
+
+  function searchLeasePayment() {
+    let low = 0, high = vehiclePrice;
+    for (let i = 0; i < 200; i++) {
+      const mid = (low + high) / 2;
+      if (preciseAnnualIRR(Math.floor(mid)).annualIRR < targetAnnualIRR) low = mid; else high = mid;
+    }
+    return Math.floor((low + high) / 2);
+  }
+
+  function calculateEndingBalance(annualRate, leasePayment) {
+    const monthlyRate = annualRate / 12;
+    let balance = vehiclePrice;
+    for (let t = 1; t <= months; t++) balance = balance + Math.floor(balance * monthlyRate) - leasePayment;
+    return balance;
+  }
+
+  function searchImplicitRate(leasePayment) {
+    let low = -0.5, high = 1.0;
+    for (let i = 0; i < 200; i++) {
+      const mid = (low + high) / 2;
+      if (calculateEndingBalance(mid, leasePayment) < residualValue) low = mid; else high = mid;
+    }
+    return (low + high) / 2;
+  }
+
+  const baseLeasePayment = searchLeasePayment();
+  const result = preciseAnnualIRR(baseLeasePayment);
+  const impliedRate = searchImplicitRate(baseLeasePayment);
+  return {
+    baseLeasePayment,
+    totalMonthlyCustomerBill: baseLeasePayment + monthlyInsurance + monthlyVehicleTax,
+    monthlyInsurance, monthlyVehicleTax, residualValue,
+    verifiedAnnualIRR: result.annualIRR,
+    impliedRate,
+    verifiedEndingBalance: calculateEndingBalance(impliedRate, baseLeasePayment),
+    cashflows: result.cashflows,
+    insuranceSchedule: insurancePaymentSchedule(months, annualInsurance),
+    vehicleTaxSchedule: vehicleTaxPaymentSchedule(deliveryMonth, months, annualVehicleTax)
+  };
+}
+// Return monthly cash flows broken down by line item for display.
+function detailedCashFlows(input, r) {
+  const n = input.months;
+  const insurancePaidSchedule = new Array(n + 1).fill(0);
+  const vehicleTaxPayment = new Array(n + 1).fill(0);
+  r.insuranceSchedule.forEach(p => insurancePaidSchedule[p.month] += p.amount);
+  r.vehicleTaxSchedule.forEach(p => vehicleTaxPayment[p.month] += p.amount);
+  const rows = [];
+  for (let t = 0; t <= n; t++) {
+    const collected = t >= 1;
+    const item = {
+      leaseMonth: t,
+      vehiclePrice: t === 0 ? -input.vehiclePrice : 0,
+      insurancePayment: -insurancePaidSchedule[t],
+      vehicleTaxPayment: -vehicleTaxPayment[t],
+      fee: collected ? -input.monthlyFee : 0,
+      baseLeasePayment: collected ? r.baseLeasePayment : 0,
+      insuranceCollected: collected ? r.monthlyInsurance : 0,
+      vehicleTaxCollected: collected ? r.monthlyVehicleTax : 0,
+      residualValue: t === n ? r.residualValue : 0
+    };
+    item.customerBill = item.baseLeasePayment + item.insuranceCollected + item.vehicleTaxCollected;
+    item.netCashFlow = item.vehiclePrice + item.insurancePayment + item.vehicleTaxPayment + item.fee +
+      item.baseLeasePayment + item.insuranceCollected + item.vehicleTaxCollected + item.residualValue;
+    rows.push(item);
+  }
+  return rows;
+}
+/* CORE-END */
+</script>
+
+<!-- ===== UI handling ===== -->
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const won = n => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Math.round(n));
+  const pct = (n, d) => (n * 100).toFixed(d) + '%';
+
+  // Default the delivery month to the current system month.
+  const currentMonth = new Date().getMonth() + 1;
+  const sel = $('deliveryMonth');
+  for (let m = 1; m <= 12; m++) {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, m - 1));
+    if (m === currentMonth) o.selected = true;
+    sel.appendChild(o);
+  }
+
+  const moneyIds = ['carPrice', 'monthlyFee', 'guaranteed', 'unguaranteed', 'insurance', 'carTax'];
+  const parseMoney = s => Number(String(s).replace(/[^0-9.\-]/g, ''));
+  moneyIds.forEach(id => {
+    $(id).addEventListener('blur', () => {
+      const v = parseMoney($(id).value);
+      if (!isNaN(v)) $(id).value = v.toLocaleString('en-US');
+    });
+  });
+
+  const defaults = {
+    carPrice: '37,000', months: '36', targetIrr: '3.7412', monthlyFee: '0',
+    guaranteed: '3,700', unguaranteed: '11,100',
+    insurance: '1,554', carTax: '888', deliveryMonth: String(currentMonth)
+  };
+
+  function showError(msg) {
+    const e = $('error');
+    e.textContent = msg;
+    e.style.display = msg ? 'block' : 'none';
+  }
+
+  function tableHtml(head, rows) {
+    return '<tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr>' +
+      rows.map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('');
+  }
+
+  function detailTableHtml(head, rows, detailColumns) {
+    const cell = (tag, value, index) =>
+      '<' + tag + (detailColumns.includes(index) ? ' class="cf-detail"' : '') + '>' + value + '</' + tag + '>';
+    return '<tr>' + head.map((h, i) => cell('th', h, i)).join('') + '</tr>' +
+      rows.map(row => '<tr>' + row.map((value, i) => cell('td', value, i)).join('') + '</tr>').join('');
+  }
+
+  function run() {
+    showError('');
+    const input = {
+      vehiclePrice: parseMoney($('carPrice').value),
+      months: Number($('months').value),
+      targetAnnualIRR: Number($('targetIrr').value) / 100,
+      monthlyFee: parseMoney($('monthlyFee').value),
+      guaranteedResidual: parseMoney($('guaranteed').value),
+      unguaranteedResidual: parseMoney($('unguaranteed').value),
+      annualInsurance: parseMoney($('insurance').value),
+      annualVehicleTax: parseMoney($('carTax').value),
+      deliveryMonth: Number($('deliveryMonth').value)
+    };
+
+    for (const k in input) {
+      if (!isFinite(input[k])) { showError('Check this input: ' + k); return; }
+    }
+    if (input.vehiclePrice <= 0) { showError('Vehicle price must be greater than $0.'); return; }
+    if (!Number.isInteger(input.months) || input.months < 1 || input.months > 120) {
+      showError('Enter a whole-number lease term from 1 to 120 months.'); return;
+    }
+    if (input.guaranteedResidual + input.unguaranteedResidual > input.vehiclePrice) {
+      showError('Combined residual value cannot exceed the vehicle price.'); return;
+    }
+
+    const r = calculateLeasePayment(input);
+
+    $('rPure').textContent = won(r.baseLeasePayment);
+    $('rTotal').textContent = won(r.totalMonthlyCustomerBill);
+    $('rTargetIrr').textContent = pct(input.targetAnnualIRR, 4);
+    $('rIrr').textContent = pct(r.verifiedAnnualIRR, 4);
+    $('rImplicit').textContent = pct(r.impliedRate, 4);
+    $('rNote').textContent =
+      'Monthly insurance collected: ' + won(r.monthlyInsurance) + ' · monthly vehicle tax collected: ' + won(r.monthlyVehicleTax) +
+      ' · combined residual value: ' + won(r.residualValue) +
+      ' · ending balance at the implied rate: ' + won(r.verifiedEndingBalance) + ' (compared with residual value)';
+
+    $('insTable').innerHTML = tableHtml(['Lease month', 'Payment'],
+      r.insuranceSchedule.map(p => [p.month, won(p.amount)]));
+    $('taxTable').innerHTML = tableHtml(['Lease month', 'Payment'],
+      r.vehicleTaxSchedule.map(p => [p.month, won(p.amount)]));
+
+    $('billTable').innerHTML = tableHtml(['Item', 'Monthly amount', 'Description'], [
+      ['Base lease payment', won(r.baseLeasePayment), 'Solved to meet the target IRR'],
+      ['+ Monthly insurance', won(r.monthlyInsurance), 'Ann. insurance ' + won(input.annualInsurance) + ' ÷ 12'],
+      ['+ Monthly vehicle tax', won(r.monthlyVehicleTax), 'Ann. vehicle tax ' + won(input.annualVehicleTax) + ' ÷ 12'],
+      ['<strong>= Total monthly customer bill</strong>', '<strong>' + won(r.totalMonthlyCustomerBill) + '</strong>', 'Amount billed to the customer each month']
+    ]);
+
+    const formatAmount = v => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Math.round(v));
+    const formatCashflowAmount = v => v === 0 ? '-' : formatAmount(v);
+    const details = detailedCashFlows(input, r);
+    const baseYear = new Date().getFullYear();
+    const formatPeriod = period => {
+      const date = new Date(baseYear, input.deliveryMonth - 1 + period);
+      return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short' }).format(date);
+    };
+    $('cfTable').innerHTML = detailTableHtml(
+      ['Lease month', 'Year-month', 'Customer bill', 'Vehicle price (−)', 'Insurance paid (−)', 'Vehicle tax paid (−)',
+       'Fee (−)', 'Base lease payment (+)', 'Insurance collected (+)', 'Vehicle tax collected (+)', 'Residual value (+)', 'Net cash flow'],
+      details.map(x => [x.leaseMonth, formatPeriod(x.leaseMonth), formatCashflowAmount(x.customerBill), formatCashflowAmount(x.vehiclePrice),
+        formatCashflowAmount(x.insurancePayment), formatCashflowAmount(x.vehicleTaxPayment), formatCashflowAmount(x.fee),
+        formatCashflowAmount(x.baseLeasePayment), formatCashflowAmount(x.insuranceCollected), formatCashflowAmount(x.vehicleTaxCollected),
+        formatCashflowAmount(x.residualValue), formatAmount(x.netCashFlow)]),
+      [3, 4, 5, 6, 7, 8, 9, 10, 11]);
+
+    $('result').style.display = 'block';
+  }
+
+  $('calcBtn').addEventListener('click', run);
+  $('cfDetailsBtn').addEventListener('click', () => {
+    const expanded = $('cfDetailsBtn').getAttribute('aria-expanded') !== 'true';
+    $('cfScroll').classList.toggle('show-details', expanded);
+    $('cfDetailsBtn').setAttribute('aria-expanded', String(expanded));
+    $('cfDetailsBtn').textContent = expanded ? 'Show summary' : 'Show details';
+  });
+  $('resetBtn').addEventListener('click', () => {
+    $('carPrice').value = defaults.carPrice; $('months').value = defaults.months;
+    $('targetIrr').value = defaults.targetIrr; $('monthlyFee').value = defaults.monthlyFee;
+    $('guaranteed').value = defaults.guaranteed; $('unguaranteed').value = defaults.unguaranteed;
+    $('insurance').value = defaults.insurance; $('carTax').value = defaults.carTax;
+    $('deliveryMonth').value = defaults.deliveryMonth;
+    showError(''); $('result').style.display = 'none';
+  });
+  document.querySelectorAll('input').forEach(i =>
+    i.addEventListener('keydown', e => { if (e.key === 'Enter') run(); }));
+})();
+</script>
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-company"><strong>IT Solvers</strong><span>CEO Hyeok Lee</span><span>Biz. Reg. No. 364-11-03265</span></div>
+    <p class="translation-note">Translated with AI assistance. <a href="../../index.html">View the Korean original.</a></p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.language-examples details[data-src]').forEach(function (details) {
+    var code = details.querySelector('code');
+    var pre = details.querySelector('pre');
+    var hint = details.querySelector('.copy-hint');
+    var loaded = false;
+    details.addEventListener('toggle', function () {
+      if (!details.open || loaded) return;
+      loaded = true;
+      fetch(details.dataset.src).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      }).then(function (text) {
+        code.textContent = text;
+      }).catch(function () {
+        loaded = false;
+        code.textContent = 'Could not load the code.';
+      });
+    });
+    pre.addEventListener('click', function () {
+      var selection = window.getSelection();
+      if (selection.toString()) return;
+      var range = document.createRange();
+      range.selectNodeContents(code);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      var done = function () { hint.textContent = 'Entire code copied.'; };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code.textContent).then(done, function () { document.execCommand('copy'); done(); });
+      } else {
+        document.execCommand('copy');
+        done();
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -22,6 +22,9 @@
   <meta name="description" content="차량대금, 리스 기간, 연 금리와 만기 잔가를 입력해 월 리스료를 계산해 보세요. 보험료·자동차세·수수료를 제외한 기본 계산 결과를 제공합니다.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
   <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
@@ -241,6 +244,12 @@
       font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
       white-space: pre;
     }
+
+
+    .language-examples pre, .developer-formula pre { cursor: copy; }
+    .language-examples pre:hover, .developer-formula pre:hover { background: #eef2f7; }
+    .copy-hint { margin: 0; padding: 8px 16px; border-top: 1px solid #e8ebf0; font-size: 13px; color: #5b6475; }
+    .developer-formula .copy-hint { padding: 8px 0 0; border: 0; }
 
     @media (max-width: 760px) {
       .calculator-main {
@@ -546,6 +555,30 @@ const monthlyPayment = monthlyRate === 0
     Object.values(formFields).forEach(field => {
       field.addEventListener('keydown', event => {
         if (event.key === 'Enter') calculateLeasePayment();
+      });
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.language-examples pre, .developer-formula pre').forEach(function (pre) {
+      var hint = document.createElement('p');
+      hint.className = 'copy-hint';
+      hint.textContent = '코드를 클릭하면 전체가 복사됩니다.';
+      pre.title = '클릭하면 전체 코드가 복사됩니다';
+      pre.insertAdjacentElement('afterend', hint);
+      pre.addEventListener('click', function () {
+        var sel = getSelection();
+        if (sel.toString() && sel.toString() !== pre.textContent) return;
+        var text = pre.textContent;
+        var range = document.createRange();
+        range.selectNodeContents(pre);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        var done = function () { hint.textContent = '전체 코드가 복사되었습니다.'; };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done, function () { document.execCommand('copy') && done(); });
+        } else if (document.execCommand('copy')) {
+          done();
+        }
       });
     });
   </script>

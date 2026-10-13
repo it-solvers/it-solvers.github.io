@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lease Cash-Flow IRR Calculator | IT Solvers</title>
+  <meta name="description" content="Estimate an annualized cash-flow IRR from lease payments, residual value, insurance, vehicle tax, and their payment timing.">
+  <meta name="author" content="IT Solvers">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/en/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-cashflow-irr-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="IT Solvers">
+  <meta property="og:title" content="Lease Cash-Flow IRR Calculator | IT Solvers">
+  <meta property="og:description" content="Estimate a lease cash-flow IRR in U.S. dollars, including insurance and vehicle-tax payment timing.">
+  <meta property="og:url" content="https://itsolvers.co.kr/en/insights/lease-cashflow-irr-calculator.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lease Cash-Flow IRR Calculator | IT Solvers">
+  <meta name="twitter:description" content="Model lease receipts and insurance and vehicle-tax outflows to estimate annualized cash-flow IRR.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Lease Cash-Flow IRR Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "en",
+    "url": "https://itsolvers.co.kr/en/insights/lease-cashflow-irr-calculator.html",
+    "description": "An illustrative lease cash-flow IRR calculator that models insurance and vehicle-tax payment timing.",
+    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
+  }
+  </script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #fff;
+      --text: #1f2933;
+      --muted: #667085;
+      --line: #dde3ea;
+      --accent: #1d5fd1;
+      --accent-weak: #e8f0fc;
+      --warn: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { flex: 1; width: min(100% - 32px, 960px); min-width: 0; margin: 0 auto; padding: 28px 0 48px; }
+    h1 { margin: 0 0 6px; font-size: clamp(22px, 4vw, 30px); overflow-wrap: anywhere; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 20px 0 8px; font-size: 16px; }
+    p { margin: 8px 0; }
+    .sub, .note { color: var(--muted); font-size: 13px; }
+    .card { min-width: 0; margin-top: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+    .grid, .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 14px; }
+    label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 13px; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #cbd3dc; border-radius: 6px; color: var(--text); background: #fff; font: inherit; }
+    input:focus, select:focus { outline: 2px solid var(--accent-weak); border-color: var(--accent); }
+    .hint { margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    button { padding: 10px 16px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+    button.secondary { background: #fff; color: var(--accent); }
+    .error { margin-top: 12px; color: var(--warn); }
+    .result { padding: 14px; border-radius: 8px; background: var(--accent-weak); }
+    .result-label { color: var(--muted); font-size: 12px; }
+    .result-value { margin-top: 3px; font-size: clamp(17px, 2.5vw, 21px); font-weight: 700; overflow-wrap: anywhere; }
+    .scenario h3 { margin-top: 0; }
+    .scroll { min-width: 0; overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 6px; -webkit-overflow-scrolling: touch; }
+    #cfScroll .cf-detail { display: none; }
+    #cfScroll.show-details .cf-detail { display: table-cell; }
+    #cfDetailsBtn {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.5;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      white-space: nowrap;
+    }
+    #cfDetailsBtn:hover, #cfDetailsBtn:focus-visible { color: #174aa5; }
+    .cashflow-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .cashflow-heading-title { display: flex; align-items: center; gap: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th { position: sticky; top: 0; background: #f0f3f7; }
+    th:first-child, td:first-child { text-align: center; }
+    details summary { color: var(--accent); font-weight: 600; cursor: pointer; }
+    .pdf-viewer { margin-top: 16px; }
+    .pdf-viewer summary { color: var(--accent); font-size: 15px; }
+    .pdf-viewer iframe { display: block; width: 100%; height: min(75vh, 900px); min-height: 480px; margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; }
+    .pdf-fallback { margin-bottom: 0; font-size: 13px; }
+    .language-examples { display: grid; gap: 10px; margin-top: 16px; }
+    .language-examples details { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; }
+    .language-examples summary { padding: 12px 16px; color: var(--text); font-weight: 700; cursor: pointer; }
+    .language-examples .code-block { overflow: auto; max-height: 520px; margin: 0; padding: 16px; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: #f8f9fb; color: var(--text); cursor: copy; font-size: 14px; line-height: 1.7; white-space: pre; }
+    .language-examples .code-block:hover { background: var(--accent-weak); }
+    .copy-hint { margin: 0; padding: 8px 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    pre { overflow: auto; padding: 14px; border-radius: 8px; background: #f5f7fa; font: 13px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { overflow-wrap: anywhere; }
+    .results { margin-top: 14px; }
+    #output[hidden], #error[hidden] { display: none; }
+    .page-footer .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .company-details { display: flex; flex-direction: column; }
+    .company-details strong { color: #fff; }
+    .translation-note { margin: 0; font-size: 11px; text-align: right; }
+    .translation-note a { color: inherit; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, 960px); padding-top: 24px; }
+      .grid, .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .actions { align-items: stretch; }
+      .actions button { flex: 1 1 180px; }
+      .language-examples .code-block { font-size: 12px; padding: 12px; }
+    }
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 24px, 960px); padding-top: 18px; padding-bottom: 32px; }
+      h1 { font-size: clamp(21px, 7vw, 27px); }
+      h2 { font-size: 17px; }
+      .card { padding: 16px; }
+      .grid, .results { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      input, select { min-height: 44px; font-size: 16px; }
+      .actions { flex-direction: column; }
+      .actions button { width: 100%; flex-basis: auto; }
+      .pdf-viewer iframe { height: 60vh; min-height: 320px; }
+      #cashflowHeading { font-size: 16px; }
+      .cashflow-heading { align-items: flex-start; flex-direction: column; }
+      .page-footer .container { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .translation-note { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="Go to the IT Solvers English home page">
+        <span class="logo-mark"><img src="https://itsolvers.co.kr/images/logo.png" alt="IT Solvers logo"></span>
+        <span>IT Solvers</span>
+      </a>
+      <a href="../../index.html" lang="ko">한국어</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>Lease cash-flow IRR calculator</h1>
+    <p class="sub">Estimate a monthly lease payment and annualized IRR from modeled cash flows, including when insurance and vehicle tax are paid. All amounts are shown in U.S. dollars ($).</p>
+
+    <section class="card" aria-labelledby="howHeading">
+      <h2 id="howHeading">How it works</h2>
+      <ol>
+        <li>The calculator divides the annual rate by 12 and estimates the monthly lease payment using the combined guaranteed and non-guaranteed residual value at the end of the term.</li>
+        <li>Monthly cash flows include lease payments and the insurance and vehicle-tax amounts collected from the customer.</li>
+        <li>Insurance is modeled as a full annual payment at delivery and every 12 months afterward. Vehicle tax is prorated for the first year based on the delivery month, then paid annually.</li>
+        <li>It includes the vehicle-price outflow at delivery and the residual-value inflow at the end of the term. The monthly IRR is found by bisection so the cash flows' net present value equals zero, then annualized as <code>monthly IRR × 12</code>.</li>
+      </ol>
+      <p>The input rate is used to estimate the monthly payment. The cash-flow IRR is calculated separately using the actual modeled timing of insurance and vehicle-tax payments, so it may differ from the input rate.</p>
+      <p class="note">This is an illustrative cash-flow analysis based on the inputs you provide. It does not represent the accounting treatment or revenue recognition of any particular lease contract.</p>
+      <p class="note"><strong>U.S. guidance:</strong> The insurance and vehicle-tax payment timing assumptions come from the Korean version of this calculator. They are modeling assumptions—not U.S. GAAP or U.S. tax rules.</p>
+      <details class="pdf-viewer">
+        <summary>View the lease cash-flow and IRR explanation (PDF)</summary>
+        <iframe src="../../insights/lease-cashflow-irr-calc-flow.pdf#navpanes=0&amp;view=FitH" title="Lease cash-flow and IRR explanation PDF (diagram labels are in Korean)" loading="lazy"></iframe>
+        <p class="pdf-fallback">The diagram labels are in Korean. If the PDF is not displayed, <a href="../../insights/lease-cashflow-irr-calc-flow.pdf" target="_blank" rel="noopener">open it in a new tab</a>.</p>
+      </details>
+      <h3>Java, JavaScript, and Python examples</h3>
+      <p>These source files show the payment-timing and IRR implementation. Open a language to view its code, then click the code to copy it.</p>
+      <div class="language-examples" aria-label="Code examples by programming language">
+        <details data-src="lease-cashflow-irr-calculator.java">
+          <summary>View Java code</summary>
+          <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+          <p class="copy-hint">Click the code to copy all of it</p>
+        </details>
+        <details data-src="lease-cashflow-irr-calculator.example.js">
+          <summary>View JavaScript code</summary>
+          <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+          <p class="copy-hint">Click the code to copy all of it</p>
+        </details>
+        <details data-src="lease-cashflow-irr-calculator.py">
+          <summary>View Python code</summary>
+          <pre class="code-block" tabindex="0" title="Click the code to copy all of it"><code>Loading code…</code></pre>
+          <p class="copy-hint">Click the code to copy all of it</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="inputHeading">
+      <h2 id="inputHeading">Inputs</h2>
+      <div class="grid">
+        <div><label for="vehiclePrice">Vehicle price ($)</label><input id="vehiclePrice" type="text" inputmode="numeric" value="37,000"></div>
+        <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
+        <div><label for="annualRate">Annual rate (APR, %)</label><input id="annualRate" type="number" min="0" step="0.01" value="5.5"></div>
+        <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
+        <div><label for="annualInsurance">Ann. insurance ($)</label><input id="annualInsurance" type="text" inputmode="numeric" value="1,554"></div>
+        <div><label for="annualTax">Ann. vehicle tax ($)</label><input id="annualTax" type="text" inputmode="numeric" value="888"></div>
+        <div><label for="residualValue">End-of-term residual value ($)</label><input id="residualValue" type="text" inputmode="numeric" value="14,800"></div>
+        <div>
+          <label for="deliveryMonth">Delivery month</label>
+          <select id="deliveryMonth"></select>
+          <div class="hint">The first year's vehicle tax is prorated from the delivery month through December.</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="calculateButton" type="button">Calculate IRR</button>
+        <button id="resetButton" class="secondary" type="button">Restore defaults</button>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <div id="output" hidden>
+      <section class="card" aria-labelledby="resultHeading">
+        <h2 id="resultHeading">Results</h2>
+        <div class="grid">
+          <div class="result"><div class="result-label">Base monthly lease payment</div><div class="result-value" id="monthlyLeaseResult"></div></div>
+          <div class="result"><div class="result-label">Total monthly customer bill</div><div class="result-value" id="monthlyTotal"></div></div>
+          <div class="result"><div class="result-label">Monthly insurance collected</div><div class="result-value" id="monthlyInsurance"></div></div>
+          <div class="result"><div class="result-label">Monthly vehicle tax collected</div><div class="result-value" id="monthlyTax"></div></div>
+          <div class="result"><div class="result-label">Ann. cash-flow IRR</div><div class="result-value" id="annualIRR"></div></div>
+        </div>
+        <p class="note">
+          Total monthly customer bill = base monthly lease payment + monthly insurance collected + monthly vehicle tax collected.
+          The monthly fee is not added to the customer's bill; it is modeled as a monthly cash outflow when calculating IRR.
+        </p>
+        <p class="note" id="resultNote"></p>
+        <p class="note">Annualized IRR is monthly IRR × 12, matching the convention used by the Korean-language calculator. This is a nominal annualization, not an effective annual rate.</p>
+      </section>
+      <section class="card" aria-labelledby="cashflowHeading">
+        <div class="cashflow-heading">
+          <div class="cashflow-heading-title">
+            <h2 id="cashflowHeading" style="margin:0;">Monthly cash flow</h2>
+            <button id="cfDetailsBtn" type="button" aria-controls="cashflowTable" aria-expanded="false">Show details</button>
+          </div>
+          <span class="note" style="margin:0;">Amounts in USD</span>
+        </div>
+        <div class="scroll" id="cfScroll"><table id="cashflowTable"></table></div>
+        <p class="note">
+          Periods are shown one month apart, starting with the delivery month in the current year. Month 0 is the delivery date; negative amounts are cash outflows and positive amounts are cash inflows.
+          Customer receipts combine the base monthly lease payment with the monthly insurance and vehicle-tax amounts collected.
+        </p>
+      </section>
+    </div>
+  </main>
+  <footer class="page-footer">
+    <div class="container">
+      <div class="company-details">
+        <strong>IT Solvers</strong>
+        <span>CEO Hyeok Lee</span>
+        <span>Biz. Reg. No. 364-11-03265</span>
+      </div>
+      <p class="translation-note">Translated with AI assistance. <a href="../../index.html">View the Korean original.</a></p>
+    </div>
+  </footer>
+  <script src="lease-cashflow-irr-calculator.js" defer></script>
+  <script>
+    document.querySelectorAll('.language-examples details[data-src]').forEach(function (details) {
+      var code = details.querySelector('code');
+      var pre = details.querySelector('pre');
+      var hint = details.querySelector('.copy-hint');
+      var loaded = false;
+      details.addEventListener('toggle', function () {
+        if (!details.open || loaded) return;
+        loaded = true;
+        fetch(details.dataset.src).then(function (response) {
+          if (!response.ok) throw new Error(response.status);
+          return response.text();
+        }).then(function (text) {
+          code.textContent = text;
+        }).catch(function () {
+          loaded = false;
+          code.textContent = 'Could not load the code.';
+        });
+      });
+      pre.addEventListener('click', function () {
+        var selection = window.getSelection();
+        if (selection.toString()) return;
+        var range = document.createRange();
+        range.selectNodeContents(code);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        var done = function () { hint.textContent = 'Entire code copied.'; };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(code.textContent).then(done, function () { document.execCommand('copy'); done(); });
+        } else {
+          document.execCommand('copy');
+          done();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

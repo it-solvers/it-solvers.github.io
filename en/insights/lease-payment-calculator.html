@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lease Payment Calculator | IT Solvers</title>
+  <meta name="description" content="Estimate a monthly lease payment from the vehicle price, lease term, annual rate, and end-of-term residual value.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/en/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-payment-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-payment-calculator.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="IT Solvers">
+  <meta property="og:title" content="Lease Payment Calculator | IT Solvers">
+  <meta property="og:description" content="Estimate monthly lease payments in U.S. dollars from an asset price, term, annual rate, and residual value.">
+  <meta property="og:url" content="https://itsolvers.co.kr/en/insights/lease-payment-calculator.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lease Payment Calculator | IT Solvers">
+  <meta name="twitter:description" content="Estimate a monthly lease payment from the price, term, annual rate, and residual value.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Lease Payment Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "en",
+    "url": "https://itsolvers.co.kr/en/insights/lease-payment-calculator.html",
+    "description": "An illustrative calculator for estimating monthly lease payments in U.S. dollars.",
+    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
+  }
+  </script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .calculator-main {
+      flex: 1;
+      width: min(calc(100% - 32px), 960px);
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+
+    .calculator-main h1 {
+      margin: 0 0 8px;
+      color: #172033;
+      font-size: clamp(28px, 4vw, 36px);
+      letter-spacing: -1px;
+    }
+
+    .calculator-intro,
+    .calculator-note {
+      color: #667085;
+    }
+
+    .calculator-card {
+      min-width: 0;
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid #e8ebf0;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .calculator-grid,
+    .calculator-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 16px;
+    }
+
+    .calculator-field label {
+      display: block;
+      margin-bottom: 6px;
+      color: #475467;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .calculator-field input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      color: #172033;
+      font: inherit;
+    }
+
+    .calculator-field input:focus {
+      border-color: #2563eb;
+      outline: 2px solid #edf4ff;
+    }
+
+    .calculator-actions {
+      margin-top: 20px;
+    }
+
+    .calculator-button {
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .calculator-button:hover {
+      background: #1d4ed8;
+    }
+
+    .calculator-error {
+      margin-top: 12px;
+      color: #b42318;
+    }
+
+    .calculator-results {
+      margin-top: 24px;
+    }
+
+    .calculator-result {
+      padding: 18px;
+      border-radius: 10px;
+      background: #edf4ff;
+    }
+
+    .calculator-result-label {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .calculator-result-value {
+      margin-top: 4px;
+      color: #172033;
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .calculator-note {
+      margin: 18px 0 0;
+      font-size: 13px;
+    }
+
+    .formula-card h2 {
+      margin-top: 0;
+    }
+
+    .formula-equation {
+      display: block;
+      overflow-x: auto;
+      margin: 16px 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #f8f9fb;
+      color: #172033;
+      font-size: 15px;
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+
+    .formula-card p,
+    .formula-card li {
+      color: #475467;
+    }
+
+    .formula-card code {
+      overflow-wrap: anywhere;
+      color: #172033;
+    }
+
+    .developer-formula {
+      margin: 20px 0;
+      padding: 16px;
+      border: 1px solid #e8ebf0;
+      border-radius: 8px;
+      background: #f8f9fb;
+    }
+
+    .developer-formula h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .developer-formula pre {
+      overflow-x: auto;
+      margin: 0;
+      color: #172033;
+      font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .language-examples {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .language-examples details {
+      overflow: hidden;
+      border: 1px solid #e8ebf0;
+      border-radius: 8px;
+    }
+
+    .language-examples summary {
+      padding: 12px 16px;
+      color: #172033;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-examples pre {
+      overflow-x: auto;
+      margin: 0;
+      padding: 16px;
+      border-top: 1px solid #e8ebf0;
+      background: #f8f9fb;
+      color: #172033;
+      font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .language-link {
+      padding: 4px 10px;
+      border: 1px solid #d0d5dd;
+      border-radius: 999px;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .language-link:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    footer .footer-layout {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer .footer-company {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    footer .footer-company strong {
+      color: #fff;
+    }
+
+    footer .translation-note {
+      margin: 0;
+      max-width: 340px;
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    footer .translation-note a {
+      color: #d0d5dd;
+      text-decoration: underline;
+    }
+
+
+    .language-examples pre, .developer-formula pre { cursor: copy; }
+    .language-examples pre:hover, .developer-formula pre:hover { background: #eef2f7; }
+    .copy-hint { margin: 0; padding: 8px 16px; border-top: 1px solid #e8ebf0; font-size: 13px; color: #5b6475; }
+    .developer-formula .copy-hint { padding: 8px 0 0; border: 0; }
+
+    @media (max-width: 760px) {
+      .calculator-main {
+        padding: 28px 0;
+      }
+
+      .calculator-card {
+        margin-top: 16px;
+        padding: 20px;
+      }
+
+      .calculator-grid,
+      .calculator-results {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .developer-formula,
+      .formula-equation {
+        min-width: 0;
+      }
+
+      footer .footer-layout {
+        flex-direction: column;
+      }
+
+      footer .translation-note {
+        max-width: none;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .calculator-main {
+        width: min(calc(100% - 24px), 960px);
+        padding: 20px 0 32px;
+      }
+
+      .calculator-main h1 {
+        font-size: clamp(24px, 8vw, 32px);
+        letter-spacing: -0.7px;
+      }
+
+      .calculator-card {
+        padding: 16px;
+      }
+
+      .calculator-grid,
+      .calculator-results {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .calculator-field input {
+        min-height: 44px;
+        font-size: 16px;
+      }
+
+      .calculator-actions,
+      .calculator-button {
+        width: 100%;
+      }
+
+      .calculator-result {
+        padding: 14px;
+      }
+
+      .developer-formula {
+        margin: 16px 0;
+        padding: 12px;
+      }
+
+      .developer-formula pre,
+      .language-examples pre {
+        font-size: 12px;
+      }
+
+      .language-examples summary {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="Go to the IT Solvers home page">
+        <span class="logo-mark">
+          <img src="https://itsolvers.co.kr/images/logo.png" alt="IT Solvers logo">
+        </span>
+        <span>IT Solvers</span>
+      </a>
+      <div class="nav-right">
+        <a class="language-link" href="../../index.html" hreflang="ko" lang="ko">한국어</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="calculator-main">
+    <h1>Lease payment calculator</h1>
+    <p class="calculator-intro">
+      Enter the vehicle price, lease term, annual rate, and end-of-term residual value to estimate a monthly lease payment. Amounts are in U.S. dollars ($).
+    </p>
+
+    <section class="calculator-card formula-card" aria-labelledby="formulaHeading">
+      <h2 id="formulaHeading">Lease payment formula and the Excel/Google Sheets PMT function</h2>
+      <p>
+        Enter your assumptions and press the calculate button. The code below computes the monthly payment.
+      </p>
+      <div class="developer-formula">
+        <h3>Code that runs when you calculate the monthly payment</h3>
+        <pre><code>const monthlyRate = annualRate / 100 / 12;
+const monthlyPayment = monthlyRate === 0
+  ? (vehiclePrice - residualValue) / termMonths
+  : (vehiclePrice - residualValue / Math.pow(1 + monthlyRate, termMonths)) *
+    monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));</code></pre>
+
+      </div>
+      <h3>Java, JavaScript, and Python formula examples</h3>
+      <p>
+        These functions use the same monthly payment formula as the calculate button on this page.
+        Pass the annual rate as a percentage (for example, 5 means 5%), and enter the residual value as the sum of the guaranteed and unguaranteed residual values.
+      </p>
+      <div class="language-examples">
+        <details>
+          <summary>View Java code</summary>
+          <pre><code>static double calculateLeasePayment(
+    double vehiclePrice,
+    int termMonths,
+    double annualRatePercent,
+    double residualValue
+) {
+    double monthlyRate = annualRatePercent / 100.0 / 12.0;
+    if (monthlyRate == 0.0) {
+        return (vehiclePrice - residualValue) / termMonths;
+    }
+
+    return (vehiclePrice
+        - residualValue / Math.pow(1.0 + monthlyRate, termMonths))
+        * monthlyRate
+        / (1.0 - Math.pow(1.0 + monthlyRate, -termMonths));
+}</code></pre>
+        </details>
+        <details>
+          <summary>View JavaScript code</summary>
+          <pre><code>function calculateLeasePayment(
+  vehiclePrice,
+  termMonths,
+  annualRatePercent,
+  residualValue
+) {
+  const monthlyRate = annualRatePercent / 100 / 12;
+  if (monthlyRate === 0) {
+    return (vehiclePrice - residualValue) / termMonths;
+  }
+
+  return (vehiclePrice
+    - residualValue / Math.pow(1 + monthlyRate, termMonths))
+    * monthlyRate
+    / (1 - Math.pow(1 + monthlyRate, -termMonths));
+}</code></pre>
+        </details>
+        <details>
+          <summary>View Python code</summary>
+          <pre><code>def calculate_lease_payment(
+    vehicle_price,
+    term_months,
+    annual_rate_percent,
+    residual_value,
+):
+    monthly_rate = annual_rate_percent / 100 / 12
+    if monthly_rate == 0:
+        return (vehicle_price - residual_value) / term_months
+
+    return (
+        vehicle_price
+        - residual_value / (1 + monthly_rate) ** term_months
+    ) * monthly_rate / (1 - (1 + monthly_rate) ** -term_months)</code></pre>
+        </details>
+      </div>
+      <ul>
+        <li>If the annual rate is 0%, the monthly payment is (vehicle price − residual value) ÷ number of months.</li>
+      </ul>
+      <h3>Excel and Google Sheets PMT example</h3>
+      <p>For example, suppose A1 holds the vehicle price, A2 the lease term (months), A3 the annual rate (%), and A4 the end-of-term residual value:</p>
+      <code class="formula-equation">=PMT(A3/100/12, A2, -A1, A4)</code>
+      <p>
+        The vehicle price is entered as a negative number (<code>-A1</code>) because it is the amount financed today, and the residual value is entered as a positive number (<code>A4</code>) because it is recovered at the end of the term.
+        PMT assumes payments at the end of each month by default, and the formula above, like this calculator, uses one-twelfth of the annual rate as the monthly rate.
+        Payments due at the start of the month, or separate fees, insurance, and taxes, will change the result.
+      </p>
+    </section>
+
+    <section class="calculator-card" aria-labelledby="inputHeading">
+      <h2 id="inputHeading">Calculation inputs</h2>
+      <div class="calculator-grid">
+        <div class="calculator-field">
+          <label for="vehiclePrice">Vehicle price ($)</label>
+          <input id="vehiclePrice" type="number" min="1" step="100" value="37000">
+        </div>
+        <div class="calculator-field">
+          <label for="termMonths">Lease term (months)</label>
+          <input id="termMonths" type="number" min="1" max="120" step="1" value="36">
+        </div>
+        <div class="calculator-field">
+          <label for="annualRate">Annual rate (%)</label>
+          <input id="annualRate" type="number" min="0" step="0.01" value="5">
+        </div>
+        <div class="calculator-field">
+          <label for="residualValue">Residual value at end of term (guaranteed + unguaranteed, $)</label>
+          <input id="residualValue" type="number" min="0" step="100" value="11100">
+        </div>
+      </div>
+      <div class="calculator-actions">
+        <button class="calculator-button" id="calculateButton" type="button">Calculate monthly payment</button>
+      </div>
+      <p class="calculator-error" id="calculatorError" role="alert" hidden></p>
+
+      <div class="calculator-results" id="calculatorResults" aria-live="polite" hidden>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Monthly payment</div>
+          <div class="calculator-result-value" id="monthlyPayment"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Monthly principal (first month)</div>
+          <div class="calculator-result-value" id="monthlyPrincipal"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Monthly interest (first month)</div>
+          <div class="calculator-result-value" id="monthlyInterest"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Total payments</div>
+          <div class="calculator-result-value" id="totalPayments"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Total principal</div>
+          <div class="calculator-result-value" id="totalPrincipal"></div>
+        </div>
+        <div class="calculator-result">
+          <div class="calculator-result-label">Total interest</div>
+          <div class="calculator-result-value" id="totalInterest"></div>
+        </div>
+      </div>
+      <p class="calculator-note">
+        Monthly principal and interest are for the first month. Total principal is the amount repaid through the monthly payments (vehicle price − residual value),
+        and total interest is total payments minus total principal. The residual value is not included in total principal,
+        and this calculation does not represent income recognized under finance or operating lease accounting (K-IFRS). It is a simplified estimate for reference only and excludes insurance, vehicle taxes, fees, and other taxes.
+        This calculator displays amounts in U.S. dollars but is not a quote or financial advice, and it does not model U.S. lease conventions, U.S. taxes, or U.S. GAAP.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-layout">
+      <div class="footer-company">
+        <strong>IT Solvers</strong>
+        <span>CEO Hyeok Lee</span>
+        <span>Biz. Reg. No. 364-11-03265</span>
+      </div>
+      <p class="translation-note">Translated with AI assistance. <a href="../../index.html">View the Korean original.</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const formFields = {
+      vehiclePrice: document.getElementById('vehiclePrice'),
+      termMonths: document.getElementById('termMonths'),
+      annualRate: document.getElementById('annualRate'),
+      residualValue: document.getElementById('residualValue')
+    };
+    const errorMessage = document.getElementById('calculatorError');
+    const results = document.getElementById('calculatorResults');
+    const usdFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const formatUsd = value => usdFormatter.format(Math.round(value));
+
+    function calculateLeasePayment() {
+      errorMessage.hidden = true;
+      results.hidden = true;
+
+      const vehiclePrice = Number(formFields.vehiclePrice.value);
+      const termMonths = Number(formFields.termMonths.value);
+      const annualRate = Number(formFields.annualRate.value);
+      const residualValue = Number(formFields.residualValue.value);
+
+      if (Object.values(formFields).some(field => field.value.trim() === '') ||
+          ![vehiclePrice, termMonths, annualRate, residualValue].every(Number.isFinite)) {
+        errorMessage.textContent = 'Please fill in all inputs.';
+        errorMessage.hidden = false;
+        return;
+      }
+      if (vehiclePrice <= 0 || !Number.isInteger(termMonths) || termMonths < 1 || termMonths > 120 ||
+          annualRate < 0 || residualValue < 0 || residualValue > vehiclePrice) {
+        errorMessage.textContent = 'Check the vehicle price, term, rate, and residual value. The term must be 1–120 whole months, and the residual value cannot exceed the vehicle price.';
+        errorMessage.hidden = false;
+        return;
+      }
+
+      const monthlyRate = annualRate / 100 / 12;
+      const monthlyPayment = monthlyRate === 0
+        ? (vehiclePrice - residualValue) / termMonths
+        : (vehiclePrice - residualValue / Math.pow(1 + monthlyRate, termMonths)) *
+          monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
+      const monthlyInterest = vehiclePrice * monthlyRate;
+      const monthlyPrincipal = monthlyPayment - monthlyInterest;
+      const totalPayments = monthlyPayment * termMonths;
+      const totalPrincipal = vehiclePrice - residualValue;
+      const totalInterest = totalPayments - totalPrincipal;
+
+      document.getElementById('monthlyPayment').textContent = formatUsd(monthlyPayment);
+      document.getElementById('monthlyPrincipal').textContent = formatUsd(monthlyPrincipal);
+      document.getElementById('monthlyInterest').textContent = formatUsd(monthlyInterest);
+      document.getElementById('totalPayments').textContent = formatUsd(totalPayments);
+      document.getElementById('totalPrincipal').textContent = formatUsd(totalPrincipal);
+      document.getElementById('totalInterest').textContent = formatUsd(totalInterest);
+      results.hidden = false;
+    }
+
+    document.getElementById('calculateButton').addEventListener('click', calculateLeasePayment);
+    Object.values(formFields).forEach(field => {
+      field.addEventListener('keydown', event => {
+        if (event.key === 'Enter') calculateLeasePayment();
+      });
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.language-examples pre, .developer-formula pre').forEach(function (pre) {
+      var hint = document.createElement('p');
+      hint.className = 'copy-hint';
+      hint.textContent = 'Click the code to copy all of it.';
+      pre.title = 'Click to copy all of the code';
+      pre.insertAdjacentElement('afterend', hint);
+      pre.addEventListener('click', function () {
+        var sel = getSelection();
+        if (sel.toString() && sel.toString() !== pre.textContent) return;
+        var text = pre.textContent;
+        var range = document.createRange();
+        range.selectNodeContents(pre);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        var done = function () { hint.textContent = 'Entire code copied.'; };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done, function () { document.execCommand('copy') && done(); });
+        } else if (document.execCommand('copy')) {
+          done();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

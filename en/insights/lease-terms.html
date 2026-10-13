@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004" crossorigin="anonymous"></script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lease Terminology: Residual Value, Lease Payments &amp; IRR | IT Solvers</title>
+  <meta name="description" content="Plain-language explanations of 13 lease terms — purchase option, residual value, fair value, lease payments, IRR, deposits and more — with examples and calculator links.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <link rel="canonical" href="https://itsolvers.co.kr/en/insights/lease-terms.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-terms.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-terms.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-terms.html">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="IT Solvers">
+  <meta property="og:title" content="Lease Terminology: Residual Value, Lease Payments &amp; More | IT Solvers">
+  <meta property="og:description" content="A detailed plain-English guide to 13 lease and trade terms, including examples, formulas, accounting context, and calculator links.">
+  <meta property="og:url" content="https://itsolvers.co.kr/en/insights/lease-terms.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lease Terminology: Residual Value, Lease Payments &amp; More | IT Solvers">
+  <meta name="twitter:description" content="Definitions, examples, formulas, and calculator links for common lease and trade terms.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Lease Terminology",
+    "inLanguage": "en",
+    "description": "A detailed glossary of lease and trade terms with examples, formulas, and links to related calculators.",
+    "url": "https://itsolvers.co.kr/en/insights/lease-terms.html",
+    "mainEntityOfPage": "https://itsolvers.co.kr/en/insights/lease-terms.html",
+    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" },
+    "publisher": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
+  }
+  </script>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header"><div class="container nav"><a class="brand" href="../"><img src="../../images/logo.png" alt="">IT Solvers</a><a class="language-link" href="../../index.html">한국어</a></div></header>
+
+  <main class="lease-overview">
+    <h1>Lease Terminology</h1>
+    <p class="sub">
+      Commonly used lease terms explained in plain language with examples, so that developers new to lease systems can follow them.
+      Terms from the previous standard (K-IFRS 1017) are listed alongside the terms of the current standard (K-IFRS 1116).
+      Amounts in examples are illustrative U.S. dollar amounts ($).
+    </p>
+
+    <nav class="card toc" aria-label="Contents">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#purchase-option">Purchase option</a></li>
+        <li><a href="#residual-value">Residual value</a></li>
+        <li><a href="#fair-value">Fair value</a></li>
+        <li><a href="#lease-payments">Lease payments</a></li>
+        <li><a href="#idc">Initial direct costs</a></li>
+        <li><a href="#irr">Implicit interest rate (IRR)</a></li>
+        <li><a href="#weighted-rate">Weighted-average rate</a></li>
+        <li><a href="#investment">Gross and net investment in the lease</a></li>
+        <li><a href="#damages">Stipulated damages</a></li>
+        <li><a href="#deposit">Security deposit</a></li>
+        <li><a href="#advance">Long-term advance payment</a></li>
+        <li><a href="#return-delay">Late return charge</a></li>
+        <li><a href="#trade-terms">Trade and insurance terms</a></li>
+      </ol>
+    </nav>
+
+    <section class="card" id="purchase-option">
+      <h2>1. Purchase option <small>(formerly, bargain purchase option)</small></h2>
+      <div class="definition">
+        The right, at the end of the lease, for the lessee to <strong>buy the leased asset at a low price</strong>.
+      </div>
+      <p>
+        Suppose you lease a car for three years. Normally, after three years the car is returned to the leasing company, which sells it on the used-car market.
+        The lessee can instead be given a right of first purchase — "before you return it, you may buy that car if you wish." This is the bargain purchase option.
+      </p>
+      <h3>Why is this right needed? A step-by-step view</h3>
+      <ol class="criteria">
+        <li>
+          <strong>An operating lease ends with a return</strong>
+          When the lease term ends, the lessee returns the asset to the leasing company, which disposes of it by selling it on the secondary market.
+        </li>
+        <li>
+          <strong>The leasing company has already received most of its money</strong>
+          The leasing company has been receiving monthly lease payments. At signing, an amount is set for what the asset is expected to be worth at the end of the lease.
+          This is called the <strong>guaranteed RV</strong> (Residual Value). The leasing company can recover its investment even if it receives only the guaranteed RV when it disposes of the asset.
+        </li>
+        <li>
+          <strong>The lessee may want to buy the asset</strong>
+          For example, the lessee may want to keep using a well-maintained car. The right that lets the lessee take over the asset at a low (bargain) price is the bargain purchase option.
+        </li>
+        <li>
+          <strong>The problem: the lessee may not buy</strong>
+          A right granted at the end of the lease is a choice: the lessee may buy or not.
+          If the used-market price has by then fallen below the guaranteed RV, the lessee has no reason to buy at the higher price, and the burden and loss of selling fall on the leasing company.
+        </li>
+        <li>
+          <strong>The solution: fix it at signing</strong>
+          If the lease contract also states that "at the end of the lease, the lessee will certainly take over the asset at this price," the leasing company no longer bears disposal risk.
+          With no risk, the guaranteed RV can be set at or above market value, which can make the <strong>monthly lease payment as low as possible</strong>.
+        </li>
+        <li>
+          <strong>In that case, it is effectively "buying the asset in installments"</strong>
+          The lessee is using the lease as a financing tool — borrowing money to buy the asset.
+          That is why the former Korean accounting standard (K-GAAP No. 19) required a lease to be classified and accounted for as a <strong>finance lease</strong> when exercise of the bargain purchase option was certain.
+        </li>
+      </ol>
+      <div class="note">
+        <strong>Under the current standard (K-IFRS 1116)?</strong> The term has changed to "purchase option."
+        If the exercise price is sufficiently below fair value and, at inception, it is reasonably certain that the lessee will exercise it, the lessor may classify the lease as a finance lease.
+        If exercise is reasonably certain, the lessee reflects the exercise price in the lease liability and in its assessment of the lease term.
+      </div>
+    </section>
+
+    <section class="card" id="residual-value">
+      <h2>2. Residual value <small>(Residual Value, RV)</small></h2>
+      <div class="definition">
+        The amount you could <strong>receive by selling an asset</strong> after you have finished using it.
+      </div>
+      <p>
+        For example, if you expect that a machine bought for $22,000 could be sold used for $3,700 after five years of use, its residual value is $3,700.
+        Even a worthless piece of scrap can be sold as scrap metal; that amount is called scrap value or residual value.
+      </p>
+      <h3>Whether the amount is guaranteed</h3>
+      <div class="comparison">
+        <article class="type-panel finance">
+          <h3>Guaranteed residual value</h3>
+          <p>An amount for which someone promises: "if the actual value at the end of the lease is lower than this amount, the lessee will make up the shortfall." The leasing company can count on receiving this amount.</p>
+        </article>
+        <article class="type-panel operating">
+          <h3>Unguaranteed residual value</h3>
+          <p>A residual value that no one guarantees. If the asset actually sells for less than expected, the leasing company bears the loss.</p>
+        </article>
+      </div>
+      <h3>Points to note</h3>
+      <ul>
+        <li>
+          <strong>When the asset passes to the lessee:</strong> If there is a transfer-of-ownership clause, or the lessee is reasonably certain to exercise a purchase option, the leasing company cannot sell the asset after the lease ends.
+          The residual value in this case is therefore not included in the money the leasing company will receive (future cash flows).
+        </li>
+        <li>
+          <strong>If the value falls short of the guaranteed amount:</strong> When the actual value is lower than the guaranteed residual value, the lessee must pay the difference to the leasing company.
+          That is why the previous standard included the guaranteed residual value in minimum lease payments, while the current standard includes "the amount expected to be payable" in the lease liability.
+        </li>
+        <li>
+          <strong>Tax law basis:</strong> Tax law treats the residual value of tangible assets (machinery, vehicles, etc.) as up to 10% of the acquisition cost, and treats intangible assets (software, etc.) as having no residual value.
+          This may differ from the value estimated for accounting.
+        </li>
+      </ul>
+    </section>
+
+    <section class="card" id="fair-value">
+      <h2>3. Fair value <small>(Fair Value)</small></h2>
+      <div class="definition">
+        <strong>A reasonable price that a buyer and a seller can agree on without pressure on either side.</strong>
+      </div>
+      <p>
+        Think of it as the price that would arise when neither party is rushed or forced and both are well informed about the circumstances.
+        In leasing, it is used as of the date the lease is executed to set the price of the leased asset.
+      </p>
+      <h3>How the price is determined in lease practice</h3>
+      <ul>
+        <li><strong>When the leasing company is the manufacturer or dealer of the asset:</strong> the normal selling price, taking discounts into account</li>
+        <li>
+          <strong>When it is not the manufacturer or dealer</strong>
+          <ul>
+            <li>New asset: the <strong>acquisition cost</strong> stated in the lease contract (the price the leasing company actually paid)</li>
+            <li>Used asset: the market price if a market exists; otherwise the appraised value from a reputable appraisal firm</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="note">
+        <strong>Note:</strong> The definition and measurement of fair value follow K-IFRS 1113. The above is a general example of application in lease practice.
+      </div>
+    </section>
+
+    <section class="card" id="lease-payments">
+      <h2>4. Lease payments <small>(former term: minimum lease payments)</small></h2>
+      <div class="definition">
+        The money the lessee <strong>has to pay</strong> the leasing company during the lease term. You can think of it as the total of the familiar "monthly lease payments."
+      </div>
+      <p>
+        The previous standard called this "<strong>minimum</strong> lease payments." It meant the least the lessee had to pay, and only the portions that had to be paid were counted.
+        In the current standard the name has changed to <strong>lease payments</strong>, and its composition has changed somewhat.
+      </p>
+      <h3>Items included in lease payments under the current standard (from the lessee's perspective)</h3>
+      <ol class="criteria">
+        <li><strong>Fixed lease payments</strong> A fixed amount each month. Any incentive the leasing company agrees to give is deducted.</li>
+        <li><strong>Variable lease payments that depend on an index or rate</strong> For example, lease payments that rise with the consumer price index. They are calculated using the index at the commencement date.</li>
+        <li><strong>Amounts expected to be payable under residual value guarantees</strong> The shortfall described above.</li>
+        <li><strong>The exercise price of a purchase option</strong> Included only if the lessee is reasonably certain to buy.</li>
+        <li><strong>Penalties for terminating the lease</strong> Included if the lease term was determined on the basis that the lessee will terminate.</li>
+      </ol>
+      <div class="note">
+        <strong>Items excluded:</strong> Variable lease payments that are not based on an index or rate, such as those based on sales or usage (contingent rent), and service charges or taxes that the leasing company pays on the lessee's behalf and bills to the lessee, are generally excluded.
+        Check the text of the standard for detailed requirements.
+      </div>
+    </section>
+
+    <section class="card" id="idc">
+      <h2>5. Initial direct costs <small>(Initial Direct Costs)</small></h2>
+      <div class="definition">
+        Of the money <strong>that would not have been spent had this lease not been signed</strong>, the costs incurred directly in negotiating and executing the contract.
+      </div>
+      <p>Put simply, these are "fees and costs spent directly to win one contract." They fall into two broad groups.</p>
+      <ul>
+        <li>Costs <strong>paid to third parties</strong> in negotiating and executing the contract (e.g., brokerage fees, legal advisory fees)</li>
+        <li>Costs arising directly from <strong>specific internal activities</strong> performed because of this contract</li>
+      </ul>
+      <p>
+        As has long been the case, where the lessor is a manufacturer or dealer, its costs are generally not included in initial direct costs.
+        Under the current standard, the lessee includes them in the cost of the right-of-use asset, and the lessor includes them in the investment in a finance lease (net investment in the lease) and in the cost of an operating lease asset.
+      </p>
+    </section>
+
+    <section class="card" id="irr">
+      <h2>6. Implicit interest rate <small>(IRR: Internal Rate of Return)</small></h2>
+      <div class="definition">
+        The interest rate that makes the amount the leasing company invested <strong>exactly equal</strong> to the present value of the money it will receive.
+      </div>
+      <p>
+        If you invest 100 and receive 110 a year later, the rate of return is 10%. IRR generalizes this to cases where the money is received in several installments.
+        In lease calculations, it is used as the reference interest rate when computing lease payments.
+      </p>
+      <h3>As a formula</h3>
+      <p><span class="formula">Fair value + initial direct costs = present value of (lease payments + unguaranteed residual value)</span></p>
+      <ul>
+        <li>Left side: the money the leasing company spent (asset price + contract costs)</li>
+        <li>Right side: the money it will receive in future (lease payments, unguaranteed residual value), converted to present value</li>
+        <li>The discount rate that makes both sides equal is the implicit interest rate. It is the same as the discount rate at which the present values of cash inflows and cash outflows sum to <strong>NPV (net present value) = 0</strong>.</li>
+        <li>However, the costs of a manufacturer or dealer lessor are excluded from initial direct costs.</li>
+      </ul>
+      <h3>Worked example: an auto lease</h3>
+      <p>Using the auto lease below as an example, we first calculate the monthly lease payment and then find the IRR of that cash flow.</p>
+      <ul>
+        <li>Vehicle price: $37,000</li>
+        <li>Lease term: 36 months</li>
+        <li>Annual interest rate: 5.5% (monthly rate = 5.5% ÷ 12 ≈ 0.4583%)</li>
+        <li>Annual insurance: $0, annual automobile tax: $0, monthly fee: $0</li>
+        <li>Residual value at maturity: $14,800</li>
+      </ul>
+      <h4>Step 1. Calculate the monthly lease payment</h4>
+      <p>
+        The lease payment is calculated by dividing "the vehicle price minus the present value of the residual value received at maturity" so that it is repaid over 36 months.
+        Here i is the monthly rate and n is the lease term in months.
+      </p>
+      <p><span class="formula">Lease payment = (Vehicle price − Residual ÷ (1+i)<sup>n</sup>) ÷ [(1 − (1+i)<sup>−n</sup>) ÷ i]</span></p>
+      <p>Applying the conditions above gives a <strong>monthly lease payment of about $738</strong>.</p>
+      <p>
+        <a class="button-link" href="lease-payment-calculator.html" target="_blank" rel="noopener">Check it with the lease payment calculator ↗</a>
+      </p>
+      <h4>Check it yourself in Excel or Google Sheets (PMT function)</h4>
+      <p>In Excel and Google Sheets, the <code>PMT</code> function calculates the same lease payment. Enter the formula below into a cell as is.</p>
+      <p><span class="formula">=PMT(5.5%/12, 36, -37000, 14800, 0)</span></p>
+      <div class="lease-table-wrap">
+        <table class="lease-table">
+          <thead><tr><th>Argument</th><th>Example value</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>rate</td><td>5.5%/12</td><td>Interest rate per period. Because payments are monthly, divide the annual rate by 12.</td></tr>
+            <tr><td>nper</td><td>36</td><td>Total number of payments. Since payments are monthly, it equals the lease term in months.</td></tr>
+            <tr><td>pv</td><td>−37000</td><td>Present value, i.e., the vehicle price. Money leaves the leasing company, so enter it as a <strong>negative</strong> number.</td></tr>
+            <tr><td>fv</td><td>14800</td><td>The value remaining at maturity, i.e., the residual value. Money comes in, so enter it as a positive number.</td></tr>
+            <tr><td>type</td><td>0</td><td>Payment timing. 0 means <strong>end-of-month payment</strong>; 1 means beginning-of-month. Defaults to 0 if omitted.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The result is <strong>738.18…</strong>, the same as the roughly $738 calculated above.</p>
+      <div class="note">
+        <strong>If your result differs, check the following.</strong>
+        <ul>
+          <li><strong>Signs:</strong> If pv and fv have the same sign, you get a nonsensical value. Enter the vehicle price (pv) as negative and the residual value (fv) as positive. If you reverse the signs, the result is negative, but the magnitude is the same.</li>
+          <li><strong>rate:</strong> If you enter the annual rate without dividing by 12, the result is very different. nper must also be in months (36).</li>
+          <li><strong>type:</strong> Setting it to 1 (beginning-of-month payment) gives about $735. The calculator on this site uses end-of-month payment (0).</li>
+          <li><strong>Rounding:</strong> Depending on the cell format, it may display as 738. The actual value has decimals, and the calculator also computes internally without rounding.</li>
+          <li><strong>Insurance, automobile tax, fees:</strong> The PMT function has no such items. This example sets them all to 0, so the values match, but if they are not 0 the result may differ from the calculator.</li>
+        </ul>
+      </div>
+      <h4>Step 2. Build the cash flow</h4>
+      <p>From the leasing company's perspective, the cash outflows and inflows are as follows.</p>
+      <div class="lease-table-wrap">
+        <table class="lease-table num">
+          <thead><tr><th>Timing</th><th>Amount ($)</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Month 0 (lease execution)</td><td>−$37,000</td><td>Vehicle purchase (money goes out)</td></tr>
+            <tr><td>Months 1 to 35</td><td>+$738</td><td>Monthly lease payment received</td></tr>
+            <tr><td>Month 36 (maturity)</td><td>+$15,538</td><td>Final lease payment $738 + residual value $14,800</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>Step 3. Find the IRR</h4>
+      <p>This is the equation for finding the monthly IRR (r) at which the sum of the present values of the money received equals the $37,000 investment.</p>
+      <p>
+        <span class="formula">37,000 = 738/(1+r) + 738/(1+r)<sup>2</sup> + … + 738/(1+r)<sup>35</sup> + 15,538/(1+r)<sup>36</sup></span>
+      </p>
+      <ul>
+        <li>The denominator <code>(1+r)<sup>t</sup></code> discounts money received t months from now to its present value. The further in the future, the more it is discounted.</li>
+        <li>You can also treat the investment as −37,000 and say "all terms add up to 0." It is the same equation. This is NPV = 0.</li>
+      </ul>
+      <p>
+        The monthly IRR that satisfies this equation is about <strong>0.4583%</strong>, and multiplying by 12 to annualize gives <strong>5.50% per year</strong>.
+      </p>
+      <div class="note key-point">
+        <strong>💡 Why is it exactly the same as the 5.5% annual rate?</strong>
+        The lease payment was calculated using an annual rate of 5.5%, and there are <b>no other cash flows</b> such as insurance, automobile tax, or fees.
+        If you add amounts the leasing company pays on the lessee's behalf and collects back, such as insurance or automobile tax, the cash flow changes and the IRR can differ from the annual rate.
+      </div>
+      <h3>Implementing it in a program (trial and error)</h3>
+      <p>IRR cannot be solved directly with a single formula, so Excel also works by trying values and getting closer to the answer.</p>
+      <ol class="criteria">
+        <li><strong>Choose an initial value</strong> Start with an arbitrary IRR (e.g., 50%).</li>
+        <li><strong>Plug it in</strong> Using that IRR, calculate the present value of the money to be received and compare it with the investment.</li>
+        <li><strong>Adjust the value</strong> If the difference is large, raise or lower the IRR and calculate again. Repeat until the difference becomes very small.</li>
+        <li><strong>Limit the iterations</strong> Set a maximum number of iterations (e.g., 100) to prevent endless looping.</li>
+      </ol>
+      <p>
+        <a class="button-link" href="lease-cashflow-irr-calculator.html" target="_blank" rel="noopener">Check it with the lease cash-flow IRR calculator ↗</a>
+      </p>
+      <p>To reproduce the values in the example above, set <strong>annual insurance and annual automobile tax to 0</strong> in the calculator. A vehicle price of $37,000, a 36-month term, a 5.5% annual rate, and a $14,800 residual value at maturity are the same as the defaults.</p>
+      <div class="note">
+        <strong>Try it yourself:</strong> If you know the interest rate, also try the <a href="irr-to-rate-calculator.html">IRR-to-rate calculator</a>.
+      </div>
+    </section>
+
+    <section class="card" id="weighted-rate">
+      <h2>7. Weighted-average rate</h2>
+      <div class="definition">
+        An <strong>average interest rate</strong> calculated by giving more weight to the larger amounts.
+      </div>
+      <p>
+        When calculating acquisition cost and executing a lease, if several prepaid assets (funds paid in advance) carry different interest rates, they may be combined into a single reference rate.
+        This is not a simple average; the rates on larger principal amounts count for more.
+      </p>
+      <p><span class="formula">Weighted-average rate = Σ(prepaid asset principal × rate) ÷ Σ(prepaid asset principal) × 100</span></p>
+      <p>
+        Example: With $100,000 at 5% and $300,000 at 3%, the simple average is 4%, but the weighted average is
+        ($100,000 × 5 + $300,000 × 3) ÷ $400,000 = <strong>3.5%</strong>.
+      </p>
+    </section>
+
+    <section class="card" id="investment">
+      <h2>8. Gross and net investment in the lease</h2>
+      <div class="definition">
+        In a finance lease, the money the leasing company will receive, <strong>simply added up (gross investment)</strong> and <strong>converted to present value (net investment)</strong>.
+      </div>
+      <div class="comparison">
+        <article class="type-panel finance">
+          <h3>Gross investment in the lease</h3>
+          <p>The lease payments to be received plus the unguaranteed residual value, <strong>simply added together</strong>. The time value of money (interest) is not reflected.</p>
+        </article>
+        <article class="type-panel operating">
+          <h3>Net investment in the lease</h3>
+          <p>The gross investment <strong>discounted at the implicit interest rate</strong>. It corresponds to "the money the leasing company actually invested."</p>
+        </article>
+      </div>
+      <p><span class="formula">Net investment = present value of (lease payments + unguaranteed residual value) = fair value + initial direct costs</span></p>
+      <p>
+        In a finance lease, the leasing company records the net investment in its books as "money to be received (a receivable)."
+        The difference between gross and net investment is the money to be earned as interest in future (unearned finance income).
+      </p>
+    </section>
+
+    <section class="card" id="damages">
+      <h2>9. Stipulated damages</h2>
+      <div class="definition">
+        When the asset is destroyed or the contract ends early during the lease, <strong>money paid to compensate the leasing company's loss using a pre-agreed calculation method</strong>.
+      </div>
+      <p>
+        If the asset is lost or damaged beyond use during the lease term, or the lessee terminates the contract early, the leasing company does not receive the money it was due.
+        This amount is meant to make up that loss, and is interpreted either as damages for breach of contract fixed in advance or as a risk-bearing amount for loss of or damage to the asset fixed in advance.
+      </p>
+      <h3>Values the system must define</h3>
+      <ul>
+        <li><strong>Base amount:</strong> which to use as the base — unrecovered principal (principal not yet received), unrecovered principal and interest, or unexpired lease payments (lease payments for the period yet to come)</li>
+        <li><strong>Method:</strong> the general method or the weighted method</li>
+        <li><strong>Applicable rate:</strong> the rate set in the contract or terms and conditions</li>
+      </ul>
+    </section>
+
+    <section class="card" id="deposit">
+      <h2>10. Security deposit</h2>
+      <div class="definition">
+        Money <strong>placed with the leasing company at signing</strong> to cover the loss it would suffer if the lessee breaches the contract. It is returned when the lease ends.
+      </div>
+      <ul>
+        <li><strong>Amount:</strong> Agreed between the parties, but usually set according to the lessee's creditworthiness — less for good credit, more for low credit.</li>
+        <li><strong>Return:</strong> Returned to the lessee when the lease term ends.</li>
+        <li><strong>On early termination:</strong> Unpaid lease payments or stipulated damages are first offset against the deposit, and the remainder is returned.</li>
+      </ul>
+      <p>Example: If you place a deposit of $7,400, you get it back after 36 months regardless of the monthly lease payment. If you fail to pay a lease payment partway through, it can be offset against the deposit first.</p>
+      <div class="note">
+        <strong>Note:</strong> In accounting, a deposit is treated as a financial asset separate from the lease, and it may have to be measured at present value to reflect the time value of money. Check the text of the standard for details.
+      </div>
+    </section>
+
+    <section class="card" id="advance">
+      <h2>11. Long-term advance payment</h2>
+      <div class="definition">
+        Part of the lease payments that is <strong>paid in advance at signing</strong>. It is not returned; it is applied against the lease payments over the lease term.
+      </div>
+      <p>
+        "Advance payment" and "long-term advance payment" are treated as having the same meaning, and this page uses <strong>long-term advance payment</strong> throughout.
+        The word "long-term" is attached because the lease term is long, so the application continues for more than a year and part of the balance is recorded as a non-current liability.
+      </p>
+      <ul>
+        <li><strong>Monthly lease payment:</strong> It is deducted from the principal used to calculate lease payments, so <strong>the monthly lease payment decreases.</strong></li>
+        <li><strong>Is it returned?</strong> No. It is used up as lease payments over time.</li>
+        <li><strong>On early termination:</strong> The portion already applied to lease payments is not refunded; the remainder is handled according to the settlement rules.</li>
+      </ul>
+      <p>Example: If $7,400 of a $37,000 vehicle price is paid up front as a long-term advance payment, the monthly lease payment is calculated on the remaining $29,600.</p>
+      <h3>How a long-term advance payment is refunded</h3>
+      <p>When the remaining long-term advance payment must be returned on early termination or at maturity, it is settled in one of the following ways.</p>
+      <ul>
+        <li><strong>Lump-sum refund:</strong> returned all at once</li>
+        <li><strong>Equal refund:</strong> returned in equal amounts over a period</li>
+        <li><strong>Top-Down refund, Bottom-Up refund:</strong> returned in installments in a set order (largest amount first / smallest amount first)</li>
+      </ul>
+      <div class="note">
+        <strong>To confirm:</strong> The accounting classification of a long-term advance payment (current / non-current) and the detailed rules for refund methods may differ depending on the company's terms and the accounting standard.
+      </div>
+
+      <h3>Security deposit vs. long-term advance payment</h3>
+      <div class="lease-table-wrap">
+        <table class="lease-table compare">
+          <thead>
+            <tr><th>Item</th><th>Security deposit</th><th>Long-term advance payment</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>In one line</td>
+              <td data-label="Security deposit">Money <strong>placed</strong> to secure performance of the contract</td>
+              <td data-label="Long-term advance payment">Part of the lease payments <strong>paid in advance</strong></td>
+            </tr>
+            <tr>
+              <td>Is it returned?</td>
+              <td data-label="Security deposit">Yes. Returned when the lease ends</td>
+              <td data-label="Long-term advance payment">No. It is applied to lease payments and used up</td>
+            </tr>
+            <tr>
+              <td>Effect on the monthly lease payment</td>
+              <td data-label="Security deposit">None. The principal used to calculate lease payments is unchanged</td>
+              <td data-label="Long-term advance payment">Deducted from the calculation principal, so <strong>the monthly lease payment decreases</strong></td>
+            </tr>
+            <tr>
+              <td>On early termination</td>
+              <td data-label="Security deposit">Unpaid amounts and stipulated damages are offset, and the remainder is returned</td>
+              <td data-label="Long-term advance payment">The portion already used is not returned. The remainder follows the settlement rules</td>
+            </tr>
+            <tr>
+              <td>Refund method</td>
+              <td data-label="Security deposit">Returned when the lease ends</td>
+              <td data-label="Long-term advance payment">Lump sum, equal, Top-Down, Bottom-Up, etc.</td>
+            </tr>
+            <tr>
+              <td>Accounting nature</td>
+              <td data-label="Security deposit">Deposit received (liability) — separate from the lease</td>
+              <td data-label="Long-term advance payment">Long-term advance payment (liability, partly non-current)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="return-delay">
+      <h2>12. Late return charge</h2>
+      <div class="definition">
+        A <strong>penalty paid when the lessee is late</strong> returning the asset (mainly a vehicle) on the maturity date.
+      </div>
+      <p>
+        If the lessee unilaterally postpones the return, the leasing company suffers losses such as the following.
+      </p>
+      <ul>
+        <li>The cost of taking out insurance again that is unnecessary for a contract that has already ended</li>
+        <li>Additional risk and interest loss from being unable to sell the returned used car</li>
+      </ul>
+      <p>To compensate for this, the charge is calculated and collected for the number of days of delay as follows.</p>
+      <p><span class="formula">Late return charge = (lease payment ÷ 31) × days late × delay multiplier</span></p>
+      <p>Example: With a monthly lease payment of $459, a 5-day delay, and a delay multiplier of 200%, the charge is ($459 ÷ 31) × 5 × 2 = <strong>about $148</strong>.</p>
+      <div class="note">
+        <strong>Note:</strong> The delay multiplier (e.g., 200%) and the calculation method vary by company terms and contract.
+      </div>
+    </section>
+
+    <section class="card" id="trade-terms">
+      <h2>13. Trade and insurance terms</h2>
+      <p>Terms that often come up when leasing imported equipment or handling insurance for auto leases.</p>
+      <div class="lease-list">
+        <article class="lease-item">
+          <span class="en">LETTER OF CREDIT (L/C)</span>
+          <h3>Letter of credit</h3>
+          <p>
+            A guarantee in which a bank, at the request of an importer (or an overseas traveler), promises: "if this person cannot pay, we will take responsibility."
+            The exporter can worry less about not being paid.
+          </p>
+          <p>
+            Because the bank is liable within the guaranteed limit, it generally requires the applicant to deposit funds in advance, or to provide collateral such as securities or real estate, or a creditworthy guarantor.
+            The two main types are the traveler's letter of credit and the commercial letter of credit.
+          </p>
+        </article>
+        <article class="lease-item">
+          <span class="en">CARGO INSURANCE</span>
+          <h3>Cargo insurance</h3>
+          <p>
+            Insurance under which the insurer compensates economic loss to cargo if an accident occurs while it is carried by sea or air.
+            In return, the policyholder pays a premium.
+          </p>
+        </article>
+        <article class="lease-item">
+          <span class="en">LETTER OF GUARANTEE (L/G)</span>
+          <h3>Shipping letter of guarantee</h3>
+          <p>
+            Sometimes the ship arrives first and the cargo is unloaded, but documents such as the bill of lading have not yet reached the bank.
+            Without the bill of lading the cargo cannot be collected, so the importer may miss the chance to sell even with the cargo right in front of them.
+          </p>
+          <p>
+            In such cases, if the bank issues a guarantee to the shipping company stating "we take all responsibility," the cargo can be received before the documents arrive.
+            On receiving it, the shipping company gives the cargo owner a <strong>delivery order (D/O)</strong>, and the owner uses it to take delivery of the cargo from the ship or warehouse.
+          </p>
+        </article>
+        <article class="lease-item">
+          <span class="en">BILL OF LADING (B/L)</span>
+          <h3>Bill of lading</h3>
+          <p>
+            A document that certifies "this cargo has been loaded on (or received by) the ship" and promises to deliver the cargo at the destination.
+            It is issued, at the cargo owner's request, by the ship's master (in practice, the shipping company or its agent).
+          </p>
+          <p>
+            Whoever holds this document has the right to collect the cargo, and can transfer it to someone else by signing (endorsing) the back.
+            It has the same effect (rights in the goods and a claim) as a consignment receipt in land transport.
+          </p>
+        </article>
+        <article class="lease-item">
+          <span class="en">INSURANCE RENEWAL CANCELLATION</span>
+          <h3>Renewal cancellation (novation cancellation)</h3>
+          <p>
+            Cancelling an existing policy <strong>in order to take out a new one in its place</strong>. Because a new policy is taken out right away, there is almost no penalty, and the return premium is calculated only for the number of days actually covered.
+          </p>
+          <ul>
+            <li>When moving from prepaid insurance to execution-stage insurance</li>
+            <li>When renewing again before expiry after taking out execution-stage insurance</li>
+          </ul>
+        </article>
+        <article class="lease-item">
+          <span class="en">EARLY INSURANCE CANCELLATION</span>
+          <h3>Early insurance cancellation</h3>
+          <p>
+            Ending an insurance policy <strong>partway through the coverage period</strong>. Because the penalty is large, the return premium is calculated by applying the short-term premium rate.
+          </p>
+          <ul>
+            <li>When the asset has been sold or damaged and insurance is no longer needed</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-layout"><div class="footer-company"><strong>IT Solvers</strong><span>CEO Hyeok Lee</span><span>Biz. Reg. No. 364-11-03265</span></div><p class="translation-note">Translated with AI assistance. <a href="../../index.html">View the Korean original.</a></p></div></footer>
+</body>
+</html>
