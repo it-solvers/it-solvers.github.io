@@ -156,7 +156,13 @@
       .page-footer .container { align-items: flex-start; flex-direction: column; gap: 8px; }
       .translation-note { text-align: left; }
     }
-  </style>
+    input::placeholder { opacity: 0.5; }
+  .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 8px; }
+  .input-head-actions button { width: auto; margin: 0; padding: 6px 12px; font-size: 13px; }
+  .input-head-actions .calculator-example, .input-head-actions .calculator-clear { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
+</style>
 </head>
 <body>
   <header>
@@ -210,15 +216,15 @@
     </section>
 
     <section class="card" aria-labelledby="inputHeading">
-      <h2 id="inputHeading">Inputs</h2>
+      <div class="input-head"><h2 id="inputHeading">Calculation inputs</h2><div class="input-head-actions"><button id="fillExampleBtn" class="secondary" type="button">Fill example values</button><button id="resetButton" class="secondary" type="button">Clear inputs</button></div></div>
       <div class="grid">
-        <div><label for="vehiclePrice">Vehicle price ($)</label><input id="vehiclePrice" type="text" inputmode="numeric" value="37,000"></div>
-        <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
-        <div><label for="annualRate">Annual rate (APR, %)</label><input id="annualRate" type="number" min="0" step="0.01" value="5.5"></div>
-        <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
-        <div><label for="annualInsurance">Ann. insurance ($)</label><input id="annualInsurance" type="text" inputmode="numeric" value="1,554"></div>
-        <div><label for="annualTax">Ann. vehicle tax ($)</label><input id="annualTax" type="text" inputmode="numeric" value="888"></div>
-        <div><label for="residualValue">End-of-term residual value ($)</label><input id="residualValue" type="text" inputmode="numeric" value="14,800"></div>
+        <div><label for="vehiclePrice">Vehicle price ($)</label><input id="vehiclePrice" type="text" inputmode="numeric" placeholder="ex) 37,000"></div>
+        <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="ex) 36"></div>
+        <div><label for="annualRate">Annual rate (APR, %)</label><input id="annualRate" type="number" min="0" step="0.01" placeholder="ex) 5.5"></div>
+        <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="ex) 0"></div>
+        <div><label for="annualInsurance">Ann. insurance ($)</label><input id="annualInsurance" type="text" inputmode="numeric" placeholder="ex) 1,554"></div>
+        <div><label for="annualTax">Ann. vehicle tax ($)</label><input id="annualTax" type="text" inputmode="numeric" placeholder="ex) 888"></div>
+        <div><label for="residualValue">End-of-term residual value ($)</label><input id="residualValue" type="text" inputmode="numeric" placeholder="ex) 14,800"></div>
         <div>
           <label for="deliveryMonth">Delivery month</label>
           <select id="deliveryMonth"></select>
@@ -227,7 +233,6 @@
       </div>
       <div class="actions">
         <button id="calculateButton" type="button">Calculate IRR</button>
-        <button id="resetButton" class="secondary" type="button">Restore defaults</button>
       </div>
       <p id="error" class="error" role="alert" hidden></p>
     </section>
@@ -312,5 +317,12 @@
       });
     });
   </script>
+<script>
+  document.getElementById('fillExampleBtn').addEventListener('click', function () {
+    document.querySelectorAll('input[placeholder]').forEach(function (input) {
+      input.value = input.placeholder.replace(/^(예\)|ex\))\s*/, '');
+    });
+  });
+</script>
 </body>
 </html>

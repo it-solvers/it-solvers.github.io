@@ -150,7 +150,13 @@
       #cashflowHeading { font-size: 16px; }
       .cashflow-heading { align-items: flex-start; flex-direction: column; }
     }
-  </style>
+    input::placeholder { opacity: 0.5; }
+  .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 8px; }
+  .input-head-actions button { width: auto; margin: 0; padding: 6px 12px; font-size: 13px; }
+  .input-head-actions .calculator-example, .input-head-actions .calculator-clear { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
+</style>
 </head>
 <body>
   <header>
@@ -204,15 +210,15 @@
     </section>
 
     <section class="card" aria-labelledby="inputHeading">
-      <h2 id="inputHeading">계산 조건</h2>
+      <div class="input-head"><h2 id="inputHeading">계산 조건</h2><div class="input-head-actions"><button id="fillExampleBtn" class="secondary" type="button">예시 값 채우기</button><button id="resetButton" class="secondary" type="button">입력 지우기</button></div></div>
       <div class="grid">
-        <div><label for="vehiclePrice">차량가격 (원)</label><input id="vehiclePrice" type="text" inputmode="numeric" value="50,000,000"></div>
-        <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
-        <div><label for="annualRate">연 금리 (%)</label><input id="annualRate" type="number" min="0" step="0.01" value="5.5"></div>
-        <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
-        <div><label for="annualInsurance">연 보험료 (원)</label><input id="annualInsurance" type="text" inputmode="numeric" value="2,100,000"></div>
-        <div><label for="annualTax">연 자동차세 (원)</label><input id="annualTax" type="text" inputmode="numeric" value="1,200,000"></div>
-        <div><label for="residualValue">만기 잔가 합계 (보증+무보증, 원)</label><input id="residualValue" type="text" inputmode="numeric" value="20,000,000"></div>
+        <div><label for="vehiclePrice">차량가격 (원)</label><input id="vehiclePrice" type="text" inputmode="numeric" placeholder="예) 50,000,000"></div>
+        <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="예) 36"></div>
+        <div><label for="annualRate">연 금리 (%)</label><input id="annualRate" type="number" min="0" step="0.01" placeholder="예) 5.5"></div>
+        <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="예) 0"></div>
+        <div><label for="annualInsurance">연 보험료 (원)</label><input id="annualInsurance" type="text" inputmode="numeric" placeholder="예) 2,100,000"></div>
+        <div><label for="annualTax">연 자동차세 (원)</label><input id="annualTax" type="text" inputmode="numeric" placeholder="예) 1,200,000"></div>
+        <div><label for="residualValue">만기 잔가 합계 (보증+무보증, 원)</label><input id="residualValue" type="text" inputmode="numeric" placeholder="예) 20,000,000"></div>
         <div>
           <label for="deliveryMonth">인도월</label>
           <select id="deliveryMonth"></select>
@@ -221,7 +227,6 @@
       </div>
       <div class="actions">
         <button id="calculateButton" type="button">IRR 계산하기</button>
-        <button id="resetButton" class="secondary" type="button">초기값으로</button>
       </div>
       <p id="error" class="error" role="alert" hidden></p>
     </section>
@@ -304,5 +309,12 @@
       });
     });
   </script>
+<script>
+  document.getElementById('fillExampleBtn').addEventListener('click', function () {
+    document.querySelectorAll('input[placeholder]').forEach(function (input) {
+      input.value = input.placeholder.replace(/^(예\)|ex\))\s*/, '');
+    });
+  });
+</script>
 </body>
 </html>

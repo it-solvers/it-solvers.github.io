@@ -243,8 +243,7 @@ if (typeof document !== 'undefined') {
     $('cfDetailsBtn').textContent = expanded ? 'Hide details' : 'Show details';
   });
   $('resetButton').addEventListener('click', () => {
-    for (const [id, value] of Object.entries(defaults)) $(id).value = value;
-    moneyFieldIds.forEach(id => formatMoneyInput($(id)));
+    for (const id of fieldIds) $(id).value = id === 'deliveryMonth' ? defaults[id] : '';
     $('error').hidden = true;
     $('output').hidden = true;
   });

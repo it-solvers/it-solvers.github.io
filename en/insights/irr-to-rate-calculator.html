@@ -113,6 +113,12 @@
   .translation-note{font-size:11px;text-align:right;margin:0;align-self:center}
   .translation-note a{text-decoration:underline}
   @media(max-width:800px){.translation-note{text-align:left;align-self:flex-start}}
+  input::placeholder { opacity: 0.5; }
+  .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 8px; }
+  .input-head-actions button { width: auto; margin: 0; padding: 6px 12px; font-size: 13px; }
+  .input-head-actions .calculator-example, .input-head-actions .calculator-clear { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
 </style>
 </head>
 <body>
@@ -194,16 +200,16 @@
   </section>
 
   <div class="card">
-    <h2>Inputs</h2>
+    <div class="input-head"><h2>Calculation inputs</h2><div class="input-head-actions"><button id="fillExampleBtn" class="ghost" type="button">Fill example values</button><button id="resetBtn" class="ghost" type="button">Clear inputs</button></div></div>
     <div class="grid">
-      <div><label for="carPrice">Vehicle price ($)</label><input id="carPrice" type="text" inputmode="numeric" value="37,000"></div>
-      <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
-      <div><label for="targetIrr">Target ann. IRR (%)</label><input id="targetIrr" type="number" step="0.0001" value="3.7412"></div>
-      <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
-      <div><label for="guaranteed">Guaranteed residual value ($)</label><input id="guaranteed" type="text" inputmode="numeric" value="3,700"></div>
-      <div><label for="unguaranteed">Unguaranteed residual value ($)</label><input id="unguaranteed" type="text" inputmode="numeric" value="11,100"></div>
-      <div><label for="insurance">Ann. insurance ($)</label><input id="insurance" type="text" inputmode="numeric" value="1,554"></div>
-      <div><label for="carTax">Ann. vehicle tax ($)</label><input id="carTax" type="text" inputmode="numeric" value="888"></div>
+      <div><label for="carPrice">Vehicle price ($)</label><input id="carPrice" type="text" inputmode="numeric" placeholder="ex) 37,000"></div>
+      <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="ex) 36"></div>
+      <div><label for="targetIrr">Target ann. IRR (%)</label><input id="targetIrr" type="number" step="0.0001" placeholder="ex) 3.7412"></div>
+      <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="ex) 0"></div>
+      <div><label for="guaranteed">Guaranteed residual value ($)</label><input id="guaranteed" type="text" inputmode="numeric" placeholder="ex) 3,700"></div>
+      <div><label for="unguaranteed">Unguaranteed residual value ($)</label><input id="unguaranteed" type="text" inputmode="numeric" placeholder="ex) 11,100"></div>
+      <div><label for="insurance">Ann. insurance ($)</label><input id="insurance" type="text" inputmode="numeric" placeholder="ex) 1,554"></div>
+      <div><label for="carTax">Ann. vehicle tax ($)</label><input id="carTax" type="text" inputmode="numeric" placeholder="ex) 888"></div>
       <div>
         <label for="deliveryMonth">Delivery month</label>
         <select id="deliveryMonth"></select>
@@ -212,7 +218,6 @@
     </div>
     <div class="btns">
       <button id="calcBtn" type="button">Calculate target payment</button>
-      <button id="resetBtn" type="button" class="ghost">Restore defaults</button>
     </div>
     <div id="error" class="error"></div>
   </div>
@@ -451,6 +456,7 @@ function detailedCashFlows(input, r) {
 
   function run() {
     showError('');
+    if (['carPrice','months','targetIrr','monthlyFee','guaranteed','unguaranteed','insurance','carTax'].some(id => $(id).value.trim() === '')) { showError('Please fill in all fields.'); return; }
     const input = {
       vehiclePrice: parseMoney($('carPrice').value),
       months: Number($('months').value),
@@ -526,10 +532,7 @@ function detailedCashFlows(input, r) {
     $('cfDetailsBtn').textContent = expanded ? 'Show summary' : 'Show details';
   });
   $('resetBtn').addEventListener('click', () => {
-    $('carPrice').value = defaults.carPrice; $('months').value = defaults.months;
-    $('targetIrr').value = defaults.targetIrr; $('monthlyFee').value = defaults.monthlyFee;
-    $('guaranteed').value = defaults.guaranteed; $('unguaranteed').value = defaults.unguaranteed;
-    $('insurance').value = defaults.insurance; $('carTax').value = defaults.carTax;
+    ['carPrice','months','targetIrr','monthlyFee','guaranteed','unguaranteed','insurance','carTax'].forEach(id => { $(id).value = ''; });
     $('deliveryMonth').value = defaults.deliveryMonth;
     showError(''); $('result').style.display = 'none';
   });
@@ -577,6 +580,13 @@ function detailedCashFlows(input, r) {
         document.execCommand('copy');
         done();
       }
+    });
+  });
+</script>
+<script>
+  document.getElementById('fillExampleBtn').addEventListener('click', function () {
+    document.querySelectorAll('input[placeholder]').forEach(function (input) {
+      input.value = input.placeholder.replace(/^(예\)|ex\))\s*/, '');
     });
   });
 </script>

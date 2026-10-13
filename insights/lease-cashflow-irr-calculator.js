@@ -244,8 +244,7 @@ if (typeof document !== 'undefined') {
     $('cfDetailsBtn').textContent = expanded ? '간략히 보기' : '자세히 보기';
   });
   $('resetButton').addEventListener('click', () => {
-    for (const [id, value] of Object.entries(defaults)) $(id).value = value;
-    moneyFieldIds.forEach(id => formatMoneyInput($(id)));
+    for (const id of fieldIds) $(id).value = id === 'deliveryMonth' ? defaults[id] : '';
     $('error').hidden = true;
     $('output').hidden = true;
   });

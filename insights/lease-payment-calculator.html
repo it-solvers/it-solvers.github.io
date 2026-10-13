@@ -319,7 +319,16 @@
         padding: 12px;
       }
     }
-  </style>
+    input::placeholder { opacity: 0.5; }
+  .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 8px; }
+  .input-head-actions button { width: auto; margin: 0; padding: 6px 12px; font-size: 13px; }
+  .input-head-actions .calculator-example, .input-head-actions .calculator-clear { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
+  .calculator-example { background: #fff; color: #2563eb; border: 1px solid #2563eb; margin-left: 8px; }
+  .calculator-example:hover { background: #eff6ff; }
+  @media (max-width: 640px) { .calculator-example { margin: 8px 0 0; } }
+</style>
 </head>
 <body>
   <header>
@@ -429,23 +438,23 @@ const monthlyPayment = monthlyRate === 0
     </section>
 
     <section class="calculator-card" aria-labelledby="inputHeading">
-      <h2 id="inputHeading">계산 조건</h2>
+      <div class="input-head"><h2 id="inputHeading">계산 조건</h2><div class="input-head-actions"><button id="fillExampleBtn" class="calculator-button calculator-example" type="button">예시 값 채우기</button><button id="resetButton" class="calculator-button calculator-clear" type="button">입력 지우기</button></div></div>
       <div class="calculator-grid">
         <div class="calculator-field">
           <label for="vehiclePrice">차량대금 (원)</label>
-          <input id="vehiclePrice" type="number" min="1" step="10000" value="50000000">
+          <input id="vehiclePrice" type="number" min="1" step="10000" placeholder="예) 50000000">
         </div>
         <div class="calculator-field">
           <label for="termMonths">리스 기간 (개월)</label>
-          <input id="termMonths" type="number" min="1" max="120" step="1" value="36">
+          <input id="termMonths" type="number" min="1" max="120" step="1" placeholder="예) 36">
         </div>
         <div class="calculator-field">
           <label for="annualRate">연 금리 (%)</label>
-          <input id="annualRate" type="number" min="0" step="0.01" value="5">
+          <input id="annualRate" type="number" min="0" step="0.01" placeholder="예) 5">
         </div>
         <div class="calculator-field">
           <label for="residualValue">만기 잔가 (보증+무보증, 원)</label>
-          <input id="residualValue" type="number" min="0" step="10000" value="15000000">
+          <input id="residualValue" type="number" min="0" step="10000" placeholder="예) 15000000">
         </div>
       </div>
       <div class="calculator-actions">
@@ -550,6 +559,11 @@ const monthlyPayment = monthlyRate === 0
     }
 
     document.getElementById('calculateButton').addEventListener('click', calculateLeasePayment);
+    document.getElementById('resetButton').addEventListener('click', () => {
+      Object.values(formFields).forEach(field => { field.value = ''; });
+      errorMessage.hidden = true;
+      results.hidden = true;
+    });
     Object.values(formFields).forEach(field => {
       field.addEventListener('keydown', event => {
         if (event.key === 'Enter') calculateLeasePayment();
@@ -580,5 +594,12 @@ const monthlyPayment = monthlyRate === 0
       });
     });
   </script>
+<script>
+  document.getElementById('fillExampleBtn').addEventListener('click', function () {
+    document.querySelectorAll('input[placeholder]').forEach(function (input) {
+      input.value = input.placeholder.replace(/^(예\)|ex\))\s*/, '');
+    });
+  });
+</script>
 </body>
 </html>

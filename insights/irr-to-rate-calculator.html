@@ -117,6 +117,12 @@
   .copy-hint{margin:0;padding:8px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
   @media (max-width:520px){.language-examples .code-block{font-size:12px;padding:12px}}
   #result{display:none}
+  input::placeholder { opacity: 0.5; }
+  .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 8px; }
+  .input-head-actions button { width: auto; margin: 0; padding: 6px 12px; font-size: 13px; }
+  .input-head-actions .calculator-example, .input-head-actions .calculator-clear { background: #fff; color: #2563eb; border: 1px solid #2563eb; }
 </style>
 </head>
 <body>
@@ -196,16 +202,16 @@
   </section>
 
   <div class="card">
-    <h2>입력 조건</h2>
+    <div class="input-head"><h2>계산 조건</h2><div class="input-head-actions"><button id="fillExampleBtn" class="ghost" type="button">예시 값 채우기</button><button id="resetBtn" class="ghost" type="button">입력 지우기</button></div></div>
     <div class="grid">
-      <div><label for="carPrice">차량대금 (원)</label><input id="carPrice" type="text" inputmode="numeric" value="50,000,000"></div>
-      <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" value="36"></div>
-      <div><label for="targetIrr">목표 연 IRR (%)</label><input id="targetIrr" type="number" step="0.0001" value="3.7412"></div>
-      <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" value="0"></div>
-      <div><label for="guaranteed">보증잔가 (원)</label><input id="guaranteed" type="text" inputmode="numeric" value="5,000,000"></div>
-      <div><label for="unguaranteed">무보증잔가 (원)</label><input id="unguaranteed" type="text" inputmode="numeric" value="15,000,000"></div>
-      <div><label for="insurance">연 보험료 (원)</label><input id="insurance" type="text" inputmode="numeric" value="2,100,000"></div>
-      <div><label for="carTax">연 자동차세 (원)</label><input id="carTax" type="text" inputmode="numeric" value="1,200,000"></div>
+      <div><label for="carPrice">차량대금 (원)</label><input id="carPrice" type="text" inputmode="numeric" placeholder="예) 50,000,000"></div>
+      <div><label for="months">리스 기간 (개월)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="예) 36"></div>
+      <div><label for="targetIrr">목표 연 IRR (%)</label><input id="targetIrr" type="number" step="0.0001" placeholder="예) 3.7412"></div>
+      <div><label for="monthlyFee">월 수수료 (원)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="예) 0"></div>
+      <div><label for="guaranteed">보증잔가 (원)</label><input id="guaranteed" type="text" inputmode="numeric" placeholder="예) 5,000,000"></div>
+      <div><label for="unguaranteed">무보증잔가 (원)</label><input id="unguaranteed" type="text" inputmode="numeric" placeholder="예) 15,000,000"></div>
+      <div><label for="insurance">연 보험료 (원)</label><input id="insurance" type="text" inputmode="numeric" placeholder="예) 2,100,000"></div>
+      <div><label for="carTax">연 자동차세 (원)</label><input id="carTax" type="text" inputmode="numeric" placeholder="예) 1,200,000"></div>
       <div>
         <label for="deliveryMonth">인도월</label>
         <select id="deliveryMonth"></select>
@@ -214,7 +220,6 @@
     </div>
     <div class="btns">
       <button id="calcBtn" type="button">계산하기</button>
-      <button id="resetBtn" type="button" class="ghost">초기값으로</button>
     </div>
     <div id="error" class="error"></div>
   </div>
@@ -451,6 +456,7 @@ function 현금흐름상세(입력, r) {
 
   function run() {
     showError('');
+    if (['carPrice','months','targetIrr','monthlyFee','guaranteed','unguaranteed','insurance','carTax'].some(id => $(id).value.trim() === '')) { showError('모든 입력값을 입력해 주세요.'); return; }
     const 입력 = {
       차량대금: parseMoney($('carPrice').value),
       개월수: Number($('months').value),
@@ -525,10 +531,7 @@ function 현금흐름상세(입력, r) {
     $('cfDetailsBtn').textContent = expanded ? '간략히 보기' : '자세히 보기';
   });
   $('resetBtn').addEventListener('click', () => {
-    $('carPrice').value = defaults.carPrice; $('months').value = defaults.months;
-    $('targetIrr').value = defaults.targetIrr; $('monthlyFee').value = defaults.monthlyFee;
-    $('guaranteed').value = defaults.guaranteed; $('unguaranteed').value = defaults.unguaranteed;
-    $('insurance').value = defaults.insurance; $('carTax').value = defaults.carTax;
+    ['carPrice','months','targetIrr','monthlyFee','guaranteed','unguaranteed','insurance','carTax'].forEach(id => { $(id).value = ''; });
     $('deliveryMonth').value = defaults.deliveryMonth;
     showError(''); $('result').style.display = 'none';
   });
@@ -576,6 +579,13 @@ function 현금흐름상세(입력, r) {
         document.execCommand('copy');
         done();
       }
+    });
+  });
+</script>
+<script>
+  document.getElementById('fillExampleBtn').addEventListener('click', function () {
+    document.querySelectorAll('input[placeholder]').forEach(function (input) {
+      input.value = input.placeholder.replace(/^(예\)|ex\))\s*/, '');
     });
   });
 </script>
