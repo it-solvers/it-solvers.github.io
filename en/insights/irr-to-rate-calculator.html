@@ -114,6 +114,8 @@
   .translation-note a{text-decoration:underline}
   @media(max-width:800px){.translation-note{text-align:left;align-self:flex-start}}
   input::placeholder { opacity: 0.5; }
+  .next-steps ul { margin: 8px 0 0; padding-left: 20px; }
+  .next-steps li { margin: 6px 0; }
   .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .input-head h2 { margin: 0; }
   .input-head-actions { display: flex; gap: 8px; }
@@ -277,6 +279,10 @@
     </div>
   </div>
   <p class="note"><strong>For illustration only.</strong> Amounts are displayed in U.S. dollars, but the insurance and vehicle-tax timing assumptions are carried over from the Korean version. They are not U.S. GAAP, accounting, or tax rules, and this is not a financing quote or contractual payment.</p>
+  <section class="card next-steps" aria-labelledby="nextStepsHeading">
+    <h2 id="nextStepsHeading">Keep exploring</h2>
+    <ul><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Compute IRR from cash flows including insurance and vehicle tax.</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate and residual.</li><li><a href="lease-terms.html"><strong>Lease Terminology</strong></a> — Residual value, lease payments and IRR explained</li><li><a href="lease-overview.html"><strong>Lease Overview</strong></a> — K-IFRS 1116, classification and types</li></ul>
+  </section>
 </main>
 
 <!-- ===== Calculation logic (pure functions, separate from the UI) ===== -->

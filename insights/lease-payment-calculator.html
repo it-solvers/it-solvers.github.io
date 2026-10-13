@@ -320,6 +320,8 @@
       }
     }
     input::placeholder { opacity: 0.5; }
+  .next-steps ul { margin: 8px 0 0; padding-left: 20px; }
+  .next-steps li { margin: 6px 0; }
   .input-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .input-head h2 { margin: 0; }
   .input-head-actions { display: flex; gap: 8px; }
@@ -495,6 +497,10 @@ const monthlyPayment = monthlyRate === 0
       </p>
     </section>
 
+  <section class="calculator-card next-steps" aria-labelledby="nextStepsHeading">
+    <h2 id="nextStepsHeading">다음에 해볼 만한 것</h2>
+    <ul><li><a href="irr-to-rate-calculator.html"><strong>목표 IRR 금리 역산 계산기</strong></a> — 목표 IRR에 맞는 월 리스료를 역산합니다.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>리스 현금흐름 IRR 계산기</strong></a> — 보험료·자동차세를 반영한 현금흐름으로 IRR을 계산합니다.</li><li><a href="lease-terms.html"><strong>리스 용어 정리</strong></a> — 잔존가치·내재이자율·리스료 등 핵심 용어</li><li><a href="lease-overview.html"><strong>리스 개요</strong></a> — K-IFRS 제1116호·리스 분류·종류</li></ul>
+  </section>
   </main>
 
   <footer>
