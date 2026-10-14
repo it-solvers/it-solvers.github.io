@@ -477,6 +477,75 @@ section {
     max-width: 950px;
 }
 
+.history-group-title {
+    margin: 32px 0 14px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #475467;
+}
+
+.history-group-title:first-of-type {
+    margin-top: 8px;
+}
+
+html.dark-mode .history-group-title {
+    color: #98a2b3;
+}
+
+.insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+    max-width: 950px;
+}
+
+.insight-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 24px;
+    background: white;
+    border: 1px solid #e8ebf0;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.insight-card:hover,
+.insight-card:focus-visible {
+    border-color: var(--site-accent);
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.1);
+}
+
+.insight-card h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.insight-card p {
+    margin: 0;
+    color: #475467;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+html.dark-mode .insight-card {
+    background: #172033;
+    border-color: #2b3648;
+}
+
+html.dark-mode .insight-card h3 {
+    color: #f2f4f7;
+}
+
+html.dark-mode .insight-card p {
+    color: #98a2b3;
+}
+
 .history-item {
     display: flex;
     flex-direction: column;
