@@ -1724,3 +1724,6 @@ body.lease-page footer .container span {
         break-inside: avoid;
     }
 }
+
+.next-steps ul { margin: 8px 0 0; padding-left: 20px; }
+.next-steps li { margin: 6px 0; }
