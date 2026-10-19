@@ -1,8 +1,9 @@
 <!doctype html>
 <!--
   전자계약서 소개 페이지 (2026-10-19, 이혁 님 요청: 사용자 매뉴얼보다 소개 페이지, 보는 사람은 공급인 기준)
-  - 앱(web/, backend/)과 완전히 분리된 정적 페이지다. 서버나 DB가 필요 없다. 로고까지 파일 안에 들어 있어서 이 HTML 파일 하나만 itsolvers.co.kr의 insight/ 폴더에 올리면 된다(이혁 님 계획, 2026-10-19).
-  - 보는 사람은 계약서를 보내는 "공급인"이다. 순서: 왜 쓰는지 → 어떻게 쓰는지 → 무엇이 좋은지 → 알아 둘 점 → 요금 → 문의.
+  - 앱(web/, backend/)과 완전히 분리된 정적 페이지다. 서버나 DB가 필요 없다. 로고는 파일 안에 들어 있다. 실제 화면 이미지는 같은 폴더의 e-contract/ 에 둔다(WebP 6장). 올릴 때는 이 HTML 파일과 e-contract/ 폴더를 함께 올려야 한다.
+  - 화면 이미지는 시험용 데이터로 찍은 것이다. 상대방 이름과 로그인 이름은 가렸다. 새 화면을 넣을 때도 이름·휴대폰 번호는 가린다.
+  - 보는 사람은 계약서를 보내는 "공급인"이다. 순서: 왜 쓰는지 → 어떻게 쓰는지 → 실제 화면 → 무엇이 좋은지 → 알아 둘 점 → 요금 → 문의.
   - 색과 글꼴은 앱(web/src/index.css)과 같게 쓴다. 종이색 바탕, 짙은 숲 초록, 따뜻한 강조색 하나. 밝은 파랑은 쓰지 않는다(로고만 예외).
   - 요금 숫자는 확정 전이라 넣지 않는다. 법적 효력은 전문가 검토 전이라 단정하지 않는다(기획서 7장, 사업계획서 참고).
   - 구글 애널리틱스·광고는 넣지 않는다. 검색에 노출할지 정하기 전까지 noindex로 둔다(공개하기로 하면 아래 meta robots 줄을 지운다).
@@ -63,6 +64,14 @@
     .steps h3 { font-size: 19px; margin-bottom: 4px; }
     .steps p { margin: 0; color: var(--muted); }
 
+    /* 실제 화면: 2열, 누르면 크게 열린다 */
+    .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 20px; margin: 0; padding: 0; list-style: none; }
+    .shot { margin: 0; }
+    .shot a { display: block; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--panel); }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot figcaption { margin-top: 10px; font-size: 15px; color: var(--muted); }
+    .shot figcaption strong { display: block; color: var(--text); font-size: 16px; margin-bottom: 2px; }
+
     /* 장점 카드 */
     .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
@@ -90,6 +99,7 @@
       .hero h1 { font-size: 30px; }
       .hero p { font-size: 17px; }
       .cards { grid-template-columns: 1fr; }
+      .shots { grid-template-columns: 1fr; }
       section { padding: 40px 0; }
       h2 { font-size: 22px; }
       .btn.ghost { margin-left: 0; margin-top: 10px; }
@@ -128,6 +138,52 @@
         <li><span class="n">3</span><h3>링크를 카카오톡으로 보냅니다</h3><p>링크는 한 번만 쓸 수 있고 기한이 지나면 사라집니다. 상대방은 휴대폰에서 이름을 확인한 뒤 서명하거나, 사유를 적어 반려할 수 있습니다.</p></li>
         <li><span class="n">4</span><h3>완료본과 기록을 받습니다</h3><p>양쪽 서명이 찍힌 PDF와 서명 이력, 변조를 확인하는 문서 지문을 한 화면에서 확인합니다.</p></li>
       </ol>
+    </div>
+  </section>
+
+  <!-- 2-1. 실제 화면: 주요 화면만. 시험용 데이터로 찍었고 상대방 이름은 가렸다. -->
+  <section id="screens">
+    <div class="wrap">
+      <h2>실제 화면</h2>
+      <p class="lead">시험 계정에서 찍은 화면입니다. 문서와 이름은 시험용이고, 상대방 이름은 가렸습니다. 화면을 누르면 크게 볼 수 있습니다.</p>
+      <ul class="shots">
+        <li>
+          <figure class="shot">
+            <a href="e-contract/01-list.webp" target="_blank" rel="noopener"><img src="e-contract/01-list.webp" width="960" height="700" loading="lazy" alt="계약 목록 화면. 계약마다 상대방 서명 대기, 완료, 반려, 취소, 작성 중 상태와 서명 기한이 카드로 보인다."></a>
+            <figcaption><strong>계약 목록 (공급인)</strong>보낸 계약이 어디까지 진행됐는지 한눈에 봅니다.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <a href="e-contract/02-name-check.webp" target="_blank" rel="noopener"><img src="e-contract/02-name-check.webp" width="960" height="699" loading="lazy" alt="상대방이 링크를 열면 보이는 첫 화면. 계약서에 적힌 대표 이름을 입력해 본인을 확인한다."></a>
+            <figcaption><strong>상대방이 받는 첫 화면</strong>링크를 열면 계약서에 적힌 대표 이름을 입력해 본인임을 확인합니다.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <a href="e-contract/03-sign-place.webp" target="_blank" rel="noopener"><img src="e-contract/03-sign-place.webp" width="960" height="699" loading="lazy" alt="계약서 PDF 마지막 쪽. 정해 둔 서명 자리에 '여기를 눌러 서명' 버튼이 보인다."></a>
+            <figcaption><strong>서명할 자리</strong>문서를 확대해서 끝까지 읽고, 정해 둔 자리에서 서명을 시작합니다.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <a href="e-contract/04-sign-pad.webp" target="_blank" rel="noopener"><img src="e-contract/04-sign-pad.webp" width="960" height="699" loading="lazy" alt="서명 창. 손가락이나 마우스로 손글씨 서명을 하고, 내용을 직접 확인했다는 동의에 체크한 뒤 확인을 누른다."></a>
+            <figcaption><strong>손글씨 서명</strong>손가락이나 마우스로 서명하고, 직접 확인했다는 동의에 체크합니다.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <a href="e-contract/05-completed.webp" target="_blank" rel="noopener"><img src="e-contract/05-completed.webp" width="960" height="699" loading="lazy" alt="양쪽 서명이 찍힌 완료본 PDF. 공급인과 인수인의 서명 옆에 서명한 시각이 함께 표시된다."></a>
+            <figcaption><strong>양쪽 서명 완료본</strong>두 사람의 서명이 찍힌 PDF가 만들어지고, 서명한 시각이 함께 표시됩니다.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <a href="e-contract/06-proof.webp" target="_blank" rel="noopener"><img src="e-contract/06-proof.webp" width="960" height="699" loading="lazy" alt="저장된 PDF와 문서 지문 화면. 올린 원본, 서명용 문서, 서명 후 문서가 단계별로 쌓이고 단계마다 문서 지문이 표시된다. 아래에는 서명 이력이 보인다."></a>
+            <figcaption><strong>문서 지문과 서명 이력</strong>문서가 바뀔 때마다 지문을 남기고, 아래에 서명 이력이 쌓입니다.</figcaption>
+          </figure>
+        </li>
+      </ul>
     </div>
   </section>
 
