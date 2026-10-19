@@ -6,15 +6,75 @@
   - 보는 사람은 계약서를 보내는 "공급인"이다. 순서: 왜 쓰는지 → 어떻게 쓰는지 → 실제 화면 → 무엇이 좋은지 → 알아 둘 점 → 요금 → 문의.
   - 색과 글꼴은 앱(web/src/index.css)과 같게 쓴다. 종이색 바탕, 짙은 숲 초록, 따뜻한 강조색 하나. 밝은 파랑은 쓰지 않는다(로고만 예외).
   - 요금 숫자는 확정 전이라 넣지 않는다. 법적 효력은 전문가 검토 전이라 단정하지 않는다(기획서 7장, 사업계획서 참고).
-  - 구글 애널리틱스·광고는 넣지 않는다. 검색에 노출할지 정하기 전까지 noindex로 둔다(공개하기로 하면 아래 meta robots 줄을 지운다).
+  - 2026-10-19 이혁 님 지시로 검색에 공개한다(robots index). 다른 인사이트 페이지와 같이 구글 애널리틱스(gtag)와 애드센스 코드를 넣고, SEO 메타(canonical, OG, 트위터, JSON-LD)는 insights/lease-terms.html 형식을 따른다. 영문 페이지는 없으므로 hreflang은 ko 와 x-default 만 둔다.
 -->
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
-  <title>전자계약서 · 아이티해결단</title>
-  <meta name="description" content="계약이 가끔인 사업자를 위한 전자계약. PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명합니다.">
+  <title>전자계약서 | 링크 하나로 받는 서명, 계약이 가끔인 사업자용 | 아이티해결단</title>
+  <meta name="description" content="계약이 가끔인 사업자를 위한 전자계약. PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명합니다. 상대방은 가입·설치 없이 서명하고, 서명 이력과 문서 지문이 남습니다.">
+  <meta name="author" content="아이티해결단 (대표 이혁)">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/insights/e-contract.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/e-contract.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/e-contract.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+  <meta property="og:title" content="전자계약서 | 아이티해결단">
+  <meta property="og:description" content="PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명합니다. 계약이 가끔인 사업자를 위한 전자계약.">
+  <meta property="og:url" content="https://itsolvers.co.kr/insights/e-contract.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta property="og:image:alt" content="아이티해결단 전자계약서 소개">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="전자계약서 | 아이티해결단">
+  <meta name="twitter:description" content="계약이 가끔인 사업자를 위한 전자계약. 링크 하나로 상대방이 휴대폰으로 서명합니다.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "전자계약서",
+    "inLanguage": "ko-KR",
+    "description": "계약이 가끔인 사업자를 위한 전자계약 서비스 소개. PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명합니다.",
+    "url": "https://itsolvers.co.kr/insights/e-contract.html",
+    "mainEntityOfPage": "https://itsolvers.co.kr/insights/e-contract.html",
+    "about": {
+      "@type": "Service",
+      "name": "전자계약서",
+      "serviceType": "전자계약 서명 서비스",
+      "areaServed": "KR",
+      "provider": {
+        "@type": "Organization",
+        "name": "아이티해결단 (IT Solvers)",
+        "url": "https://itsolvers.co.kr/"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://itsolvers.co.kr/images/logo.png"
+      }
+    }
+  }
+  </script>
   <style>
     /* 색: 앱과 같은 값. 새 색을 늘리지 않는다. */
     :root {
