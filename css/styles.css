@@ -125,6 +125,17 @@ nav a:hover {
     color: var(--site-accent);
 }
 
+/* 메뉴가 8개라서 좁은 데스크톱(801~1000px)에서는 간격을 줄이고 글자가 꺾이지 않게 한다 */
+@media (min-width: 801px) and (max-width: 1000px) {
+    nav {
+        gap: 14px;
+    }
+
+    nav a {
+        white-space: nowrap;
+    }
+}
+
 
 /* =========================
    HERO
@@ -669,6 +680,20 @@ html.dark-mode .insight-card p {
 
 .insights {
     background: #f8f9fb;
+}
+
+
+/* =========================
+   MVP
+   (배경은 기본 흰색: 위의 INSIGHTS와 구분되도록 경계선만 준다)
+========================= */
+
+.mvp {
+    border-top: 1px solid #e5e7eb;
+}
+
+html.dark-mode .mvp {
+    border-top-color: #2b3648;
 }
 
 
