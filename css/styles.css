@@ -872,28 +872,80 @@ html.dark-mode .insight-card p {
     margin: 0 auto;
 }
 
-.contact-email a {
+/* 이메일 주소: 눌러서 전체 선택할 수 있게 한다(복사가 안 되는 환경의 대비) */
+.contact .contact-address {
+    margin: 0 auto 18px;
+
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+
+    user-select: all;
+}
+
+/* 주 버튼: 이메일 주소 복사 (기존 '문의하기' 버튼과 같은 모양) */
+.contact-copy {
     display: inline-block;
     padding: 14px 34px;
+    border: 0;
     background: #ffffff;
     color: #2563eb;
-    text-decoration: none;
+    cursor: pointer;
     border-radius: 7px;
+    font: inherit;
     font-weight: 600;
     box-shadow: 0 4px 0 #dbeafe, 0 6px 12px rgba(0, 0, 0, 0.12);
     transition: all 0.15s ease;
 }
 
-.contact-email a:hover {
+.contact-copy:hover {
     background: #eff6ff;
     color: #1d4ed8;
     transform: translateY(-2px);
     box-shadow: 0 6px 0 #dbeafe, 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.contact-email a:active {
+.contact-copy:active {
     transform: translateY(2px);
     box-shadow: 0 2px 0 #dbeafe, 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-copy:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+/* 복사 결과 안내(자리를 미리 잡아 두어 문구가 나타나도 화면이 흔들리지 않게 한다) */
+.contact .contact-status {
+    min-height: 22px;
+    margin: 14px auto 0;
+
+    color: #86efac;
+    font-size: 14px;
+}
+
+/* 보조 수단: Gmail로 작성 · 메일 앱으로 열기 */
+.contact .contact-alt {
+    margin: 6px auto 0;
+
+    font-size: 14px;
+}
+
+.contact-alt a {
+    color: #9dbdff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.contact-alt a:hover {
+    color: #ffffff;
+}
+
+.contact-alt span {
+    margin: 0 6px;
+
+    color: #6b7a90;
 }
 
 

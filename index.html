@@ -1444,10 +1444,25 @@
                 </p>
 
 
+                <!-- 문의: 메일 프로그램이 정해져 있지 않으면 mailto만으로는 크롬이 계정 선택 창을 띄우고 닫히는 등 동작이 불안정하다.
+                     그래서 주소를 화면에 보여 주고 복사 버튼을 주 수단으로 두고, Gmail 작성/메일 앱 열기는 보조로 둔다. -->
                 <div class="contact-email">
-                    <a href="mailto:itsolvers@naver.com" title="아이티해결단에 이메일로 문의하기">
-                        문의하기
-                    </a>
+
+                    <p class="contact-address">itsolvers@naver.com</p>
+
+                    <button type="button" class="contact-copy" id="copyEmail" data-email="itsolvers@naver.com"
+                        title="이메일 주소를 클립보드에 복사합니다">
+                        이메일 주소 복사
+                    </button>
+
+                    <p class="contact-status" id="copyStatus" role="status" aria-live="polite"></p>
+
+                    <p class="contact-alt">
+                        <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=itsolvers%40naver.com" target="_blank" rel="noopener">Gmail로 작성</a>
+                        <span aria-hidden="true">·</span>
+                        <a href="mailto:itsolvers@naver.com">메일 앱으로 열기</a>
+                    </p>
+
                 </div>
 
 
@@ -1519,6 +1534,58 @@
                         group.classList.remove("closed");
                     }, { once: true });
                 });
+            });
+
+        })();
+
+
+        /* 문의: 이메일 주소 복사. 최신 방식(navigator.clipboard)이 막힌 환경에서는 임시 입력칸으로 복사한다. */
+        (function () {
+
+            const button = document.getElementById("copyEmail");
+            const status = document.getElementById("copyStatus");
+            if (!button || !status) return;
+
+            let timer = null;
+
+            function show(message) {
+                status.textContent = message;
+                clearTimeout(timer);
+                timer = setTimeout(function () { status.textContent = ""; }, 5000);
+            }
+
+            function legacyCopy(text) {
+                const box = document.createElement("textarea");
+                box.value = text;
+                box.setAttribute("readonly", "");
+                box.style.position = "fixed";
+                box.style.opacity = "0";
+                document.body.appendChild(box);
+                box.select();
+                let ok = false;
+                try { ok = document.execCommand("copy"); } catch (e) { }
+                document.body.removeChild(box);
+                return ok;
+            }
+
+            button.addEventListener("click", function () {
+
+                const email = button.getAttribute("data-email");
+
+                const done = function (ok) {
+                    show(ok
+                        ? "이메일 주소를 복사했습니다. 메일에 붙여넣어 보내 주세요."
+                        : "복사하지 못했습니다. 위의 주소를 눌러 선택한 뒤 직접 복사해 주세요.");
+                };
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(email).then(
+                        function () { done(true); },
+                        function () { done(legacyCopy(email)); }
+                    );
+                } else {
+                    done(legacyCopy(email));
+                }
             });
 
         })();
