@@ -781,19 +781,6 @@ html.dark-mode .insight-card p {
 }
 
 
-/* =========================
-   MVP
-   (배경은 기본 흰색: 위의 INSIGHTS와 구분되도록 경계선만 준다)
-========================= */
-
-.mvp {
-    border-top: 1px solid #e5e7eb;
-}
-
-html.dark-mode .mvp {
-    border-top-color: #2b3648;
-}
-
 
 /* =========================
    PROCESS
