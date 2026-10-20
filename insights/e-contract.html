@@ -107,6 +107,30 @@
     .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); margin-left: 8px; }
     .note-small { font-size: 14px; color: var(--muted); margin-top: 16px; }
 
+    /* 견적/시험 사용 신청 폼(Web3Forms). 색은 이 페이지의 기존 값만 쓴다. */
+    .apply-form { max-width: 560px; margin: 0 0 8px; }
+    .apply-field { margin-bottom: 16px; }
+    .apply-field label { display: block; margin-bottom: 6px; font-size: 15px; font-weight: 600; }
+    .apply-field input, .apply-field textarea { display: block; box-sizing: border-box; width: 100%; padding: 12px 14px;
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); font: inherit; font-size: 16px; }
+    .apply-field textarea { resize: vertical; min-height: 120px; }
+    .apply-field input:focus, .apply-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+    .apply-hp { display: none; }   /* 스팸 방지용 숨은 칸 */
+    .apply-consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 20px; font-size: 15px; cursor: pointer; }
+    .apply-consent input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+    .apply-consent small { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .apply-submit { border: 0; cursor: pointer; font: inherit; font-weight: 600; width: 100%; padding: 14px 22px; }
+    .apply-submit:disabled { opacity: 0.6; cursor: wait; }
+    .apply-status { min-height: 22px; margin: 12px 0 0; font-size: 15px; color: var(--accent); }
+    .apply-status.is-error { color: #b42318; }
+    .apply-alt { max-width: 560px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .apply-alt .note-small { margin: 0 0 10px; }
+    .apply-address { margin: 0 0 12px; font-size: 18px; font-weight: 700; user-select: all; }
+    .apply-copy { padding: 9px 20px; border: 1px solid var(--accent); border-radius: 8px; background: transparent; color: var(--accent);
+      font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .apply-copy:hover { background: var(--accent-bg); }
+    .apply-copy-status { min-height: 20px; margin: 8px 0 12px; font-size: 14px; color: var(--accent); }
+
     /* 4단계: 색 대신 번호와 세로선으로 구분한다(이혁 님 취향). */
     .steps { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border); margin-left: 18px; }
     .steps li { position: relative; padding: 0 0 28px 34px; }
@@ -299,15 +323,66 @@
     </div>
   </section>
 
-  <!-- 7. 문의: 메인 페이지(index.html)와 같은 문의 주소. 전용 주소를 쓰려면 아래 mailto 두 곳과 표시 문구를 바꾼다 -->
+  <!-- 7. 견적/시험 사용 신청: 메인 페이지(index.html)와 같은 Web3Forms 폼. 받는 메일은 Web3Forms 키에 연결된 주소다. 전용 주소를 쓰려면 Web3Forms에서 키를 새로 만든다 -->
   <section id="contact">
     <div class="wrap">
       <h2>견적/ 시험 사용 신청</h2>
       <p class="lead">신청하시면 테스트 할 수 있는 계정을 만들어 드립니다.</p>
-      <p>
-        <a class="btn" href="mailto:itsolvers@naver.com?subject=%EC%A0%84%EC%9E%90%EA%B3%84%EC%95%BD%EC%84%9C%20%EC%8B%9C%ED%97%98%20%EC%82%AC%EC%9A%A9%20%EC%8B%A0%EC%B2%AD&amp;body=%EA%B3%84%EC%95%BD%20%EA%B1%B4%EC%88%98(%EC%9B%94%2F%EC%97%B0)%3A%0D%0A%ED%95%98%EC%8B%9C%EB%8A%94%20%EC%9D%BC%3A%0D%0A%EC%97%B0%EB%9D%BD%EC%B2%98%3A">이메일로 신청하기</a>
-      </p>
-      <p class="note-small"><strong>문의:</strong> <a href="mailto:itsolvers@naver.com">itsolvers@naver.com</a></p>
+      <!-- 신청 폼: 메인 페이지(index.html)의 문의 폼과 같은 Web3Forms 키·필드를 쓴다. 메일 제목만 구분되게 다르다.
+           access_key는 공개 키라서 HTML에 그대로 두는 것이 정상이다. JavaScript가 꺼져 있어도 action/method로 전송된다. -->
+      <form class="apply-form" id="applyForm" action="https://api.web3forms.com/submit" method="POST">
+
+        <input type="hidden" name="access_key" value="3d7c682c-9f0a-4a36-9d22-13ffed346075">
+        <input type="hidden" name="subject" value="[아이티해결단 홈페이지] 전자계약서 견적/시험 사용 신청이 도착했습니다">
+        <input type="hidden" name="from_name" value="아이티해결단 홈페이지(전자계약서)">
+
+        <!-- 스팸 방지: 사람에게는 보이지 않는 칸. 봇이 채우면 서비스가 거른다 -->
+        <input type="checkbox" name="botcheck" class="apply-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="apply-field">
+          <label for="apName">이름 (또는 회사·기관명)</label>
+          <input type="text" id="apName" name="name" autocomplete="name" maxlength="80" required>
+        </div>
+
+        <div class="apply-field">
+          <label for="apEmail">답변받을 이메일</label>
+          <input type="email" id="apEmail" name="email" autocomplete="email" maxlength="120" required>
+        </div>
+
+        <div class="apply-field">
+          <label for="apMessage">신청 내용 (계약 건수, 하시는 일)</label>
+          <textarea id="apMessage" name="message" rows="5" maxlength="3000" required
+            placeholder="예) 계약 건수: 월 3건 / 하시는 일: 프리랜서 개발"></textarea>
+        </div>
+
+        <label class="apply-consent">
+          <input type="checkbox" name="consent" value="동의" required>
+          <span>
+            개인정보 수집·이용에 동의합니다.
+            <small>
+              수집 항목: 이름, 이메일, 신청 내용 / 이용 목적: 신청 확인과 답변 /
+              보유 기간: 답변 완료 후 지체 없이 삭제(법령상 보존이 필요한 경우 제외) /
+              동의를 거부할 수 있으나, 거부하면 폼으로 신청하실 수 없습니다(아래 이메일로 문의 가능).
+              입력하신 내용은 폼 전송 서비스(Web3Forms)를 거쳐 이메일로 전달됩니다.
+            </small>
+          </span>
+        </label>
+
+        <button type="submit" class="btn apply-submit" id="applySubmit">신청 보내기</button>
+
+        <p class="apply-status" id="applyStatus" role="status" aria-live="polite"></p>
+
+      </form>
+
+      <!-- 보조: 폼 대신 이메일로 직접 보내고 싶은 경우. mailto만으로는 방문자 환경에 따라 동작이 불안정해서(크롬이 계정 선택 창을 띄우고 닫히는 등)
+           주소를 보여 주고 복사 버튼을 두며, 메일 앱 열기(mailto)는 한 줄 보조로 둔다. 특정 메일 서비스(Gmail 등) 링크는 두지 않는다. -->
+      <div class="apply-alt">
+        <p class="note-small">폼 대신 이메일로 직접 보내셔도 됩니다</p>
+        <p class="apply-address">itsolvers@naver.com</p>
+        <button type="button" class="apply-copy" id="applyCopy" data-email="itsolvers@naver.com">이메일 주소 복사</button>
+        <p class="apply-copy-status" id="applyCopyStatus" role="status" aria-live="polite"></p>
+        <p class="note-small">컴퓨터에 메일 프로그램이 설정되어 있다면 <a href="mailto:itsolvers@naver.com">메일 앱으로 열기</a></p>
+      </div>
     </div>
   </section>
 
@@ -334,5 +409,75 @@
   </div>
 </footer>
 
+<script>
+/* 신청 폼 전송: 페이지를 벗어나지 않고 그 자리에서 결과를 보여 준다. (JavaScript가 꺼져 있으면 form의 action/method로 그대로 전송된다) */
+(function () {
+  var form = document.getElementById("applyForm");
+  var submit = document.getElementById("applySubmit");
+  var status = document.getElementById("applyStatus");
+  if (form && submit && status) {
+    var original = submit.textContent.trim();
+    var show = function (msg, isError) { status.textContent = msg; status.classList.toggle("is-error", !!isError); };
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      show("", false);
+      submit.disabled = true;
+      submit.textContent = "보내는 중…";
+      fetch(form.action, { method: "POST", headers: { "Accept": "application/json" }, body: new FormData(form) })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            return res.ok && data.success !== false;
+          });
+        })
+        .then(function (ok) {
+          if (ok) {
+            form.reset();
+            show("신청이 전달되었습니다. 확인 후 입력하신 이메일로 안내드리겠습니다.", false);
+          } else {
+            show("전송하지 못했습니다. 잠시 후 다시 시도하시거나 아래 이메일로 보내 주세요.", true);
+          }
+        })
+        .catch(function () {
+          show("전송하지 못했습니다. 인터넷 연결을 확인하시거나 아래 이메일로 보내 주세요.", true);
+        })
+        .then(function () { submit.disabled = false; submit.textContent = original; });
+    });
+  }
+
+  /* 이메일 주소 복사: 최신 방식(navigator.clipboard)이 막힌 환경에서는 임시 입력칸으로 복사한다. */
+  var copyBtn = document.getElementById("applyCopy");
+  var copyStatus = document.getElementById("applyCopyStatus");
+  if (copyBtn && copyStatus) {
+    var timer = null;
+    var say = function (msg) {
+      copyStatus.textContent = msg;
+      clearTimeout(timer);
+      timer = setTimeout(function () { copyStatus.textContent = ""; }, 5000);
+    };
+    var legacy = function (text) {
+      var box = document.createElement("textarea");
+      box.value = text; box.setAttribute("readonly", "");
+      box.style.position = "fixed"; box.style.opacity = "0";
+      document.body.appendChild(box); box.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { }
+      document.body.removeChild(box);
+      return ok;
+    };
+    copyBtn.addEventListener("click", function () {
+      var email = copyBtn.getAttribute("data-email");
+      var done = function (ok) {
+        say(ok ? "이메일 주소를 복사했습니다. 메일에 붙여넣어 보내 주세요."
+               : "복사하지 못했습니다. 위의 주소를 눌러 선택한 뒤 직접 복사해 주세요.");
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(function () { done(true); }, function () { done(legacy(email)); });
+      } else {
+        done(legacy(email));
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
