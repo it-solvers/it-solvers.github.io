@@ -115,6 +115,8 @@ header {
 
 nav {
     display: flex;
+    align-items: center;
+    /* 하위 메뉴 영역(.nav-group)에 위아래 여백이 있어서 항목을 세로 중앙에 맞춘다 */
     gap: 30px;
 
     font-size: 14px;
@@ -125,7 +127,7 @@ nav a:hover {
     color: var(--site-accent);
 }
 
-/* 메뉴가 8개라서 좁은 데스크톱(801~1000px)에서는 간격을 줄이고 글자가 꺾이지 않게 한다 */
+/* 메뉴가 많아서 좁은 데스크톱(801~1000px)에서는 간격을 줄이고 글자가 꺾이지 않게 한다 */
 @media (min-width: 801px) and (max-width: 1000px) {
     nav {
         gap: 14px;
@@ -134,6 +136,77 @@ nav a:hover {
     nav a {
         white-space: nowrap;
     }
+}
+
+
+/* =========================
+   하위 메뉴 (기술 인사이트 ▾)
+   - 데스크톱: 마우스를 올리거나 키보드로 포커스하면 열린다(.open은 터치 화면용)
+   - 모바일(800px 이하): 항상 펼쳐서 들여쓰기로 보여 준다 (아래 MOBILE 블록)
+   - 헤더는 다크 모드에서도 흰색이라 색은 한 가지만 쓴다
+========================= */
+
+.nav-group {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    /* 마우스가 글자에서 하위 메뉴로 이동하는 동안 끊기지 않도록 위아래 여백도 호버 영역에 포함 */
+    padding: 22px 0;
+}
+
+.nav-caret::after {
+    content: "▾";
+
+    margin-left: 4px;
+
+    font-size: 11px;
+}
+
+.submenu {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    min-width: 140px;
+    padding: 8px;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    z-index: 110;
+}
+
+.nav-group:hover .submenu,
+.nav-group:focus-within .submenu,
+.nav-group.open .submenu {
+    display: block;
+}
+
+.submenu a {
+    display: block;
+
+    padding: 9px 14px;
+
+    border-radius: 6px;
+
+    white-space: nowrap;
+}
+
+.submenu a:hover {
+    background: #f8f9fb;
+    color: #2563eb;
+}
+
+/* 메뉴로 이동할 때 고정 헤더(72px)에 제목이 가려지지 않게 한다 */
+.history-group-title[id] {
+    scroll-margin-top: 96px;
 }
 
 
@@ -939,6 +1012,7 @@ MOBILE
         border-radius: 0 0 12px 12px;
 
         flex-direction: column;
+        align-items: stretch;
         gap: 2px;
 
         font-size: 14px;
@@ -962,6 +1036,38 @@ MOBILE
     nav a:hover {
         background: #f8f9fb;
         color: #2563eb;
+    }
+
+
+    /* 하위 메뉴: 모바일 메뉴 안에서는 항상 펼쳐 둔다 */
+    .nav-group {
+        display: block;
+
+        padding: 0;
+    }
+
+    .nav-caret {
+        display: none;
+    }
+
+    .submenu {
+        display: block;
+
+        position: static;
+        transform: none;
+
+        min-width: 0;
+        margin: 0 0 4px 14px;
+        padding: 0;
+
+        border: 0;
+        border-left: 2px solid #e5e7eb;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .submenu a {
+        padding: 10px 14px;
     }
 
 

@@ -174,13 +174,29 @@
                     진행순서
                 </a>
 
-                <a href="#insights">
-                    기술 인사이트
-                </a>
+                <div class="nav-group">
 
-                <a href="#mvp">
-                    MVP
-                </a>
+                    <a href="#insights" class="nav-parent" aria-haspopup="true">
+                        기술 인사이트<span class="nav-caret" aria-hidden="true"></span>
+                    </a>
+
+                    <div class="submenu">
+
+                        <a href="#mvp">
+                            MVP
+                        </a>
+
+                        <a href="#insights-tools">
+                            계산도구
+                        </a>
+
+                        <a href="#insights-knowledge">
+                            업무지식
+                        </a>
+
+                    </div>
+
+                </div>
 
                 <a href="#history">
                     주요실적
@@ -716,63 +732,6 @@
 
 
         <!-- ========================= -->
-        <!-- INSIGHTS -->
-        <!-- ========================= -->
-
-        <section id="insights" class="insights">
-
-            <div class="container">
-
-                <div class="section-title">
-
-                    <span class="section-label">
-                        기술 인사이트
-                    </span>
-
-                    <h2>
-                        경험에서 나온 기술 노트
-                    </h2>
-
-                    <p>
-                        25년간 금융·리스 도메인 시스템을 만들며 쌓은 경험과,
-                        직접 만든 도구를 공유합니다.
-                    </p>
-
-                </div>
-
-                <h3 class="history-group-title">업무지식</h3>
-                <div class="insight-grid">
-                    <a class="insight-card" href="insights/lease-terms.html" target="_blank" rel="noopener">
-                        <h3>리스 용어 정리 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
-                        <p>잔존가치, 내재이자율, 리스료, 리스개설직접원가 등 핵심 용어를 쉽게 풀어 설명합니다.</p>
-                    </a>
-                    <a class="insight-card" href="insights/lease-overview.html" target="_blank" rel="noopener">
-                        <h3>리스 개요 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
-                        <p>K-IFRS 제1116호 기준 리스의 정의, 이용자 회계처리, 제공자 분류, 주요 리스 유형을 정리합니다.</p>
-                    </a>
-                </div>
-
-                <h3 class="history-group-title">계산도구</h3>
-                <div class="insight-grid">
-                    <a class="insight-card" href="insights/lease-cashflow-irr-calculator.html" target="_blank" rel="noopener">
-                        <h3>리스 현금흐름 기준 IRR 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
-                        <p>월 수령액과 보험료·자동차세 지급 시점을 반영해 연환산 현금흐름 IRR을 계산합니다.</p>
-                    </a>
-                    <a class="insight-card" href="insights/irr-to-rate-calculator.html" target="_blank" rel="noopener">
-                        <h3>목표 IRR 기준 금리 역산 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
-                        <p>이분법으로 목표 IRR에 맞는 월 기본 리스료를 역산합니다.</p>
-                    </a>
-                    <a class="insight-card" href="insights/lease-payment-calculator.html" target="_blank" rel="noopener">
-                        <h3>리스료 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
-                        <p>차량가격·기간·연 금리·만기 잔존가치로 월 리스료를 추정합니다.</p>
-                    </a>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- ========================= -->
         <!-- MVP -->
         <!-- ========================= -->
 
@@ -812,6 +771,64 @@
                     </a>
                 </div>
 
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- INSIGHTS -->
+        <!-- ========================= -->
+
+        <section id="insights" class="insights">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        기술 인사이트
+                    </span>
+
+                    <h2>
+                        경험에서 나온 기술 노트
+                    </h2>
+
+                    <p>
+                        25년간 금융·리스 도메인 시스템을 만들며 쌓은 경험과,
+                        직접 만든 도구를 공유합니다.
+                    </p>
+
+                </div>
+
+                <h3 class="history-group-title" id="insights-tools">계산도구</h3>
+                <div class="insight-grid">
+                    <a class="insight-card" href="insights/lease-cashflow-irr-calculator.html" target="_blank" rel="noopener">
+                        <h3>리스 현금흐름 기준 IRR 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
+                        <p>월 수령액과 보험료·자동차세 지급 시점을 반영해 연환산 현금흐름 IRR을 계산합니다.</p>
+                    </a>
+                    <a class="insight-card" href="insights/irr-to-rate-calculator.html" target="_blank" rel="noopener">
+                        <h3>목표 IRR 기준 금리 역산 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
+                        <p>이분법으로 목표 IRR에 맞는 월 기본 리스료를 역산합니다.</p>
+                    </a>
+                    <a class="insight-card" href="insights/lease-payment-calculator.html" target="_blank" rel="noopener">
+                        <h3>리스료 계산기 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
+                        <p>차량가격·기간·연 금리·만기 잔존가치로 월 리스료를 추정합니다.</p>
+                    </a>
+                </div>
+
+                <h3 class="history-group-title" id="insights-knowledge">업무지식</h3>
+                <div class="insight-grid">
+                    <a class="insight-card" href="insights/lease-terms.html" target="_blank" rel="noopener">
+                        <h3>리스 용어 정리 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
+                        <p>잔존가치, 내재이자율, 리스료, 리스개설직접원가 등 핵심 용어를 쉽게 풀어 설명합니다.</p>
+                    </a>
+                    <a class="insight-card" href="insights/lease-overview.html" target="_blank" rel="noopener">
+                        <h3>리스 개요 <span class="insight-link-cue" aria-hidden="true">↗</span></h3>
+                        <p>K-IFRS 제1116호 기준 리스의 정의, 이용자 회계처리, 제공자 분류, 주요 리스 유형을 정리합니다.</p>
+                    </a>
+                </div>
+
+                
             </div>
 
         </section>
@@ -1491,6 +1508,37 @@
 </footer>
 
     <script>
+
+        /* 하위 메뉴(기술 인사이트 ▾): 마우스 화면은 CSS(hover)로 열리고,
+           터치 화면(데스크톱 너비)에서는 눌러서 열고 닫는다. 모바일 메뉴는 항상 펼쳐 둔다. */
+        (function () {
+
+            const group = document.querySelector("#mainNav .nav-group");
+            if (!group) return;
+
+            const parent = group.querySelector(".nav-parent");
+            const isTouchDesktop = function () {
+                return window.matchMedia("(hover: none) and (min-width: 801px)").matches;
+            };
+
+            parent.addEventListener("click", function (e) {
+                if (!isTouchDesktop()) return;
+                e.preventDefault();
+                group.classList.toggle("open");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!group.contains(e.target)) group.classList.remove("open");
+            });
+
+            group.querySelectorAll(".submenu a").forEach(function (a) {
+                a.addEventListener("click", function () {
+                    group.classList.remove("open");
+                });
+            });
+
+        })();
+
 
         function toggleMenu() {
 
