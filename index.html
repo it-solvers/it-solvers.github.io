@@ -1535,9 +1535,17 @@
                 if (!group.contains(e.target)) group.classList.remove("open");
             });
 
+            /* 하위 메뉴를 고르면 닫고, 클릭으로 생긴 포커스도 풀어서 메뉴가 열린 채 남지 않게 한다 */
             group.querySelectorAll(".submenu a").forEach(function (a) {
                 a.addEventListener("click", function () {
                     group.classList.remove("open");
+                    a.blur();
+
+                    /* 마우스가 아직 메뉴 위에 있어도 고른 직후에는 닫아 둔다(마우스가 벗어나면 다시 정상) */
+                    group.classList.add("closed");
+                    group.addEventListener("mouseleave", function () {
+                        group.classList.remove("closed");
+                    }, { once: true });
                 });
             });
 
