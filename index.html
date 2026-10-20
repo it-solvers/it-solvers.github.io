@@ -1445,7 +1445,8 @@
 
 
                 <!-- 문의: 메일 프로그램이 정해져 있지 않으면 mailto만으로는 크롬이 계정 선택 창을 띄우고 닫히는 등 동작이 불안정하다.
-                     그래서 주소를 화면에 보여 주고 복사 버튼을 주 수단으로 두고, Gmail 작성/메일 앱 열기는 보조로 둔다. -->
+                     방문자가 어떤 메일 서비스를 쓰는지 알 수 없으므로(특정 서비스 링크는 두지 않는다),
+                     주소를 화면에 보여 주고 복사 버튼을 주 수단으로 두고, 메일 앱 열기(mailto)는 보조로 둔다. -->
                 <div class="contact-email">
 
                     <p class="contact-address">itsolvers@naver.com</p>
@@ -1458,8 +1459,7 @@
                     <p class="contact-status" id="copyStatus" role="status" aria-live="polite"></p>
 
                     <p class="contact-alt">
-                        <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=itsolvers%40naver.com" target="_blank" rel="noopener">Gmail로 작성</a>
-                        <span aria-hidden="true">·</span>
+                        컴퓨터에 메일 프로그램이 설정되어 있다면
                         <a href="mailto:itsolvers@naver.com">메일 앱으로 열기</a>
                     </p>
 

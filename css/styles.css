@@ -925,7 +925,7 @@ html.dark-mode .insight-card p {
     font-size: 14px;
 }
 
-/* 보조 수단: Gmail로 작성 · 메일 앱으로 열기 */
+/* 보조 수단: 메일 앱으로 열기 */
 .contact .contact-alt {
     margin: 6px auto 0;
 
@@ -940,12 +940,6 @@ html.dark-mode .insight-card p {
 
 .contact-alt a:hover {
     color: #ffffff;
-}
-
-.contact-alt span {
-    margin: 0 6px;
-
-    color: #6b7a90;
 }
 
 
