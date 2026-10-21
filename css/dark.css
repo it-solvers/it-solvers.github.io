@@ -194,3 +194,8 @@ html:not(.dark-mode) .calculator-example,
 html:not(.dark-mode) .calculator-clear,
 html:not(.dark-mode) button.secondary { background: #fbf9f4; color: #2f5fc4; border-color: #2f5fc4; }
 html:not(.dark-mode) button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear) { background: #2f5fc4; border-color: #2f5fc4; color: #fff; }
+
+/* 리스 개요: 장점 카드(.benefit)가 어두운 화면에서 밝은 바탕으로 남던 문제 */
+html.dark-mode .lease-overview .benefit { background: #1a1b1d; border-color: #2a2c2e; color: #cdcdcd; }
+html.dark-mode .lease-overview .benefit h3 { color: #d9d9d9; }
+html.dark-mode .lease-overview .benefit p { color: #9a9da0; }
