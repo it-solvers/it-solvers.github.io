@@ -140,3 +140,57 @@ header a[lang="ko"] {
 }
 header .language-link:hover,
 header a[lang="ko"]:hover { border-color: #2563eb; color: #2563eb !important; }
+
+/* ===== 밝은 화면: 눈이 편한 따뜻한 종이 톤(순백·순검정 대비를 줄임) =====
+   바탕 #f4f1ea / 카드 #fbf9f4 / 구분 구역 #ebe7de / 경계선 #ddd8cc / 글자 #2b2824 / 보조 글자 #6b655b / 강조 #2f5fc4 */
+html:not(.dark-mode) {
+  --bg: #f4f1ea; --card: #fbf9f4; --text: #2b2824; --muted: #6b655b; --line: #ddd8cc;
+  --accent: #2f5fc4; --accent-weak: #e8edf7;
+}
+html:not(.dark-mode) .lease-overview {
+  --lo-text: #2b2824; --lo-muted: #6b655b; --lo-line: #ddd8cc; --lo-border: #ddd8cc;
+  --lo-accent: #2f5fc4; --lo-accent-weak: #e8edf7;
+}
+html:not(.dark-mode) .guide {
+  --bg: #f4f1ea; --surface: #fbf9f4; --ink: #2b2824; --muted: #6b655b; --line: #ddd8cc;
+  --accent: #2f5fc4; --accent-soft: #e8edf7;
+}
+html:not(.dark-mode) body { background: #f4f1ea; color: #2b2824; }
+html:not(.dark-mode) body.lease-page { background: #f4f1ea; }
+html:not(.dark-mode) header { background: #fbf9f4; border-bottom-color: #ddd8cc; }
+html:not(.dark-mode) .lease-overview .card,
+html:not(.dark-mode) .lease-overview > nav.card,
+html:not(.dark-mode) .lease-overview .lease-item,
+html:not(.dark-mode) .lease-overview .flow-step,
+html:not(.dark-mode) .lease-overview .flow-figure img,
+html:not(.dark-mode) .calculator-card,
+html:not(.dark-mode) .card { background: #fbf9f4; border-color: #ddd8cc; }
+html:not(.dark-mode) .calculator-main h1,
+html:not(.dark-mode) .calculator-main h2,
+html:not(.dark-mode) .calculator-main h3,
+html:not(.dark-mode) .calculator-result-value,
+html:not(.dark-mode) .language-examples summary,
+html:not(.dark-mode) .language-examples pre,
+html:not(.dark-mode) .developer-formula pre,
+html:not(.dark-mode) .formula-equation,
+html:not(.dark-mode) .formula-card code { color: #2b2824; }
+html:not(.dark-mode) .calculator-intro,
+html:not(.dark-mode) .calculator-note,
+html:not(.dark-mode) .calculator-result-label,
+html:not(.dark-mode) .formula-card p,
+html:not(.dark-mode) .formula-card li,
+html:not(.dark-mode) .calculator-field label { color: #5a554d; }
+html:not(.dark-mode) .calculator-field input,
+html:not(.dark-mode) input,
+html:not(.dark-mode) select { background: #fffdf9; color: #2b2824; border-color: #d3cdbf; }
+html:not(.dark-mode) .formula-equation,
+html:not(.dark-mode) .developer-formula,
+html:not(.dark-mode) .language-examples pre { background: #f0ede5; border-color: #ddd8cc; }
+html:not(.dark-mode) .calculator-result,
+html:not(.dark-mode) .result { background: #e8edf7; }
+html:not(.dark-mode) th { background: #ebe7de; }
+html:not(.dark-mode) td { border-color: #e4dfd3; }
+html:not(.dark-mode) .calculator-example,
+html:not(.dark-mode) .calculator-clear,
+html:not(.dark-mode) button.secondary { background: #fbf9f4; color: #2f5fc4; border-color: #2f5fc4; }
+html:not(.dark-mode) button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear) { background: #2f5fc4; border-color: #2f5fc4; color: #fff; }

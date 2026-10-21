@@ -1,12 +1,12 @@
 :root {
   color-scheme: light;
-  --ink: #172033;
-  --muted: #667085;
-  --line: #e4e8ef;
-  --blue: #2563eb;
-  --pale: #edf4ff;
-  --surface: #fff;
-  --page: #f3f4f6;
+  --ink: #2b2824;
+  --muted: #6b655b;
+  --line: #ddd8cc;
+  --blue: #2f5fc4;
+  --pale: #e8edf7;
+  --surface: #fbf9f4;
+  --page: #f4f1ea;
 }
 
 * { box-sizing: border-box; }
@@ -46,17 +46,17 @@ p { margin: 9px 0; }
 .card-link h2 { color: var(--blue); font-size: 18px; }
 .button-link { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin: 5px 8px 5px 0; padding: 8px 14px; border: 1px solid var(--blue); border-radius: 7px; background: var(--blue); color: #fff; font-size: 14px; font-weight: 650; text-decoration: none; }
 .button-link:hover, .button-link:focus-visible { background: #1d4ed8; }
-.button-link.secondary { background: #fff; color: var(--blue); }
+.button-link.secondary { background: #fbf9f4; color: var(--blue); }
 .muted, .note { color: var(--muted); font-size: 14px; }
 .note { padding: 12px 14px; border-left: 3px solid #90b4f5; background: var(--pale); }
 .toc ol { margin-bottom: 0; }
 .form-grid, .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 14px; }
-label { display: block; margin-bottom: 5px; color: #475467; font-size: 14px; font-weight: 600; }
-input, select { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid #cbd3df; border-radius: 7px; background: #fff; color: var(--ink); font: inherit; }
+label { display: block; margin-bottom: 5px; color: #5a554d; font-size: 14px; font-weight: 600; }
+input, select { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid #cbd3df; border-radius: 7px; background: #fbf9f4; color: var(--ink); font: inherit; }
 input:focus, select:focus { outline: 2px solid #dce9ff; border-color: var(--blue); }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 button { min-height: 44px; padding: 9px 17px; border: 1px solid var(--blue); border-radius: 7px; background: var(--blue); color: #fff; font: inherit; font-weight: 650; cursor: pointer; }
-button.secondary { background: #fff; color: var(--blue); }
+button.secondary { background: #fbf9f4; color: var(--blue); }
 .result { padding: 14px; border-radius: 9px; background: var(--pale); overflow-wrap: anywhere; }
 .result-label { color: var(--muted); font-size: 13px; }
 .result-value { margin-top: 3px; font-size: 21px; font-weight: 750; }
@@ -71,7 +71,7 @@ details { margin-top: 12px; }
 summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 .pdf-viewer iframe { display: block; width: 100%; height: min(75vh, 900px); min-height: 480px; margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; }
 .terms-list dt { margin-top: 18px; font-weight: 700; }
-.terms-list dd { margin: 3px 0 0; color: #475467; }
+.terms-list dd { margin: 3px 0 0; color: #5a554d; }
 .small { font-size: 13px; }
 @media (max-width: 560px) {
   main { padding: 26px 0 38px; }
@@ -134,7 +134,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 .lease-overview .lease-table th,
 .lease-overview .lease-table td {
     padding: 8px 10px;
-    border: 1px solid var(--lo-border, #d9e0ea);
+    border: 1px solid var(--lo-border, #ddd8cc);
     text-align: left;
 }
 .lease-overview .lease-table th {
@@ -174,7 +174,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     padding: 20px;
     border: 1px solid var(--lo-line);
     border-radius: 10px;
-    background: #fff;
+    background: #fbf9f4;
     scroll-margin-top: 88px;
 }
 .lease-overview .toc {
@@ -238,7 +238,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     padding: 16px;
     border: 1px solid var(--lo-line);
     border-radius: 8px;
-    background: #fff;
+    background: #fbf9f4;
 }
 .lease-overview .benefit-number {
     display: inline-grid;
@@ -292,7 +292,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     border-color: #c9dbf7;
 }
 .lease-overview .type-panel.operating {
-    background: #f5f7fa;
+    background: #f4f1ea;
 }
 .lease-overview .type-panel h3 {
     margin: 0 0 6px;
@@ -360,7 +360,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     padding: 12px;
     border: 1px solid var(--lo-line);
     border-radius: 8px;
-    background: #fff;
+    background: #fbf9f4;
     text-align: center;
     font-size: 14px;
     font-weight: 600;
@@ -379,7 +379,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     height: auto;
     border: 1px solid var(--lo-line);
     border-radius: 8px;
-    background: #fff;
+    background: #fbf9f4;
 }
 .lease-overview .flow-figure figcaption {
     margin-top: 8px;
@@ -390,7 +390,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     margin-top: 14px;
     padding: 12px 14px;
     border-radius: 8px;
-    background: #f5f7fa;
+    background: #f4f1ea;
 }
 .lease-overview .note strong {
     color: var(--lo-text);
@@ -404,7 +404,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     display: block;
     margin-bottom: 6px;
     font-size: 1.1em;
-    color: var(--lo-accent, #2563eb);
+    color: var(--lo-accent, #2f5fc4);
 }
 @media (max-width: 760px) {
     .lease-overview {
@@ -440,13 +440,13 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
     }
     .lease-overview .lease-table.compare tr {
         margin-bottom: 12px;
-        border: 1px solid var(--lo-border, #d9e0ea);
+        border: 1px solid var(--lo-border, #ddd8cc);
         border-radius: 8px;
         overflow: hidden;
     }
     .lease-overview .lease-table.compare td {
         border: 0;
-        border-top: 1px solid var(--lo-border, #d9e0ea);
+        border-top: 1px solid var(--lo-border, #ddd8cc);
     }
     .lease-overview .lease-table.compare td:first-child {
         width: 100%;
@@ -488,7 +488,7 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 
 /* 헤더 오른쪽: 언어 링크 + 밝기 전환 */
 .nav-right { display: flex; align-items: center; gap: 14px; }
-.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; padding: 5px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #172033; cursor: pointer; font-weight: 400; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; padding: 5px; border: 1px solid #ddd8cc; border-radius: 999px; background: #fbf9f4; color: #2b2824; cursor: pointer; font-weight: 400; }
 .theme-toggle span { display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 999px; font-size: 15px; }
 .theme-toggle .light { background: #dbeafe; }
 .theme-toggle .dark { background: transparent; }
@@ -505,7 +505,10 @@ html.dark-mode .note { border-left-color: #3b82f6; }
 html.dark-mode .card-link:hover, html.dark-mode .card-link:focus-visible { box-shadow: 0 4px 18px #00000066; }
 
 /* 헤더의 '한국어' 링크: 서브페이지와 같은 버튼(알약) 모양 */
-.language-link { display: inline-block; padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #475467; font-size: 13px; font-weight: 600; line-height: 1.5; text-decoration: none; white-space: nowrap; }
-.language-link:hover { border-color: #2563eb; color: #2563eb; }
+.language-link { display: inline-block; padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #5a554d; font-size: 13px; font-weight: 600; line-height: 1.5; text-decoration: none; white-space: nowrap; }
+.language-link:hover { border-color: #2563eb; color: #2f5fc4; }
 html.dark-mode .site-header .language-link { color: #475467; }
 html.dark-mode .site-header .language-link:hover { color: #2563eb; }
+
+/* 로고 그림의 흰 배경이 따뜻한 헤더 위에서 네모로 보이지 않게 한다(밝은 화면) */
+html:not(.dark-mode) header img { mix-blend-mode: multiply; }
