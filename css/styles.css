@@ -645,8 +645,8 @@ html.dark-mode .history-group-title {
 }
 
 html.dark-mode .insight-card {
-    background: #222426;
-    border-color: #34373a;
+    background: #1a1b1d;
+    border-color: #2a2c2e;
 }
 
 html.dark-mode .insight-card h3 {
@@ -1442,7 +1442,7 @@ nav a:hover {
 
 html.dark-mode {
     color: #e4e4e4;
-    background: #181a1b;
+    background: #121314;
 }
 
 /* [수정 3] body 에 흰색 배경(#ffffff)이 고정되어 있어서
@@ -1450,11 +1450,11 @@ html.dark-mode {
    다크 모드에서 하얗게 보이던 문제를 해결 */
 html.dark-mode body {
     color: #e4e4e4;
-    background: #181a1b;
+    background: #121314;
 }
 
 html.dark-mode main > section:not(.hero) {
-    border-top-color: #34373a;
+    border-top-color: #2a2c2e;
 }
 
 html.dark-mode .hero {
@@ -1463,8 +1463,8 @@ html.dark-mode .hero {
             #172554 0,
             transparent 35%),
         linear-gradient(180deg,
-            #181a1b 0%,
-            #141516 100%);
+            #121314 0%,
+            #0d0e0f 100%);
 }
 
 html.dark-mode .hero-label {
@@ -1485,12 +1485,12 @@ html.dark-mode .hero-text {
 }
 
 html.dark-mode .hero-news {
-    background: #222426;
-    border-color: #34373a;
+    background: #1a1b1d;
+    border-color: #2a2c2e;
 }
 
 html.dark-mode .hero-news-list li {
-    border-top-color: #34373a;
+    border-top-color: #2a2c2e;
 }
 
 html.dark-mode .hero-news-title {
@@ -1533,20 +1533,20 @@ html.dark-mode .about p {
 
 html.dark-mode .services,
 html.dark-mode .process {
-    background: #141516;
+    background: #0d0e0f;
 }
 
 /* 인사이트는 밝은 화면에서 흰 배경이므로, 어두운 화면에서는 본문 배경색을 따른다 */
 html.dark-mode .insights {
-    background: #181a1b;
+    background: #121314;
 }
 
 html.dark-mode .service-card,
 html.dark-mode .process-card,
 html.dark-mode .principle,
 html.dark-mode .history-item {
-    background: #222426;
-    border-color: #34373a;
+    background: #1a1b1d;
+    border-color: #2a2c2e;
 }
 
 html.dark-mode .service-card h3,
@@ -1588,7 +1588,7 @@ html.dark-mode .history-date {
 
 html.dark-mode .history-client {
     color: #c5cedb;
-    background: #2a2d2f;
+    background: #202224;
     border-color: #344054;
 }
 
@@ -1598,12 +1598,12 @@ html.dark-mode .history-role {
 }
 
 html.dark-mode .history-env {
-    border-top-color: #34373a;
+    border-top-color: #2a2c2e;
 }
 
 html.dark-mode .env-tag {
     color: #c5cedb;
-    background: #2a2d2f;
+    background: #202224;
 }
 
 
@@ -1646,7 +1646,7 @@ html.dark-mode .theme-toggle .dark {
 /* CONTACT */
 
 html.dark-mode .contact {
-    background: #0e0f10;
+    background: #070708;
 }
 
 
