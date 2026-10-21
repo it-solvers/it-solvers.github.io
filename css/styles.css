@@ -234,7 +234,7 @@ nav a:hover {
 ========================= */
 
 .hero {
-    padding: 100px 0 56px;
+    padding: 100px 0 40px;
 
     background:
         radial-gradient(circle at 80% 20%,
@@ -392,7 +392,8 @@ main > section:not(.hero) {
 ========================= */
 
 section {
-    padding: 95px 0;
+    /* 모든 섹션의 위아래 여백을 같게 맞춘다(첫 화면 제외) */
+    padding: 64px 0;
 }
 
 .section-title {
@@ -841,7 +842,7 @@ html.dark-mode .insight-card p {
 ========================= */
 
 .contact {
-    padding: 100px 0;
+    padding: 64px 0;
 
     text-align: center;
 
@@ -1292,7 +1293,7 @@ MOBILE
     /* HERO */
 
     .hero {
-        padding: 72px 0 40px;
+        padding: 72px 0 32px;
     }
 
     .hero h1 {
@@ -1304,7 +1305,7 @@ MOBILE
     /* SECTION */
 
     section {
-        padding: 70px 0;
+        padding: 48px 0;
     }
 
     .section-title h2,
@@ -2203,9 +2204,4 @@ html.dark-mode .page-date {
 .lease-overview .muted {
     color: #667085;
     font-size: 14px;
-}
-
-/* 첫 화면 바로 아래 인사이트 섹션: 위쪽 여백을 줄여 간격이 벌어져 보이지 않게 한다 */
-.hero + .insights {
-    padding-top: 64px;
 }
