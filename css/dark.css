@@ -1,7 +1,7 @@
-/* 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#111827 / #172033)이며, 헤더는 메인처럼 밝게 고정한다. */
+/* 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#181a1b / #222426)이며, 헤더는 메인처럼 밝게 고정한다. */
 
 /* 밝기 전환 버튼 (메인과 같은 모양. 이 파일만 불러오는 페이지에서도 보이도록 여기에도 둔다) */
-.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #e5e7eb; border-radius: 999px; background: #ffffff; color: #172033; cursor: pointer; font-weight: 400; flex-shrink: 0; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #e4e4e4; border-radius: 999px; background: #ffffff; color: #222426; cursor: pointer; font-weight: 400; flex-shrink: 0; }
 .nav-right .theme-toggle { margin-left: 0; }
 .theme-toggle span { display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 999px; font-size: 15px; }
 .theme-toggle .light { background: #dbeafe; }
@@ -10,73 +10,73 @@
 html.dark-mode .theme-toggle .light { background: transparent; }
 html.dark-mode .theme-toggle .dark { background: #dbeafe; }
 
-html.dark-mode { color-scheme: dark; background: #111827; }
-html.dark-mode body { background: #111827; color: #e5e7eb; }
+html.dark-mode { color-scheme: dark; background: #181a1b; }
+html.dark-mode body { background: #181a1b; color: #e4e4e4; }
 
 /* 헤더는 밝게 고정 */
-html.dark-mode header { background: #ffffff; border-bottom-color: #e4e8ef; color: #172033; }
-html.dark-mode header a, html.dark-mode header strong { color: #172033; }
+html.dark-mode header { background: #ffffff; border-bottom-color: #e4e8ef; color: #222426; }
+html.dark-mode header a, html.dark-mode header strong { color: #222426; }
 html.dark-mode header .language-link { color: #2563eb; }
 html.dark-mode .page-date { color: #667085; opacity: 1; }
 
 /* ===== 변수를 쓰는 페이지(계산기 등)와 가이드: 변수 값만 어둡게 바꾼다 ===== */
 html.dark-mode {
-  --bg: #111827; --card: #172033; --text: #e5e7eb; --muted: #aab4c3; --line: #2a3548;
+  --bg: #181a1b; --card: #222426; --text: #e4e4e4; --muted: #a8abae; --line: #34373a;
   --accent: #60a5fa; --accent-weak: #1e3a5f; --warn: #f87171;
 }
 html.dark-mode .lease-overview {
-  --lo-text: #e5e7eb; --lo-muted: #aab4c3; --lo-line: #2a3548; --lo-border: #2a3548;
+  --lo-text: #e4e4e4; --lo-muted: #a8abae; --lo-line: #34373a; --lo-border: #34373a;
   --lo-accent: #60a5fa; --lo-accent-weak: #1e3a5f;
 }
 html.dark-mode .guide {
-  --bg: #111827; --surface: #172033; --ink: #e5e7eb; --muted: #aab4c3; --line: #2a3548;
+  --bg: #181a1b; --surface: #222426; --ink: #e4e4e4; --muted: #a8abae; --line: #34373a;
   --accent: #60a5fa; --accent-soft: #1e3a5f;
   --fin: #6aa8e8; --opr: #f0924a; --prop: #c58bd6;
   --fin-soft: #172c45; --opr-soft: #3a2614; --prop-soft: #2c1f35;
   --neg: #f87171; --pos: #4ade80; --warn-soft: #3a2f0f; --warn-ink: #fde68a;
-  --m-sl: #9aa7b2; --m-dec: #f0a020; --pb: #34d399; --rev: #e5e7eb; --gain: #7bb8e8;
+  --m-sl: #9aa7b2; --m-dec: #f0a020; --pb: #34d399; --rev: #e4e4e4; --gain: #7bb8e8;
   --m-sl-soft: #232c36; --m-dec-soft: #3a2f12; --pb-soft: #0f3a2d;
 }
 
 /* ===== 소개·문의·개인정보·리스 개요·용어 등(lease-page) ===== */
-html.dark-mode body.lease-page { background: #111827; }
+html.dark-mode body.lease-page { background: #181a1b; }
 html.dark-mode .lease-overview h1,
 html.dark-mode .lease-overview h2,
 html.dark-mode .lease-overview h3 { color: #f3f4f6; }
 html.dark-mode .lease-overview h4 { color: #60a5fa; }
 html.dark-mode .lease-overview .sub,
-html.dark-mode .lease-overview .muted { color: #aab4c3; }
+html.dark-mode .lease-overview .muted { color: #a8abae; }
 html.dark-mode .lease-overview .card,
 html.dark-mode .lease-overview > nav.card,
 html.dark-mode .lease-overview .lease-item,
 html.dark-mode .lease-overview .flow-step,
-html.dark-mode .lease-overview .flow-figure img { background: #172033; border-color: #2a3548; color: #e5e7eb; }
+html.dark-mode .lease-overview .flow-figure img { background: #222426; border-color: #34373a; color: #e4e4e4; }
 html.dark-mode .lease-overview .type-panel,
 html.dark-mode .lease-overview .type-panel.operating,
-html.dark-mode .lease-overview .note { background: #172033; border-color: #2a3548; color: #e5e7eb; }
+html.dark-mode .lease-overview .note { background: #222426; border-color: #34373a; color: #e4e4e4; }
 html.dark-mode .lease-overview .type-panel.finance { border-color: #2a4a7a; background: #14233a; }
-html.dark-mode .lease-overview .formula { background: #0f172a; color: #e5e7eb; }
-html.dark-mode .lease-overview .placeholder { border-color: #334155; }
+html.dark-mode .lease-overview .formula { background: #141516; color: #e4e4e4; }
+html.dark-mode .lease-overview .placeholder { border-color: #3d4144; }
 html.dark-mode .lease-overview a { color: #60a5fa; }
 html.dark-mode .lease-overview .button { color: #fff; }
-html.dark-mode .lease-overview th { background: #1e293b; color: #e5e7eb; }
-html.dark-mode .lease-overview td { border-color: #2a3548; }
+html.dark-mode .lease-overview th { background: #2a2d2f; color: #e4e4e4; }
+html.dark-mode .lease-overview td { border-color: #34373a; }
 html.dark-mode .lease-overview code,
-html.dark-mode .lease-overview pre { background: #0f172a; color: #e5e7eb; }
+html.dark-mode .lease-overview pre { background: #141516; color: #e4e4e4; }
 
 /* ===== 계산기 페이지(.calculator-main, main.wrap) ===== */
 html.dark-mode .calculator-main h1,
 html.dark-mode .calculator-main h2,
 html.dark-mode .calculator-main h3 { color: #f3f4f6; }
 html.dark-mode .calculator-intro,
-html.dark-mode .calculator-note { color: #aab4c3; }
+html.dark-mode .calculator-note { color: #a8abae; }
 html.dark-mode .calculator-card,
-html.dark-mode .card { background: #172033; border-color: #2a3548; }
+html.dark-mode .card { background: #222426; border-color: #34373a; }
 html.dark-mode .calculator-field label,
 html.dark-mode label { color: #cbd5e1; }
 html.dark-mode input,
 html.dark-mode select,
-html.dark-mode textarea { background: #0f172a; color: #e5e7eb; border-color: #334155; }
+html.dark-mode textarea { background: #141516; color: #e4e4e4; border-color: #3d4144; }
 html.dark-mode input::placeholder { color: #64748b; }
 html.dark-mode input:focus,
 html.dark-mode select:focus { border-color: #60a5fa; outline-color: #1e3a5f; }
@@ -84,45 +84,45 @@ html.dark-mode .calculator-example,
 html.dark-mode .calculator-clear,
 html.dark-mode button.secondary,
 html.dark-mode .input-head-actions .calculator-example,
-html.dark-mode .input-head-actions .calculator-clear { background: #172033; color: #60a5fa; border-color: #60a5fa; }
+html.dark-mode .input-head-actions .calculator-clear { background: #222426; color: #60a5fa; border-color: #60a5fa; }
 html.dark-mode .calculator-example:hover { background: #1e3a5f; }
 html.dark-mode pre,
 html.dark-mode .developer-formula pre,
 html.dark-mode .language-examples pre,
-html.dark-mode .language-examples .code-block { background: #0f172a; color: #e5e7eb; border-color: #2a3548; }
+html.dark-mode .language-examples .code-block { background: #141516; color: #e4e4e4; border-color: #34373a; }
 html.dark-mode .language-examples pre:hover,
 html.dark-mode .developer-formula pre:hover,
 html.dark-mode .language-examples .code-block:hover { background: #1e3a5f; }
 html.dark-mode .language-examples,
 html.dark-mode .developer-formula,
-html.dark-mode details { border-color: #2a3548; }
+html.dark-mode details { border-color: #34373a; }
 html.dark-mode details summary,
-html.dark-mode .language-examples summary { color: #e5e7eb; }
-html.dark-mode .copy-hint { color: #94a3b8; border-color: #2a3548; background: #172033; }
-html.dark-mode .result { background: #1e3a5f; color: #e5e7eb; }
-html.dark-mode .result-label { color: #aab4c3; }
-html.dark-mode th { background: #1e293b; color: #e5e7eb; }
-html.dark-mode td { border-color: #2a3548; }
-html.dark-mode .table-wrap, html.dark-mode .scroll { border-color: #2a3548; }
+html.dark-mode .language-examples summary { color: #e4e4e4; }
+html.dark-mode .copy-hint { color: #94a3b8; border-color: #34373a; background: #222426; }
+html.dark-mode .result { background: #1e3a5f; color: #e4e4e4; }
+html.dark-mode .result-label { color: #a8abae; }
+html.dark-mode th { background: #2a2d2f; color: #e4e4e4; }
+html.dark-mode td { border-color: #34373a; }
+html.dark-mode .table-wrap, html.dark-mode .scroll { border-color: #34373a; }
 html.dark-mode .error { color: #f87171; }
 html.dark-mode main a { color: #60a5fa; }
 html.dark-mode main a.button, html.dark-mode main a.button-primary { color: #fff; }
 
 /* ===== 푸터 ===== */
-html.dark-mode footer { background: #0b1220; color: #98a2b3; }
+html.dark-mode footer { background: #101112; color: #9a9da0; }
 html.dark-mode footer a { color: #cbd5e1; }
 
 /* ===== 리스료 계산기: 수식·결과 영역 ===== */
 html.dark-mode .formula-card p,
 html.dark-mode .formula-card li { color: #cbd5e1; }
 html.dark-mode .formula-equation,
-html.dark-mode .formula-card code { background: #0f172a; color: #e5e7eb; }
-html.dark-mode .developer-formula { background: #172033; border-color: #2a3548; }
+html.dark-mode .formula-card code { background: #141516; color: #e4e4e4; }
+html.dark-mode .developer-formula { background: #222426; border-color: #34373a; }
 html.dark-mode .developer-formula pre,
-html.dark-mode .developer-formula pre code { color: #e5e7eb; }
+html.dark-mode .developer-formula pre code { color: #e4e4e4; }
 html.dark-mode .calculator-result,
 html.dark-mode .calculator-results > div { background: #1e3a5f; }
-html.dark-mode .calculator-result-label { color: #aab4c3; }
+html.dark-mode .calculator-result-label { color: #a8abae; }
 html.dark-mode .calculator-result-value { color: #f3f4f6; }
 html.dark-mode .calculator-card p,
 html.dark-mode .calculator-card li { color: #cbd5e1; }
