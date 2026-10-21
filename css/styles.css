@@ -234,7 +234,7 @@ nav a:hover {
 ========================= */
 
 .hero {
-    padding: 120px 0 110px;
+    padding: 100px 0 56px;
 
     background:
         radial-gradient(circle at 80% 20%,
@@ -280,6 +280,7 @@ nav a:hover {
     margin: 28px 0 28px;
 
     max-width: 650px;
+    word-break: keep-all;
 
     color: var(--site-muted);
 
@@ -1291,7 +1292,7 @@ MOBILE
     /* HERO */
 
     .hero {
-        padding: 80px 0 70px;
+        padding: 72px 0 40px;
     }
 
     .hero h1 {
@@ -2202,4 +2203,9 @@ html.dark-mode .page-date {
 .lease-overview .muted {
     color: #667085;
     font-size: 14px;
+}
+
+/* 첫 화면 바로 아래 인사이트 섹션: 위쪽 여백을 줄여 간격이 벌어져 보이지 않게 한다 */
+.hero + .insights {
+    padding-top: 64px;
 }
