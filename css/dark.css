@@ -130,3 +130,13 @@ html.dark-mode .calculator-card li { color: #cbd5e1; }
 /* 주 버튼: 밝은 파랑 바탕에 흰 글씨가 안 보이지 않도록 진한 파랑으로 */
 html.dark-mode button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear),
 html.dark-mode .calculator-button { background: #2563eb; border-color: #2563eb; color: #fff; }
+
+/* 헤더의 '한국어' 링크: 모든 영문 서브페이지에서 같은 버튼(알약) 모양으로 통일 */
+header .language-link,
+header a[lang="ko"] {
+  display: inline-block; padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px;
+  color: #475467 !important; background: transparent; font-size: 13px !important; font-weight: 600;
+  line-height: 1.5; text-decoration: none !important; white-space: nowrap;
+}
+header .language-link:hover,
+header a[lang="ko"]:hover { border-color: #2563eb; color: #2563eb !important; }

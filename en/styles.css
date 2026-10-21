@@ -503,3 +503,9 @@ html.dark-mode .theme-toggle .light { background: transparent; }
 html.dark-mode .theme-toggle .dark { background: #dbeafe; }
 html.dark-mode .note { border-left-color: #3b82f6; }
 html.dark-mode .card-link:hover, html.dark-mode .card-link:focus-visible { box-shadow: 0 4px 18px #00000066; }
+
+/* 헤더의 '한국어' 링크: 서브페이지와 같은 버튼(알약) 모양 */
+.language-link { display: inline-block; padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #475467; font-size: 13px; font-weight: 600; line-height: 1.5; text-decoration: none; white-space: nowrap; }
+.language-link:hover { border-color: #2563eb; color: #2563eb; }
+html.dark-mode .site-header .language-link { color: #475467; }
+html.dark-mode .site-header .language-link:hover { color: #2563eb; }
