@@ -54,11 +54,23 @@
   }
   </script>
   <link rel="stylesheet" href="styles.css">
+  <script>
+  /* 화면 밝기 초기 적용: 한글 사이트와 같은 저장값(theme)을 쓴다. 저장값이 없으면 어두운 화면이 기본이다. */
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (e) { }
+    if (saved === "light") document.documentElement.classList.remove("dark-mode");
+    else document.documentElement.classList.add("dark-mode");
+  })();
+  </script>
 </head>
 <body>
   <header class="site-header"><div class="container nav">
     <a class="brand" href="./"><img src="../images/logo.png" alt="">IT Solvers</a>
-    <a class="language-link" href="../index.html">한국어</a>
+    <div class="nav-right">
+      <a class="language-link" href="../index.html">한국어</a>
+      <button class="theme-toggle" type="button" title="Switch light or dark mode" aria-label="Dark mode" aria-pressed="true" onclick="toggleTheme()"><span class="light">☀</span><span class="dark">☾</span></button>
+    </div>
   </div></header>
   <main>
     <h1>Sharing lease know-how, and building ideas as MVPs</h1>
@@ -102,5 +114,18 @@
   <footer class="site-footer"><div class="container footer-layout"><div class="footer-company"><strong>IT Solvers</strong><span>CEO Hyeok Lee</span><span>Biz. Reg. No. 364-11-03265</span></div><p class="translation-note">Translated with AI assistance. <a href="../index.html">View the Korean original.</a></p></div><div class="container footer-links"><a href="about.html">About</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy Policy</a></div>
   <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 IT Solvers. All rights reserved.</div>
 </footer>
+<script>
+  /* 밝게/어둡게 전환: 선택을 브라우저에 저장하고(theme), 한글 사이트와 공유한다. */
+  function toggleTheme() {
+    var isDark = document.documentElement.classList.toggle("dark-mode");
+    try { localStorage.setItem("theme", isDark ? "dark" : "light"); } catch (e) { }
+    updateThemeButton();
+  }
+  function updateThemeButton() {
+    var b = document.querySelector(".theme-toggle");
+    if (b) b.setAttribute("aria-pressed", document.documentElement.classList.contains("dark-mode") ? "true" : "false");
+  }
+  updateThemeButton();
+</script>
 </body>
 </html>

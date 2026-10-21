@@ -485,3 +485,21 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 .news-list a { color: var(--ink); font-weight: 600; }
 .news-list a:hover { color: var(--blue); }
 .footer-links { margin-top: 10px; font-size: 13px; } .footer-links a { color: inherit; text-decoration: underline; }
+
+/* 헤더 오른쪽: 언어 링크 + 밝기 전환 */
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; padding: 5px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #172033; cursor: pointer; font-weight: 400; }
+.theme-toggle span { display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 999px; font-size: 15px; }
+.theme-toggle .light { background: #dbeafe; }
+.theme-toggle .dark { background: transparent; }
+.theme-toggle:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+/* 어두운 화면: 한글 사이트와 같은 색 계열. 헤더는 한글 사이트처럼 밝게 고정한다. */
+html.dark-mode { color-scheme: dark; --ink: #e5e7eb; --muted: #aab4c3; --line: #232e42; --blue: #60a5fa; --pale: #172033; --surface: #172033; --page: #111827; }
+html.dark-mode .site-header { background: #fff; border-bottom-color: #e4e8ef; }
+html.dark-mode .site-header .brand { color: #172033; }
+html.dark-mode .site-header .language-link { color: #2563eb; }
+html.dark-mode .theme-toggle .light { background: transparent; }
+html.dark-mode .theme-toggle .dark { background: #dbeafe; }
+html.dark-mode .note { border-left-color: #3b82f6; }
+html.dark-mode .card-link:hover, html.dark-mode .card-link:focus-visible { box-shadow: 0 4px 18px #00000066; }
