@@ -13,6 +13,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://itsolvers.co.kr/en/insights/e-contract.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://itsolvers.co.kr/en/insights/lease-overview.html</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>monthly</changefreq>
