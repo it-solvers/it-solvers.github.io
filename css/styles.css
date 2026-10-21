@@ -2137,7 +2137,7 @@ body.lease-page footer .container span {
 .next-steps ul { margin: 8px 0 0; padding-left: 20px; }
 .next-steps li { margin: 6px 0; }
 
-/* 서브페이지 헤더 우상단 작성일 */
+/* 서브페이지 작성일 */
 .page-date {
     margin-left: auto;
     color: #6b655b;
@@ -2147,6 +2147,16 @@ body.lease-page footer .container span {
 }
 
 .nav-right .page-date {
+    margin-left: 0;
+}
+
+/* 서브페이지 본문 최상단 우측 작성일 */
+.page-date-row {
+    text-align: right;
+    margin: 0 0 12px;
+}
+
+.page-date-row .page-date {
     margin-left: 0;
 }
 
