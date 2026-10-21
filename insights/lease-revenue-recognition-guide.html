@@ -1,56 +1,91 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>리스 수익 인식 가이드</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004"
+     crossorigin="anonymous"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="리스 제공자의 금융리스와 운용리스 수익 인식·분개를 36개월 예시로 비교합니다. 이자수익, 원금 회수, 감가상각비, 월별 이익과 연습문제를 다룹니다.">
+  <title>리스 수익 인식 가이드 | 금융리스·운용리스 분개 비교 | 아이티해결단</title>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="아이티해결단 (IT Solvers)">
+  <meta property="og:title" content="리스 수익 인식 가이드 | 아이티해결단">
+  <meta property="og:description" content="금융리스와 운용리스의 수익 인식과 분개를 36개월 예시로 비교합니다.">
+  <meta property="og:url" content="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="리스 수익 인식 가이드 | 아이티해결단">
+  <meta name="twitter:description" content="금융리스·운용리스 수익 인식과 분개 비교 안내.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "리스 수익 인식 가이드",
+    "inLanguage": "ko-KR",
+    "description": "리스 제공자의 금융리스와 운용리스 수익 인식·분개를 36개월 예시로 비교합니다. 이자수익, 원금 회수, 감가상각비, 월별 이익과 연습문제를 다룹니다.",
+    "url": "https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html",
+    "mainEntityOfPage": "https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html",
+    "author": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "url": "https://itsolvers.co.kr/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "아이티해결단 (IT Solvers)",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://itsolvers.co.kr/images/logo.png"
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../css/styles.css">
 <style>
 /* Layout: 단일 컬럼 교재형. 학습목표 → 용어 → 계산 → 비교 → 직접 해보기 → 연습문제 순서 */
-:root{--pb:#2a8a6b;--pb-soft:#dff3ec;
-  --bg:#f2f5f8; --surface:#ffffff; --ink:#16212c; --muted:#56646f; --line:#d6dde4;
-  --accent:#17507d; --accent-soft:#e3eef8;
+.guide{--pb:#2a8a6b;--pb-soft:#dff3ec;
+  --bg:#f5f7fa; --surface:#ffffff; --ink:#1f2933; --muted:#667085; --line:#dde3ea;
+  --accent:#1d5fd1; --accent-soft:#e8f0fc;
   --fin:#1d5fa8; --opr:#c4650f; --prop:#8a4a9c;
   --fin-soft:#e3eef9; --opr-soft:#fbeadb; --prop-soft:#f1e5f5;
   --neg:#b3261e; --pos:#1b6b3a; --warn-soft:#fff3d6; --warn-ink:#6b4a00;
-  --f-body:'Noto Sans KR',system-ui,-apple-system,'Malgun Gothic',sans-serif;
-  --f-head:'Noto Serif KR','Batang',Georgia,serif;
-  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pb:#5fcfa8;--pb-soft:#17332b;
-  --bg:#0f151b; --surface:#17202a; --ink:#e6ebf0; --muted:#9aa8b5; --line:#2b3743;
-  --accent:#7db7e8; --accent-soft:#1b2d3f;
-  --fin:#6aa8ec; --opr:#f0974a; --prop:#c98bdc;
-  --fin-soft:#18283a; --opr-soft:#33241a; --prop-soft:#2b1f33;
-  --neg:#ff8a80; --pos:#6fd29a; --warn-soft:#3a2f12; --warn-ink:#f1d48a; color-scheme:dark}}
-:root[data-theme="dark"]{--pb:#5fcfa8;--pb-soft:#17332b;
-  --bg:#0f151b; --surface:#17202a; --ink:#e6ebf0; --muted:#9aa8b5; --line:#2b3743;
-  --accent:#7db7e8; --accent-soft:#1b2d3f;
-  --fin:#6aa8ec; --opr:#f0974a; --prop:#c98bdc;
-  --fin-soft:#18283a; --opr-soft:#33241a; --prop-soft:#2b1f33;
-  --neg:#ff8a80; --pos:#6fd29a; --warn-soft:#3a2f12; --warn-ink:#f1d48a; color-scheme:dark}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;margin:0;
-  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
-h1,h2,h3{font-family:var(--f-head);line-height:1.35;text-wrap:balance;margin:0}
-h1{font-size:clamp(26px,5vw,38px)}
-h2{font-size:24px;margin-bottom:4px}
-h3{font-size:18px;margin-bottom:6px}
-p{margin:0 0 12px}
-a{color:var(--accent)}
-code,.mono{font-family:var(--f-mono);font-size:.92em}
-code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+.guide .wrap{display:flex;flex-direction:column;gap:32px}
+.guide h1,.guide h2,.guide h3{line-height:1.35;text-wrap:balance;margin:0}
+.guide h2{font-size:22px;margin-bottom:4px}
+.guide h3{font-size:18px;margin-bottom:6px}
+.guide p{margin:0 0 12px}
+.guide a{color:var(--accent)}
+.guide code,.guide .mono{font-family:var(--f-mono);font-size:.92em}
+.guide code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
 .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .neg{color:var(--neg)} .pos{color:var(--pos)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-header .kicker{font-size:13px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-header p.lead{font-size:18px;color:var(--muted);max-width:62ch;margin-top:12px}
+.guide .g-head .kicker{font-size:13px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.guide .g-head p.lead{font-size:18px;color:var(--muted);max-width:62ch;margin-top:12px}
 nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 nav.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;font-size:14px;color:var(--ink)}
 nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
-section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+.guide section{padding:0;display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
 .sec-sub{color:var(--muted);margin:0}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
 .goal ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
@@ -67,9 +102,9 @@ dl.terms dt{font-weight:700}
 dl.terms dt:first-of-type,dl.terms dt:first-of-type+dd{border-top:0}
 @media(max-width:560px){dl.terms{grid-template-columns:1fr}dl.terms dt{padding-bottom:0;border-top:1px solid var(--line)}dl.terms dd{border-top:0;padding-top:2px}}
 .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{background:var(--accent-soft);font-weight:700;white-space:nowrap}
+.guide table{border-collapse:collapse;width:100%;font-size:14px}
+.guide th,.guide td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.guide th{background:var(--accent-soft);font-weight:700;white-space:nowrap}
 td.num,th.num{text-align:right}
 tbody tr:last-child td{border-bottom:0}
 tfoot td{font-weight:700;background:var(--accent-soft)}
@@ -83,10 +118,10 @@ table.sched thead th{position:sticky;top:0}
 .formula{font-family:var(--f-mono);background:var(--accent-soft);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.9}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin:0 0 8px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-figure{margin:0}
+.guide figure{margin:0}
 figcaption{font-size:14px;color:var(--muted);margin-top:8px}
 svg.chart{width:100%;height:auto;display:block}
-svg.chart text{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+svg.chart text{fill:var(--muted);font-family:inherit;font-size:11px}
 svg.chart .grid{stroke:var(--line);stroke-width:1}
 svg.chart .axis{stroke:var(--muted);stroke-width:1}
 .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
@@ -105,9 +140,9 @@ details.q summary{cursor:pointer;padding:12px 16px;font-weight:500}
 details.q .ans{padding:0 16px 14px}
 .qs{display:flex;flex-direction:column;gap:10px}
 ul.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
-footer{font-size:14px;color:var(--muted)}
+.guide .g-foot{font-size:14px;color:var(--muted)}
 @media(prefers-reduced-motion:no-preference){nav.toc a{transition:border-color .15s,color .15s}}
-.c-pb{fill:var(--pb)} .t-pb{background:var(--pb-soft);color:var(--pb)}:root{--m-sl:#5b6770;--m-dec:#e08a00;--pb:#00896a;--rev:#1f2937;--gain:#5aa0d8;--m-sl-soft:#e8ecef;--m-dec-soft:#fff0d1;--pb-soft:#d9f2ea}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--m-sl:#b4bdc5;--m-dec:#ffb02e;--pb:#3fe0b0;--rev:#e5e7eb;--gain:#6aa8ec;--m-sl-soft:#2a2f34;--m-dec-soft:#3a2d12;--pb-soft:#14342a}} :root[data-theme="dark"]{--m-sl:#b4bdc5;--m-dec:#ffb02e;--pb:#3fe0b0;--rev:#e5e7eb;--gain:#6aa8ec;--m-sl-soft:#2a2f34;--m-dec-soft:#3a2d12;--pb-soft:#14342a} .c-sl{fill:var(--m-sl)} .c-dec{fill:var(--m-dec)} .t-sl{background:var(--m-sl-soft);color:var(--m-sl)} .t-dec{background:var(--m-dec-soft);color:var(--m-dec)}</style>
+.c-pb{fill:var(--pb)} .t-pb{background:var(--pb-soft);color:var(--pb)} .guide{--m-sl:#5b6770;--m-dec:#e08a00;--pb:#00896a;--rev:#1f2937;--gain:#5aa0d8;--m-sl-soft:#e8ecef;--m-dec-soft:#fff0d1;--pb-soft:#d9f2ea} .c-sl{fill:var(--m-sl)} .c-dec{fill:var(--m-dec)} .t-sl{background:var(--m-sl-soft);color:var(--m-sl)} .t-dec{background:var(--m-dec-soft);color:var(--m-dec)}</style>
 <style>
 .c-prin{fill:var(--muted);fill-opacity:.35}
 .c-fin{fill:var(--fin)} .c-opr{fill:var(--opr)} .c-prop{fill:var(--prop)}
@@ -124,20 +159,35 @@ svg.chart text.val{font-size:10px;fill:var(--ink)}
 .fb.no{background:var(--warn-soft);color:var(--warn-ink)}
 .fb b.ok{color:var(--pos)} .fb b.no{color:var(--neg)}
 </style>
-<style>td:first-child{white-space:nowrap}
-.je th,.je td{font-size:14px}
+<style>.guide td:first-child{white-space:nowrap}
+.guide .je th,.guide .je td{font-size:14px}
 .je td.acc{padding-left:10px}
 .je td.cr-acc{padding-left:28px}
 .je tr.sum td{font-weight:700;background:var(--accent-soft)}
 .ctx{margin:0 0 6px;font-size:14px;color:var(--muted)}
 @media(max-width:560px){svg.chart text{font-size:19px}svg.chart text.val{font-size:16px}}</style>
+</head>
+<body class="lease-page">
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="아이티해결단 메인으로 이동">
+        <span class="logo-mark">
+          <img src="https://itsolvers.co.kr/images/logo.png" alt="아이티해결단 로고">
+        </span>
+        <span>아이티해결단</span>
+      </a>
+    </div>
+  </header>
+
+
+    <main class="lease-overview guide">
 <div class="wrap">
-<header>
+<div class="g-head">
   <div class="kicker">신입 개발자 교육 · 금융 업무 기초</div>
   <h1>금융리스와 운용리스, 수익 인식과 분개 비교</h1>
   <p class="lead">리스(Lease, 물건을 빌려주고 사용료를 받는 계약)에서 리스회사가 받는 돈은 같습니다. 그 돈을 장부에 어떻게 기록하는지(분개, Journal Entry)가 두 리스의 차이입니다. 36개월 월 납부 예시로 따라가 봅니다.</p>
   <div class="callout" style="margin-top:16px"><strong>금액 계산 기준</strong>이 페이지의 모든 금액은 <strong>100원 미만을 버린(절사) 값</strong>입니다. 월 리스료, 이자, 원금, 감가상각비 모두 100원 단위입니다.</div>
-</header>
+</div>
 
 <section>
   <div class="panel">
@@ -384,6 +434,18 @@ svg.chart text.val{font-size:10px;fill:var(--ink)}
       <li>매각가 3,000만 원은 설명용 가정이며, 실제 처분손익 처리는 회사 정책에 따라 다를 수 있습니다. 확인 필요.</li>
     </ul>
   </div>
-  <footer>예시 숫자는 이해를 돕기 위해 만든 값이며 실제 계약 값이 아닙니다. 모든 금액은 100원 미만을 버려(절사) 계산했습니다. 심화 1은 연 15% 조건의 예시이며 정액법·정률법은 48개월 상각, 원금상환비례법은 36개월 상각입니다. 작성일 2026-10-21</footer>
+  <p class="g-foot">예시 숫자는 이해를 돕기 위해 만든 값이며 실제 계약 값이 아닙니다. 모든 금액은 100원 미만을 버려(절사) 계산했습니다. 심화 1은 연 15% 조건의 예시이며 정액법·정률법은 48개월 상각, 원금상환비례법은 36개월 상각입니다. 작성일 2026-10-21</p>
 </section>
 </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <strong>아이티해결단 (IT Solvers)</strong>
+      <span>| 대표 이혁</span>
+      <span>| 사업자등록번호 364-11-03265</span>
+    </div>
+  <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 아이티해결단 (IT Solvers). All rights reserved.</div>
+</footer>
+</body>
+</html>
