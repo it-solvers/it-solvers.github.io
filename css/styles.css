@@ -1,5 +1,5 @@
 :root {
-    --site-background: #ffffff;
+    --site-background: #f3f4f6; /* 순백 대신 밝은 회색 */
     --site-surface: #ffffff;
     --site-text: #172033;
     --site-muted: #667085;
@@ -241,8 +241,8 @@ nav a:hover {
             var(--site-accent-soft) 0,
             transparent 35%),
         linear-gradient(180deg,
-            #ffffff 0%,
-            #f8faff 100%);
+            #f3f4f6 0%,
+            #eef1f8 100%);
 }
 
 .hero-label {
@@ -431,7 +431,7 @@ section {
 ========================= */
 
 .services {
-    background: #f8f9fb;
+    background: #eaecf0;
 }
 
 .service-grid {
@@ -779,8 +779,8 @@ html.dark-mode .insight-card p {
 ========================= */
 
 .insights {
-    /* 서비스 섹션(회색)과 번갈아 보이도록 흰 배경 */
-    background: #ffffff;
+    /* 서비스·진행순서 섹션(조금 더 진한 회색)과 번갈아 보이도록 기본 배경 */
+    background: var(--site-background);
 }
 
 
@@ -790,7 +790,7 @@ html.dark-mode .insight-card p {
 ========================= */
 
 .process {
-    background: #f8f9fb;
+    background: #eaecf0;
 }
 
 .process-grid {
@@ -1678,7 +1678,7 @@ body.lease-page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: #f5f7fa;
+    background: #f3f4f6;
     line-height: 1.5;
 }
 
