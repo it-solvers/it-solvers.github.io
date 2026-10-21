@@ -425,11 +425,30 @@ svg.chart text.val{font-size:10px;fill:var(--ink)}
   <p>같은 차를 같은 가격에 팔아도 상각 방법에 따라 그동안 쌓인 누계액이 달라서, 장부금액과 처분이익이 달라집니다.</p>
   <div class="cols">
     <div class="panel"><span class="tag t-sl">정액법: 리스 종료 후 매각</span>
-      <div><h3>차량 매각</h3><p class="ctx">위 "36회 종료 시 장부금액" 표의 25,001,200원과 같은 값입니다. 정액법은 매달 2,083,300원씩 36번 상각해서 누계액이 2,083,300 × 36 = 74,998,800원이고, 장부금액은 1억 − 74,998,800 = 25,001,200원입니다. 3,000만 원에 팔았으니 30,000,000 − 25,001,200 = <strong>4,998,800원이 처분이익</strong>입니다.</p><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">74,998,800</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">4,998,800</td></tr><tr class="sum"><td>합계</td><td class="num">104,998,800</td><td class="num">104,998,800</td></tr></tbody></table></div></div></div>
+      <div><h3>차량 매각</h3><ul class="plain ctx">
+<li>위 "36회 종료 시 장부금액" 표의 25,001,200원과 같은 값입니다.</li>
+<li><strong>누계액</strong>: 매달 2,083,300원씩 36번 상각 → 2,083,300 × 36 = 74,998,800원</li>
+<li><strong>장부금액</strong>: 1억 − 74,998,800 = 25,001,200원</li>
+<li><strong>처분이익</strong>: 3,000만 원에 팔았으니 30,000,000 − 25,001,200 = <strong>4,998,800원</strong></li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">74,998,800</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">4,998,800</td></tr><tr class="sum"><td>합계</td><td class="num">104,998,800</td><td class="num">104,998,800</td></tr></tbody></table></div></div></div>
     <div class="panel"><span class="tag t-dec">정률법: 리스 종료 후 매각</span>
-      <div><h3>차량 매각</h3><p class="ctx">위 "36회 종료 시 장부금액" 표의 10,516,000원과 같은 값입니다. 누계액은 위 정률법 연차별 표의 월 감가상각비를 연도별로 12번씩 더한 값입니다. 1년차 4,400,000 × 12 = 52,800,000, 2년차 2,076,800 × 12 = 24,921,600, 3년차 980,200 × 12 = 11,762,400이고, 합하면 89,484,000원입니다. 장부금액은 1억 − 89,484,000 = 10,516,000원입니다. 30,000,000 − 10,516,000 = <strong>19,484,000원이 처분이익</strong>입니다. 많이 깎았으니 이익이 큽니다.</p><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">89,484,000</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">19,484,000</td></tr><tr class="sum"><td>합계</td><td class="num">119,484,000</td><td class="num">119,484,000</td></tr></tbody></table></div></div></div>
+      <div><h3>차량 매각</h3><ul class="plain ctx">
+<li>위 "36회 종료 시 장부금액" 표의 10,516,000원과 같은 값입니다.</li>
+<li><strong>누계액</strong>: 위 정률법 연차별 표의 월 감가상각비를 연도별로 12번씩 더합니다.
+<br>1년차 4,400,000 × 12 = 52,800,000원
+<br>2년차 2,076,800 × 12 = 24,921,600원
+<br>3년차 980,200 × 12 = 11,762,400원
+<br>합계 = 89,484,000원</li>
+<li><strong>장부금액</strong>: 1억 − 89,484,000 = 10,516,000원</li>
+<li><strong>처분이익</strong>: 30,000,000 − 10,516,000 = <strong>19,484,000원</strong> (많이 깎았으니 이익이 큽니다)</li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">89,484,000</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">19,484,000</td></tr><tr class="sum"><td>합계</td><td class="num">119,484,000</td><td class="num">119,484,000</td></tr></tbody></table></div></div></div>
     <div class="panel"><span class="tag t-pb">원금상환비례법: 리스 종료 후 매각</span>
-      <div><h3>차량 매각</h3><p class="ctx">위 "36회 종료 시 장부금액" 표의 0원과 같은 값입니다. 이 방법은 매달 금융리스의 원금 상환액을 감가상각비로 적는데, 36개월 동안 원금 1억 원을 모두 돌려받으므로 상각비를 모두 더한 누계액도 1억 원이 됩니다. 그래서 장부금액은 0원입니다. 30,000,000 − 0 = <strong>30,000,000원이 전부 처분이익</strong>입니다.</p><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">100,000,000</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">30,000,000</td></tr><tr class="sum"><td>합계</td><td class="num">130,000,000</td><td class="num">130,000,000</td></tr></tbody></table></div></div></div>
+      <div><h3>차량 매각</h3><ul class="plain ctx">
+<li>위 "36회 종료 시 장부금액" 표의 0원과 같은 값입니다.</li>
+<li><strong>누계액</strong>: 매달 금융리스의 원금 상환액을 감가상각비로 적습니다. 36개월 동안 원금 1억 원을 모두 돌려받으므로, 상각비를 모두 더한 누계액도 1억 원입니다.</li>
+<li><strong>장부금액</strong>: 1억 − 1억 = 0원</li>
+<li><strong>처분이익</strong>: 30,000,000 − 0 = <strong>30,000,000원</strong> (매각가 전부가 이익입니다)</li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>계정과목</th><th class="num">차변(왼쪽)</th><th class="num">대변(오른쪽)</th></tr></thead><tbody><tr><td class="acc">현금</td><td class="num">30,000,000</td><td></td></tr><tr><td class="acc">감가상각누계액</td><td class="num">100,000,000</td><td></td></tr><tr><td class="cr-acc">운용리스자산(차량)</td><td></td><td class="num">100,000,000</td></tr><tr><td class="cr-acc">유형자산처분이익</td><td></td><td class="num">30,000,000</td></tr><tr class="sum"><td>합계</td><td class="num">130,000,000</td><td class="num">130,000,000</td></tr></tbody></table></div></div></div>
   </div>
 </section>
 
