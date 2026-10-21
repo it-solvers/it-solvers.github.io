@@ -1,7 +1,7 @@
 /* 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#121314 / #1a1b1d)이며, 헤더는 메인처럼 밝게 고정한다. */
 
 /* 밝기 전환 버튼 (메인과 같은 모양. 이 파일만 불러오는 페이지에서도 보이도록 여기에도 둔다) */
-.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #e4e4e4; border-radius: 999px; background: #ffffff; color: #1a1b1d; cursor: pointer; font-weight: 400; flex-shrink: 0; }
+.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #ddd8cc; border-radius: 999px; background: #fbf9f4; color: #2b2824; cursor: pointer; font-weight: 400; flex-shrink: 0; }
 .nav-right .theme-toggle { margin-left: 0; }
 .theme-toggle span { display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 999px; font-size: 15px; }
 .theme-toggle .light { background: #dbeafe; }
