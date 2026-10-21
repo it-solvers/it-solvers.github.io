@@ -777,7 +777,8 @@ html.dark-mode .insight-card p {
 ========================= */
 
 .insights {
-    background: #f8f9fb;
+    /* 서비스 섹션(회색)과 번갈아 보이도록 흰 배경 */
+    background: #ffffff;
 }
 
 
@@ -1529,7 +1530,6 @@ html.dark-mode .about p {
 /* SERVICES */
 
 html.dark-mode .services,
-html.dark-mode .insights,
 html.dark-mode .process {
     background: #0f172a;
 }
@@ -2129,3 +2129,38 @@ body.lease-page footer .container span {
 
 .next-steps ul { margin: 8px 0 0; padding-left: 20px; }
 .next-steps li { margin: 6px 0; }
+
+/* 서브페이지 헤더 우상단 작성일 */
+.page-date {
+    margin-left: auto;
+    color: #667085;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.nav-right .page-date {
+    margin-left: 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+html.dark-mode .page-date {
+    color: #98a2b3;
+}
+
+/* 푸터 하단 링크(소개·문의·개인정보처리방침) */
+.footer-links {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.footer-links a {
+    color: inherit;
+    opacity: 0.85;
+    text-decoration: underline;
+}

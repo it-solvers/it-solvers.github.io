@@ -484,3 +484,4 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 .news-tag { padding: 2px 8px; border-radius: 10px; background: var(--pale); color: var(--blue); font-size: 12px; font-weight: 700; }
 .news-list a { color: var(--ink); font-weight: 600; }
 .news-list a:hover { color: var(--blue); }
+.footer-links { margin-top: 10px; font-size: 13px; } .footer-links a { color: inherit; text-decoration: underline; }
