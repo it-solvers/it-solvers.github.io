@@ -2205,3 +2205,16 @@ html.dark-mode .page-date {
     color: #667085;
     font-size: 14px;
 }
+
+/* 폰: 첫 화면 제목이 두 줄에 맞게 들어가도록 글자 크기를 화면 너비에 맞춘다(단어 중간에서 끊지 않음) */
+.hero h1 {
+    word-break: keep-all;
+}
+
+@media (max-width: 600px) {
+    .hero h1 {
+        font-size: clamp(24px, 6.8vw, 40px);
+        letter-spacing: -1.5px;
+        line-height: 1.25;
+    }
+}
