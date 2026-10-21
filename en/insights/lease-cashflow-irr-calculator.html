@@ -197,7 +197,7 @@
         <p class="pdf-fallback">The diagram labels are in Korean. If the PDF is not displayed, <a href="../../insights/lease-cashflow-irr-calc-flow.pdf" target="_blank" rel="noopener">open it in a new tab</a>.</p>
       </details>
       <h3>Java, JavaScript, and Python examples</h3>
-      <p>These source files show the payment-timing and IRR implementation. Open a language to view its code, then click the code to copy it.</p>
+      <p>These source files show the payment-timing and IRR implementation. Expand a language to see its code, then click the code to copy it.</p>
       <div class="language-examples" aria-label="Code examples by programming language">
         <details data-src="lease-cashflow-irr-calculator.java">
           <summary>View Java code</summary>
@@ -220,13 +220,13 @@
     <section class="card" aria-labelledby="inputHeading">
       <div class="input-head"><h2 id="inputHeading">Calculation inputs</h2><div class="input-head-actions"><button id="fillExampleBtn" class="secondary" type="button">Fill example values</button><button id="resetButton" class="secondary" type="button">Clear inputs</button></div></div>
       <div class="grid">
-        <div><label for="vehiclePrice">Vehicle price ($)</label><input id="vehiclePrice" type="text" inputmode="numeric" placeholder="ex) 37,000"></div>
-        <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="ex) 36"></div>
-        <div><label for="annualRate">Annual rate (APR, %)</label><input id="annualRate" type="number" min="0" step="0.01" placeholder="ex) 5.5"></div>
-        <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="ex) 0"></div>
-        <div><label for="annualInsurance">Ann. insurance ($)</label><input id="annualInsurance" type="text" inputmode="numeric" placeholder="ex) 1,554"></div>
-        <div><label for="annualTax">Ann. vehicle tax ($)</label><input id="annualTax" type="text" inputmode="numeric" placeholder="ex) 888"></div>
-        <div><label for="residualValue">End-of-term residual value ($)</label><input id="residualValue" type="text" inputmode="numeric" placeholder="ex) 14,800"></div>
+        <div><label for="vehiclePrice">Vehicle price ($)</label><input id="vehiclePrice" type="text" inputmode="numeric" placeholder="e.g., 37,000"></div>
+        <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="e.g., 36"></div>
+        <div><label for="annualRate">Annual rate (APR, %)</label><input id="annualRate" type="number" min="0" step="0.01" placeholder="e.g., 5.5"></div>
+        <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="e.g., 0"></div>
+        <div><label for="annualInsurance">Annual insurance ($)</label><input id="annualInsurance" type="text" inputmode="numeric" placeholder="e.g., 1,554"></div>
+        <div><label for="annualTax">Annual vehicle tax ($)</label><input id="annualTax" type="text" inputmode="numeric" placeholder="e.g., 888"></div>
+        <div><label for="residualValue">End-of-term residual value ($)</label><input id="residualValue" type="text" inputmode="numeric" placeholder="e.g., 14,800"></div>
         <div>
           <label for="deliveryMonth">Delivery month</label>
           <select id="deliveryMonth"></select>
@@ -247,7 +247,7 @@
           <div class="result"><div class="result-label">Total monthly customer bill</div><div class="result-value" id="monthlyTotal"></div></div>
           <div class="result"><div class="result-label">Monthly insurance collected</div><div class="result-value" id="monthlyInsurance"></div></div>
           <div class="result"><div class="result-label">Monthly vehicle tax collected</div><div class="result-value" id="monthlyTax"></div></div>
-          <div class="result"><div class="result-label">Ann. cash-flow IRR</div><div class="result-value" id="annualIRR"></div></div>
+          <div class="result"><div class="result-label">Annualized cash-flow IRR</div><div class="result-value" id="annualIRR"></div></div>
         </div>
         <p class="note">
           Total monthly customer bill = base monthly lease payment + monthly insurance collected + monthly vehicle tax collected.
@@ -273,7 +273,7 @@
     </div>
   <section class="card next-steps" aria-labelledby="nextStepsHeading">
     <h2 id="nextStepsHeading">Keep exploring</h2>
-    <ul><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment back-solver</strong></a> — Back-solve the monthly payment that hits a target IRR.</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate and residual.</li><li><a href="lease-terms.html"><strong>Lease Terminology</strong></a> — Residual value, lease payments and IRR explained</li><li><a href="lease-overview.html"><strong>Lease Overview</strong></a> — K-IFRS 1116, classification and types</li></ul>
+    <ul><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment calculator</strong></a> — Work backward from a target IRR to the monthly payment.</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate, and residual value.</li><li><a href="lease-terms.html"><strong>Lease terminology</strong></a> — Residual value, lease payments, and IRR explained</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li></ul>
   </section>
   </main>
   <footer class="page-footer">

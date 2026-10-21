@@ -136,7 +136,7 @@
   </div>
 </header>
 <main class="wrap">
-  <h1>Back-Solve a Lease Payment from a Target IRR: Trial and Error and Bisection</h1>
+  <h1>Finding a Lease Payment from a Target IRR: Trial and Error and Bisection</h1>
   <p class="sub">Learn how to find a base monthly lease payment for a target annualized IRR, how bisection narrows the search, and how the model handles vehicle price, residual value, insurance, and vehicle tax. Amounts are shown in U.S. dollars.</p>
 
   <section class="card" aria-labelledby="irr-method-heading">
@@ -158,7 +158,7 @@
     </p>
     <h3>Specific algorithm: bisection method</h3>
     <p>
-      Instead of making random adjustments, bisection is a systematic numerical search that halves the range containing the answer at each step.
+      Rather than guessing at random, bisection is a systematic numerical search that cuts the range containing the answer in half at each step.
     </p>
     <ol>
       <li>Set the payment range from $0 to the vehicle price.</li>
@@ -180,7 +180,7 @@
       </p>
     </details>
     <h3>Java, JavaScript, and Python implementation examples</h3>
-    <p>Open the v0.3 source code for the same IRR-based lease-payment calculation in your preferred language. Click the code to copy all of it.</p>
+    <p>Open the v0.3 source code for the same IRR-based lease-payment calculation in the language of your choice. Click the code to copy all of it.</p>
     <p class="note">Annualized IRR is calculated as monthly IRR × 12, not effective annual compounding.</p>
     <div class="language-examples" aria-label="Code examples by programming language">
       <details data-src="irr-to-rate-calculator_v0.3.java">
@@ -204,14 +204,14 @@
   <div class="card">
     <div class="input-head"><h2>Calculation inputs</h2><div class="input-head-actions"><button id="fillExampleBtn" class="ghost" type="button">Fill example values</button><button id="resetBtn" class="ghost" type="button">Clear inputs</button></div></div>
     <div class="grid">
-      <div><label for="carPrice">Vehicle price ($)</label><input id="carPrice" type="text" inputmode="numeric" placeholder="ex) 37,000"></div>
-      <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="ex) 36"></div>
-      <div><label for="targetIrr">Target ann. IRR (%)</label><input id="targetIrr" type="number" step="0.0001" placeholder="ex) 3.7412"></div>
-      <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="ex) 0"></div>
-      <div><label for="guaranteed">Guaranteed residual value ($)</label><input id="guaranteed" type="text" inputmode="numeric" placeholder="ex) 3,700"></div>
-      <div><label for="unguaranteed">Unguaranteed residual value ($)</label><input id="unguaranteed" type="text" inputmode="numeric" placeholder="ex) 11,100"></div>
-      <div><label for="insurance">Ann. insurance ($)</label><input id="insurance" type="text" inputmode="numeric" placeholder="ex) 1,554"></div>
-      <div><label for="carTax">Ann. vehicle tax ($)</label><input id="carTax" type="text" inputmode="numeric" placeholder="ex) 888"></div>
+      <div><label for="carPrice">Vehicle price ($)</label><input id="carPrice" type="text" inputmode="numeric" placeholder="e.g., 37,000"></div>
+      <div><label for="months">Lease term (months)</label><input id="months" type="number" min="1" max="120" step="1" placeholder="e.g., 36"></div>
+      <div><label for="targetIrr">Target annualized IRR (%)</label><input id="targetIrr" type="number" step="0.0001" placeholder="e.g., 3.7412"></div>
+      <div><label for="monthlyFee">Monthly fee ($)</label><input id="monthlyFee" type="text" inputmode="numeric" placeholder="e.g., 0"></div>
+      <div><label for="guaranteed">Guaranteed residual value ($)</label><input id="guaranteed" type="text" inputmode="numeric" placeholder="e.g., 3,700"></div>
+      <div><label for="unguaranteed">Unguaranteed residual value ($)</label><input id="unguaranteed" type="text" inputmode="numeric" placeholder="e.g., 11,100"></div>
+      <div><label for="insurance">Annual insurance ($)</label><input id="insurance" type="text" inputmode="numeric" placeholder="e.g., 1,554"></div>
+      <div><label for="carTax">Annual vehicle tax ($)</label><input id="carTax" type="text" inputmode="numeric" placeholder="e.g., 888"></div>
       <div>
         <label for="deliveryMonth">Delivery month</label>
         <select id="deliveryMonth"></select>
@@ -230,15 +230,15 @@
       <div class="result-main">
         <div class="stat"><div class="k">Base monthly lease payment (rounded down to whole dollars)</div><div class="v" id="rPure"></div></div>
         <div class="stat"><div class="k">Total monthly customer bill</div><div class="v" id="rTotal"></div></div>
-        <div class="stat"><div class="k">Target ann. IRR</div><div class="v" id="rTargetIrr"></div></div>
-        <div class="stat"><div class="k">Calculated ann. IRR</div><div class="v" id="rIrr"></div></div>
+        <div class="stat"><div class="k">Target annualized IRR</div><div class="v" id="rTargetIrr"></div></div>
+        <div class="stat"><div class="k">Calculated annualized IRR</div><div class="v" id="rIrr"></div></div>
         <div class="stat"><div class="k">Implied annual rate</div><div class="v" id="rImplicit"></div></div>
       </div>
       <p class="note" id="rNote"></p>
     </div>
 
     <div class="card">
-      <h2>Why is the total monthly lease billed to the customer higher?</h2>
+      <h2>Why is the monthly bill higher than the base lease payment?</h2>
       <table id="billTable"></table>
       <p class="note">
         The base lease payment is the amount solved for to meet the target IRR.
@@ -281,7 +281,7 @@
   <p class="note"><strong>For illustration only.</strong> Amounts are displayed in U.S. dollars, but the insurance and vehicle-tax timing assumptions are carried over from the Korean version. They are not U.S. GAAP, accounting, or tax rules, and this is not a financing quote or contractual payment.</p>
   <section class="card next-steps" aria-labelledby="nextStepsHeading">
     <h2 id="nextStepsHeading">Keep exploring</h2>
-    <ul><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Compute IRR from cash flows including insurance and vehicle tax.</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate and residual.</li><li><a href="lease-terms.html"><strong>Lease Terminology</strong></a> — Residual value, lease payments and IRR explained</li><li><a href="lease-overview.html"><strong>Lease Overview</strong></a> — K-IFRS 1116, classification and types</li></ul>
+    <ul><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Calculate IRR from cash flows that include insurance and vehicle tax.</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate, and residual value.</li><li><a href="lease-terms.html"><strong>Lease terminology</strong></a> — Residual value, lease payments, and IRR explained</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li></ul>
   </section>
 </main>
 

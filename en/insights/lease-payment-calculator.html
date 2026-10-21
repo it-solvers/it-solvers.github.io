@@ -417,10 +417,10 @@
     <section class="calculator-card formula-card" aria-labelledby="formulaHeading">
       <h2 id="formulaHeading">Lease payment formula and the Excel/Google Sheets PMT function</h2>
       <p>
-        Enter your assumptions and press the calculate button. The code below computes the monthly payment.
+        Enter your assumptions and click Calculate. The code below is what computes the monthly payment.
       </p>
       <div class="developer-formula">
-        <h3>Code that runs when you calculate the monthly payment</h3>
+        <h3>The code behind the monthly payment calculation</h3>
         <pre><code>const monthlyRate = annualRate / 100 / 12;
 const monthlyPayment = monthlyRate === 0
   ? (vehiclePrice - residualValue) / termMonths
@@ -431,7 +431,7 @@ const monthlyPayment = monthlyRate === 0
       <h3>Java, JavaScript, and Python formula examples</h3>
       <p>
         These functions use the same monthly payment formula as the calculate button on this page.
-        Pass the annual rate as a percentage (for example, 5 means 5%), and enter the residual value as the sum of the guaranteed and unguaranteed residual values.
+        Pass the annual rate as a percentage (for example, 5 means 5%), and use the sum of the guaranteed and unguaranteed residual values as the residual value.
       </p>
       <div class="language-examples">
         <details>
@@ -508,19 +508,19 @@ const monthlyPayment = monthlyRate === 0
       <div class="calculator-grid">
         <div class="calculator-field">
           <label for="vehiclePrice">Vehicle price ($)</label>
-          <input id="vehiclePrice" type="number" min="1" step="100" placeholder="ex) 37000">
+          <input id="vehiclePrice" type="number" min="1" step="100" placeholder="e.g., 37000">
         </div>
         <div class="calculator-field">
           <label for="termMonths">Lease term (months)</label>
-          <input id="termMonths" type="number" min="1" max="120" step="1" placeholder="ex) 36">
+          <input id="termMonths" type="number" min="1" max="120" step="1" placeholder="e.g., 36">
         </div>
         <div class="calculator-field">
           <label for="annualRate">Annual rate (%)</label>
-          <input id="annualRate" type="number" min="0" step="0.01" placeholder="ex) 5">
+          <input id="annualRate" type="number" min="0" step="0.01" placeholder="e.g., 5">
         </div>
         <div class="calculator-field">
           <label for="residualValue">Residual value at end of term (guaranteed + unguaranteed, $)</label>
-          <input id="residualValue" type="number" min="0" step="100" placeholder="ex) 11100">
+          <input id="residualValue" type="number" min="0" step="100" placeholder="e.g., 11100">
         </div>
       </div>
       <div class="calculator-actions">
@@ -555,16 +555,16 @@ const monthlyPayment = monthlyRate === 0
         </div>
       </div>
       <p class="calculator-note">
-        Monthly principal and interest are for the first month. Total principal is the amount repaid through the monthly payments (vehicle price − residual value),
+        Monthly principal and interest are for the first month. Total principal is the amount paid down through the monthly payments (vehicle price − residual value),
         and total interest is total payments minus total principal. The residual value is not included in total principal,
-        and this calculation does not represent income recognized under finance or operating lease accounting (K-IFRS). It is a simplified estimate for reference only and excludes insurance, vehicle taxes, fees, and other taxes.
-        This calculator displays amounts in U.S. dollars but is not a quote or financial advice, and it does not model U.S. lease conventions, U.S. taxes, or U.S. GAAP.
+        and this calculation does not reflect income recognized under finance or operating lease accounting (K-IFRS). It is a simplified estimate for reference only and leaves out insurance, vehicle taxes, fees, and other taxes.
+        Amounts are shown in U.S. dollars, but this calculator is not a quote or financial advice, and it does not model U.S. lease conventions, U.S. taxes, or U.S. GAAP.
       </p>
     </section>
 
   <section class="calculator-card next-steps" aria-labelledby="nextStepsHeading">
     <h2 id="nextStepsHeading">Keep exploring</h2>
-    <ul><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment back-solver</strong></a> — Back-solve the monthly payment that hits a target IRR.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Compute IRR from cash flows including insurance and vehicle tax.</li><li><a href="lease-terms.html"><strong>Lease Terminology</strong></a> — Residual value, lease payments and IRR explained</li><li><a href="lease-overview.html"><strong>Lease Overview</strong></a> — K-IFRS 1116, classification and types</li></ul>
+    <ul><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment calculator</strong></a> — Work backward from a target IRR to the monthly payment.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Calculate IRR from cash flows that include insurance and vehicle tax.</li><li><a href="lease-terms.html"><strong>Lease terminology</strong></a> — Residual value, lease payments, and IRR explained</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li></ul>
   </section>
   </main>
 
