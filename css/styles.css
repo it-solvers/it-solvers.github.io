@@ -2152,7 +2152,7 @@ body.lease-page footer .container span {
 
 /* 서브페이지 본문 최상단 우측 작성일 */
 .page-date-row {
-    text-align: right;
+    text-align: left;
     margin: 0 0 12px;
 }
 
