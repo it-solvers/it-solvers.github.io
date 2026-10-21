@@ -2192,27 +2192,3 @@ html.dark-mode .page-date {
 .history-more[open] > summary {
     margin-bottom: 18px;
 }
-
-/* 진행순서: 펼쳐서 보기 */
-.process-more > summary {
-    display: block;
-    margin: 0 0 18px;
-    padding: 12px 16px;
-    border: 1px solid var(--site-border);
-    border-radius: 10px;
-    color: var(--site-accent);
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    cursor: pointer;
-    list-style: none;
-}
-
-.process-more > summary::-webkit-details-marker {
-    display: none;
-}
-
-.process-more > summary:hover,
-.process-more > summary:focus-visible {
-    background: var(--site-accent-soft);
-}
