@@ -2221,3 +2221,35 @@ html.dark-mode .page-date {
 
 /* 로고 그림의 흰 배경이 따뜻한 헤더 위에서 네모로 보이지 않게 한다(밝은 화면) */
 html:not(.dark-mode) header img { mix-blend-mode: multiply; }
+
+/* =========================
+   밝은 화면: 문의 구역과 푸터를 페이지 톤에 맞춘다
+   (이전에는 남색 띠로 따로 놀았음. 어두운 화면은 기존 규칙을 그대로 쓴다)
+========================= */
+
+html:not(.dark-mode) .contact { background: #ebe7de; color: #2b2824; }
+html:not(.dark-mode) .contact .section-label { color: #2f5fc4; }
+html:not(.dark-mode) .contact p { color: #5a554d; }
+html:not(.dark-mode) .contact-field label,
+html:not(.dark-mode) .contact-consent { color: #3a362f; }
+html:not(.dark-mode) .contact-consent small { color: #6b655b; }
+html:not(.dark-mode) .contact-field input,
+html:not(.dark-mode) .contact-field textarea { background: #fffdf9; color: #2b2824; border-color: #cfc9bb; }
+html:not(.dark-mode) .contact-field input:focus,
+html:not(.dark-mode) .contact-field textarea:focus { border-color: #2f5fc4; }
+html:not(.dark-mode) .contact-email { border-top-color: #d3cdbf; }
+html:not(.dark-mode) .contact .contact-or { color: #6b655b; }
+html:not(.dark-mode) .contact .contact-address { color: #2b2824; }
+html:not(.dark-mode) .contact-copy { background: #2f5fc4; color: #ffffff; }
+html:not(.dark-mode) .contact-copy:hover { background: #274fa3; color: #ffffff; }
+html:not(.dark-mode) .contact .contact-status { color: #1b6b3a; }
+html:not(.dark-mode) .contact .contact-form-status.is-error { color: #b42318; }
+html:not(.dark-mode) .contact-alt a { color: #2f5fc4; }
+html:not(.dark-mode) .contact-alt a:hover { color: #274fa3; }
+
+html:not(.dark-mode) footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
+html:not(.dark-mode) footer strong,
+html:not(.dark-mode) footer .footer-company strong { color: #2b2824; }
+html:not(.dark-mode) footer a { color: #3a362f; }
+html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
+html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }

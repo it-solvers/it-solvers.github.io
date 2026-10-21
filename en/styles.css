@@ -512,3 +512,8 @@ html.dark-mode .site-header .language-link:hover { color: #2563eb; }
 
 /* 로고 그림의 흰 배경이 따뜻한 헤더 위에서 네모로 보이지 않게 한다(밝은 화면) */
 html:not(.dark-mode) header img { mix-blend-mode: multiply; }
+
+/* 밝은 화면: 푸터를 페이지 톤에 맞춘다(어두운 화면은 기존 규칙 그대로) */
+html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
+html:not(.dark-mode) .footer-company strong { color: #2b2824; }
+html:not(.dark-mode) .translation-note a, html:not(.dark-mode) .footer-links a { color: #3a362f; }
