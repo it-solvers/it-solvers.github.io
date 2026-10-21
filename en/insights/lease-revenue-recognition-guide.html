@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SBGBVC3WB8');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463289214022004" crossorigin="anonymous"></script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finance vs. Operating Lease: Revenue Recognition &amp; Journal Entries | IT Solvers</title>
+  <meta name="description" content="Compare how a lessor recognizes revenue and records journal entries for finance and operating leases, using a 36-month example with interest, principal, depreciation, monthly profit, and a disposal entry.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
+  <link rel="canonical" href="https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html">
+  <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <link rel="alternate" hreflang="en" href="https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="IT Solvers">
+  <meta property="og:title" content="Lease Revenue Recognition Guide | IT Solvers">
+  <meta property="og:description" content="A 36-month example comparing revenue recognition and journal entries for finance and operating leases.">
+  <meta property="og:url" content="https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html">
+  <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lease Revenue Recognition Guide | IT Solvers">
+  <meta name="twitter:description" content="Finance vs. operating lease revenue recognition and journal entries, with worked numbers.">
+  <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Lease Revenue Recognition Guide",
+    "inLanguage": "en",
+    "description": "Compare how a lessor recognizes revenue and records journal entries for finance and operating leases, using a 36-month example with interest, principal, depreciation, monthly profit, and a disposal entry.",
+    "url": "https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html",
+    "mainEntityOfPage": "https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html",
+    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" },
+    "publisher": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
+  }
+  </script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .language-link {
+      padding: 4px 10px;
+      border: 1px solid #d0d5dd;
+      border-radius: 999px;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .language-link:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    footer .footer-layout {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer .footer-company {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    footer .footer-company strong {
+      color: #fff;
+    }
+
+    footer .translation-note {
+      margin: 0;
+      max-width: 340px;
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    footer .translation-note a {
+      color: #d0d5dd;
+      text-decoration: underline;
+    }
+  </style>
+<style>
+/* Layout: single-column textbook style */
+.guide{--pb:#2a8a6b;--pb-soft:#dff3ec;
+  --bg:#f5f7fa; --surface:#ffffff; --ink:#1f2933; --muted:#667085; --line:#dde3ea;
+  --accent:#1d5fd1; --accent-soft:#e8f0fc;
+  --fin:#1d5fa8; --opr:#c4650f; --prop:#8a4a9c;
+  --fin-soft:#e3eef9; --opr-soft:#fbeadb; --prop-soft:#f1e5f5;
+  --neg:#b3261e; --pos:#1b6b3a; --warn-soft:#fff3d6; --warn-ink:#6b4a00;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.guide .wrap{display:flex;flex-direction:column;gap:32px}
+.guide h1,.guide h2,.guide h3{line-height:1.35;text-wrap:balance;margin:0}
+.guide h2{font-size:22px;margin-bottom:4px}
+.guide h3{font-size:18px;margin-bottom:6px}
+.guide p{margin:0 0 12px}
+.guide a{color:var(--accent)}
+.guide code,.guide .mono{font-family:var(--f-mono);font-size:.92em}
+.guide code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.neg{color:var(--neg)} .pos{color:var(--pos)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.guide .g-head .kicker{font-size:13px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.guide .g-head p.lead{font-size:18px;color:var(--muted);max-width:62ch;margin-top:12px}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+nav.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;font-size:14px;color:var(--ink)}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+.guide section{padding:0;display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+.sec-sub{color:var(--muted);margin:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.goal ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.cols>*{min-width:0}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;margin-bottom:8px}
+.t-fin{background:var(--fin-soft);color:var(--fin)} .t-opr{background:var(--opr-soft);color:var(--opr)} .t-prop{background:var(--prop-soft);color:var(--prop)}
+.callout{border-radius:8px;padding:14px 16px;background:var(--accent-soft)}
+.callout.warn{background:var(--warn-soft);color:var(--warn-ink)}
+.callout strong:first-child{display:block;margin-bottom:2px}
+dl.terms{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:0;margin:0}
+dl.terms dt,dl.terms dd{padding:10px 0;border-top:1px solid var(--line);margin:0}
+dl.terms dt{font-weight:700}
+dl.terms dt:first-of-type,dl.terms dt:first-of-type+dd{border-top:0}
+@media(max-width:560px){dl.terms{grid-template-columns:1fr}dl.terms dt{padding-bottom:0;border-top:1px solid var(--line)}dl.terms dd{border-top:0;padding-top:2px}}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.guide table{border-collapse:collapse;width:100%;font-size:14px}
+.guide th,.guide td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.guide th{background:var(--accent-soft);font-weight:700;white-space:nowrap}
+td.num,th.num{text-align:right}
+tbody tr:last-child td{border-bottom:0}
+tfoot td{font-weight:700;background:var(--accent-soft)}
+table.sched th,table.sched td{white-space:nowrap;padding:6px 9px;font-size:13px}
+table.sched thead th{position:sticky;top:0}
+.maxh{max-height:460px;overflow:auto}
+.steps{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:12px}
+.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--surface);display:grid;place-items:center;font-weight:700;font-size:14px}
+.steps li>div{min-width:0}
+.formula{font-family:var(--f-mono);background:var(--accent-soft);border-radius:8px;padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.9}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin:0 0 8px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.guide figure{margin:0}
+figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{fill:var(--muted);font-family:inherit;font-size:11px}
+svg.chart .grid{stroke:var(--line);stroke-width:1}
+svg.chart .axis{stroke:var(--muted);stroke-width:1}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500}
+.form input{font:inherit;font-family:var(--f-mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);min-width:0;width:100%}
+.form small{font-weight:400;color:var(--muted)}
+button.btn{font:inherit;font-weight:700;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+button.btn.ghost{background:transparent;color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.kpi{background:var(--bg);border-radius:8px;padding:12px 14px;min-width:0}
+.kpi b{display:block;font-family:var(--f-mono);font-size:20px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi span{font-size:13px;color:var(--muted)}
+.err{color:var(--neg);font-size:14px;min-height:20px;margin:0}
+details.q{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+details.q summary{cursor:pointer;padding:12px 16px;font-weight:500}
+details.q .ans{padding:0 16px 14px}
+.qs{display:flex;flex-direction:column;gap:10px}
+ul.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.guide .g-foot{font-size:14px;color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){nav.toc a{transition:border-color .15s,color .15s}}
+.c-pb{fill:var(--pb)} .t-pb{background:var(--pb-soft);color:var(--pb)} .guide{--m-sl:#5b6770;--m-dec:#e08a00;--pb:#00896a;--rev:#1f2937;--gain:#5aa0d8;--m-sl-soft:#e8ecef;--m-dec-soft:#fff0d1;--pb-soft:#d9f2ea} .c-sl{fill:var(--m-sl)} .c-dec{fill:var(--m-dec)} .t-sl{background:var(--m-sl-soft);color:var(--m-sl)} .t-dec{background:var(--m-dec-soft);color:var(--m-dec)}</style>
+<style>
+.c-prin{fill:var(--muted);fill-opacity:.35}
+.c-fin{fill:var(--fin)} .c-opr{fill:var(--opr)} .c-prop{fill:var(--prop)}
+svg.chart text.val{font-size:10px;fill:var(--ink)}
+.quiz-q{display:flex;flex-direction:column;gap:10px}
+.quiz-q fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.quiz-q legend{font-weight:700;padding:0;margin-bottom:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg)}
+.opt input{margin-top:6px}
+.quiz-q input[type=text]{font:inherit;font-family:var(--f-mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:min(100%,260px)}
+.quiz-q .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fb{margin:0;padding:10px 14px;border-radius:8px;font-size:15px}
+.fb.ok{background:var(--fin-soft);color:var(--ink)}
+.fb.no{background:var(--warn-soft);color:var(--warn-ink)}
+.fb b.ok{color:var(--pos)} .fb b.no{color:var(--neg)}
+</style>
+<style>.guide td:first-child{white-space:nowrap}
+.guide .je th,.guide .je td{font-size:14px}
+.je td.acc{padding-left:10px}
+.je td.cr-acc{padding-left:28px}
+.je tr.sum td{font-weight:700;background:var(--accent-soft)}
+.ctx{margin:0 0 6px;font-size:14px;color:var(--muted)}
+@media(max-width:560px){svg.chart text{font-size:19px}svg.chart text.val{font-size:16px}}</style>
+</head>
+<body class="lease-page">
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo" title="Go to the IT Solvers home page">
+        <span class="logo-mark">
+          <img src="https://itsolvers.co.kr/images/logo.png" alt="IT Solvers logo">
+        </span>
+        <span>IT Solvers</span>
+      </a>
+      <div class="nav-right">
+        <a class="language-link" href="../../insights/lease-revenue-recognition-guide.html" hreflang="ko" lang="ko">한국어</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="lease-overview guide">
+
+<div class="wrap">
+<div class="g-head">
+ <div class="kicker">Training for new developers · Finance basics</div>
+ <h1>Finance Lease vs. Operating Lease: Revenue Recognition and Journal Entries</h1>
+ <p class="lead">In a lease (a contract in which you let someone use an asset and receive payments for it), the lessor receives the same cash either way. The difference between the two lease types is how that cash is recorded in the books (the journal entry). We follow a 36-month example with monthly payments.</p>
+ <div class="callout" style="margin-top:16px"><strong>How amounts are calculated</strong>Every amount on this page is a value <strong>truncated (rounded down) to the nearest $0.10</strong>. This applies to the monthly lease payment, interest, principal, and depreciation. All figures are shown in US dollars at an assumed illustrative rate of 1000 KRW = $1, so the original Korean won figures convert exactly (₩100 = $0.10).</div>
+</div>
+
+<section>
+ <div class="panel">
+ <h2>Looking at the lessor’s books</h2>
+ <p style="margin-top:8px">This page explains the <strong>lessor’s accounting</strong> (the company that leases out the asset). Accounting is the set of rules for recording transactions, and a lessor’s books have two main parts.</p>
+ <ul class="plain">
+ <li><strong>Statement of financial position (balance sheet: shows what the company owns and owes)</strong>: for a finance lease, a receivable (the net investment in the lease) is recorded; for an operating lease, the vehicle stays on the books as an asset.</li>
+ <li><strong>Statement of profit or loss (income statement: shows income earned and costs incurred)</strong>: a finance lease shows finance income; an operating lease shows lease income and depreciation.</li>
+ </ul>
+ <p style="margin-top:8px">Tax rules can differ from accounting rules and are not covered on this page.</p>
+ </div>
+</section>
+
+<section>
+ <div><h2>Example assumptions</h2></div>
+ <div class="panel">
+ <ul class="plain">
+ <li>The lessor buys a $100,000.00 vehicle and leases it to a customer for 36 months.</li>
+ <li>Annual interest rate of 12% (1% per month), with level payments (the same amount every month, covering both interest and principal).</li>
+ <li>Monthly lease payment = <strong>$3,321.40</strong>, so 36 payments total $119,570.40. Total profit is $19,570.40.</li>
+ <li><strong>All amounts are truncated (rounded down).</strong> The monthly lease payment, monthly interest, principal, and depreciation are all calculated in $0.10 units. In the last payment, any remaining balance is cleared so that the totals match.</li>
+ <li>To keep things simple, deposits, advance payments, and residual value (the value left in the vehicle when the contract ends) are all set to zero.</li>
+ <li>Operating lease depreciation is assumed to use the <strong>48-month (4-year) straight-line method</strong> (the same amount is expensed every month). Depreciating over a period longer than the lease term (36 months) reflects that lessors often depreciate over about 4 years; the depreciation period varies by lessor. As a result, the vehicle still has a carrying amount at the end of payment 36.</li>
+ </ul>
+ </div>
+ <div class="callout"><strong>How to read a journal entry</strong>
+ A journal entry records a transaction by splitting it into a <strong>debit (the left side of the ledger)</strong> and a <strong>credit (the right side of the ledger)</strong>. Increases in assets and expenses go on the debit side; decreases in assets and income go on the credit side. Total debits always equal total credits. Check that the totals match in each table below.</div>
+</section>
+
+<section>
+ <div><h2>Step 1: Contract start date (buying the car and leasing it out)</h2></div>
+ <div class="cols">
+ <div class="panel"><span class="tag t-fin">Finance lease</span>
+ <div><h3>Journal entry at the start date</h3><p class="ctx">You pay $100,000.00 for the vehicle and record a receivable (the amount you will collect).</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Receivable (net investment in the lease)</td><td class="num">$100,000.00</td><td></td></tr><tr><td class="cr-acc">Cash</td><td></td><td class="num">$100,000.00</td></tr><tr class="sum"><td>Total</td><td class="num">$100,000.00</td><td class="num">$100,000.00</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-opr">Operating lease</span>
+ <div><h3>Journal entry at the start date</h3><p class="ctx">The vehicle is recorded as an asset of the lessor. The lessor continues to own it.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Motor vehicles (subject to operating lease)</td><td class="num">$100,000.00</td><td></td></tr><tr><td class="cr-acc">Cash</td><td></td><td class="num">$100,000.00</td></tr><tr class="sum"><td>Total</td><td class="num">$100,000.00</td><td class="num">$100,000.00</td></tr></tbody></table></div></div></div>
+ </div>
+</section>
+
+<section>
+ <div><h2>Step 2: Receiving the monthly lease payment</h2><p class="sec-sub">We show payment 1, payment 2, and the last payment (36). The other payments look the same. All amounts are truncated to the nearest $0.10.</p></div>
+ <h3>Payment 1</h3>
+ <div class="cols">
+ <div class="panel"><span class="tag t-fin">Finance lease</span><div><h3>Receiving the lease payment</h3><p class="ctx">Interest = remaining principal $100,000.00 × 1% = $1,000.00. The rest is principal collected.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Receivable (net investment in the lease)</td><td></td><td class="num">$2,321.40</td></tr><tr><td class="cr-acc">Finance income</td><td></td><td class="num">$1,000.00</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-opr">Operating lease</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">The entire amount received is recorded as income.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,321.40</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div>
+ <div style="height:12px"></div>
+ <div><h3>② Depreciation</h3><p class="ctx">$100,000.00 ÷ 48 months = $2,083.33 → truncated to the nearest $0.10 = $2,083.30, recorded as an expense.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$2,083.30</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$2,083.30</td></tr><tr class="sum"><td>Total</td><td class="num">$2,083.30</td><td class="num">$2,083.30</td></tr></tbody></table></div></div></div>
+ </div>
+ <h3>Payment 2</h3>
+ <div class="cols">
+ <div class="panel"><span class="tag t-fin">Finance lease</span><div><h3>Receiving the lease payment</h3><p class="ctx">Interest = remaining principal $97,678.60 × 1% = $976.79 → truncated to $976.70. As the principal falls, so does the interest.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Receivable (net investment in the lease)</td><td></td><td class="num">$2,344.70</td></tr><tr><td class="cr-acc">Finance income</td><td></td><td class="num">$976.70</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-opr">Operating lease</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">Same as payment 1.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,321.40</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div>
+ <div style="height:12px"></div>
+ <div><h3>② Depreciation</h3><p class="ctx">Same as payment 1.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$2,083.30</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$2,083.30</td></tr><tr class="sum"><td>Total</td><td class="num">$2,083.30</td><td class="num">$2,083.30</td></tr></tbody></table></div></div></div>
+ </div>
+ <h3>Payment 36 (last)</h3>
+ <div class="cols">
+ <div class="panel"><span class="tag t-fin">Finance lease</span><div><h3>Receiving the lease payment</h3><p class="ctx">The remaining principal of $3,287.80 is collected in full. The last interest amount is set to $33.60 (the lease payment minus the principal) so the totals match. The receivable balance afterward is $0.00.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Receivable (net investment in the lease)</td><td></td><td class="num">$3,287.80</td></tr><tr><td class="cr-acc">Finance income</td><td></td><td class="num">$33.60</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-opr">Operating lease</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">Same again.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,321.40</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,321.40</td></tr><tr class="sum"><td>Total</td><td class="num">$3,321.40</td><td class="num">$3,321.40</td></tr></tbody></table></div></div>
+ <div style="height:12px"></div>
+ <div><h3>② Depreciation</h3><p class="ctx">The same $2,083.30 is depreciated as in payment 1. Only 36 of the 48 depreciation months have passed, so a carrying amount of $25,001.20 remains on the vehicle. That amount is settled as a gain or loss on derecognition when the vehicle is sold (see Advanced 1 below).</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$2,083.30</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$2,083.30</td></tr><tr class="sum"><td>Total</td><td class="num">$2,083.30</td><td class="num">$2,083.30</td></tr></tbody></table></div></div></div>
+ </div>
+</section>
+
+<section>
+ <div><h2>Step 3: Comparing monthly profit</h2></div>
+ <figure class="panel">
+ <div class="legend"><span><i style="background:var(--fin)"></i>Finance lease profit (finance income)</span><span><i style="background:var(--opr)"></i>Operating lease profit (lease income − depreciation)</span></div>
+ <svg class="chart" viewBox="0 0 720 300" role="img" aria-label="Monthly profit: the finance lease falls from $1,000 to $33.60, while the operating lease earns $1,238.10 every month"><line class="axis" x1="48" x2="710" y1="268.0" y2="268.0"/><text x="42" y="272.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="710" y1="184.0" y2="184.0"/><text x="42" y="188.0" text-anchor="end">$500</text><line class="grid" x1="48" x2="710" y1="100.0" y2="100.0"/><text x="42" y="104.0" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="710" y1="16.0" y2="16.0"/><text x="42" y="20.0" text-anchor="end">$1,500</text><text x="4" y="10">USD</text><text x="48.0" y="290" text-anchor="middle">#1</text><text x="142.6" y="290" text-anchor="middle">#6</text><text x="256.1" y="290" text-anchor="middle">#12</text><text x="369.5" y="290" text-anchor="middle">#18</text><text x="483.0" y="290" text-anchor="middle">#24</text><text x="596.5" y="290" text-anchor="middle">#30</text><text x="710.0" y="290" text-anchor="end">#36</text><polyline points="48.0,100.0 66.9,103.9 85.8,107.8 104.7,111.8 123.7,115.8 142.6,119.9 161.5,124.0 180.4,128.1 199.3,132.3 218.2,136.5 237.1,140.8 256.1,145.1 275.0,149.5 293.9,153.9 312.8,158.3 331.7,162.8 350.6,167.3 369.5,171.9 388.5,176.5 407.4,181.2 426.3,185.9 445.2,190.6 464.1,195.4 483.0,200.3 501.9,205.2 520.9,210.2 539.8,215.2 558.7,220.2 577.6,225.3 596.5,230.5 615.4,235.7 634.3,240.9 653.3,246.2 672.2,251.6 691.1,257.0 710.0,262.4" fill="none" stroke="var(--fin)" stroke-width="3"/><polyline points="48.0,60.0 66.9,60.0 85.8,60.0 104.7,60.0 123.7,60.0 142.6,60.0 161.5,60.0 180.4,60.0 199.3,60.0 218.2,60.0 237.1,60.0 256.1,60.0 275.0,60.0 293.9,60.0 312.8,60.0 331.7,60.0 350.6,60.0 369.5,60.0 388.5,60.0 407.4,60.0 426.3,60.0 445.2,60.0 464.1,60.0 483.0,60.0 501.9,60.0 520.9,60.0 539.8,60.0 558.7,60.0 577.6,60.0 596.5,60.0 615.4,60.0 634.3,60.0 653.3,60.0 672.2,60.0 691.1,60.0 710.0,60.0" fill="none" stroke="var(--opr)" stroke-width="3"/><text class="val" x="56.0" y="114.0">$1,000.00</text><text class="val" x="704.0" y="256.4" text-anchor="end">$33.60</text><text class="val" x="596.5" y="50.0" text-anchor="middle">$1,238.10</text></svg>
+ <figcaption>Monthly profit is plotted in dollars. Finance lease profit falls from $1,000.00 to $33.60, while operating lease profit is $1,238.10 every month.</figcaption>
+ </figure>
+ <figure class="panel">
+ <h3>Inside the finance lease: only the interest is profit</h3>
+ <div class="legend"><span><i style="background:var(--fin)"></i>Finance income (recorded as profit)</span><span><i style="background:var(--muted);opacity:.35"></i>Principal collected (the receivable shrinks; not profit)</span></div>
+ <svg class="chart" viewBox="0 0 720 300" role="img" aria-label="Interest and principal inside each finance lease payment. Interest falls from $1,000.00 in payment 1 to $33.60 in payment 36, while principal collected rises from $2,321.40 to $3,287.80"><line class="axis" x1="48" x2="710" y1="268.0" y2="268.0"/><text x="42" y="272.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="710" y1="205.0" y2="205.0"/><text x="42" y="209.0" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="710" y1="142.0" y2="142.0"/><text x="42" y="146.0" text-anchor="end">$2,000</text><line class="grid" x1="48" x2="710" y1="79.0" y2="79.0"/><text x="42" y="83.0" text-anchor="end">$3,000</text><line class="grid" x1="48" x2="710" y1="16.0" y2="16.0"/><text x="42" y="20.0" text-anchor="end">$4,000</text><text x="4" y="10">USD</text><rect class="c-fin" x="50.8" width="12.9" y="205.0" height="63.0"/><rect class="c-prin" x="50.8" width="12.9" y="58.8" height="146.2"/><text x="57.2" y="290" text-anchor="middle">#1</text><rect class="c-fin" x="69.1" width="12.9" y="206.5" height="61.5"/><rect class="c-prin" x="69.1" width="12.9" y="58.8" height="147.7"/><rect class="c-fin" x="87.5" width="12.9" y="207.9" height="60.1"/><rect class="c-prin" x="87.5" width="12.9" y="58.8" height="149.2"/><rect class="c-fin" x="105.9" width="12.9" y="209.4" height="58.6"/><rect class="c-prin" x="105.9" width="12.9" y="58.8" height="150.7"/><rect class="c-fin" x="124.3" width="12.9" y="210.9" height="57.1"/><rect class="c-prin" x="124.3" width="12.9" y="58.8" height="152.2"/><rect class="c-fin" x="142.7" width="12.9" y="212.5" height="55.5"/><rect class="c-prin" x="142.7" width="12.9" y="58.8" height="153.7"/><text x="149.1" y="290" text-anchor="middle">#6</text><rect class="c-fin" x="161.1" width="12.9" y="214.0" height="54.0"/><rect class="c-prin" x="161.1" width="12.9" y="58.8" height="155.3"/><rect class="c-fin" x="179.5" width="12.9" y="215.6" height="52.4"/><rect class="c-prin" x="179.5" width="12.9" y="58.8" height="156.8"/><rect class="c-fin" x="197.9" width="12.9" y="217.1" height="50.9"/><rect class="c-prin" x="197.9" width="12.9" y="58.8" height="158.4"/><rect class="c-fin" x="216.3" width="12.9" y="218.7" height="49.3"/><rect class="c-prin" x="216.3" width="12.9" y="58.8" height="160.0"/><rect class="c-fin" x="234.6" width="12.9" y="220.3" height="47.7"/><rect class="c-prin" x="234.6" width="12.9" y="58.8" height="161.6"/><rect class="c-fin" x="253.0" width="12.9" y="221.9" height="46.1"/><rect class="c-prin" x="253.0" width="12.9" y="58.8" height="163.2"/><text x="259.5" y="290" text-anchor="middle">#12</text><rect class="c-fin" x="271.4" width="12.9" y="223.6" height="44.4"/><rect class="c-prin" x="271.4" width="12.9" y="58.8" height="164.8"/><rect class="c-fin" x="289.8" width="12.9" y="225.2" height="42.8"/><rect class="c-prin" x="289.8" width="12.9" y="58.8" height="166.4"/><rect class="c-fin" x="308.2" width="12.9" y="226.9" height="41.1"/><rect class="c-prin" x="308.2" width="12.9" y="58.8" height="168.1"/><rect class="c-fin" x="326.6" width="12.9" y="228.5" height="39.5"/><rect class="c-prin" x="326.6" width="12.9" y="58.8" height="169.8"/><rect class="c-fin" x="345.0" width="12.9" y="230.2" height="37.8"/><rect class="c-prin" x="345.0" width="12.9" y="58.8" height="171.5"/><rect class="c-fin" x="363.4" width="12.9" y="232.0" height="36.0"/><rect class="c-prin" x="363.4" width="12.9" y="58.8" height="173.2"/><text x="369.8" y="290" text-anchor="middle">#18</text><rect class="c-fin" x="381.8" width="12.9" y="233.7" height="34.3"/><rect class="c-prin" x="381.8" width="12.9" y="58.8" height="174.9"/><rect class="c-fin" x="400.1" width="12.9" y="235.4" height="32.6"/><rect class="c-prin" x="400.1" width="12.9" y="58.8" height="176.7"/><rect class="c-fin" x="418.5" width="12.9" y="237.2" height="30.8"/><rect class="c-prin" x="418.5" width="12.9" y="58.8" height="178.5"/><rect class="c-fin" x="436.9" width="12.9" y="239.0" height="29.0"/><rect class="c-prin" x="436.9" width="12.9" y="58.8" height="180.2"/><rect class="c-fin" x="455.3" width="12.9" y="240.8" height="27.2"/><rect class="c-prin" x="455.3" width="12.9" y="58.8" height="182.0"/><rect class="c-fin" x="473.7" width="12.9" y="242.6" height="25.4"/><rect class="c-prin" x="473.7" width="12.9" y="58.8" height="183.9"/><text x="480.1" y="290" text-anchor="middle">#24</text><rect class="c-fin" x="492.1" width="12.9" y="244.5" height="23.5"/><rect class="c-prin" x="492.1" width="12.9" y="58.8" height="185.7"/><rect class="c-fin" x="510.5" width="12.9" y="246.3" height="21.7"/><rect class="c-prin" x="510.5" width="12.9" y="58.8" height="187.6"/><rect class="c-fin" x="528.9" width="12.9" y="248.2" height="19.8"/><rect class="c-prin" x="528.9" width="12.9" y="58.8" height="189.4"/><rect class="c-fin" x="547.3" width="12.9" y="250.1" height="17.9"/><rect class="c-prin" x="547.3" width="12.9" y="58.8" height="191.3"/><rect class="c-fin" x="565.6" width="12.9" y="252.0" height="16.0"/><rect class="c-prin" x="565.6" width="12.9" y="58.8" height="193.2"/><rect class="c-fin" x="584.0" width="12.9" y="253.9" height="14.1"/><rect class="c-prin" x="584.0" width="12.9" y="58.8" height="195.2"/><text x="590.5" y="290" text-anchor="middle">#30</text><rect class="c-fin" x="602.4" width="12.9" y="255.9" height="12.1"/><rect class="c-prin" x="602.4" width="12.9" y="58.8" height="197.1"/><rect class="c-fin" x="620.8" width="12.9" y="257.9" height="10.1"/><rect class="c-prin" x="620.8" width="12.9" y="58.8" height="199.1"/><rect class="c-fin" x="639.2" width="12.9" y="259.8" height="8.2"/><rect class="c-prin" x="639.2" width="12.9" y="58.8" height="201.1"/><rect class="c-fin" x="657.6" width="12.9" y="261.9" height="6.1"/><rect class="c-prin" x="657.6" width="12.9" y="58.8" height="203.1"/><rect class="c-fin" x="676.0" width="12.9" y="263.9" height="4.1"/><rect class="c-prin" x="676.0" width="12.9" y="58.8" height="205.1"/><rect class="c-fin" x="694.4" width="12.9" y="265.9" height="2.1"/><rect class="c-prin" x="694.4" width="12.9" y="58.8" height="207.1"/><text x="700.8" y="290" text-anchor="end">#36</text><text class="val" x="52" y="50.8">Pmt 1: interest $1,000.00 + principal $2,321.40</text><text class="val" x="710" y="50.8" text-anchor="end">Pmt 36: interest $33.60 + principal $3,287.80</text></svg>
+ <figcaption>The chart covers all 36 months, in dollars. The full height of each bar is the monthly lease payment received, $3,321.40, which never changes. Within it, the blue part (interest) falls from $1,000.00 in payment 1 to $33.60 in payment 36, while the gray part (principal collected) rises from $2,321.40 to $3,287.80. As interest falls, so does finance lease profit.</figcaption>
+ </figure>
+ <figure class="panel">
+ <h3>Inside the operating lease: income minus expense is profit</h3>
+ <div class="legend"><span><i style="background:var(--opr)"></i>Lease income (cash received each month)</span><span><i style="background:var(--prop)"></i>Depreciation (decline in the vehicle’s value)</span></div>
+ <svg class="chart" viewBox="0 0 720 300" role="img" aria-label="Operating lease monthly lease income is $3,321.40 and depreciation is $2,083.30; the difference is profit"><line class="axis" x1="48" x2="710" y1="268.0" y2="268.0"/><text x="42" y="272.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="710" y1="205.0" y2="205.0"/><text x="42" y="209.0" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="710" y1="142.0" y2="142.0"/><text x="42" y="146.0" text-anchor="end">$2,000</text><line class="grid" x1="48" x2="710" y1="79.0" y2="79.0"/><text x="42" y="83.0" text-anchor="end">$3,000</text><line class="grid" x1="48" x2="710" y1="16.0" y2="16.0"/><text x="42" y="20.0" text-anchor="end">$4,000</text><text x="4" y="10">USD</text><text x="48.0" y="290" text-anchor="middle">#1</text><text x="142.6" y="290" text-anchor="middle">#6</text><text x="256.1" y="290" text-anchor="middle">#12</text><text x="369.5" y="290" text-anchor="middle">#18</text><text x="483.0" y="290" text-anchor="middle">#24</text><text x="596.5" y="290" text-anchor="middle">#30</text><text x="710.0" y="290" text-anchor="end">#36</text><polygon points="48.0,58.8 66.9,58.8 85.8,58.8 104.7,58.8 123.7,58.8 142.6,58.8 161.5,58.8 180.4,58.8 199.3,58.8 218.2,58.8 237.1,58.8 256.1,58.8 275.0,58.8 293.9,58.8 312.8,58.8 331.7,58.8 350.6,58.8 369.5,58.8 388.5,58.8 407.4,58.8 426.3,58.8 445.2,58.8 464.1,58.8 483.0,58.8 501.9,58.8 520.9,58.8 539.8,58.8 558.7,58.8 577.6,58.8 596.5,58.8 615.4,58.8 634.3,58.8 653.3,58.8 672.2,58.8 691.1,58.8 710.0,58.8 710.0,136.8 691.1,136.8 672.2,136.8 653.3,136.8 634.3,136.8 615.4,136.8 596.5,136.8 577.6,136.8 558.7,136.8 539.8,136.8 520.9,136.8 501.9,136.8 483.0,136.8 464.1,136.8 445.2,136.8 426.3,136.8 407.4,136.8 388.5,136.8 369.5,136.8 350.6,136.8 331.7,136.8 312.8,136.8 293.9,136.8 275.0,136.8 256.1,136.8 237.1,136.8 218.2,136.8 199.3,136.8 180.4,136.8 161.5,136.8 142.6,136.8 123.7,136.8 104.7,136.8 85.8,136.8 66.9,136.8 48.0,136.8" fill="var(--opr)" fill-opacity="0.18"/><polyline points="48.0,58.8 66.9,58.8 85.8,58.8 104.7,58.8 123.7,58.8 142.6,58.8 161.5,58.8 180.4,58.8 199.3,58.8 218.2,58.8 237.1,58.8 256.1,58.8 275.0,58.8 293.9,58.8 312.8,58.8 331.7,58.8 350.6,58.8 369.5,58.8 388.5,58.8 407.4,58.8 426.3,58.8 445.2,58.8 464.1,58.8 483.0,58.8 501.9,58.8 520.9,58.8 539.8,58.8 558.7,58.8 577.6,58.8 596.5,58.8 615.4,58.8 634.3,58.8 653.3,58.8 672.2,58.8 691.1,58.8 710.0,58.8" fill="none" stroke="var(--opr)" stroke-width="3"/><polyline points="48.0,136.8 66.9,136.8 85.8,136.8 104.7,136.8 123.7,136.8 142.6,136.8 161.5,136.8 180.4,136.8 199.3,136.8 218.2,136.8 237.1,136.8 256.1,136.8 275.0,136.8 293.9,136.8 312.8,136.8 331.7,136.8 350.6,136.8 369.5,136.8 388.5,136.8 407.4,136.8 426.3,136.8 445.2,136.8 464.1,136.8 483.0,136.8 501.9,136.8 520.9,136.8 539.8,136.8 558.7,136.8 577.6,136.8 596.5,136.8 615.4,136.8 634.3,136.8 653.3,136.8 672.2,136.8 691.1,136.8 710.0,136.8" fill="none" stroke="var(--prop)" stroke-width="3" stroke-dasharray="8 5"/><text class="val" x="66.9" y="51.8">Lease income $3,321.40</text><text class="val" x="66.9" y="152.8">Depreciation $2,083.30</text><text class="val" x="483.0" y="101.8" text-anchor="middle">Shaded area = monthly profit, $1,238.10</text></svg>
+ <figcaption>The chart covers all 36 months, in dollars. The shaded gap between the two lines is the operating lease profit. The upper line (lease income) is $3,321.40 and the lower dashed line (depreciation) is $2,083.30 ($100,000.00 ÷ 48 months), both constant, so profit is steady.</figcaption>
+ </figure>
+ <div class="scroll"><table>
+ <thead><tr><th>Year</th><th class="num">Finance lease profit</th><th class="num">Operating lease profit</th></tr></thead>
+ <tbody>
+ <tr><td>Year 1 (payments 1–12)</td><td class="num">$10,415.00</td><td class="num">$14,857.20</td></tr>
+ <tr><td>Year 2 (payments 13–24)</td><td class="num">$6,681.20</td><td class="num">$14,857.20</td></tr>
+ <tr><td>Year 3 (payments 25–36)</td><td class="num">$2,474.20</td><td class="num">$14,857.20</td></tr>
+ </tbody>
+ <tfoot><tr><td>Total</td><td class="num">$19,570.40</td><td class="num">$44,571.60</td></tr></tfoot>
+ </table></div>
+ <div class="callout"><strong>Conclusion</strong> Finance lease profit is front-loaded, while a straight-line operating lease spreads profit evenly. Over 36 months the totals differ: $19,570.40 for the finance lease and $44,571.60 for the operating lease, because only 36 of 48 depreciation months have passed and a carrying amount of $25,001.20 remains on the vehicle. That amount is settled as a gain or loss on derecognition when the vehicle is sold, and once the sale is included, the final totals match (see Advanced 1 below).</div>
+ <details class="q"><summary>Show the full 36-payment table</summary>
+ <div class="ans"><div class="scroll" style="max-height:460px;overflow:auto"><table class="sched"><thead><tr><th>Payment</th><th class="num">Payment received</th><th class="num">Finance: finance income</th><th class="num">Finance: principal collected</th><th class="num">Finance: receivable balance</th><th class="num">Operating: depreciation</th><th class="num">Operating: profit</th><th class="num">Operating: vehicle carrying amount</th></tr></thead><tbody><tr><td>1</td><td class="num">$3,321.40</td><td class="num">$1,000.00</td><td class="num">$2,321.40</td><td class="num">$97,678.60</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$97,916.70</td></tr><tr><td>2</td><td class="num">$3,321.40</td><td class="num">$976.70</td><td class="num">$2,344.70</td><td class="num">$95,333.90</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$95,833.40</td></tr><tr><td>3</td><td class="num">$3,321.40</td><td class="num">$953.30</td><td class="num">$2,368.10</td><td class="num">$92,965.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$93,750.10</td></tr><tr><td>4</td><td class="num">$3,321.40</td><td class="num">$929.60</td><td class="num">$2,391.80</td><td class="num">$90,574.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$91,666.80</td></tr><tr><td>5</td><td class="num">$3,321.40</td><td class="num">$905.70</td><td class="num">$2,415.70</td><td class="num">$88,158.30</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$89,583.50</td></tr><tr><td>6</td><td class="num">$3,321.40</td><td class="num">$881.50</td><td class="num">$2,439.90</td><td class="num">$85,718.40</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$87,500.20</td></tr><tr><td>7</td><td class="num">$3,321.40</td><td class="num">$857.10</td><td class="num">$2,464.30</td><td class="num">$83,254.10</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$85,416.90</td></tr><tr><td>8</td><td class="num">$3,321.40</td><td class="num">$832.50</td><td class="num">$2,488.90</td><td class="num">$80,765.20</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$83,333.60</td></tr><tr><td>9</td><td class="num">$3,321.40</td><td class="num">$807.60</td><td class="num">$2,513.80</td><td class="num">$78,251.40</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$81,250.30</td></tr><tr><td>10</td><td class="num">$3,321.40</td><td class="num">$782.50</td><td class="num">$2,538.90</td><td class="num">$75,712.50</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$79,167.00</td></tr><tr><td>11</td><td class="num">$3,321.40</td><td class="num">$757.10</td><td class="num">$2,564.30</td><td class="num">$73,148.20</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$77,083.70</td></tr><tr><td>12</td><td class="num">$3,321.40</td><td class="num">$731.40</td><td class="num">$2,590.00</td><td class="num">$70,558.20</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$75,000.40</td></tr><tr><td>13</td><td class="num">$3,321.40</td><td class="num">$705.50</td><td class="num">$2,615.90</td><td class="num">$67,942.30</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$72,917.10</td></tr><tr><td>14</td><td class="num">$3,321.40</td><td class="num">$679.40</td><td class="num">$2,642.00</td><td class="num">$65,300.30</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$70,833.80</td></tr><tr><td>15</td><td class="num">$3,321.40</td><td class="num">$653.00</td><td class="num">$2,668.40</td><td class="num">$62,631.90</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$68,750.50</td></tr><tr><td>16</td><td class="num">$3,321.40</td><td class="num">$626.30</td><td class="num">$2,695.10</td><td class="num">$59,936.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$66,667.20</td></tr><tr><td>17</td><td class="num">$3,321.40</td><td class="num">$599.30</td><td class="num">$2,722.10</td><td class="num">$57,214.70</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$64,583.90</td></tr><tr><td>18</td><td class="num">$3,321.40</td><td class="num">$572.10</td><td class="num">$2,749.30</td><td class="num">$54,465.40</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$62,500.60</td></tr><tr><td>19</td><td class="num">$3,321.40</td><td class="num">$544.60</td><td class="num">$2,776.80</td><td class="num">$51,688.60</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$60,417.30</td></tr><tr><td>20</td><td class="num">$3,321.40</td><td class="num">$516.80</td><td class="num">$2,804.60</td><td class="num">$48,884.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$58,334.00</td></tr><tr><td>21</td><td class="num">$3,321.40</td><td class="num">$488.80</td><td class="num">$2,832.60</td><td class="num">$46,051.40</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$56,250.70</td></tr><tr><td>22</td><td class="num">$3,321.40</td><td class="num">$460.50</td><td class="num">$2,860.90</td><td class="num">$43,190.50</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$54,167.40</td></tr><tr><td>23</td><td class="num">$3,321.40</td><td class="num">$431.90</td><td class="num">$2,889.50</td><td class="num">$40,301.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$52,084.10</td></tr><tr><td>24</td><td class="num">$3,321.40</td><td class="num">$403.00</td><td class="num">$2,918.40</td><td class="num">$37,382.60</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$50,000.80</td></tr><tr><td>25</td><td class="num">$3,321.40</td><td class="num">$373.80</td><td class="num">$2,947.60</td><td class="num">$34,435.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$47,917.50</td></tr><tr><td>26</td><td class="num">$3,321.40</td><td class="num">$344.30</td><td class="num">$2,977.10</td><td class="num">$31,457.90</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$45,834.20</td></tr><tr><td>27</td><td class="num">$3,321.40</td><td class="num">$314.50</td><td class="num">$3,006.90</td><td class="num">$28,451.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$43,750.90</td></tr><tr><td>28</td><td class="num">$3,321.40</td><td class="num">$284.50</td><td class="num">$3,036.90</td><td class="num">$25,414.10</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$41,667.60</td></tr><tr><td>29</td><td class="num">$3,321.40</td><td class="num">$254.10</td><td class="num">$3,067.30</td><td class="num">$22,346.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$39,584.30</td></tr><tr><td>30</td><td class="num">$3,321.40</td><td class="num">$223.40</td><td class="num">$3,098.00</td><td class="num">$19,248.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$37,501.00</td></tr><tr><td>31</td><td class="num">$3,321.40</td><td class="num">$192.40</td><td class="num">$3,129.00</td><td class="num">$16,119.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$35,417.70</td></tr><tr><td>32</td><td class="num">$3,321.40</td><td class="num">$161.10</td><td class="num">$3,160.30</td><td class="num">$12,959.50</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$33,334.40</td></tr><tr><td>33</td><td class="num">$3,321.40</td><td class="num">$129.50</td><td class="num">$3,191.90</td><td class="num">$9,767.60</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$31,251.10</td></tr><tr><td>34</td><td class="num">$3,321.40</td><td class="num">$97.60</td><td class="num">$3,223.80</td><td class="num">$6,543.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$29,167.80</td></tr><tr><td>35</td><td class="num">$3,321.40</td><td class="num">$65.40</td><td class="num">$3,256.00</td><td class="num">$3,287.80</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$27,084.50</td></tr><tr><td>36</td><td class="num">$3,321.40</td><td class="num">$33.60</td><td class="num">$3,287.80</td><td class="num">$0.00</td><td class="num">$2,083.30</td><td class="num">$1,238.10</td><td class="num">$25,001.20</td></tr></tbody><tfoot><tr><td>Total</td><td class="num">$119,570.40</td><td class="num">$19,570.40</td><td class="num">$100,000.00</td><td></td><td class="num">$74,998.80</td><td class="num">$44,571.60</td><td></td></tr></tfoot></table></div></div></details>
+</section>
+
+<section>
+ <div><h2>Side-by-side comparison</h2></div>
+ <div class="scroll"><table>
+ <thead><tr><th>Item</th><th>Finance lease</th><th>Operating lease</th></tr></thead>
+ <tbody>
+ <tr><td>Asset on the statement of financial position</td><td>Receivable (the amount to be collected). Shrinks every month</td><td>Vehicle. The carrying amount falls with depreciation</td></tr>
+ <tr><td>When a lease payment is received</td><td>Cash up / receivable down + finance income</td><td>Cash up / lease income</td></tr>
+ <tr><td>Expense</td><td>None</td><td>Depreciation</td></tr>
+ <tr><td>Shape of profit</td><td>Large at first, then shrinks</td><td>The same every month under straight-line depreciation</td></tr>
+ <tr><td>Values to store when developing</td><td>Interest, principal, receivable balance</td><td>Lease income, depreciation, carrying amount</td></tr>
+ </tbody></table></div>
+ <div class="callout"><strong>Keep in mind when developing</strong>
+ The payment schedule is the same for both lease types. Many systems are designed so that, from the same contract data, only the part that <strong>creates the journal entries branches by lease type</strong> . (This is general design guidance and does not describe any specific company’s system.)</div>
+</section>
+
+<section>
+ <div><span class="tag t-sl">Advanced 1</span><h2>The shape of operating lease profit changes with the depreciation method</h2>
+ <p class="sec-sub">The basic example showed only the straight-line method. Here we compare three ways of spreading depreciation for an operating lease: straight-line, diminishing balance, and 원금상환비례법. Changing the method changes how profit is split across years. This section uses a 15% annual rate, so the rate and the numbers differ from the basic example (12%).</p></div>
+
+ <div class="panel">
+ <h3>Advanced example assumptions</h3>
+ <ul class="plain">
+ <li>Cost of $100,000.00, 15% annual rate, 36-month lease, monthly lease payment <strong>$3,466.50</strong> (36 payments total $124,794.00), total profit over the lease term of $24,794.00</li>
+ <li><strong>Straight-line and diminishing balance are calculated over 4 years (48 months), which is common in practice.</strong> Lessors often depreciate over about 4 years, and the useful life (the depreciation period) varies by lessor. This is the same 48 months as the straight-line method in the basic example (only the interest rate differs).</li>
+ <li>The diminishing balance method uses a depreciation rate of 0.528 for a 4-year life. <strong> The depreciation rate varies by lessor.</strong> 0.528 means 52.8% per year; the monthly depreciation is that rate divided by 12, multiplied by the carrying amount on the first day of the year.</li>
+ <li><strong>The 원금상환비례법 uses the lease term (36 months).</strong> That is because the principal repaid under the finance lease is used directly as depreciation (this method has no standard English name). We also assume no accrued-income adjustment for operating lease payments: income that is earned but not yet received is not calculated separately, and each month’s lease payment is recorded as that month’s income as is.</li>
+ <li>When the lease ends, the vehicle is sold and settled; for illustration, the sale price is assumed to be $30,000.00.</li>
+ <li>Each payment is compared with the same payment number: payment 1 profit with payment 1 interest, payment 2 profit with payment 2 interest, and so on.</li>
+ </ul>
+ </div>
+
+ <div class="cols">
+ <div class="panel"><span class="tag t-fin">Finance lease</span><p>Only interest is profit. Shown as a baseline for comparison.</p></div>
+ <div class="panel"><span class="tag t-sl">Operating lease · Straight-line</span><p>Depreciation is the same amount every month for 48 months.</p></div>
+ <div class="panel"><span class="tag t-dec">Operating lease · Diminishing balance</span><p>The annual rate of 0.528 (52.8%) divided by 12 is applied to the carrying amount on the first day of the year. The amount is the same each month within a year, and is recalculated on the reduced carrying amount when the year changes. So depreciation is large at first and then declines.</p></div>
+ <div class="panel"><span class="tag t-pb">Operating lease · 원금상환비례법</span><p>Depreciation is set equal to the principal repaid under the finance lease. Profit is then exactly the same as the finance lease every month.</p></div>
+ </div>
+
+ <h3>Depreciation formulas</h3>
+ <p>The three methods differ only in the formula for “that month’s depreciation.” Under every method, profit is <strong>lease income − depreciation</strong>.</p>
+ <div class="scroll"><table>
+ <thead><tr><th>Method</th><th>Monthly depreciation formula</th><th>Payment 1 calculation (truncated to the nearest $0.10)</th></tr></thead>
+ <tbody>
+ <tr><td>Straight-line</td><td>Cost ÷ number of depreciation months</td><td>$100,000.00 ÷ 48 = $2,083.33<br><strong>→ $2,083.30</strong></td></tr>
+ <tr><td>Diminishing balance</td><td>Carrying amount on the first day of the year × depreciation rate ÷ 12<br><span class="sec-sub">(the same amount every month within a year)</span></td><td>$100,000.00 × 0.528 ÷ 12 = $4,400.00<br><strong>→ $4,400.00</strong></td></tr>
+ <tr><td>원금상환비례법</td><td>The finance lease principal repaid that month<br>= monthly lease payment − interest<br><span class="sec-sub">(interest = remaining principal × annual rate ÷ 12)</span></td><td>Interest $100,000.00 × 15% ÷ 12 = $1,250.00<br>$3,466.50 − $1,250.00 = <strong>$2,216.50</strong></td></tr>
+ </tbody></table></div>
+
+ <h3>In the diminishing balance method, the carrying amount shrinks each year, so monthly depreciation shrinks too</h3>
+ <div class="scroll"><table>
+ <thead><tr><th>Diminishing balance year</th><th class="num">Carrying amount on the first day of the year</th><th class="num">Monthly depreciation</th><th class="num">Monthly lease income</th><th class="num">Monthly profit</th></tr></thead>
+ <tbody><tr><td>Year 1 (payments 1–12)</td><td class="num">$100,000.00</td><td class="num">$4,400.00</td><td class="num">$3,466.50</td><td class="num"><span class="neg">-$933.50</span></td></tr><tr><td>Year 2 (payments 13–24)</td><td class="num">$47,200.00</td><td class="num">$2,076.80</td><td class="num">$3,466.50</td><td class="num"><span class="">$1,389.70</span></td></tr><tr><td>Year 3 (payments 25–36)</td><td class="num">$22,278.40</td><td class="num">$980.20</td><td class="num">$3,466.50</td><td class="num"><span class="">$2,486.30</span></td></tr></tbody></table></div>
+ <p class="sec-sub">Carrying amount on the first day of next year = carrying amount on the first day of this year − (monthly depreciation × 12). For example, the first day of year 2 is $100,000.00 − $4,400.00 × 12 = $47,200.00. In year 1, depreciation is larger than lease income, so every month is a loss; from year 2 it turns into profit.</p>
+
+ <div class="panel"><h3>Where does 0.528 come from?</h3>
+ <p>The diminishing balance depreciation rate is generally said to be calculated as <strong>1 − (residual value ÷ cost)<sup>1 ÷ useful life</sup></strong>, where residual value is the value left after use. If the residual value is set to 5% of cost and the useful life to 4 years, the rate is 1 − 0.05<sup>1/4</sup> = 1 − 0.472 = about <strong>0.528</strong>.</p>
+ <p class="sec-sub">This page uses the result above as the depreciation rate. The residual value ratio and the depreciation rate vary by lessor.</p></div>
+
+ <h3>Profit by year over the 36-month lease term</h3>
+ <figure class="panel">
+ <div class="legend"><span><i style="background:var(--fin)"></i>Finance lease</span><span><i style="background:var(--m-sl)"></i>Operating lease, straight-line (48 months)</span><span><i style="background:var(--m-dec)"></i>Operating lease, diminishing balance (48 months)</span><span><i style="background:var(--pb)"></i>Operating lease, 원금상환비례법 (36 months)</span></div>
+ <svg class="chart" viewBox="0 0 720 320" role="img" aria-label="Profit by year over the lease term: finance lease and operating lease straight-line, diminishing balance, and 원금상환비례법"><line class="grid" x1="48" x2="712" y1="286.0" y2="286.0"/><text x="42" y="290.0" text-anchor="end">-20</text><line class="grid" x1="48" x2="712" y1="232.4" y2="232.4"/><text x="42" y="236.4" text-anchor="end">-10</text><line class="axis" x1="48" x2="712" y1="178.79999999999998" y2="178.79999999999998"/><text x="42" y="182.79999999999998" text-anchor="end">0</text><line class="grid" x1="48" x2="712" y1="125.2" y2="125.2"/><text x="42" y="129.2" text-anchor="end">10</text><line class="grid" x1="48" x2="712" y1="71.6" y2="71.6"/><text x="42" y="75.6" text-anchor="end">20</text><line class="grid" x1="48" x2="712" y1="18.0" y2="18.0"/><text x="42" y="22.0" text-anchor="end">30</text><text x="4" y="10">$ thousand</text><rect class="c-fin" x="84.8" width="33.2" y="108.6" height="70.2"/><text class="val" x="101.4" y="104.6" text-anchor="middle">13.1</text><rect class="c-sl" x="123.0" width="33.2" y="89.8" height="89.0"/><text class="val" x="139.6" y="85.8" text-anchor="middle">16.6</text><rect class="c-dec" x="161.2" width="33.2" y="178.8" height="60.0"/><text class="val" x="177.8" y="250.8" text-anchor="middle">-11.2</text><rect class="c-pb" x="199.3" width="33.2" y="108.6" height="70.2"/><text class="val" x="215.9" y="104.6" text-anchor="middle">13.1</text><text x="158.7" y="310" text-anchor="middle">Year 1</text><rect class="c-fin" x="306.1" width="33.2" y="133.2" height="45.6"/><text class="val" x="322.7" y="129.2" text-anchor="middle">8.5</text><rect class="c-sl" x="344.3" width="33.2" y="89.8" height="89.0"/><text class="val" x="360.9" y="85.8" text-anchor="middle">16.6</text><rect class="c-dec" x="382.5" width="33.2" y="89.4" height="89.4"/><text class="val" x="399.1" y="85.4" text-anchor="middle">16.7</text><rect class="c-pb" x="420.7" width="33.2" y="133.2" height="45.6"/><text class="val" x="437.3" y="129.2" text-anchor="middle">8.5</text><text x="380.0" y="310" text-anchor="middle">Year 2</text><rect class="c-fin" x="527.5" width="33.2" y="161.7" height="17.1"/><text class="val" x="544.1" y="157.7" text-anchor="middle">3.2</text><rect class="c-sl" x="565.6" width="33.2" y="89.8" height="89.0"/><text class="val" x="582.2" y="85.8" text-anchor="middle">16.6</text><rect class="c-dec" x="603.8" width="33.2" y="18.9" height="159.9"/><text class="val" x="620.4" y="14.9" text-anchor="middle">29.8</text><rect class="c-pb" x="642.0" width="33.2" y="161.7" height="17.1"/><text class="val" x="658.6" y="157.7" text-anchor="middle">3.2</text><text x="601.3" y="310" text-anchor="middle">Year 3</text></svg>
+ <figcaption>Profit by year over the 36-month lease term, plotted in thousands of dollars. Bars below the zero line are losses. Profit under the 원금상환비례법 equals the finance lease.</figcaption>
+ </figure>
+ <div class="scroll"><table>
+ <thead><tr><th>Year</th><th class="num">Finance lease</th><th class="num">Operating lease, straight-line</th><th class="num">Operating lease, diminishing balance</th><th class="num">Operating lease, 원금상환비례법</th></tr></thead>
+ <tbody><tr><td>Year 1 (payments 1–12)</td><td class="num"><span class="">$13,092.50</span></td><td class="num"><span class="">$16,598.40</span></td><td class="num"><span class="neg">-$11,202.00</span></td><td class="num"><span class="">$13,092.50</span></td></tr><tr><td>Year 2 (payments 13–24)</td><td class="num"><span class="">$8,510.00</span></td><td class="num"><span class="">$16,598.40</span></td><td class="num"><span class="">$16,676.40</span></td><td class="num"><span class="">$8,510.00</span></td></tr><tr><td>Year 3 (payments 25–36)</td><td class="num"><span class="">$3,191.50</span></td><td class="num"><span class="">$16,598.40</span></td><td class="num"><span class="">$29,835.60</span></td><td class="num"><span class="">$3,191.50</span></td></tr></tbody>
+ <tfoot><tr><td>36-month total</td><td class="num"><span class="">$24,794.00</span></td><td class="num"><span class="">$49,795.20</span></td><td class="num"><span class="">$35,310.00</span></td><td class="num"><span class="">$24,794.00</span></td></tr></tfoot>
+ </table></div>
+ <div class="callout"><strong>Conclusion</strong> Over the 36-month lease term alone, total profit differs by method. That is because under straight-line and diminishing balance, a carrying amount remains after the lease ends. The remaining amount is settled as a gain or loss on derecognition when the vehicle is sold, and once that is included, the final totals are the same (see the table below).</div>
+
+ <h3>Inside the three operating lease methods (48 months)</h3>
+ <p>The three charts use the same scale ($0 to $6,000). The gap between the dark solid line (lease income) and the dashed line (depreciation) is that month’s profit (blue) or loss (red). The horizontal axis covers the 48 depreciation months of the straight-line and diminishing balance methods; lease income occurs only through payment 36.</p>
+ <figure class="panel">
+ <h3>Straight-line (48 months): the same amount every month</h3>
+ <div class="legend"><span><i style="background:var(--rev)"></i>Lease income (cash received each month)</span><span><i style="background:var(--m-sl)"></i>Depreciation</span><span><i style="background:var(--gain);opacity:.45"></i>Profit (income is larger)</span><span><i style="background:var(--neg);opacity:.45"></i>Loss (expense is larger)</span></div>
+ <svg class="chart" viewBox="0 0 720 320" role="img" aria-label="Straight-line, 48-month depreciation, 36-month lease term"><line class="axis" x1="48" x2="712" y1="286.0" y2="286.0"/><text x="42" y="290.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="712" y1="241.33333333333334" y2="241.33333333333334"/><text x="42" y="245.33333333333334" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="712" y1="196.66666666666666" y2="196.66666666666666"/><text x="42" y="200.66666666666666" text-anchor="end">$2,000</text><line class="grid" x1="48" x2="712" y1="152.0" y2="152.0"/><text x="42" y="156.0" text-anchor="end">$3,000</text><line class="grid" x1="48" x2="712" y1="107.33333333333333" y2="107.33333333333333"/><text x="42" y="111.33333333333333" text-anchor="end">$4,000</text><line class="grid" x1="48" x2="712" y1="62.666666666666664" y2="62.666666666666664"/><text x="42" y="66.66666666666666" text-anchor="end">$5,000</text><line class="grid" x1="48" x2="712" y1="18.0" y2="18.0"/><text x="42" y="22.0" text-anchor="end">$6,000</text><text x="4" y="12">USD</text><rect x="546.0" y="18" width="166.0" height="268" fill="var(--muted,#888)" fill-opacity="0.12"/><line x1="546.0" x2="546.0" y1="18" y2="286" stroke="var(--muted,#888)" stroke-dasharray="4 4"/><text x="629.0" y="32" text-anchor="middle" class="val">Lease ends</text><text x="629.0" y="46" text-anchor="middle" class="val">Vehicle sale</text><rect x="48.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="61.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="75.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="89.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="103.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="117.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="131.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="144.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="158.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="172.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="186.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="200.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="214.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="227.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="241.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="255.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="269.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="283.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="297.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="310.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="324.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="338.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="352.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="366.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="380.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="393.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="407.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="421.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="435.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="449.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="463.0" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="476.8" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="490.7" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="504.5" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="518.3" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="532.2" width="14.2" y="131.2" height="61.8" fill="var(--gain)" fill-opacity="0.25"/><line x1="48" x2="546.0" y1="131.2" y2="131.2" stroke="var(--rev)" stroke-width="3"/><polyline points="48.0,192.9 61.8,192.9 61.8,192.9 75.7,192.9 75.7,192.9 89.5,192.9 89.5,192.9 103.3,192.9 103.3,192.9 117.2,192.9 117.2,192.9 131.0,192.9 131.0,192.9 144.8,192.9 144.8,192.9 158.7,192.9 158.7,192.9 172.5,192.9 172.5,192.9 186.3,192.9 186.3,192.9 200.2,192.9 200.2,192.9 214.0,192.9 214.0,192.9 227.8,192.9 227.8,192.9 241.7,192.9 241.7,192.9 255.5,192.9 255.5,192.9 269.3,192.9 269.3,192.9 283.2,192.9 283.2,192.9 297.0,192.9 297.0,192.9 310.8,192.9 310.8,192.9 324.7,192.9 324.7,192.9 338.5,192.9 338.5,192.9 352.3,192.9 352.3,192.9 366.2,192.9 366.2,192.9 380.0,192.9 380.0,192.9 393.8,192.9 393.8,192.9 407.7,192.9 407.7,192.9 421.5,192.9 421.5,192.9 435.3,192.9 435.3,192.9 449.2,192.9 449.2,192.9 463.0,192.9 463.0,192.9 476.8,192.9 476.8,192.9 490.7,192.9 490.7,192.9 504.5,192.9 504.5,192.9 518.3,192.9 518.3,192.9 532.2,192.9 532.2,192.9 546.0,192.9" fill="none" stroke="var(--m-sl)" stroke-width="3" stroke-dasharray="8 5"/><polyline points="546.0,192.9 546.0,192.9 559.8,192.9 559.8,192.9 573.7,192.9 573.7,192.9 587.5,192.9 587.5,192.9 601.3,192.9 601.3,192.9 615.2,192.9 615.2,192.9 629.0,192.9 629.0,192.9 642.8,192.9 642.8,192.9 656.7,192.9 656.7,192.9 670.5,192.9 670.5,192.9 684.3,192.9 684.3,192.9 698.2,192.9 698.2,192.9 712.0,192.9" fill="none" stroke="var(--m-sl)" stroke-width="2" stroke-dasharray="2 4" opacity="0.6"/><text x="54.9" y="310" text-anchor="middle">#1</text><text x="124.1" y="310" text-anchor="middle">#6</text><text x="207.1" y="310" text-anchor="middle">#12</text><text x="290.1" y="310" text-anchor="middle">#18</text><text x="373.1" y="310" text-anchor="middle">#24</text><text x="456.1" y="310" text-anchor="middle">#30</text><text x="539.1" y="310" text-anchor="middle">#36</text><text x="622.1" y="310" text-anchor="middle">#42</text><text x="705.1" y="310" text-anchor="end">#48</text><text class="val" x="54" y="123.2">Lease income $3,466.50</text><text class="val" x="54" y="208.9" text-anchor="start">Depreciation $2,083.30</text></svg>
+ <figcaption>Depreciation is $2,083.30 every month ($100,000.00 ÷ 48 months) and lease income is $3,466.50, so profit is a steady $1,383.20 per month. Payments 37–48 fall after the lease ends, when the vehicle is being sold, so there is no income or depreciation; the dashed line is the depreciation schedule that would have continued had the vehicle not been sold.</figcaption>
+ </figure>
+ <figure class="panel">
+ <h3>Diminishing balance (48 months): large at first, then smaller</h3>
+ <div class="legend"><span><i style="background:var(--rev)"></i>Lease income (cash received each month)</span><span><i style="background:var(--m-dec)"></i>Depreciation</span><span><i style="background:var(--gain);opacity:.45"></i>Profit (income is larger)</span><span><i style="background:var(--neg);opacity:.45"></i>Loss (expense is larger)</span></div>
+ <svg class="chart" viewBox="0 0 720 320" role="img" aria-label="Diminishing balance, 48-month depreciation, 36-month lease term"><line class="axis" x1="48" x2="712" y1="286.0" y2="286.0"/><text x="42" y="290.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="712" y1="241.33333333333334" y2="241.33333333333334"/><text x="42" y="245.33333333333334" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="712" y1="196.66666666666666" y2="196.66666666666666"/><text x="42" y="200.66666666666666" text-anchor="end">$2,000</text><line class="grid" x1="48" x2="712" y1="152.0" y2="152.0"/><text x="42" y="156.0" text-anchor="end">$3,000</text><line class="grid" x1="48" x2="712" y1="107.33333333333333" y2="107.33333333333333"/><text x="42" y="111.33333333333333" text-anchor="end">$4,000</text><line class="grid" x1="48" x2="712" y1="62.666666666666664" y2="62.666666666666664"/><text x="42" y="66.66666666666666" text-anchor="end">$5,000</text><line class="grid" x1="48" x2="712" y1="18.0" y2="18.0"/><text x="42" y="22.0" text-anchor="end">$6,000</text><text x="4" y="12">USD</text><rect x="546.0" y="18" width="166.0" height="268" fill="var(--muted,#888)" fill-opacity="0.12"/><line x1="546.0" x2="546.0" y1="18" y2="286" stroke="var(--muted,#888)" stroke-dasharray="4 4"/><text x="629.0" y="32" text-anchor="middle" class="val">Lease ends</text><text x="629.0" y="46" text-anchor="middle" class="val">Vehicle sale</text><rect x="48.0" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="61.8" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="75.7" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="89.5" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="103.3" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="117.2" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="131.0" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="144.8" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="158.7" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="172.5" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="186.3" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="200.2" width="14.2" y="89.5" height="41.7" fill="var(--neg)" fill-opacity="0.25"/><rect x="214.0" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="227.8" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="241.7" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="255.5" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="269.3" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="283.2" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="297.0" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="310.8" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="324.7" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="338.5" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="352.3" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="366.2" width="14.2" y="131.2" height="62.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="380.0" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="393.8" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="407.7" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="421.5" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="435.3" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="449.2" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="463.0" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="476.8" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="490.7" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="504.5" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="518.3" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="532.2" width="14.2" y="131.2" height="111.1" fill="var(--gain)" fill-opacity="0.25"/><line x1="48" x2="546.0" y1="131.2" y2="131.2" stroke="var(--rev)" stroke-width="3"/><polyline points="48.0,89.5 61.8,89.5 61.8,89.5 75.7,89.5 75.7,89.5 89.5,89.5 89.5,89.5 103.3,89.5 103.3,89.5 117.2,89.5 117.2,89.5 131.0,89.5 131.0,89.5 144.8,89.5 144.8,89.5 158.7,89.5 158.7,89.5 172.5,89.5 172.5,89.5 186.3,89.5 186.3,89.5 200.2,89.5 200.2,89.5 214.0,89.5 214.0,193.2 227.8,193.2 227.8,193.2 241.7,193.2 241.7,193.2 255.5,193.2 255.5,193.2 269.3,193.2 269.3,193.2 283.2,193.2 283.2,193.2 297.0,193.2 297.0,193.2 310.8,193.2 310.8,193.2 324.7,193.2 324.7,193.2 338.5,193.2 338.5,193.2 352.3,193.2 352.3,193.2 366.2,193.2 366.2,193.2 380.0,193.2 380.0,242.2 393.8,242.2 393.8,242.2 407.7,242.2 407.7,242.2 421.5,242.2 421.5,242.2 435.3,242.2 435.3,242.2 449.2,242.2 449.2,242.2 463.0,242.2 463.0,242.2 476.8,242.2 476.8,242.2 490.7,242.2 490.7,242.2 504.5,242.2 504.5,242.2 518.3,242.2 518.3,242.2 532.2,242.2 532.2,242.2 546.0,242.2" fill="none" stroke="var(--m-dec)" stroke-width="3" stroke-dasharray="8 5"/><polyline points="546.0,242.2 546.0,265.3 559.8,265.3 559.8,265.3 573.7,265.3 573.7,265.3 587.5,265.3 587.5,265.3 601.3,265.3 601.3,265.3 615.2,265.3 615.2,265.3 629.0,265.3 629.0,265.3 642.8,265.3 642.8,265.3 656.7,265.3 656.7,265.3 670.5,265.3 670.5,265.3 684.3,265.3 684.3,265.3 698.2,265.3 698.2,265.3 712.0,265.3" fill="none" stroke="var(--m-dec)" stroke-width="2" stroke-dasharray="2 4" opacity="0.6"/><text x="54.9" y="310" text-anchor="middle">#1</text><text x="124.1" y="310" text-anchor="middle">#6</text><text x="207.1" y="310" text-anchor="middle">#12</text><text x="290.1" y="310" text-anchor="middle">#18</text><text x="373.1" y="310" text-anchor="middle">#24</text><text x="456.1" y="310" text-anchor="middle">#30</text><text x="539.1" y="310" text-anchor="middle">#36</text><text x="622.1" y="310" text-anchor="middle">#42</text><text x="705.1" y="310" text-anchor="end">#48</text><text class="val" x="54" y="123.2">Lease income $3,466.50</text><text class="val" x="54" y="81.5" text-anchor="start">Year 1: $4,400.00</text></svg>
+ <figcaption>Depreciation falls each year: $4,400.00 in year 1, $2,076.80 in year 2, and $980.20 in year 3. In year 1, depreciation exceeds lease income, creating a red loss zone; from year 2 there is profit. The gray zone for payments 37–48 is the vehicle sale period after the lease ends, and the thin dashed line is the year-4 depreciation schedule that would have continued had the vehicle not been sold.</figcaption>
+ </figure>
+ <figure class="panel">
+ <h3>원금상환비례법 (36 months): depreciate by the finance lease principal repaid</h3>
+ <div class="legend"><span><i style="background:var(--rev)"></i>Lease income (cash received each month)</span><span><i style="background:var(--pb)"></i>Depreciation</span><span><i style="background:var(--gain);opacity:.45"></i>Profit (income is larger)</span><span><i style="background:var(--neg);opacity:.45"></i>Loss (expense is larger)</span></div>
+ <svg class="chart" viewBox="0 0 720 320" role="img" aria-label="원금상환비례법, 36-month depreciation"><line class="axis" x1="48" x2="712" y1="286.0" y2="286.0"/><text x="42" y="290.0" text-anchor="end">$0</text><line class="grid" x1="48" x2="712" y1="241.33333333333334" y2="241.33333333333334"/><text x="42" y="245.33333333333334" text-anchor="end">$1,000</text><line class="grid" x1="48" x2="712" y1="196.66666666666666" y2="196.66666666666666"/><text x="42" y="200.66666666666666" text-anchor="end">$2,000</text><line class="grid" x1="48" x2="712" y1="152.0" y2="152.0"/><text x="42" y="156.0" text-anchor="end">$3,000</text><line class="grid" x1="48" x2="712" y1="107.33333333333333" y2="107.33333333333333"/><text x="42" y="111.33333333333333" text-anchor="end">$4,000</text><line class="grid" x1="48" x2="712" y1="62.666666666666664" y2="62.666666666666664"/><text x="42" y="66.66666666666666" text-anchor="end">$5,000</text><line class="grid" x1="48" x2="712" y1="18.0" y2="18.0"/><text x="42" y="22.0" text-anchor="end">$6,000</text><text x="4" y="12">USD</text><rect x="546.0" y="18" width="166.0" height="268" fill="var(--muted,#888)" fill-opacity="0.12"/><line x1="546.0" x2="546.0" y1="18" y2="286" stroke="var(--muted,#888)" stroke-dasharray="4 4"/><text x="629.0" y="32" text-anchor="middle" class="val">Lease ends</text><text x="629.0" y="46" text-anchor="middle" class="val">Vehicle sale</text><rect x="48.0" width="14.2" y="131.2" height="55.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="61.8" width="14.2" y="131.2" height="54.6" fill="var(--gain)" fill-opacity="0.25"/><rect x="75.7" width="14.2" y="131.2" height="53.3" fill="var(--gain)" fill-opacity="0.25"/><rect x="89.5" width="14.2" y="131.2" height="52.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="103.3" width="14.2" y="131.2" height="50.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="117.2" width="14.2" y="131.2" height="49.5" fill="var(--gain)" fill-opacity="0.25"/><rect x="131.0" width="14.2" y="131.2" height="48.2" fill="var(--gain)" fill-opacity="0.25"/><rect x="144.8" width="14.2" y="131.2" height="46.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="158.7" width="14.2" y="131.2" height="45.5" fill="var(--gain)" fill-opacity="0.25"/><rect x="172.5" width="14.2" y="131.2" height="44.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="186.3" width="14.2" y="131.2" height="42.7" fill="var(--gain)" fill-opacity="0.25"/><rect x="200.2" width="14.2" y="131.2" height="41.3" fill="var(--gain)" fill-opacity="0.25"/><rect x="214.0" width="14.2" y="131.2" height="39.9" fill="var(--gain)" fill-opacity="0.25"/><rect x="227.8" width="14.2" y="131.2" height="38.5" fill="var(--gain)" fill-opacity="0.25"/><rect x="241.7" width="14.2" y="131.2" height="37.0" fill="var(--gain)" fill-opacity="0.25"/><rect x="255.5" width="14.2" y="131.2" height="35.6" fill="var(--gain)" fill-opacity="0.25"/><rect x="269.3" width="14.2" y="131.2" height="34.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="283.2" width="14.2" y="131.2" height="32.6" fill="var(--gain)" fill-opacity="0.25"/><rect x="297.0" width="14.2" y="131.2" height="31.0" fill="var(--gain)" fill-opacity="0.25"/><rect x="310.8" width="14.2" y="131.2" height="29.5" fill="var(--gain)" fill-opacity="0.25"/><rect x="324.7" width="14.2" y="131.2" height="27.9" fill="var(--gain)" fill-opacity="0.25"/><rect x="338.5" width="14.2" y="131.2" height="26.3" fill="var(--gain)" fill-opacity="0.25"/><rect x="352.3" width="14.2" y="131.2" height="24.7" fill="var(--gain)" fill-opacity="0.25"/><rect x="366.2" width="14.2" y="131.2" height="23.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="380.0" width="14.2" y="131.2" height="21.4" fill="var(--gain)" fill-opacity="0.25"/><rect x="393.8" width="14.2" y="131.2" height="19.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="407.7" width="14.2" y="131.2" height="18.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="421.5" width="14.2" y="131.2" height="16.4" fill="var(--gain)" fill-opacity="0.25"/><rect x="435.3" width="14.2" y="131.2" height="14.6" fill="var(--gain)" fill-opacity="0.25"/><rect x="449.2" width="14.2" y="131.2" height="12.9" fill="var(--gain)" fill-opacity="0.25"/><rect x="463.0" width="14.2" y="131.2" height="11.1" fill="var(--gain)" fill-opacity="0.25"/><rect x="476.8" width="14.2" y="131.2" height="9.3" fill="var(--gain)" fill-opacity="0.25"/><rect x="490.7" width="14.2" y="131.2" height="7.5" fill="var(--gain)" fill-opacity="0.25"/><rect x="504.5" width="14.2" y="131.2" height="5.7" fill="var(--gain)" fill-opacity="0.25"/><rect x="518.3" width="14.2" y="131.2" height="3.8" fill="var(--gain)" fill-opacity="0.25"/><rect x="532.2" width="14.2" y="131.2" height="1.9" fill="var(--gain)" fill-opacity="0.25"/><line x1="48" x2="546.0" y1="131.2" y2="131.2" stroke="var(--rev)" stroke-width="3"/><polyline points="48.0,187.0 61.8,187.0 61.8,185.8 75.7,185.8 75.7,184.5 89.5,184.5 89.5,183.2 103.3,183.2 103.3,181.9 117.2,181.9 117.2,180.6 131.0,180.6 131.0,179.3 144.8,179.3 144.8,178.0 158.7,178.0 158.7,176.7 172.5,176.7 172.5,175.3 186.3,175.3 186.3,173.9 200.2,173.9 200.2,172.5 214.0,172.5 214.0,171.1 227.8,171.1 227.8,169.6 241.7,169.6 241.7,168.2 255.5,168.2 255.5,166.7 269.3,166.7 269.3,165.2 283.2,165.2 283.2,163.7 297.0,163.7 297.0,162.2 310.8,162.2 310.8,160.6 324.7,160.6 324.7,159.1 338.5,159.1 338.5,157.5 352.3,157.5 352.3,155.9 366.2,155.9 366.2,154.3 380.0,154.3 380.0,152.6 393.8,152.6 393.8,150.9 407.7,150.9 407.7,149.2 421.5,149.2 421.5,147.5 435.3,147.5 435.3,145.8 449.2,145.8 449.2,144.1 463.0,144.1 463.0,142.3 476.8,142.3 476.8,140.5 490.7,140.5 490.7,138.7 504.5,138.7 504.5,136.8 518.3,136.8 518.3,135.0 532.2,135.0 532.2,133.1 546.0,133.1" fill="none" stroke="var(--pb)" stroke-width="3" stroke-dasharray="8 5"/><text x="54.9" y="310" text-anchor="middle">#1</text><text x="124.1" y="310" text-anchor="middle">#6</text><text x="207.1" y="310" text-anchor="middle">#12</text><text x="290.1" y="310" text-anchor="middle">#18</text><text x="373.1" y="310" text-anchor="middle">#24</text><text x="456.1" y="310" text-anchor="middle">#30</text><text x="539.1" y="310" text-anchor="middle">#36</text><text x="622.1" y="310" text-anchor="middle">#42</text><text x="705.1" y="310" text-anchor="end">#48</text><text class="val" x="54" y="123.2">Lease income $3,466.50</text><text class="val" x="54" y="203.0" text-anchor="start">Pmt 1 depreciation $2,216.50</text><text class="val" x="542.0" y="149.1" text-anchor="end">Pmt 36: $3,423.20</text></svg>
+ <figcaption>Depreciation rises from $2,216.50 in payment 1 to $3,423.20 in payment 36 (because the finance lease principal repaid grows). Profit falls like finance lease interest, from $1,250.00 to $43.30. When the lease ends the carrying amount is $0.00, so there is no depreciation left to continue in payments 37–48.</figcaption>
+ </figure>
+
+ <h3>After the lease ends: the remaining carrying amount is settled as a gain or loss on derecognition</h3>
+ <p>Straight-line and diminishing balance spread depreciation over 48 months, so a carrying amount remains on the vehicle even when the lease ends at payment 36. This is not an error. When the vehicle is sold, the difference between the sale price and the carrying amount is recorded as a <strong>gain or loss on derecognition</strong> (the profit or loss that arises when an asset is sold).</p>
+ <div class="scroll"><table>
+ <thead><tr><th>Method</th><th class="num">36-month profit total</th><th class="num">Carrying amount at payment 36</th><th class="num">Gain or loss on derecognition (assuming a sale price of $30,000.00)</th><th class="num">Final total</th></tr></thead>
+ <tbody>
+ <tr><td>Straight-line (48 months)</td><td class="num">$49,795.20</td><td class="num">$25,001.20</td><td class="num">$4,998.80</td><td class="num">$54,794.00</td></tr>
+ <tr><td>Diminishing balance (48 months)</td><td class="num">$35,310.00</td><td class="num">$10,516.00</td><td class="num">$19,484.00</td><td class="num">$54,794.00</td></tr>
+ <tr><td>원금상환비례법 (36 months)</td><td class="num">$24,794.00</td><td class="num">$0.00</td><td class="num">$30,000.00</td><td class="num">$54,794.00</td></tr>
+ </tbody></table></div>
+ <p class="sec-sub">The sale price of $30,000.00 is an assumed value for illustration. Whatever the sale price, the final totals of the three methods are the same, because final total = total of the 36 lease payments $124,794.00 + sale price − cost $100,000.00 = $54,794.00. The depreciation method changes only when profit is recognized. The diminishing balance method depreciates more early, leaving a smaller carrying amount and a larger gain on sale; straight-line leaves a larger carrying amount and a smaller gain.</p>
+
+ <div class="callout"><strong>What the accounting standard says (Korean Lease Accounting Practice Standard, Section 6-2)</strong>
+ In short: when a lessor depreciates operating lease assets using the diminishing balance method or similar, depreciation can exceed lease income early in the lease term and cause a loss; the standard allows recognizing income so that the profit from the asset is even across periods. (This is an unofficial English paraphrase; the original Korean text is quoted below.)<br>“리스회사가 운용리스자산에 대해 정률법등을 적용하여 상각하는 경우 리스기간 초기에 감가상각액이 운용리스료 수익을 초과함으로써 손실이 발생할 수 있다. 이 경우 감가상각비를 고려하여 당해 리스자산으로 인한 이익을 기간별로 균등하게 하는 방법으로 수익을 인식할 수 있다.” (리스회계처리준칙 6-2)</div>
+
+ <h3>In journal entries, only the depreciation amount differs</h3>
+ <p>The journal entry for receiving the payment in payment 1 is the same under every method; only the depreciation amount differs.</p>
+ <div class="cols">
+ <div class="panel"><span class="tag t-sl">Straight-line, payment 1</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">Same under all three methods.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,466.50</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,466.50</td></tr><tr class="sum"><td>Total</td><td class="num">$3,466.50</td><td class="num">$3,466.50</td></tr></tbody></table></div></div><div style="height:12px"></div><div><h3>② Depreciation</h3><p class="ctx">$100,000.00 ÷ 48 months = $2,083.33 → truncated to $2,083.30. It is smaller than the lease income, so there is a profit.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$2,083.30</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$2,083.30</td></tr><tr class="sum"><td>Total</td><td class="num">$2,083.30</td><td class="num">$2,083.30</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-dec">Diminishing balance, payment 1</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">Same under all three methods.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,466.50</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,466.50</td></tr><tr class="sum"><td>Total</td><td class="num">$3,466.50</td><td class="num">$3,466.50</td></tr></tbody></table></div></div><div style="height:12px"></div><div><h3>② Depreciation</h3><p class="ctx">$100,000.00 × 0.528 ÷ 12 = $4,400.00. It is larger than the lease income, so this month is a loss.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$4,400.00</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$4,400.00</td></tr><tr class="sum"><td>Total</td><td class="num">$4,400.00</td><td class="num">$4,400.00</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-pb">원금상환비례법, payment 1</span>
+ <div><h3>① Receiving the lease payment</h3><p class="ctx">Same under all three methods.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$3,466.50</td><td></td></tr><tr><td class="cr-acc">Lease income</td><td></td><td class="num">$3,466.50</td></tr><tr class="sum"><td>Total</td><td class="num">$3,466.50</td><td class="num">$3,466.50</td></tr></tbody></table></div></div><div style="height:12px"></div><div><h3>② Depreciation</h3><p class="ctx">Depreciation equals the finance lease principal repaid in payment 1. The remaining profit equals the interest of $1,250.00.</p><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Depreciation</td><td class="num">$2,216.50</td><td></td></tr><tr><td class="cr-acc">Accumulated depreciation</td><td></td><td class="num">$2,216.50</td></tr><tr class="sum"><td>Total</td><td class="num">$2,216.50</td><td class="num">$2,216.50</td></tr></tbody></table></div></div></div>
+ </div>
+ <h3>Journal entry when the vehicle is sold after the lease ends</h3>
+ <p>When the 36-month lease ends, the lessor sells the returned vehicle as a used car. A journal entry is needed to remove the vehicle from the books. Follow the steps below and it is not hard.</p>
+ <div class="panel">
+ <h3>Two terms first</h3>
+ <ul class="plain">
+ <li><strong>Accumulated depreciation</strong>: the running total of the monthly depreciation expense. For example, if you depreciated $2,083.30 a month for 36 months, accumulated depreciation is $2,083.30 × 36 = $74,998.80. The vehicle asset itself stays at $100,000.00, and the amount written down is accumulated separately in this account.</li>
+ <li><strong>Carrying amount</strong>: the current value of the vehicle as recorded in the books (also called book value). <code>carrying amount = vehicle cost − accumulated depreciation</code>; for straight-line, $100,000.00 − $74,998.80 = $25,001.20.</li>
+ </ul>
+ <h3 style="margin-top:14px">3 things to do when the vehicle is sold</h3>
+ <ol class="plain">
+ <li><strong>Record the money received.</strong> The vehicle sold for $30,000.00 in cash, so debit Cash.</li>
+ <li><strong>Remove the vehicle from the books.</strong> The vehicle no longer belongs to the company, so credit the vehicle cost of $100,000.00 to remove it, and debit accumulated depreciation to clear it. Both accounts go to $0.00.</li>
+ <li><strong>Record the remaining difference as a gain or loss on derecognition.</strong> If you record only steps 1 and 2, debits and credits do not balance. The difference is exactly the sale price minus the carrying amount, and recording it as a gain (or a loss, if negative) balances the entry.</li>
+ </ol>
+ <div class="formula">gain on derecognition = sale price − carrying amount<br>Straight-line: $30,000.00 − $25,001.20 = $4,998.80</div>
+ <p class="sec-sub" style="margin-top:8px">Put simply, the books said “this car is worth about $25,000.00,” and you sold it for $30,000.00, so you gained the difference. The larger the carrying amount (the less you have written down), the smaller the gain.</p>
+ </div>
+ <p>Even if you sell the same car at the same price, the accumulated depreciation differs by depreciation method, so the carrying amount and the gain differ.</p>
+ <div class="cols">
+ <div class="panel"><span class="tag t-sl">Straight-line: sale after the lease ends</span>
+ <div><h3>Vehicle sale</h3><ul class="plain ctx">
+<li>This is the same as the $25,001.20 in the “Carrying amount at payment 36” table above.</li>
+<li><strong>Accumulated depreciation</strong>: $2,083.30 a month for 36 months → $2,083.30 × 36 = $74,998.80</li>
+<li><strong>Carrying amount</strong>: $100,000.00 − $74,998.80 = $25,001.20</li>
+<li><strong>Gain on derecognition</strong>: sold for $30,000.00, so $30,000.00 − $25,001.20 = <strong>$4,998.80</strong></li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$30,000.00</td><td></td></tr><tr><td class="acc">Accumulated depreciation</td><td class="num">$74,998.80</td><td></td></tr><tr><td class="cr-acc">Motor vehicles (subject to operating lease)</td><td></td><td class="num">$100,000.00</td></tr><tr><td class="cr-acc">Gain on derecognition of property, plant and equipment</td><td></td><td class="num">$4,998.80</td></tr><tr class="sum"><td>Total</td><td class="num">$104,998.80</td><td class="num">$104,998.80</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-dec">Diminishing balance: sale after the lease ends</span>
+ <div><h3>Vehicle sale</h3><ul class="plain ctx">
+<li>This is the same as the $10,516.00 in the “Carrying amount at payment 36” table above.</li>
+<li><strong>Accumulated depreciation</strong>: add up the monthly depreciation from the diminishing balance table above, 12 months per year.
+<br>Year 1: $4,400.00 × 12 = $52,800.00
+<br>Year 2: $2,076.80 × 12 = $24,921.60
+<br>Year 3: $980.20 × 12 = $11,762.40
+<br>Total = $89,484.00</li>
+<li><strong>Carrying amount</strong>: $100,000.00 − $89,484.00 = $10,516.00</li>
+<li><strong>Gain on derecognition</strong>: $30,000.00 − $10,516.00 = <strong>$19,484.00</strong> (a lot was written down, so the gain is large)</li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$30,000.00</td><td></td></tr><tr><td class="acc">Accumulated depreciation</td><td class="num">$89,484.00</td><td></td></tr><tr><td class="cr-acc">Motor vehicles (subject to operating lease)</td><td></td><td class="num">$100,000.00</td></tr><tr><td class="cr-acc">Gain on derecognition of property, plant and equipment</td><td></td><td class="num">$19,484.00</td></tr><tr class="sum"><td>Total</td><td class="num">$119,484.00</td><td class="num">$119,484.00</td></tr></tbody></table></div></div></div>
+ <div class="panel"><span class="tag t-pb">원금상환비례법: sale after the lease ends</span>
+ <div><h3>Vehicle sale</h3><ul class="plain ctx">
+<li>This is the same as the $0.00 in the “Carrying amount at payment 36” table above.</li>
+<li><strong>Accumulated depreciation</strong>: each month, the principal repaid under the finance lease is recorded as depreciation. Over 36 months the full principal of $100,000.00 is recovered, so accumulated depreciation is also $100,000.00.</li>
+<li><strong>Carrying amount</strong>: $100,000.00 − $100,000.00 = $0.00</li>
+<li><strong>Gain on derecognition</strong>: $30,000.00 − $0.00 = <strong>$30,000.00</strong> (the entire sale price is gain)</li>
+</ul><div class="scroll"><table class="je"><thead><tr><th>Account</th><th class="num">Debit (left)</th><th class="num">Credit (right)</th></tr></thead><tbody><tr><td class="acc">Cash</td><td class="num">$30,000.00</td><td></td></tr><tr><td class="acc">Accumulated depreciation</td><td class="num">$100,000.00</td><td></td></tr><tr><td class="cr-acc">Motor vehicles (subject to operating lease)</td><td></td><td class="num">$100,000.00</td></tr><tr><td class="cr-acc">Gain on derecognition of property, plant and equipment</td><td></td><td class="num">$30,000.00</td></tr><tr class="sum"><td>Total</td><td class="num">$130,000.00</td><td class="num">$130,000.00</td></tr></tbody></table></div></div></div>
+ </div>
+</section>
+
+<section>
+ <div class="callout warn">
+ <strong>Notes</strong>
+ <ul class="plain" style="margin-top:6px">
+ <li><strong>Varies by lessor:</strong> account names, depreciation period and method, truncation method, and gain/loss treatment. Account names on this page use IFRS terms (IFRS 16, IAS 16) where they exist; actual account names differ by company.</li>
+ <li><strong>Example numbers:</strong> Made up to aid understanding; not actual contract values. Journal entries and numbers are simplified to show the concept. Dollar amounts are the original Korean won figures converted at an assumed 1000 KRW = $1.</li>
+ <li><strong>Truncation:</strong> All amounts are truncated (rounded down) to the nearest $0.10 (₩100).</li>
+ <li><strong>Depreciation period:</strong> Operating lease straight-line is 48 months in both the basic example and Advanced 1; diminishing balance in Advanced 1 is also 48 months; the 원금상환비례법 is 36 months.</li>
+ <li><strong>Interest rate:</strong> The basic example uses 12% per year and Advanced 1 uses 15% per year.</li>
+ </ul>
+ </div>
+</section>
+</div>
+ <section class="card next-steps" aria-labelledby="nextStepsHeading">
+ <h2 id="nextStepsHeading">Keep exploring</h2>
+ <ul><li><a href="lease-terms.html"><strong>Lease terminology</strong></a> — Residual value, lease payments, and IRR explained</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Estimate the monthly payment from price, term, rate, and residual value.</li><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment calculator</strong></a> — Work backward from a target IRR to the monthly payment.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Calculate IRR from cash flows that include insurance and vehicle tax.</li><li><a href="e-contract.html"><strong>E-contract</strong></a> — Upload a PDF, send one link, and the other party signs on their phone.</li><li><a href="https://itsolvers-app-001.vercel.app/" target="_blank" rel="noopener"><strong>Get a Lease Estimate ↗</strong></a> — Build a lease estimate from the vehicle, term, and interest rate. Currently in development, and available in Korean only.</li><li><a href="https://itsolvers-app-002.vercel.app/" target="_blank" rel="noopener"><strong>E-contract service ↗</strong></a> — Review a contract and sign it electronically. Available in Korean only.</li></ul>
+ </section>
+  </main>
+
+  <footer>
+    <div class="container footer-layout">
+      <div class="footer-company">
+        <strong>IT Solvers</strong>
+        <span>CEO Hyeok Lee</span>
+        <span>Biz. Reg. No. 364-11-03265</span>
+      </div>
+      <p class="translation-note">Translated with AI assistance. <a href="../../insights/lease-revenue-recognition-guide.html">View the Korean original.</a></p>
+    </div>
+  <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 IT Solvers. All rights reserved.</div>
+</footer>
+</body>
+</html>
