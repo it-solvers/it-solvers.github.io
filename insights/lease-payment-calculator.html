@@ -330,6 +330,10 @@
   .calculator-example { background: #fff; color: #2563eb; border: 1px solid #2563eb; margin-left: 8px; }
   .calculator-example:hover { background: #eff6ff; }
   @media (max-width: 640px) { .calculator-example { margin: 8px 0 0; } }
+    /* 작성일 위치: 다른 서브페이지와 같은 높이로 맞춤 */
+    .calculator-main > .page-date-row { margin-top: -20px; }
+    @media (max-width: 760px) { .calculator-main > .page-date-row { margin-top: -4px; } }
+    @media (max-width: 520px) { .calculator-main > .page-date-row { margin-top: 0; } }
 </style>
   <link rel="stylesheet" href="../css/dark.css">
   <script src="../js/theme.js"></script>
