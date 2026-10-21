@@ -650,7 +650,7 @@ html.dark-mode .insight-card {
 }
 
 html.dark-mode .insight-card h3 {
-    color: #f2f4f7;
+    color: #ececec;
 }
 
 html.dark-mode .insight-card p {
@@ -1473,7 +1473,7 @@ html.dark-mode .hero-label {
 }
 
 html.dark-mode .hero h1 {
-    color: #f8fafc;
+    color: #ececec;
 }
 
 html.dark-mode .hero h1 span {
@@ -1507,7 +1507,7 @@ html.dark-mode .hero-news-tag {
 }
 
 html.dark-mode .hero-news-list a {
-    color: #f1f5f9;
+    color: #ececec;
 }
 
 html.dark-mode .hero-news-list a:hover {
@@ -1520,7 +1520,7 @@ html.dark-mode .section-label {
 
 html.dark-mode .section-title h2,
 html.dark-mode .about h2 {
-    color: #f3f4f6;
+    color: #ececec;
 }
 
 html.dark-mode .section-title p,
@@ -1553,7 +1553,7 @@ html.dark-mode .service-card h3,
 html.dark-mode .process-card h3,
 html.dark-mode .principle strong,
 html.dark-mode .history-desc {
-    color: #f3f4f6;
+    color: #ececec;
 }
 
 html.dark-mode .service-card p,
