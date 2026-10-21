@@ -32,7 +32,7 @@
     b.className = "theme-toggle";
     b.title = isKo ? "화면 밝기 전환" : "Switch light or dark mode";
     b.setAttribute("aria-label", isKo ? "어두운 화면 모드" : "Dark mode");
-    b.innerHTML = '<span class="light">☀</span><span class="dark">☾</span>';
+    b.innerHTML = '<span class="light">☀</span><span class="dark">🌙</span>';
     b.addEventListener("click", toggle);
     host.appendChild(b);
     update(b);
