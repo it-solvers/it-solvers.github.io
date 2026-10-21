@@ -11,7 +11,7 @@ html.dark-mode .theme-toggle .light { background: transparent; }
 html.dark-mode .theme-toggle .dark { background: #dbeafe; }
 
 html.dark-mode { color-scheme: dark; background: #121314; }
-html.dark-mode body { background: #121314; color: #e4e4e4; }
+html.dark-mode body { background: #121314; color: #cdcdcd; }
 
 /* 헤더는 밝게 고정 */
 html.dark-mode header { background: #ffffff; border-bottom-color: #e4e8ef; color: #1a1b1d; }
@@ -42,41 +42,41 @@ html.dark-mode .guide {
 html.dark-mode body.lease-page { background: #121314; }
 html.dark-mode .lease-overview h1,
 html.dark-mode .lease-overview h2,
-html.dark-mode .lease-overview h3 { color: #ececec; }
+html.dark-mode .lease-overview h3 { color: #d9d9d9; }
 html.dark-mode .lease-overview h4 { color: #60a5fa; }
 html.dark-mode .lease-overview .sub,
-html.dark-mode .lease-overview .muted { color: #a8abae; }
+html.dark-mode .lease-overview .muted { color: #9a9da0; }
 html.dark-mode .lease-overview .card,
 html.dark-mode .lease-overview > nav.card,
 html.dark-mode .lease-overview .lease-item,
 html.dark-mode .lease-overview .flow-step,
-html.dark-mode .lease-overview .flow-figure img { background: #1a1b1d; border-color: #2a2c2e; color: #e4e4e4; }
+html.dark-mode .lease-overview .flow-figure img { background: #1a1b1d; border-color: #2a2c2e; color: #cdcdcd; }
 html.dark-mode .lease-overview .type-panel,
 html.dark-mode .lease-overview .type-panel.operating,
-html.dark-mode .lease-overview .note { background: #1a1b1d; border-color: #2a2c2e; color: #e4e4e4; }
+html.dark-mode .lease-overview .note { background: #1a1b1d; border-color: #2a2c2e; color: #cdcdcd; }
 html.dark-mode .lease-overview .type-panel.finance { border-color: #2a4a7a; background: #14233a; }
-html.dark-mode .lease-overview .formula { background: #0d0e0f; color: #e4e4e4; }
+html.dark-mode .lease-overview .formula { background: #0d0e0f; color: #cdcdcd; }
 html.dark-mode .lease-overview .placeholder { border-color: #323538; }
 html.dark-mode .lease-overview a { color: #60a5fa; }
 html.dark-mode .lease-overview .button { color: #fff; }
-html.dark-mode .lease-overview th { background: #202224; color: #e4e4e4; }
+html.dark-mode .lease-overview th { background: #202224; color: #cdcdcd; }
 html.dark-mode .lease-overview td { border-color: #2a2c2e; }
 html.dark-mode .lease-overview code,
-html.dark-mode .lease-overview pre { background: #0d0e0f; color: #e4e4e4; }
+html.dark-mode .lease-overview pre { background: #0d0e0f; color: #cdcdcd; }
 
 /* ===== 계산기 페이지(.calculator-main, main.wrap) ===== */
 html.dark-mode .calculator-main h1,
 html.dark-mode .calculator-main h2,
-html.dark-mode .calculator-main h3 { color: #ececec; }
+html.dark-mode .calculator-main h3 { color: #d9d9d9; }
 html.dark-mode .calculator-intro,
-html.dark-mode .calculator-note { color: #a8abae; }
+html.dark-mode .calculator-note { color: #9a9da0; }
 html.dark-mode .calculator-card,
 html.dark-mode .card { background: #1a1b1d; border-color: #2a2c2e; }
 html.dark-mode .calculator-field label,
-html.dark-mode label { color: #cbd5e1; }
+html.dark-mode label { color: #bcbcbc; }
 html.dark-mode input,
 html.dark-mode select,
-html.dark-mode textarea { background: #0d0e0f; color: #e4e4e4; border-color: #323538; }
+html.dark-mode textarea { background: #0d0e0f; color: #cdcdcd; border-color: #323538; }
 html.dark-mode input::placeholder { color: #8a8f94; }
 html.dark-mode input:focus,
 html.dark-mode select:focus { border-color: #60a5fa; outline-color: #1e3a5f; }
@@ -89,7 +89,7 @@ html.dark-mode .calculator-example:hover { background: #1e3a5f; }
 html.dark-mode pre,
 html.dark-mode .developer-formula pre,
 html.dark-mode .language-examples pre,
-html.dark-mode .language-examples .code-block { background: #0d0e0f; color: #e4e4e4; border-color: #2a2c2e; }
+html.dark-mode .language-examples .code-block { background: #0d0e0f; color: #cdcdcd; border-color: #2a2c2e; }
 html.dark-mode .language-examples pre:hover,
 html.dark-mode .developer-formula pre:hover,
 html.dark-mode .language-examples .code-block:hover { background: #1e3a5f; }
@@ -97,11 +97,11 @@ html.dark-mode .language-examples,
 html.dark-mode .developer-formula,
 html.dark-mode details { border-color: #2a2c2e; }
 html.dark-mode details summary,
-html.dark-mode .language-examples summary { color: #e4e4e4; }
-html.dark-mode .copy-hint { color: #94a3b8; border-color: #2a2c2e; background: #1a1b1d; }
-html.dark-mode .result { background: #1e3a5f; color: #e4e4e4; }
-html.dark-mode .result-label { color: #a8abae; }
-html.dark-mode th { background: #202224; color: #e4e4e4; }
+html.dark-mode .language-examples summary { color: #cdcdcd; }
+html.dark-mode .copy-hint { color: #8f9498; border-color: #2a2c2e; background: #1a1b1d; }
+html.dark-mode .result { background: #1e3a5f; color: #cdcdcd; }
+html.dark-mode .result-label { color: #9a9da0; }
+html.dark-mode th { background: #202224; color: #cdcdcd; }
 html.dark-mode td { border-color: #2a2c2e; }
 html.dark-mode .table-wrap, html.dark-mode .scroll { border-color: #2a2c2e; }
 html.dark-mode .error { color: #f87171; }
@@ -110,22 +110,22 @@ html.dark-mode main a.button, html.dark-mode main a.button-primary { color: #fff
 
 /* ===== 푸터 ===== */
 html.dark-mode footer { background: #09090a; color: #9a9da0; }
-html.dark-mode footer a { color: #cbd5e1; }
+html.dark-mode footer a { color: #bcbcbc; }
 
 /* ===== 리스료 계산기: 수식·결과 영역 ===== */
 html.dark-mode .formula-card p,
-html.dark-mode .formula-card li { color: #cbd5e1; }
+html.dark-mode .formula-card li { color: #bcbcbc; }
 html.dark-mode .formula-equation,
-html.dark-mode .formula-card code { background: #0d0e0f; color: #e4e4e4; }
+html.dark-mode .formula-card code { background: #0d0e0f; color: #cdcdcd; }
 html.dark-mode .developer-formula { background: #1a1b1d; border-color: #2a2c2e; }
 html.dark-mode .developer-formula pre,
-html.dark-mode .developer-formula pre code { color: #e4e4e4; }
+html.dark-mode .developer-formula pre code { color: #cdcdcd; }
 html.dark-mode .calculator-result,
 html.dark-mode .calculator-results > div { background: #1e3a5f; }
-html.dark-mode .calculator-result-label { color: #a8abae; }
-html.dark-mode .calculator-result-value { color: #ececec; }
+html.dark-mode .calculator-result-label { color: #9a9da0; }
+html.dark-mode .calculator-result-value { color: #d9d9d9; }
 html.dark-mode .calculator-card p,
-html.dark-mode .calculator-card li { color: #cbd5e1; }
+html.dark-mode .calculator-card li { color: #bcbcbc; }
 
 /* 주 버튼: 밝은 파랑 바탕에 흰 글씨가 안 보이지 않도록 진한 파랑으로 */
 html.dark-mode button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear),

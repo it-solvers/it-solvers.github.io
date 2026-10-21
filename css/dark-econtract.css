@@ -6,7 +6,7 @@ html.dark-mode {
 html.dark-mode .btn, html.dark-mode .btn:hover { color: #09090a; background: #6fbf9f; }
 html.dark-mode .btn.ghost { background: transparent; color: #6fbf9f; border-color: #6fbf9f; }
 html.dark-mode .steps .n { color: #09090a; }
-html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0d0e0f; color: #e4e4e4; border-color: #323538; }
+html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0d0e0f; color: #cdcdcd; border-color: #323538; }
 html.dark-mode .apply-submit { color: #09090a; }
 html.dark-mode .shot a, html.dark-mode .shot img { border-color: #2a2c2e; }
 html.dark-mode .know { background: #1a1b1d; }

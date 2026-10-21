@@ -650,7 +650,7 @@ html.dark-mode .insight-card {
 }
 
 html.dark-mode .insight-card h3 {
-    color: #ececec;
+    color: #d9d9d9;
 }
 
 html.dark-mode .insight-card p {
@@ -1441,7 +1441,7 @@ nav a:hover {
 }
 
 html.dark-mode {
-    color: #e4e4e4;
+    color: #cdcdcd;
     background: #121314;
 }
 
@@ -1449,7 +1449,7 @@ html.dark-mode {
    배경 색이 따로 없는 ABOUT(IT SOLVERS), HISTORY 섹션이
    다크 모드에서 하얗게 보이던 문제를 해결 */
 html.dark-mode body {
-    color: #e4e4e4;
+    color: #cdcdcd;
     background: #121314;
 }
 
@@ -1473,7 +1473,7 @@ html.dark-mode .hero-label {
 }
 
 html.dark-mode .hero h1 {
-    color: #ececec;
+    color: #d9d9d9;
 }
 
 html.dark-mode .hero h1 span {
@@ -1481,7 +1481,7 @@ html.dark-mode .hero h1 span {
 }
 
 html.dark-mode .hero-text {
-    color: #a8abae;
+    color: #9a9da0;
 }
 
 html.dark-mode .hero-news {
@@ -1498,7 +1498,7 @@ html.dark-mode .hero-news-title {
 }
 
 html.dark-mode .hero-news-date {
-    color: #a8abae;
+    color: #9a9da0;
 }
 
 html.dark-mode .hero-news-tag {
@@ -1507,7 +1507,7 @@ html.dark-mode .hero-news-tag {
 }
 
 html.dark-mode .hero-news-list a {
-    color: #ececec;
+    color: #d9d9d9;
 }
 
 html.dark-mode .hero-news-list a:hover {
@@ -1520,12 +1520,12 @@ html.dark-mode .section-label {
 
 html.dark-mode .section-title h2,
 html.dark-mode .about h2 {
-    color: #ececec;
+    color: #d9d9d9;
 }
 
 html.dark-mode .section-title p,
 html.dark-mode .about p {
-    color: #a8abae;
+    color: #9a9da0;
 }
 
 
@@ -1553,13 +1553,13 @@ html.dark-mode .service-card h3,
 html.dark-mode .process-card h3,
 html.dark-mode .principle strong,
 html.dark-mode .history-desc {
-    color: #ececec;
+    color: #d9d9d9;
 }
 
 html.dark-mode .service-card p,
 html.dark-mode .process-card p,
 html.dark-mode .principle span {
-    color: #a8abae;
+    color: #9a9da0;
 }
 
 html.dark-mode .service-icon {
@@ -1572,7 +1572,7 @@ html.dark-mode .process-number {
 }
 
 html.dark-mode .service-card ul {
-    color: #c5cedb;
+    color: #b4b7ba;
 }
 
 html.dark-mode .service-card li::before {
@@ -1583,11 +1583,11 @@ html.dark-mode .service-card li::before {
 /* HISTORY */
 
 html.dark-mode .history-date {
-    color: #b7c0ce;
+    color: #a9acaf;
 }
 
 html.dark-mode .history-client {
-    color: #c5cedb;
+    color: #b4b7ba;
     background: #202224;
     border-color: #344054;
 }
@@ -1602,7 +1602,7 @@ html.dark-mode .history-env {
 }
 
 html.dark-mode .env-tag {
-    color: #c5cedb;
+    color: #b4b7ba;
     background: #202224;
 }
 
