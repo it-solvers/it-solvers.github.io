@@ -1,4 +1,4 @@
-/* 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#18191b / #1f2123)이며, 헤더는 메인처럼 밝게 고정한다. */
+/* 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#1e1f22 / #25272a)이며, 헤더는 메인처럼 밝게 고정한다. */
 
 /* 밝기 전환 버튼 (메인과 같은 모양. 이 파일만 불러오는 페이지에서도 보이도록 여기에도 둔다) */
 .theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #ddd8cc; border-radius: 999px; background: #fbf9f4; color: #2b2824; cursor: pointer; font-weight: 400; flex-shrink: 0; }
@@ -10,18 +10,18 @@
 html.dark-mode .theme-toggle .light { background: transparent; }
 html.dark-mode .theme-toggle .dark { background: #dbeafe; }
 
-html.dark-mode { color-scheme: dark; background: #18191b; }
-html.dark-mode body { background: #18191b; color: #cdcdcd; }
+html.dark-mode { color-scheme: dark; background: #1e1f22; }
+html.dark-mode body { background: #1e1f22; color: #cdcdcd; }
 
 /* 헤더는 밝게 고정 */
-html.dark-mode header { background: #ffffff; border-bottom-color: #e4e8ef; color: #1f2123; }
-html.dark-mode header a, html.dark-mode header strong { color: #1f2123; }
+html.dark-mode header { background: #ffffff; border-bottom-color: #e4e8ef; color: #25272a; }
+html.dark-mode header a, html.dark-mode header strong { color: #25272a; }
 html.dark-mode header .language-link { color: #2563eb; }
 html.dark-mode .page-date { color: #667085; opacity: 1; }
 
 /* ===== 변수를 쓰는 페이지(계산기 등)와 가이드: 변수 값만 어둡게 바꾼다 ===== */
 html.dark-mode {
-  --bg: #18191b; --card: #1f2123; --text: #e4e4e4; --muted: #a8abae; --line: #2a2c2e;
+  --bg: #1e1f22; --card: #25272a; --text: #e4e4e4; --muted: #a8abae; --line: #2a2c2e;
   --accent: #60a5fa; --accent-weak: #1e3a5f; --warn: #f87171;
 }
 html.dark-mode .lease-overview {
@@ -29,7 +29,7 @@ html.dark-mode .lease-overview {
   --lo-accent: #60a5fa; --lo-accent-weak: #1e3a5f;
 }
 html.dark-mode .guide {
-  --bg: #18191b; --surface: #1f2123; --ink: #e4e4e4; --muted: #a8abae; --line: #2a2c2e;
+  --bg: #1e1f22; --surface: #25272a; --ink: #e4e4e4; --muted: #a8abae; --line: #2a2c2e;
   --accent: #60a5fa; --accent-soft: #1e3a5f;
   --fin: #6aa8e8; --opr: #f0924a; --prop: #c58bd6;
   --fin-soft: #172c45; --opr-soft: #3a2614; --prop-soft: #2c1f35;
@@ -39,7 +39,7 @@ html.dark-mode .guide {
 }
 
 /* ===== 소개·문의·개인정보·리스 개요·용어 등(lease-page) ===== */
-html.dark-mode body.lease-page { background: #18191b; }
+html.dark-mode body.lease-page { background: #1e1f22; }
 html.dark-mode .lease-overview h1,
 html.dark-mode .lease-overview h2,
 html.dark-mode .lease-overview h3 { color: #d9d9d9; }
@@ -50,10 +50,10 @@ html.dark-mode .lease-overview .card,
 html.dark-mode .lease-overview > nav.card,
 html.dark-mode .lease-overview .lease-item,
 html.dark-mode .lease-overview .flow-step,
-html.dark-mode .lease-overview .flow-figure img { background: #1f2123; border-color: #2a2c2e; color: #cdcdcd; }
+html.dark-mode .lease-overview .flow-figure img { background: #25272a; border-color: #2a2c2e; color: #cdcdcd; }
 html.dark-mode .lease-overview .type-panel,
 html.dark-mode .lease-overview .type-panel.operating,
-html.dark-mode .lease-overview .note { background: #1f2123; border-color: #2a2c2e; color: #cdcdcd; }
+html.dark-mode .lease-overview .note { background: #25272a; border-color: #2a2c2e; color: #cdcdcd; }
 html.dark-mode .lease-overview .type-panel.finance { border-color: #2a4a7a; background: #14233a; }
 html.dark-mode .lease-overview .formula { background: #0d0e0f; color: #cdcdcd; }
 html.dark-mode .lease-overview .placeholder { border-color: #323538; }
@@ -71,7 +71,7 @@ html.dark-mode .calculator-main h3 { color: #d9d9d9; }
 html.dark-mode .calculator-intro,
 html.dark-mode .calculator-note { color: #9a9da0; }
 html.dark-mode .calculator-card,
-html.dark-mode .card { background: #1f2123; border-color: #2a2c2e; }
+html.dark-mode .card { background: #25272a; border-color: #2a2c2e; }
 html.dark-mode .calculator-field label,
 html.dark-mode label { color: #bcbcbc; }
 html.dark-mode input,
@@ -84,7 +84,7 @@ html.dark-mode .calculator-example,
 html.dark-mode .calculator-clear,
 html.dark-mode button.secondary,
 html.dark-mode .input-head-actions .calculator-example,
-html.dark-mode .input-head-actions .calculator-clear { background: #1f2123; color: #60a5fa; border-color: #60a5fa; }
+html.dark-mode .input-head-actions .calculator-clear { background: #25272a; color: #60a5fa; border-color: #60a5fa; }
 html.dark-mode .calculator-example:hover { background: #1e3a5f; }
 html.dark-mode pre,
 html.dark-mode .developer-formula pre,
@@ -98,7 +98,7 @@ html.dark-mode .developer-formula,
 html.dark-mode details { border-color: #2a2c2e; }
 html.dark-mode details summary,
 html.dark-mode .language-examples summary { color: #cdcdcd; }
-html.dark-mode .copy-hint { color: #8f9498; border-color: #2a2c2e; background: #1f2123; }
+html.dark-mode .copy-hint { color: #8f9498; border-color: #2a2c2e; background: #25272a; }
 html.dark-mode .result { background: #1e3a5f; color: #cdcdcd; }
 html.dark-mode .result-label { color: #9a9da0; }
 html.dark-mode th { background: #202224; color: #cdcdcd; }
@@ -117,7 +117,7 @@ html.dark-mode .formula-card p,
 html.dark-mode .formula-card li { color: #bcbcbc; }
 html.dark-mode .formula-equation,
 html.dark-mode .formula-card code { background: #0d0e0f; color: #cdcdcd; }
-html.dark-mode .developer-formula { background: #1f2123; border-color: #2a2c2e; }
+html.dark-mode .developer-formula { background: #25272a; border-color: #2a2c2e; }
 html.dark-mode .developer-formula pre,
 html.dark-mode .developer-formula pre code { color: #cdcdcd; }
 html.dark-mode .calculator-result,
@@ -196,6 +196,6 @@ html:not(.dark-mode) button.secondary { background: #fbf9f4; color: #2f5fc4; bor
 html:not(.dark-mode) button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear) { background: #2f5fc4; border-color: #2f5fc4; color: #fff; }
 
 /* 리스 개요: 장점 카드(.benefit)가 어두운 화면에서 밝은 바탕으로 남던 문제 */
-html.dark-mode .lease-overview .benefit { background: #1f2123; border-color: #2a2c2e; color: #cdcdcd; }
+html.dark-mode .lease-overview .benefit { background: #25272a; border-color: #2a2c2e; color: #cdcdcd; }
 html.dark-mode .lease-overview .benefit h3 { color: #d9d9d9; }
 html.dark-mode .lease-overview .benefit p { color: #9a9da0; }

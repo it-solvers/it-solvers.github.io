@@ -1,6 +1,6 @@
 /* 전자계약서 페이지 전용 어두운 화면: 이 페이지는 자체 색 변수를 쓰므로 변수만 바꾼다 */
 html.dark-mode {
-  --text: #e4e4e4; --muted: #a8abae; --bg: #18191b; --panel: #1f2123; --border: #2a2c2e;
+  --text: #e4e4e4; --muted: #a8abae; --bg: #1e1f22; --panel: #25272a; --border: #2a2c2e;
   --accent: #6fbf9f; --accent-bg: #16302a; --warm: #f0a050;
 }
 html.dark-mode .btn, html.dark-mode .btn:hover { color: #09090a; background: #6fbf9f; }
@@ -9,7 +9,7 @@ html.dark-mode .steps .n { color: #09090a; }
 html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0d0e0f; color: #cdcdcd; border-color: #323538; }
 html.dark-mode .apply-submit { color: #09090a; }
 html.dark-mode .shot a, html.dark-mode .shot img { border-color: #2a2c2e; }
-html.dark-mode .know { background: #1f2123; }
+html.dark-mode .know { background: #25272a; }
 html.dark-mode .price { background: #16302a; }
 html.dark-mode footer { background: #09090a; }
 
