@@ -2263,3 +2263,100 @@ html:not(.dark-mode) footer .footer-company strong { color: #2b2824; }
 html:not(.dark-mode) footer a { color: #3a362f; }
 html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
 html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
+
+/* 주요실적: 한 줄 목록(눌러서 역할·기술 보기) */
+.history-list {
+    gap: 0;
+}
+
+.history-item.history-row {
+    gap: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--site-border);
+    border-radius: 0;
+}
+
+.history-row > summary {
+    display: grid;
+    grid-template-columns: 150px 1fr auto 18px;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 4px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.history-row > summary::-webkit-details-marker {
+    display: none;
+}
+
+.history-row > summary::after {
+    content: "+";
+    color: var(--site-accent);
+    font-size: 18px;
+    text-align: center;
+}
+
+.history-row[open] > summary::after {
+    content: "−";
+}
+
+.history-row > summary:hover,
+.history-row > summary:focus-visible {
+    background: var(--site-accent-soft);
+}
+
+.history-row .history-desc {
+    font-size: 16px;
+}
+
+.history-row .history-date {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.history-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 2px 4px 18px 170px;
+}
+
+.history-detail .history-env {
+    padding-top: 0;
+    border-top: 0;
+}
+
+@media (max-width: 700px) {
+    .history-row > summary {
+        grid-template-columns: 1fr 18px;
+        gap: 2px 12px;
+    }
+
+    .history-row .history-date {
+        grid-column: 1;
+        font-size: 13px;
+    }
+
+    .history-row .history-desc {
+        grid-column: 1;
+    }
+
+    .history-row .history-client {
+        grid-column: 1;
+        justify-self: start;
+        margin-top: 4px;
+    }
+
+    .history-row > summary::after {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+    }
+
+    .history-detail {
+        padding-left: 4px;
+    }
+}
