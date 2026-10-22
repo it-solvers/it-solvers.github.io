@@ -56,6 +56,7 @@
     moreBtn.addEventListener("click", function () {
         shown += STEP;
         render();
+        moreBtn.blur();
     });
 
     range.addEventListener("input", function () {

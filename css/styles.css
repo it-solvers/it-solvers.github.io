@@ -2346,7 +2346,12 @@ html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
     cursor: pointer;
 }
 
-.history-more-btn:hover,
+@media (hover: hover) {
+    .history-more-btn:hover {
+        background: var(--site-accent-soft);
+    }
+}
+
 .history-more-btn:focus-visible {
     background: var(--site-accent-soft);
 }
