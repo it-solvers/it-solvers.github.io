@@ -970,7 +970,7 @@ html.dark-mode .insight-card p {
 
     width: 100%;
     max-width: 560px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .contact-submit:disabled {
