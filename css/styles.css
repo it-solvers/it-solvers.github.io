@@ -2291,7 +2291,6 @@ html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
     cursor: pointer;
 }
 
-.history-item[hidden],
-.history-more[hidden] {
+.history-item[hidden] {
     display: none;
 }
