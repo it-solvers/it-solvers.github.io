@@ -2264,43 +2264,26 @@ html:not(.dark-mode) footer a { color: #3a362f; }
 html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
 html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
 
-/* 주요실적: 연도 슬라이드(가로로 밀어서 고르기) */
+/* 주요실적: 연도 슬라이드 바(왼쪽 끝=전체, 오른쪽으로 갈수록 오래된 연도) */
 .history-years {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 16px;
     max-width: 950px;
     margin: 0 0 16px;
-    padding-bottom: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
 }
 
-.history-years::-webkit-scrollbar {
-    display: none;
-}
-
-.history-year-chip {
-    flex: 0 0 auto;
-    padding: 6px 14px;
-    border: 1px solid var(--site-border);
-    border-radius: 999px;
-    background: transparent;
+.history-years-label {
+    flex: 0 0 64px;
     color: var(--site-accent);
-    font: inherit;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.history-years-range {
+    flex: 1;
+    accent-color: var(--site-accent);
     cursor: pointer;
-}
-
-.history-year-chip:hover,
-.history-year-chip:focus-visible {
-    background: var(--site-accent-soft);
-}
-
-.history-year-chip.is-active {
-    background: var(--site-accent);
-    border-color: var(--site-accent);
-    color: #fff;
 }
 
 .history-item[hidden],

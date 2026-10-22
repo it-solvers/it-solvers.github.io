@@ -17,40 +17,45 @@
 
     var bar = document.createElement("div");
     bar.className = "history-years";
-    bar.setAttribute("role", "tablist");
+
+    var label = document.createElement("output");
+    label.className = "history-years-label";
+
+    var range = document.createElement("input");
+    range.type = "range";
+    range.className = "history-years-range";
+    range.min = 0;
+    range.max = years.length;
+    range.step = 1;
+    range.value = 0;
+    range.setAttribute("aria-label", "시작 연도 선택");
 
     function select(year) {
-        Array.prototype.forEach.call(bar.children, function (b) {
-            var on = b.dataset.year === year;
-            b.classList.toggle("is-active", on);
-            b.setAttribute("aria-selected", on ? "true" : "false");
-        });
+        label.textContent = year === "all" ? "전체" : year + "년";
         items.forEach(function (item) {
             item.hidden = year !== "all" && item.dataset.year !== year;
         });
         if (more) {
-            more.open = year !== "all" ? true : false;
             var summary = more.querySelector("summary");
-            if (summary) summary.hidden = year !== "all";
-            more.hidden = year !== "all" && !more.querySelector(".history-item:not([hidden])");
-        }
-        if (year === "all") {
-            items.forEach(function (item) { item.hidden = false; });
-            if (more) more.hidden = false;
+            if (year === "all") {
+                more.open = false;
+                more.hidden = false;
+                if (summary) summary.hidden = false;
+            } else {
+                more.open = true;
+                if (summary) summary.hidden = true;
+                more.hidden = !more.querySelector(".history-item:not([hidden])");
+            }
         }
     }
 
-    ["all"].concat(years).forEach(function (y) {
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = "history-year-chip";
-        b.setAttribute("role", "tab");
-        b.dataset.year = y;
-        b.textContent = y === "all" ? "전체" : y;
-        b.addEventListener("click", function () { select(y); });
-        bar.appendChild(b);
+    range.addEventListener("input", function () {
+        var i = Number(range.value);
+        select(i === 0 ? "all" : years[i - 1]);
     });
 
+    bar.appendChild(label);
+    bar.appendChild(range);
     list.parentNode.insertBefore(bar, list);
     select("all");
 })();
