@@ -32,6 +32,7 @@
 
     function select(year) {
         label.textContent = year === "all" ? "전체" : year + "년";
+        label.style.setProperty("--pos", range.value / range.max);
         items.forEach(function (item) {
             item.hidden = year !== "all" && item.dataset.year !== year;
         });
@@ -54,8 +55,8 @@
         select(i === 0 ? "all" : years[i - 1]);
     });
 
-    bar.appendChild(label);
     bar.appendChild(range);
+    bar.appendChild(label);
     list.parentNode.insertBefore(bar, list);
     select("all");
 })();
