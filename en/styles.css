@@ -495,9 +495,9 @@ summary { color: var(--blue); cursor: pointer; font-weight: 650; }
 .theme-toggle:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
 /* 어두운 화면: 한글 사이트와 같은 색 계열. 헤더는 한글 사이트처럼 밝게 고정한다. */
-html.dark-mode { color-scheme: dark; --ink: #e4e4e4; --muted: #a8abae; --line: #2a2c2e; --blue: #60a5fa; --pale: #25272a; --surface: #25272a; --page: #1e1f22; }
+html.dark-mode { color-scheme: dark; --ink: #e4e4e4; --muted: #a8abae; --line: #2a2c2e; --blue: #60a5fa; --pale: #2c2e32; --surface: #2c2e32; --page: #26282b; }
 html.dark-mode .site-header { background: #fff; border-bottom-color: #e4e8ef; }
-html.dark-mode .site-header .brand { color: #25272a; }
+html.dark-mode .site-header .brand { color: #2c2e32; }
 html.dark-mode .site-header .language-link { color: #2563eb; }
 html.dark-mode .theme-toggle .light { background: transparent; }
 html.dark-mode .theme-toggle .dark { background: #dbeafe; }

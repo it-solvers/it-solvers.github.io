@@ -645,7 +645,7 @@ html.dark-mode .history-group-title {
 }
 
 html.dark-mode .insight-card {
-    background: #25272a;
+    background: #2c2e32;
     border-color: #2a2c2e;
 }
 
@@ -1442,7 +1442,7 @@ nav a:hover {
 
 html.dark-mode {
     color: #cdcdcd;
-    background: #1e1f22;
+    background: #26282b;
 }
 
 /* [수정 3] body 에 흰색 배경(#ffffff)이 고정되어 있어서
@@ -1450,7 +1450,7 @@ html.dark-mode {
    다크 모드에서 하얗게 보이던 문제를 해결 */
 html.dark-mode body {
     color: #cdcdcd;
-    background: #1e1f22;
+    background: #26282b;
 }
 
 html.dark-mode main > section:not(.hero) {
@@ -1463,7 +1463,7 @@ html.dark-mode .hero {
             #172554 0,
             transparent 35%),
         linear-gradient(180deg,
-            #1e1f22 0%,
+            #26282b 0%,
             #0d0e0f 100%);
 }
 
@@ -1485,7 +1485,7 @@ html.dark-mode .hero-text {
 }
 
 html.dark-mode .hero-news {
-    background: #25272a;
+    background: #2c2e32;
     border-color: #2a2c2e;
 }
 
@@ -1538,14 +1538,14 @@ html.dark-mode .process {
 
 /* 인사이트는 밝은 화면에서 흰 배경이므로, 어두운 화면에서는 본문 배경색을 따른다 */
 html.dark-mode .insights {
-    background: #1e1f22;
+    background: #26282b;
 }
 
 html.dark-mode .service-card,
 html.dark-mode .process-card,
 html.dark-mode .principle,
 html.dark-mode .history-item {
-    background: #25272a;
+    background: #2c2e32;
     border-color: #2a2c2e;
 }
 
