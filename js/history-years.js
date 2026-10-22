@@ -29,13 +29,34 @@
     range.value = 0;
     range.setAttribute("aria-label", "시작 연도 선택");
 
-    function select(year) {
-        label.textContent = year === "all" ? "전체" : year + "년";
+    var STEP = 3;
+    var shown = STEP;
+    var current = "all";
+
+    var moreBtn = document.createElement("button");
+    moreBtn.type = "button";
+    moreBtn.className = "history-more-btn";
+    moreBtn.textContent = "실적 더 보기";
+
+    function render() {
+        label.textContent = current === "all" ? "전체" : current + "년";
         label.style.setProperty("--pos", range.value / range.max);
-        items.forEach(function (item) {
-            item.hidden = year !== "all" && item.dataset.year !== year;
+        items.forEach(function (item, idx) {
+            item.hidden = current === "all" ? idx >= shown : item.dataset.year !== current;
         });
+        moreBtn.hidden = current !== "all" || shown >= items.length;
     }
+
+    function select(year) {
+        current = year;
+        shown = STEP;
+        render();
+    }
+
+    moreBtn.addEventListener("click", function () {
+        shown += STEP;
+        render();
+    });
 
     range.addEventListener("input", function () {
         var i = Number(range.value);
@@ -45,5 +66,6 @@
     bar.appendChild(range);
     bar.appendChild(label);
     list.parentNode.insertBefore(bar, list);
+    list.parentNode.insertBefore(moreBtn, list.nextSibling);
     select("all");
 })();

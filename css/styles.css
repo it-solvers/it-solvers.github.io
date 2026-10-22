@@ -2328,3 +2328,29 @@ html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
 .history-item[hidden] {
     display: none;
 }
+
+/* 주요실적: 3개씩 더 보기 */
+.history-more-btn {
+    display: block;
+    width: 100%;
+    max-width: 950px;
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border: 1px solid var(--site-border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--site-accent);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.history-more-btn:hover,
+.history-more-btn:focus-visible {
+    background: var(--site-accent-soft);
+}
+
+.history-more-btn[hidden] {
+    display: none;
+}
