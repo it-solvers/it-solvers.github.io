@@ -2286,9 +2286,43 @@ html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
 .history-years-range {
     display: block;
     width: 100%;
+    height: 16px;
     margin: 0;
-    accent-color: var(--site-accent);
+    background: transparent;
     cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* 막대는 한 색으로만 두고, 지나온 쪽이 채워지는 효과는 쓰지 않는다 */
+.history-years-range::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--site-border);
+}
+
+.history-years-range::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--site-border);
+}
+
+.history-years-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--site-accent);
+}
+
+.history-years-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--site-accent);
 }
 
 .history-item[hidden] {
