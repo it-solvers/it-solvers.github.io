@@ -2263,3 +2263,46 @@ html:not(.dark-mode) footer .footer-company strong { color: #2b2824; }
 html:not(.dark-mode) footer a { color: #3a362f; }
 html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
 html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
+
+/* 주요실적: 시작 연도별 접기/펼치기 */
+.history-year {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.history-year > summary {
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--site-border);
+    border-radius: 10px;
+    color: var(--site-accent);
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+}
+
+.history-year > summary::-webkit-details-marker {
+    display: none;
+}
+
+.history-year > summary::before {
+    content: "▸ ";
+}
+
+.history-year[open] > summary::before {
+    content: "▾ ";
+}
+
+.history-year > summary:hover,
+.history-year > summary:focus-visible {
+    background: var(--site-accent-soft);
+}
+
+.history-year-count {
+    margin-left: 6px;
+    color: var(--site-muted, #6b655b);
+    font-size: 13px;
+    font-weight: 600;
+}
