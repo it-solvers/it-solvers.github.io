@@ -44,7 +44,8 @@
         items.forEach(function (item, idx) {
             item.hidden = current === "all" ? idx >= shown : item.dataset.year !== current;
         });
-        moreBtn.hidden = current !== "all" || shown >= items.length;
+        moreBtn.hidden = current !== "all";
+        moreBtn.textContent = shown >= items.length ? "주요실적 맨 위로 ↑" : "실적 더 보기";
     }
 
     function select(year) {
@@ -54,9 +55,16 @@
     }
 
     moreBtn.addEventListener("click", function () {
+        moreBtn.blur();
+        if (shown >= items.length) {
+            shown = STEP;
+            render();
+            var top = document.getElementById("history");
+            if (top) top.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
         shown += STEP;
         render();
-        moreBtn.blur();
     });
 
     range.addEventListener("input", function () {
