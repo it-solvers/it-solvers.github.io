@@ -3,7 +3,6 @@
     var list = document.querySelector(".history-list");
     if (!list) return;
 
-    var more = list.querySelector(".history-more");
     var items = Array.prototype.slice.call(list.querySelectorAll(".history-item"));
     var years = [];
 
@@ -36,18 +35,6 @@
         items.forEach(function (item) {
             item.hidden = year !== "all" && item.dataset.year !== year;
         });
-        if (more) {
-            var summary = more.querySelector("summary");
-            if (year === "all") {
-                more.open = false;
-                more.hidden = false;
-                if (summary) summary.hidden = false;
-            } else {
-                more.open = true;
-                if (summary) summary.hidden = true;
-                more.hidden = !more.querySelector(".history-item:not([hidden])");
-            }
-        }
     }
 
     range.addEventListener("input", function () {
