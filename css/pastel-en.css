@@ -1,0 +1,36 @@
+/* 영문 메인(en/index.html) 파스텔 테마. en/styles.css 다음에 불러와 색 변수와 모양만 덮어쓴다. 한글 메인의 css/pastel.css와 같은 색을 쓴다. */
+:root {
+  --ink: #3d3558; --muted: #6a6283; --line: #f3e3d3; --blue: #5b5fd6; --pale: #e9e7fb; --surface: #fffdfa; --page: #fff8ef;
+}
+html.dark-mode {
+  --ink: #e6e1f5; --muted: #b7b0d0; --line: #3d3560; --blue: #b4a7ff; --pale: #2b2640; --surface: #2b2640; --page: #211d30;
+}
+html:not(.dark-mode) body { background: #fff8ef; }
+.site-header { border-bottom: 2px dashed #f0d9c4 !important; }
+html.dark-mode .site-header, html:not(.dark-mode) .site-header { background: #fff8ef; }
+html.dark-mode .site-header .brand { color: #3d3558; }
+html.dark-mode .site-header .language-link { color: #6a6283; }
+html:not(.dark-mode) .site-footer { background: #f8e6d4; border-top: 2px dashed #efcfb3; color: #7a6a8a; }
+html.dark-mode .site-footer { background: #120f1a; }
+
+.card, .card-link { border-width: 2px; border-radius: 22px; box-shadow: 0 6px 18px rgba(120, 90, 160, 0.08); }
+html:not(.dark-mode) .card-link:nth-child(3n+1) { border-color: #ffd2bb; }
+html:not(.dark-mode) .card-link:nth-child(3n+2) { border-color: #bfe8d4; }
+html:not(.dark-mode) .card-link:nth-child(3n) { border-color: #d4cbf7; }
+html.dark-mode .card-link:nth-child(3n+1) { border-color: #6a4a3c; }
+html.dark-mode .card-link:nth-child(3n+2) { border-color: #2f6556; }
+html.dark-mode .card-link:nth-child(3n) { border-color: #54479a; }
+.card-link:nth-child(3n+1) { --bar: #ff9f7a; }
+.card-link:nth-child(3n+2) { --bar: #4fc79b; }
+.card-link:nth-child(3n) { --bar: #9b8cf0; }
+.card-link:hover, .card-link:focus-visible { border-color: var(--bar) !important; box-shadow: 0 10px 24px rgba(120, 90, 160, 0.16); }
+.card-link h2 { color: var(--blue); }
+.note { border-left-color: #ffb59a !important; border-radius: 0 14px 14px 0; background: var(--pale); }
+.button-link, button { border-radius: 999px; background: #5b5fd6; border-color: #5b5fd6; }
+.button-link:hover, .button-link:focus-visible { background: #4a4ec0; }
+button.secondary, .button-link.secondary { background: transparent; color: var(--blue); }
+html.dark-mode .button-link, html.dark-mode button:not(.secondary):not(.theme-toggle) { color: #fff; }
+input, select { border-radius: 12px; border-color: #f0d9c4; background: #fff; }
+html.dark-mode input, html.dark-mode select { background: #17141f; border-color: #4a4170; color: #e6e1f5; }
+html:not(.dark-mode) th { background: #fdf0e4; }
+html.dark-mode th { background: #1c1929; }
