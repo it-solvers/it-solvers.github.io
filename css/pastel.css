@@ -180,17 +180,12 @@ html.dark-mode .history-group-title { color: #b7b0d0; }
 
 /* ===== 공통: 둥근 버튼, 통통 튀는 마우스 오버 ===== */
 .button { border-radius: 999px; }
-.button-primary { background: #5b5fd6; box-shadow: 0 4px 0 #4a4ec0; }
-.button-primary:hover { background: #6a6de0; transform: translateY(-1px); }
+.button-primary { background: #5b5fd6; }
+.button-primary:hover { background: #4a4ec0; }
 .insight-card,
-.service-card { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+.service-card { transition: box-shadow 0.18s ease, border-color 0.18s ease; }
 .insight-card:hover,
-.insight-card:focus-visible,
-.service-card:hover { transform: translateY(-4px) rotate(-0.4deg); box-shadow: 0 12px 26px rgba(120, 90, 160, 0.18); }
-.hero-label, .hero-news-tag, .history-client, .history-role, .env-tag { border-radius: 999px; }
-@media (prefers-reduced-motion: reduce) {
-    .insight-card:hover, .service-card:hover { transform: none; }
-}
+.insight-card:focus-visible { box-shadow: 0 10px 24px rgba(120, 90, 160, 0.16); }
 
 /* ===== 진행순서: 번호를 선으로 잇는 단계 흐름 (넓은 화면은 가로 한 줄, 좁은 화면은 세로 타임라인) ===== */
 :root { --flow: #e0664a; }
@@ -214,7 +209,6 @@ html.dark-mode { --flow: #ffb59a; }
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
     transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
-.process-card:hover .process-number { transform: translateY(-3px) scale(1.1); }
 .process-card h3 { margin-top: 16px; }
 
 @media (min-width: 1000px) {
@@ -270,3 +264,21 @@ html.dark-mode { --flow-on: #2b1d3a; }
     .process-card:has(~ .process-card:hover)::before { border-top-style: none; border-left-style: solid; opacity: 1; }
 }
 .process-number { transition: background 0.2s ease, color 0.2s ease, transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+/* ===== 서비스 카드: 마우스를 올리면 테두리가 카드 고유 색으로만 바뀐다 ===== */
+.service-card { --bar: #ff9f7a; }
+.service-card:nth-child(3n+2) { --bar: #4fc79b; }
+.service-card:nth-child(3n) { --bar: #9b8cf0; }
+.service-card:hover,
+html:not(.dark-mode) .service-card:hover,
+html.dark-mode .service-card:hover { border-color: var(--bar); box-shadow: 0 10px 24px rgba(120, 90, 160, 0.16); }
+
+/* ===== 기술 인사이트 카드: 서비스 카드와 같은 효과(테두리가 카드 고유 색으로 바뀌고 그림자가 깔림) ===== */
+.insight-card { --bar: #ff9f7a; }
+.insight-card:nth-child(4n+2) { --bar: #4fc79b; }
+.insight-card:nth-child(4n+3) { --bar: #9b8cf0; }
+.insight-card:nth-child(4n) { --bar: #6fb4ea; }
+.insight-card:hover,
+.insight-card:focus-visible,
+html:not(.dark-mode) .insight-card:hover,
+html.dark-mode .insight-card:hover { border-color: var(--bar); box-shadow: 0 10px 24px rgba(120, 90, 160, 0.16); }
