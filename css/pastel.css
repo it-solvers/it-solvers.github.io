@@ -1,0 +1,272 @@
+/* 따뜻한 파스텔 테마(한글 메인 시험 적용). styles.css 다음에 불러와 색·모서리·그림자만 덮어쓴다.
+   되돌리려면 index.html에서 이 파일을 불러오는 줄만 지우면 된다. */
+
+:root {
+    --p-peach: #ffe3d3;
+    --p-mint: #d6f2e6;
+    --p-lav: #e4defb;
+    --p-sky: #d9ebfb;
+    --p-lemon: #fff1c9;
+    --p-ink: #3d3558;
+    --site-accent: #5b5fd6;
+    --site-accent-hover: #4a4ec0;
+    --site-accent-soft: #e9e7fb;
+}
+
+/* ===== 밝은 화면: 크림 바탕에 파스텔 카드 ===== */
+html:not(.dark-mode),
+html:not(.dark-mode) body { background: #fff8ef; color: var(--p-ink); }
+
+html:not(.dark-mode) header { background: rgba(255, 250, 243, 0.92); border-bottom: 2px dashed #f0d9c4; }
+html:not(.dark-mode) main > section:not(.hero) { border-top: 0; }
+
+html:not(.dark-mode) .hero {
+    background:
+        radial-gradient(circle at 85% 18%, #ffdcc8 0, transparent 30%),
+        radial-gradient(circle at 12% 85%, #d6f2e6 0, transparent 28%),
+        radial-gradient(circle at 60% 90%, #e4defb 0, transparent 30%),
+        #fff8ef;
+}
+html:not(.dark-mode) .hero-label { background: var(--p-lemon); color: #8a5a00; border: 1px solid #f3d98a; }
+html:not(.dark-mode) .hero h1 { color: var(--p-ink); }
+html:not(.dark-mode) .hero h1 span { color: #e0664a; }
+html:not(.dark-mode) .hero-text { color: #6a6283; }
+html:not(.dark-mode) .hero-news { background: rgba(255, 255, 255, 0.8); border: 2px solid #f6dfcc; box-shadow: 0 8px 24px rgba(224, 102, 74, 0.08); }
+html:not(.dark-mode) .hero-news-title { color: #e0664a; }
+html:not(.dark-mode) .hero-news-list li { border-top: 1px dashed #efd9c6; }
+html:not(.dark-mode) .hero-news-date { color: #8a82a3; }
+html:not(.dark-mode) .hero-news-tag { background: var(--p-lav); color: #4b3fb0; }
+html:not(.dark-mode) .hero-news-list li:nth-child(3n+2) .hero-news-tag { background: var(--p-mint); color: #1d6b4d; }
+html:not(.dark-mode) .hero-news-list li:nth-child(3n) .hero-news-tag { background: var(--p-peach); color: #a14a24; }
+html:not(.dark-mode) .hero-news-list a { color: var(--p-ink); }
+html:not(.dark-mode) .hero-news-list a:hover { color: #e0664a; }
+
+html:not(.dark-mode) .section-label { color: #e0664a; }
+html:not(.dark-mode) .section-title h2 { color: var(--p-ink); }
+html:not(.dark-mode) .section-title p { color: #6a6283; }
+
+html:not(.dark-mode) .insights { background: #fff8ef; }
+html:not(.dark-mode) .services { background: #fdf0e4; }
+html:not(.dark-mode) .process { background: #f1eefc; }
+html:not(.dark-mode) #history { background: #effaf4; }
+html:not(.dark-mode) .contact { background: #fff1de; color: var(--p-ink); }
+html:not(.dark-mode) .contact .section-label { color: #e0664a; }
+html:not(.dark-mode) .contact p { color: #6a6283; }
+html:not(.dark-mode) .contact-copy { background: #5b5fd6; }
+html:not(.dark-mode) .contact-copy:hover { background: #4a4ec0; }
+html:not(.dark-mode) .contact-field input,
+html:not(.dark-mode) .contact-field textarea { background: #fff; border-color: #f0d9c4; border-radius: 14px; }
+html:not(.dark-mode) footer,
+html:not(.dark-mode) .site-footer { background: #f8e6d4; border-top: 2px dashed #efcfb3; color: #7a6a8a; }
+
+/* 카드: 모서리를 크게, 테두리는 파스텔, 살짝 떠오르는 그림자 */
+html:not(.dark-mode) .service-card,
+html:not(.dark-mode) .process-card,
+html:not(.dark-mode) .insight-card,
+html:not(.dark-mode) .history-item {
+    background: #fffdfa;
+    border: 2px solid #f3e3d3;
+    border-radius: 22px;
+    box-shadow: 0 6px 18px rgba(120, 90, 60, 0.07);
+}
+html:not(.dark-mode) .insight-card h3,
+html:not(.dark-mode) .service-card h3,
+html:not(.dark-mode) .process-card h3,
+html:not(.dark-mode) .history-desc { color: var(--p-ink); }
+html:not(.dark-mode) .insight-card p,
+html:not(.dark-mode) .service-card p,
+html:not(.dark-mode) .process-card p { color: #6a6283; }
+
+/* 카드마다 다른 파스텔 포인트 */
+html:not(.dark-mode) .service-card:nth-child(3n+1) { border-color: #ffd2bb; }
+html:not(.dark-mode) .service-card:nth-child(3n+2) { border-color: #bfe8d4; }
+html:not(.dark-mode) .service-card:nth-child(3n) { border-color: #d4cbf7; }
+html:not(.dark-mode) .service-card:nth-child(3n+1) .service-icon { background: var(--p-peach); color: #c4532b; }
+html:not(.dark-mode) .service-card:nth-child(3n+2) .service-icon { background: var(--p-mint); color: #1f7a56; }
+html:not(.dark-mode) .service-card:nth-child(3n) .service-icon { background: var(--p-lav); color: #5b4bd0; }
+html:not(.dark-mode) .insight-card:nth-child(4n+1) { border-color: #ffd9c6; }
+html:not(.dark-mode) .insight-card:nth-child(4n+2) { border-color: #c9ecdb; }
+html:not(.dark-mode) .insight-card:nth-child(4n+3) { border-color: #dcd5f8; }
+html:not(.dark-mode) .insight-card:nth-child(4n) { border-color: #cfe4f7; }
+html:not(.dark-mode) .process-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 34px; height: 34px; padding: 0 10px; border-radius: 999px;
+    background: var(--p-lemon); color: #8a5a00;
+}
+html:not(.dark-mode) .process-card:nth-child(3n+2) .process-number { background: var(--p-sky); color: #25608f; }
+html:not(.dark-mode) .process-card:nth-child(3n) .process-number { background: var(--p-mint); color: #1f7a56; }
+html:not(.dark-mode) .history-date { color: #8a82a3; }
+html:not(.dark-mode) .history-client { background: var(--p-sky); color: #25608f; border-color: transparent; }
+html:not(.dark-mode) .history-role { background: var(--p-lav); color: #4b3fb0; }
+html:not(.dark-mode) .history-env { border-top: 1px dashed #efd9c6; }
+html:not(.dark-mode) .env-tag { background: var(--p-lemon); color: #7a5a14; }
+html:not(.dark-mode) .history-group-title { color: #6a6283; }
+
+/* ===== 어두운 화면(기본): 짙은 보라빛 남색 바탕에 파스텔 포인트 ===== */
+html.dark-mode,
+html.dark-mode body { background: #211d30; color: #e6e1f5; }
+
+html.dark-mode .hero {
+    background:
+        radial-gradient(circle at 85% 18%, #4a3a6e 0, transparent 30%),
+        radial-gradient(circle at 12% 85%, #214a46 0, transparent 28%),
+        linear-gradient(180deg, #211d30 0%, #1a1726 100%);
+}
+html.dark-mode .hero-label { background: #4a3d12; color: #ffe08a; }
+html.dark-mode .hero h1 { color: #f4f0ff; }
+html.dark-mode .hero h1 span { color: #ffb59a; }
+html.dark-mode .hero-text { color: #b7b0d0; }
+html.dark-mode .hero-news { background: #2b2640; border: 2px solid #3d3560; border-radius: 22px; }
+html.dark-mode .hero-news-title { color: #ffb59a; }
+html.dark-mode .hero-news-list li { border-top: 1px dashed #3d3560; }
+html.dark-mode .hero-news-date { color: #a79fc4; }
+html.dark-mode .hero-news-tag { background: #3b3470; color: #cfc6ff; }
+html.dark-mode .hero-news-list li:nth-child(3n+2) .hero-news-tag { background: #1f4a40; color: #a8ebd0; }
+html.dark-mode .hero-news-list li:nth-child(3n) .hero-news-tag { background: #5a3524; color: #ffcbb0; }
+html.dark-mode .hero-news-list a { color: #f0ecff; }
+html.dark-mode .hero-news-list a:hover { color: #ffb59a; }
+
+html.dark-mode .section-label { color: #ffb59a; }
+html.dark-mode .section-title h2,
+html.dark-mode .about h2 { color: #f4f0ff; }
+html.dark-mode .section-title p,
+html.dark-mode .about p { color: #b7b0d0; }
+html.dark-mode main > section:not(.hero) { border-top: 0; }
+html.dark-mode .insights { background: #211d30; }
+html.dark-mode .services { background: #1c1929; }
+html.dark-mode .process { background: #252040; }
+html.dark-mode #history { background: #1a2a2c; }
+html.dark-mode .contact { background: #17141f; }
+html.dark-mode footer { background: #120f1a; }
+
+/* 헤더는 어두운 화면에서도 밝게 두되 크림 톤으로 */
+html.dark-mode header { background: #fff8ef; border-bottom: 2px dashed #f0d9c4; }
+
+html.dark-mode .service-card,
+html.dark-mode .process-card,
+html.dark-mode .insight-card,
+html.dark-mode .history-item {
+    background: #2b2640;
+    border: 2px solid #3d3560;
+    border-radius: 22px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+html.dark-mode .service-card h3,
+html.dark-mode .process-card h3,
+html.dark-mode .insight-card h3,
+html.dark-mode .history-desc { color: #f4f0ff; }
+html.dark-mode .service-card p,
+html.dark-mode .process-card p,
+html.dark-mode .insight-card p { color: #b7b0d0; }
+html.dark-mode .service-card:nth-child(3n+1) { border-color: #6a4a3c; }
+html.dark-mode .service-card:nth-child(3n+2) { border-color: #2f6556; }
+html.dark-mode .service-card:nth-child(3n) { border-color: #54479a; }
+html.dark-mode .service-card:nth-child(3n+1) .service-icon { background: #5a3524; color: #ffcbb0; }
+html.dark-mode .service-card:nth-child(3n+2) .service-icon { background: #1f4a40; color: #a8ebd0; }
+html.dark-mode .service-card:nth-child(3n) .service-icon { background: #3b3470; color: #cfc6ff; }
+html.dark-mode .process-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 34px; height: 34px; padding: 0 10px; border-radius: 999px;
+    background: #4a3d12; color: #ffe08a;
+}
+html.dark-mode .process-card:nth-child(3n+2) .process-number { background: #1f3a55; color: #aad4ff; }
+html.dark-mode .process-card:nth-child(3n) .process-number { background: #1f4a40; color: #a8ebd0; }
+html.dark-mode .history-date { color: #a79fc4; }
+html.dark-mode .history-client { background: #1f3a55; color: #aad4ff; border-color: transparent; }
+html.dark-mode .history-role { background: #3b3470; color: #cfc6ff; }
+html.dark-mode .history-env { border-top: 1px dashed #3d3560; }
+html.dark-mode .env-tag { background: #4a3d12; color: #ffe08a; }
+html.dark-mode .history-group-title { color: #b7b0d0; }
+
+/* ===== 공통: 둥근 버튼, 통통 튀는 마우스 오버 ===== */
+.button { border-radius: 999px; }
+.button-primary { background: #5b5fd6; box-shadow: 0 4px 0 #4a4ec0; }
+.button-primary:hover { background: #6a6de0; transform: translateY(-1px); }
+.insight-card,
+.service-card { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+.insight-card:hover,
+.insight-card:focus-visible,
+.service-card:hover { transform: translateY(-4px) rotate(-0.4deg); box-shadow: 0 12px 26px rgba(120, 90, 160, 0.18); }
+.hero-label, .hero-news-tag, .history-client, .history-role, .env-tag { border-radius: 999px; }
+@media (prefers-reduced-motion: reduce) {
+    .insight-card:hover, .service-card:hover { transform: none; }
+}
+
+/* ===== 진행순서: 번호를 선으로 잇는 단계 흐름 (넓은 화면은 가로 한 줄, 좁은 화면은 세로 타임라인) ===== */
+:root { --flow: #e0664a; }
+html.dark-mode { --flow: #ffb59a; }
+
+:root .process-grid .process-card.process-card {
+    position: relative;
+    min-height: 0;
+    padding: 0 14px 0 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+:root .process-grid .process-card .process-number {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 46px; height: 46px; min-width: 46px; padding: 0;
+    font-size: 15px; font-weight: 900;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.process-card:hover .process-number { transform: translateY(-3px) scale(1.1); }
+.process-card h3 { margin-top: 16px; }
+
+@media (min-width: 1000px) {
+    .process-grid { grid-template-columns: repeat(6, 1fr); gap: 0; }
+    :root .process-grid .process-card.process-card { text-align: center; padding: 0 12px; }
+    :root .process-grid .process-card .process-number { margin: 0 auto; }
+    /* 번호 원 뒤로 지나가는 점선, 마지막 번호에서 끝나고 사이사이 화살표 */
+    .process-card::before {
+        content: "";
+        position: absolute;
+        top: 22px; left: 50%; right: -50%;
+        border-top: 3px dotted var(--flow);
+        opacity: 0.7;
+    }
+    .process-card:last-child::before { display: none; }
+    .process-card:not(:last-child)::after {
+        content: "▸";
+        position: absolute;
+        top: 12px; right: -8px;
+        z-index: 2;
+        color: var(--flow);
+        font-size: 18px; line-height: 1;
+    }
+}
+
+@media (max-width: 999px) {
+    .process-grid { grid-template-columns: 1fr; gap: 0; }
+    :root .process-grid .process-card.process-card { padding: 0 0 30px 68px; min-height: 0; }
+    :root .process-grid .process-card .process-number { position: absolute; left: 0; top: 0; }
+    .process-card h3 { margin-top: 10px; }
+    .process-card::before {
+        content: "";
+        position: absolute;
+        top: 46px; bottom: 0; left: 21px;
+        border-left: 3px dotted var(--flow);
+        opacity: 0.7;
+    }
+    .process-card:last-child { padding-bottom: 0; }
+    .process-card:last-child::before { display: none; }
+}
+
+/* ===== 진행순서: 마우스를 올린 단계까지 번호가 채워지고 선이 진해진다(진행도 표시) ===== */
+:root { --flow-on: #ffffff; }
+html.dark-mode { --flow-on: #2b1d3a; }
+
+:root .process-grid .process-card:hover .process-number,
+:root .process-grid .process-card:has(~ .process-card:hover) .process-number {
+    background: var(--flow);
+    color: var(--flow-on);
+}
+.process-card:has(~ .process-card:hover)::before { border-top-style: solid; opacity: 1; }
+@media (max-width: 999px) {
+    .process-card:has(~ .process-card:hover)::before { border-top-style: none; border-left-style: solid; opacity: 1; }
+}
+.process-number { transition: background 0.2s ease, color 0.2s ease, transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1); }
