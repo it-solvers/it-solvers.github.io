@@ -56,15 +56,8 @@
   </script>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="../css/hanji-en.css">
-  <script>
-  /* 화면 밝기 초기 적용: 한글 사이트와 같은 저장값(theme)을 쓴다. 저장값이 없으면 어두운 화면이 기본이다. */
-  (function () {
-    var saved = null;
-    try { saved = localStorage.getItem("theme"); } catch (e) { }
-    if (saved === "light") document.documentElement.classList.remove("dark-mode");
-    else document.documentElement.classList.add("dark-mode");
-  })();
-  </script>
+  <!-- Automatic light/dark mode by sunrise and sunset in Incheon. Runs in the head to avoid a flash. -->
+  <script src="../js/theme.js"></script>
 </head>
 <body>
   <header class="site-header"><div class="container nav">
@@ -117,10 +110,10 @@
   <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 IT Solvers. All rights reserved.</div>
 </footer>
 <script>
-  /* 밝게/어둡게 전환: 선택을 브라우저에 저장하고(theme), 한글 사이트와 공유한다. */
+  /* 밝게/어둡게 전환: 선택은 다음 일출·일몰까지만 유지되고 한글 사이트와 공유한다. */
   function toggleTheme() {
-    var isDark = document.documentElement.classList.toggle("dark-mode");
-    try { localStorage.setItem("theme", isDark ? "dark" : "light"); } catch (e) { }
+    /* A manual choice lasts only until the next sunrise or sunset (js/theme.js). */
+    window.SunTheme.toggle();
     updateThemeButton();
   }
   function updateThemeButton() {

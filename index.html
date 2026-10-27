@@ -58,28 +58,8 @@
     <meta name="google-site-verification" content="VlALNpq1bQ9Gy3Bum2gN0z7zN-B54fHn98LA9p4_fxc" />
     <!--구글 itsolvers.co.kr 블로그 소유확인 -->
 
-    <script>
-        /* ========================= */
-        /* THEME INITIALIZATION       */
-        /* ========================= */
-
-        (function () {
-
-            /* 브라우저 설정에 따라 localStorage 접근이 막혀 있어도 오류 없이 동작하도록 보호 */
-            var savedTheme = null;
-
-            try {
-                savedTheme = localStorage.getItem("theme");
-            } catch (e) { }
-
-            if (savedTheme === "light") {
-                document.documentElement.classList.remove("dark-mode");
-            } else {
-                document.documentElement.classList.add("dark-mode");
-            }
-
-        })();
-    </script>
+    <!-- 화면 밝기 자동 전환(인천 일출·일몰 기준). head에서 바로 실행해 깜빡임을 막는다 -->
+    <script src="js/theme.js"></script>
 
     <!-- Schema.org 구조화 데이터 (JSON-LD) -->
     <script type="application/ld+json">
@@ -1723,8 +1703,8 @@
 
         /* =========================
         DARK / LIGHT MODE
-        기본값: DARK
-        (초기 적용은 문서 상단 head 영역의 스크립트에서 처리 - html 태그에 dark-mode 클래스)
+        기본값: 자동(인천 일출~일몰은 밝게, 그 밖에는 어둡게)
+        (초기 적용은 문서 상단 head의 js/theme.js에서 처리 - html 태그에 dark-mode 클래스)
         ========================= */
 
         /* 버튼 상태 표시(접근성 속성) 갱신 */
@@ -1743,11 +1723,8 @@
         /* [수정 2] 버튼에서 호출하는 toggleTheme() 이 정의되어 있지 않아 동작하지 않던 문제 */
         function toggleTheme() {
 
-            const isDark = document.documentElement.classList.toggle("dark-mode");
-
-            try {
-                localStorage.setItem("theme", isDark ? "dark" : "light");
-            } catch (e) { }
+            /* 직접 바꾼 선택은 다음 일출·일몰까지만 유지된다(js/theme.js) */
+            window.SunTheme.toggle();
 
             updateThemeButton();
         }
