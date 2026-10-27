@@ -42,6 +42,13 @@
     footer .translation-note { margin: 0; max-width: 340px; font-size: 11px; line-height: 1.6; text-align: right; }
     footer .translation-note a { color: #d0d5dd; text-decoration: underline; }
   </style>
+  <style>
+    /* About card: portrait on the right, text on the left (two columns so the text never wraps under the image) */
+    .about-who { display: flex; flex-direction: row-reverse; gap: 20px; align-items: flex-start; }
+    .about-who-text { flex: 1; min-width: 0; }
+    .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid #cdb98f; box-shadow: 3px 3px 0 rgba(80, 55, 20, .18); object-fit: cover; }
+    @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } }
+  </style>
   <link rel="stylesheet" href="../css/dark.css">
   <link rel="stylesheet" href="../css/hanji-sub.css">
   <script src="../js/theme.js"></script>
@@ -66,10 +73,13 @@
     <h1>About IT Solvers</h1>
     <p class="sub">An IT partner that listens first, then finds the solution.</p>
 
-    <section class="card">
-      <h2>Who runs this site</h2>
-      <p>IT Solvers is an IT service business run by its CEO, Hyeok Lee (Business Registration No. 364-11-03265). We take on software, web, and mobile app development, system maintenance, and IT asset and PC supply and installation.</p>
-      <p>The CEO has built and operated finance and lease domain systems for more than 20 years. The technical insights on this site come from that hands-on experience.</p>
+    <section class="card about-who">
+      <img class="about-avatar" src="../images/ceo-avatar.webp" alt="Cartoon portrait of CEO Hyeok Lee" width="104" height="104" loading="lazy">
+      <div class="about-who-text">
+        <h2>Who runs this site</h2>
+        <p>IT Solvers is an IT service business run by its CEO, Hyeok Lee (Business Registration No. 364-11-03265). We take on software, web, and mobile app development, system maintenance, and IT asset and PC supply and installation.</p>
+        <p>The CEO has built and operated finance and lease domain systems for more than 20 years. The technical insights on this site come from that hands-on experience.</p>
+      </div>
     </section>
 
     <section class="card">

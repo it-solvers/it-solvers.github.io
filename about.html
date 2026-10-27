@@ -33,6 +33,13 @@
   <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/dark.css">
+  <style>
+    /* 소개 카드: 오른쪽에 캐릭터, 왼쪽에 글(글이 사진 아래로 흘러내리지 않게 두 칸으로 나눈다) */
+    .about-who { display: flex; flex-direction: row-reverse; gap: 20px; align-items: flex-start; }
+    .about-who-text { flex: 1; min-width: 0; }
+    .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid #cdb98f; box-shadow: 3px 3px 0 rgba(80, 55, 20, .18); object-fit: cover; }
+    @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } }
+  </style>
   <link rel="stylesheet" href="css/hanji-sub.css">
   <script src="js/theme.js"></script>
 </head>
@@ -53,10 +60,13 @@
     <h1>아이티해결단 소개</h1>
     <p class="sub">필요한 걸 먼저 듣고, 맞는 해결책을 찾는 일을 합니다.</p>
 
-    <section class="card">
-      <h2>누가 운영하나요</h2>
-      <p>아이티해결단(IT Solvers)은 대표 이혁이 운영하는 IT 서비스 사업자예요(사업자등록번호 364-11-03265). 소프트웨어·웹·앱 개발과 유지보수, IT자산·PC 공급과 설치 일을 하고 있습니다.</p>
-      <p>대표는 금융·리스 시스템을 20년 넘게 만들고 운영해 왔어요. 이 사이트의 글은 그 현장에서 직접 겪은 내용을 바탕으로 씁니다.</p>
+    <section class="card about-who">
+      <img class="about-avatar" src="images/ceo-avatar.webp" alt="대표 이혁의 캐릭터 그림" width="104" height="104" loading="lazy">
+      <div class="about-who-text">
+        <h2>누가 운영하나요</h2>
+        <p>아이티해결단(IT Solvers)은 대표 이혁이 운영하는 IT 서비스 사업자예요(사업자등록번호 364-11-03265). 소프트웨어·웹·앱 개발과 유지보수, IT자산·PC 공급과 설치 일을 하고 있습니다.</p>
+        <p>대표는 금융·리스 시스템을 20년 넘게 만들고 운영해 왔어요. 이 사이트의 글은 그 현장에서 직접 겪은 내용을 바탕으로 씁니다.</p>
+      </div>
     </section>
 
     <section class="card">
