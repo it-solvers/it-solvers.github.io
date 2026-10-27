@@ -402,9 +402,11 @@
       <div class="apply-alt">
         <p class="note-small">폼 대신 이메일로 직접 보내셔도 됩니다</p>
         <p class="apply-address">dlgurpro@itsolvers.co.kr</p>
-        <button type="button" class="apply-copy" id="applyCopy" data-email="dlgurpro@itsolvers.co.kr">이메일 주소 복사</button>
+        <div style="display:flex; gap:10px; max-width:420px;">
+          <button type="button" class="apply-copy" style="flex:1 1 0; min-height:46px;" id="applyCopy" data-email="dlgurpro@itsolvers.co.kr">이메일 주소 복사</button>
+          <a class="apply-copy" href="mailto:dlgurpro@itsolvers.co.kr" style="flex:1 1 0; min-height:46px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-sizing:border-box; text-align:center;">메일 앱으로 열기</a>
+        </div>
         <p class="apply-copy-status" id="applyCopyStatus" role="status" aria-live="polite"></p>
-        <p class="note-small">컴퓨터에 메일 프로그램이 설정되어 있다면 <a href="mailto:dlgurpro@itsolvers.co.kr">메일 앱으로 열기</a></p>
       </div>
     </div>
   </section>

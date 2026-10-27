@@ -243,3 +243,15 @@ html.dark-mode {
     :root:root:root .hero .container::after { right: -70px; bottom: -330px; width: 340px; height: 599px; opacity: 0.3; }
     :root:root:root.dark-mode .hero .container::after { opacity: 0.28; }
 }
+
+/* 문의: '이메일 주소 복사'와 '메일 앱으로 열기'를 같은 크기로 좌우에 나란히 둔다 */
+:root:root:root .contact-btn-row { display: flex; gap: 10px; max-width: 420px; }
+:root:root:root .contact-btn-row > .contact-copy,
+:root:root:root .contact-btn-row > .contact-mailto {
+    flex: 1 1 0; min-width: 0; box-sizing: border-box; min-height: 48px; padding: 0 10px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    border-radius: 2px; font-size: 15px; font-weight: 700; line-height: 1.2; text-decoration: none;
+}
+:root:root:root .contact-btn-row > .contact-mailto { border: 1px solid currentColor; background: transparent; color: var(--k-red); }
+:root:root:root .contact-btn-row > .contact-mailto:hover { color: var(--k-blue); }
+:root:root:root .contact .contact-status { margin-top: 12px; }
