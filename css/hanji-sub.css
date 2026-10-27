@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap");
+/* [한국의 미×IT] css/dark.css를 한지·먹·오방색 색으로 바꾼 사본. dark.css 다음에 불러와 덮어쓴다. 원본 설명: 서브페이지 어두운 화면. 한글·영문 메인과 같은 색 계열(#16171b / #1f2026)이며, 헤더는 메인처럼 밝게 고정한다. */
+
+/* 밝기 전환 버튼 (메인과 같은 모양. 이 파일만 불러오는 페이지에서도 보이도록 여기에도 둔다) */
+.theme-toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 0; margin-left: 14px; padding: 5px; border: 1px solid #cdb98f; border-radius: 999px; background: #fbf6e9; color: #2b2520; cursor: pointer; font-weight: 400; flex-shrink: 0; }
+.nav-right .theme-toggle { margin-left: 0; }
+.theme-toggle span { display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 999px; font-size: 15px; }
+.theme-toggle .light { background: #efe3c8; }
+.theme-toggle .dark { background: transparent; }
+.theme-toggle:focus-visible { outline: 2px solid #b3322a; outline-offset: 2px; }
+html.dark-mode .theme-toggle .light { background: transparent; }
+html.dark-mode .theme-toggle .dark { background: #efe3c8; }
+
+html.dark-mode { color-scheme: dark; background: #16171b; }
+html.dark-mode body { background: #16171b; color: #e3dac6; }
+
+/* 헤더는 밝게 고정 */
+html.dark-mode header { background: #f5eddb; border-bottom-color: #cdb98f; color: #1f2026; }
+html.dark-mode header a, html.dark-mode header strong { color: #1f2026; }
+html.dark-mode header .language-link { color: #b3322a; }
+html.dark-mode .page-date { color: #6a5c4c; opacity: 1; }
+
+/* ===== 변수를 쓰는 페이지(계산기 등)와 가이드: 변수 값만 어둡게 바꾼다 ===== */
+html.dark-mode {
+  --bg: #16171b; --card: #1f2026; --text: #efe7d4; --muted: #a89d88; --line: #3a362d;
+  --accent: #d9b56c; --accent-weak: #3a3220; --warn: #f87171;
+}
+html.dark-mode .lease-overview {
+  --lo-text: #efe7d4; --lo-muted: #a89d88; --lo-line: #3a362d; --lo-border: #3a362d;
+  --lo-accent: #d9b56c; --lo-accent-weak: #3a3220;
+}
+html.dark-mode .guide {
+  --bg: #16171b; --surface: #1f2026; --ink: #efe7d4; --muted: #a89d88; --line: #3a362d;
+  --accent: #d9b56c; --accent-soft: #3a3220;
+  --fin: #6aa8e8; --opr: #f0924a; --prop: #c58bd6;
+  --fin-soft: #172c45; --opr-soft: #3a2614; --prop-soft: #2c1f35;
+  --neg: #f87171; --pos: #4ade80; --warn-soft: #3a2f0f; --warn-ink: #fde68a;
+  --m-sl: #9aa7b2; --m-dec: #f0a020; --pb: #34d399; --rev: #efe7d4; --gain: #7bb8e8;
+  --m-sl-soft: #232c36; --m-dec-soft: #3a2f12; --pb-soft: #0f3a2d;
+}
+
+/* ===== 소개·문의·개인정보·리스 개요·용어 등(lease-page) ===== */
+html.dark-mode body.lease-page { background: #16171b; }
+html.dark-mode .lease-overview h1,
+html.dark-mode .lease-overview h2,
+html.dark-mode .lease-overview h3 { color: #f2ead8; }
+html.dark-mode .lease-overview h4 { color: #d9b56c; }
+html.dark-mode .lease-overview .sub,
+html.dark-mode .lease-overview .muted { color: #a89d88; }
+html.dark-mode .lease-overview .card,
+html.dark-mode .lease-overview > nav.card,
+html.dark-mode .lease-overview .lease-item,
+html.dark-mode .lease-overview .flow-step,
+html.dark-mode .lease-overview .flow-figure img { background: #1f2026; border-color: #3a362d; color: #e3dac6; }
+html.dark-mode .lease-overview .type-panel,
+html.dark-mode .lease-overview .type-panel.operating,
+html.dark-mode .lease-overview .note { background: #1f2026; border-color: #3a362d; color: #e3dac6; }
+html.dark-mode .lease-overview .type-panel.finance { border-color: #5c4a22; background: #262215; }
+html.dark-mode .lease-overview .formula { background: #101114; color: #e3dac6; }
+html.dark-mode .lease-overview .placeholder { border-color: #4a4132; }
+html.dark-mode .lease-overview a { color: #d9b56c; }
+html.dark-mode .lease-overview .button { color: #fff; }
+html.dark-mode .lease-overview th { background: #1a1b20; color: #e3dac6; }
+html.dark-mode .lease-overview td { border-color: #3a362d; }
+html.dark-mode .lease-overview code,
+html.dark-mode .lease-overview pre { background: #101114; color: #e3dac6; }
+
+/* ===== 계산기 페이지(.calculator-main, main.wrap) ===== */
+html.dark-mode .calculator-main h1,
+html.dark-mode .calculator-main h2,
+html.dark-mode .calculator-main h3 { color: #f2ead8; }
+html.dark-mode .calculator-intro,
+html.dark-mode .calculator-note { color: #a89d88; }
+html.dark-mode .calculator-card,
+html.dark-mode .card { background: #1f2026; border-color: #3a362d; }
+html.dark-mode .calculator-field label,
+html.dark-mode label { color: #cfc6b0; }
+html.dark-mode input,
+html.dark-mode select,
+html.dark-mode textarea { background: #101114; color: #e3dac6; border-color: #4a4132; }
+html.dark-mode input::placeholder { color: #8f8572; }
+html.dark-mode input:focus,
+html.dark-mode select:focus { border-color: #d9b56c; outline-color: #3a3220; }
+html.dark-mode .calculator-example,
+html.dark-mode .calculator-clear,
+html.dark-mode button.secondary,
+html.dark-mode .input-head-actions .calculator-example,
+html.dark-mode .input-head-actions .calculator-clear { background: #1f2026; color: #d9b56c; border-color: #d9b56c; }
+html.dark-mode .calculator-example:hover { background: #3a3220; }
+html.dark-mode pre,
+html.dark-mode .developer-formula pre,
+html.dark-mode .language-examples pre,
+html.dark-mode .language-examples .code-block { background: #101114; color: #e3dac6; border-color: #3a362d; }
+html.dark-mode .language-examples pre:hover,
+html.dark-mode .developer-formula pre:hover,
+html.dark-mode .language-examples .code-block:hover { background: #3a3220; }
+html.dark-mode .language-examples,
+html.dark-mode .developer-formula,
+html.dark-mode details { border-color: #3a362d; }
+html.dark-mode details summary,
+html.dark-mode .language-examples summary { color: #e3dac6; }
+html.dark-mode .copy-hint { color: #8f8572; border-color: #3a362d; background: #1f2026; }
+html.dark-mode .result { background: #3a3220; color: #e3dac6; }
+html.dark-mode .result-label { color: #a89d88; }
+html.dark-mode th { background: #1a1b20; color: #e3dac6; }
+html.dark-mode td { border-color: #3a362d; }
+html.dark-mode .table-wrap, html.dark-mode .scroll { border-color: #3a362d; }
+html.dark-mode .error { color: #f87171; }
+html.dark-mode main a { color: #d9b56c; }
+html.dark-mode main a.button, html.dark-mode main a.button-primary { color: #fff; }
+
+/* ===== 푸터 ===== */
+html.dark-mode footer { background: #0d0e10; color: #a89d88; }
+html.dark-mode footer a { color: #cfc6b0; }
+
+/* ===== 리스료 계산기: 수식·결과 영역 ===== */
+html.dark-mode .formula-card p,
+html.dark-mode .formula-card li { color: #cfc6b0; }
+html.dark-mode .formula-equation,
+html.dark-mode .formula-card code { background: #101114; color: #e3dac6; }
+html.dark-mode .developer-formula { background: #1f2026; border-color: #3a362d; }
+html.dark-mode .developer-formula pre,
+html.dark-mode .developer-formula pre code { color: #e3dac6; }
+html.dark-mode .calculator-result,
+html.dark-mode .calculator-results > div { background: #3a3220; }
+html.dark-mode .calculator-result-label { color: #a89d88; }
+html.dark-mode .calculator-result-value { color: #f2ead8; }
+html.dark-mode .calculator-card p,
+html.dark-mode .calculator-card li { color: #cfc6b0; }
+
+/* 주 버튼: 밝은 파랑 바탕에 흰 글씨가 안 보이지 않도록 진한 파랑으로 */
+html.dark-mode button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear),
+html.dark-mode .calculator-button { background: #b3322a; border-color: #b3322a; color: #fff; }
+
+/* 헤더의 '한국어' 링크: 모든 영문 서브페이지에서 같은 버튼(알약) 모양으로 통일 */
+header .language-link,
+header a[lang="ko"] {
+  display: inline-block; padding: 4px 10px; border: 1px solid #cdb98f; border-radius: 999px;
+  color: #6a5c4c !important; background: transparent; font-size: 13px !important; font-weight: 600;
+  line-height: 1.5; text-decoration: none !important; white-space: nowrap;
+}
+header .language-link:hover,
+header a[lang="ko"]:hover { border-color: #b3322a; color: #b3322a !important; }
+
+/* ===== 밝은 화면: 눈이 편한 따뜻한 종이 톤(순백·순검정 대비를 줄임) =====
+   바탕 #f5eddb / 카드 #fbf6e9 / 구분 구역 #eee2c6 / 경계선 #cdb98f / 글자 #2b2520 / 보조 글자 #6a5c4c / 강조 #264a82 */
+html:not(.dark-mode) {
+  --bg: #f5eddb; --card: #fbf6e9; --text: #2b2520; --muted: #6a5c4c; --line: #cdb98f;
+  --accent: #264a82; --accent-weak: #efe3c8;
+}
+html:not(.dark-mode) .lease-overview {
+  --lo-text: #2b2520; --lo-muted: #6a5c4c; --lo-line: #cdb98f; --lo-border: #cdb98f;
+  --lo-accent: #264a82; --lo-accent-weak: #efe3c8;
+}
+html:not(.dark-mode) .guide {
+  --bg: #f5eddb; --surface: #fbf6e9; --ink: #2b2520; --muted: #6a5c4c; --line: #cdb98f;
+  --accent: #264a82; --accent-soft: #efe3c8;
+}
+html:not(.dark-mode) body { background: #f5eddb; color: #2b2520; }
+html:not(.dark-mode) body.lease-page { background: #f5eddb; }
+html:not(.dark-mode) header { background: #fbf6e9; border-bottom-color: #cdb98f; }
+html:not(.dark-mode) .lease-overview .card,
+html:not(.dark-mode) .lease-overview > nav.card,
+html:not(.dark-mode) .lease-overview .lease-item,
+html:not(.dark-mode) .lease-overview .flow-step,
+html:not(.dark-mode) .lease-overview .flow-figure img,
+html:not(.dark-mode) .calculator-card,
+html:not(.dark-mode) .card { background: #fbf6e9; border-color: #cdb98f; }
+html:not(.dark-mode) .calculator-main h1,
+html:not(.dark-mode) .calculator-main h2,
+html:not(.dark-mode) .calculator-main h3,
+html:not(.dark-mode) .calculator-result-value,
+html:not(.dark-mode) .language-examples summary,
+html:not(.dark-mode) .language-examples pre,
+html:not(.dark-mode) .developer-formula pre,
+html:not(.dark-mode) .formula-equation,
+html:not(.dark-mode) .formula-card code { color: #2b2520; }
+html:not(.dark-mode) .calculator-intro,
+html:not(.dark-mode) .calculator-note,
+html:not(.dark-mode) .calculator-result-label,
+html:not(.dark-mode) .formula-card p,
+html:not(.dark-mode) .formula-card li,
+html:not(.dark-mode) .calculator-field label { color: #6a5c4c; }
+html:not(.dark-mode) .calculator-field input,
+html:not(.dark-mode) input,
+html:not(.dark-mode) select { background: #fffaf0; color: #2b2520; border-color: #cdb98f; }
+html:not(.dark-mode) .formula-equation,
+html:not(.dark-mode) .developer-formula,
+html:not(.dark-mode) .language-examples pre { background: #eee2c6; border-color: #cdb98f; }
+html:not(.dark-mode) .calculator-result,
+html:not(.dark-mode) .result { background: #efe3c8; }
+html:not(.dark-mode) th { background: #eee2c6; }
+html:not(.dark-mode) td { border-color: #cdb98f; }
+html:not(.dark-mode) .calculator-example,
+html:not(.dark-mode) .calculator-clear,
+html:not(.dark-mode) button.secondary { background: #fbf6e9; color: #264a82; border-color: #264a82; }
+html:not(.dark-mode) button:not(.secondary):not(.theme-toggle):not(.calculator-example):not(.calculator-clear) { background: #264a82; border-color: #264a82; color: #fff; }
+
+/* 리스 개요: 장점 카드(.benefit)가 어두운 화면에서 밝은 바탕으로 남던 문제 */
+html.dark-mode .lease-overview .benefit { background: #1f2026; border-color: #3a362d; color: #e3dac6; }
+html.dark-mode .lease-overview .benefit h3 { color: #f2ead8; }
+html.dark-mode .lease-overview .benefit p { color: #a89d88; }
+
+
+/* ===== 한국의 미 × IT 모양: 제목은 명조, 헤더 아래 오방색 띠, 각진 카드, 코드 같은 날짜 ===== */
+:root { --k-serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", "Batang", serif; --k-mono: ui-monospace, "D2Coding", "SFMono-Regular", Consolas, "Courier New", monospace; }
+html.dark-mode header, html:not(.dark-mode) header {
+  background: #f5eddb; border-bottom: 4px solid transparent !important;
+  border-image: linear-gradient(90deg, #264a82 0 20%, #b3322a 20% 40%, #d9a441 40% 60%, #3c6f5c 60% 80%, #2b2520 80% 100%) 1;
+}
+h1, h2 { font-family: var(--k-serif); font-weight: 900; letter-spacing: -0.02em; }
+header h1, header h2 { font-family: inherit; }
+.page-date { font-family: var(--k-mono); }
+.card, .calculator-card, .lease-overview .card, .lease-overview .lease-item, .lease-overview .flow-step, .lease-overview .benefit, .lease-overview .type-panel, details { border-radius: 3px; }
+.card, .calculator-card, .lease-overview .card, .lease-overview .lease-item, .lease-overview .benefit { box-shadow: 3px 3px 0 rgba(80, 55, 20, 0.12); }
+html.dark-mode .card, html.dark-mode .calculator-card, html.dark-mode .lease-overview .card, html.dark-mode .lease-overview .lease-item, html.dark-mode .lease-overview .benefit { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); }
+input, select, textarea { border-radius: 2px; }
+button, .button, .calculator-button, .calculator-example, .calculator-clear { border-radius: 2px; }
+html.dark-mode footer, html:not(.dark-mode) footer { border-top: 4px solid #a8762a; }
+html:not(.dark-mode) footer { background: #2b2520; color: #d8cbb0; }
+html:not(.dark-mode) footer a, html:not(.dark-mode) footer strong { color: #d8cbb0; }

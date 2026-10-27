@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap");
+/* 영문 메인(en/index.html) 한국의 미 × IT 테마. en/styles.css 다음에 불러와 색 변수와 모양만 덮어쓴다. 한글 메인의 css/hanji.css와 같은 색을 쓴다. */
+:root {
+  --ink: #2b2520; --muted: #6a5c4c; --line: #cdb98f; --blue: #264a82; --pale: #eee2c6; --surface: #fbf6e9; --page: #f5eddb;
+  --k-serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", "Batang", serif;
+  --k-mono: ui-monospace, "D2Coding", "SFMono-Regular", Consolas, "Courier New", monospace;
+}
+html.dark-mode {
+  --ink: #efe7d4; --muted: #a89d88; --line: #4a4132; --blue: #d9b56c; --pale: #1f2026; --surface: #1f2026; --page: #16171b;
+}
+html:not(.dark-mode) body { background: #f5eddb; }
+.site-header { border-bottom: 4px solid transparent !important;
+  border-image: linear-gradient(90deg, #264a82 0 20%, #b3322a 20% 40%, #d9a441 40% 60%, #3c6f5c 60% 80%, #2b2520 80% 100%) 1; }
+html.dark-mode .site-header, html:not(.dark-mode) .site-header { background: #f5eddb; }
+html.dark-mode .site-header .brand { color: #2b2520; }
+html.dark-mode .site-header .language-link { color: #6a5c4c; }
+.site-footer { border-top: 4px solid #a8762a; }
+html:not(.dark-mode) .site-footer { background: #2b2520; color: #d8cbb0; }
+html:not(.dark-mode) .site-footer .translation-note a, html:not(.dark-mode) .footer-links a { color: #d8cbb0; }
+html.dark-mode .site-footer { background: #0d0e10; }
+h1, h2 { font-family: var(--k-serif); font-weight: 900; letter-spacing: -0.02em; }
+.site-header .brand { font-family: inherit; }
+
+.card, .card-link { border-width: 1px; border-radius: 3px; box-shadow: 3px 3px 0 rgba(80, 55, 20, 0.12); outline: 1px solid color-mix(in srgb, var(--line) 55%, transparent); outline-offset: -5px; }
+html.dark-mode .card, html.dark-mode .card-link { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); }
+.card-link:nth-child(3n+1) { --bar: #b3322a; }
+.card-link:nth-child(3n+2) { --bar: #264a82; }
+.card-link:nth-child(3n) { --bar: #8a5f1c; }
+html.dark-mode .card-link:nth-child(3n+1) { --bar: #e2604f; }
+html.dark-mode .card-link:nth-child(3n+2) { --bar: #86a8e0; }
+html.dark-mode .card-link:nth-child(3n) { --bar: #d9b56c; }
+.card-link:hover, .card-link:focus-visible { border-color: var(--bar); outline-color: var(--bar); box-shadow: 3px 3px 0 rgba(80, 55, 20, 0.12); }
+.card-link h2 { color: var(--ink); font-size: 18px; }
+.note { border-left: 4px solid #b3322a !important; border-radius: 0; background: var(--pale); }
+.button-link, button { border-radius: 2px; background: #b3322a; border-color: #b3322a; color: #fff; }
+.button-link:hover, .button-link:focus-visible { background: #264a82; border-color: #264a82; }
+button.secondary, .button-link.secondary { background: transparent; color: var(--blue); border-color: var(--blue); }
+input, select { border-radius: 2px; border-color: #cdb98f; background: #fffaf0; }
+html.dark-mode input, html.dark-mode select { background: #101114; border-color: #4a4132; color: #efe7d4; }
+html:not(.dark-mode) th { background: #eee2c6; }
+html.dark-mode th { background: #1a1b20; }
+.hero-news-date, .news-date, time { font-family: var(--k-mono); }

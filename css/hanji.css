@@ -1,0 +1,245 @@
+/* 한국의 미 × IT 테마(한글 메인 시험 적용).
+   한지 바탕, 먹색 글씨, 오방색(청·적·황·녹) 포인트에 코드 같은 고정폭 글꼴을 섞는다.
+   styles.css 다음에 불러와 색·모양만 덮어쓴다. 되돌리려면 index.html에서 이 파일을 pastel.css로 바꾸면 된다. */
+
+html:not(.dark-mode) {
+    --k-bg: #f5eddb; --k-bg2: #eee2c6; --k-bg3: #e6d8b8; --k-card: #fbf6e9;
+    --k-ink: #2b2520; --k-muted: #6a5c4c; --k-line: #cdb98f; --k-line2: #e3d5b1;
+    --k-red: #b3322a; --k-blue: #264a82; --k-gold: #a8762a; --k-goldtxt: #8a5f1c; --k-green: #3c6f5c;
+    --k-on: #fbf6e9; --k-grid: rgba(120, 90, 40, 0.07); --k-mtn: rgba(38, 74, 130, 0.13); --k-sun: #b3322a;
+    --k-foot-bg: #2b2520; --k-foot-fg: #d8cbb0; --k-shadow: rgba(80, 55, 20, 0.14);
+}
+html.dark-mode {
+    --k-bg: #16171b; --k-bg2: #1c1d22; --k-bg3: #111215; --k-card: #1f2026;
+    --k-ink: #efe7d4; --k-muted: #a89d88; --k-line: #4a4132; --k-line2: #2c2a26;
+    --k-red: #e2604f; --k-blue: #86a8e0; --k-gold: #d9b56c; --k-goldtxt: #d9b56c; --k-green: #7fc2a8;
+    --k-on: #16171b; --k-grid: rgba(217, 181, 108, 0.05); --k-mtn: rgba(134, 168, 224, 0.10); --k-sun: #b3392e;
+    --k-foot-bg: #0d0e10; --k-foot-fg: #a89d88; --k-shadow: rgba(0, 0, 0, 0.35);
+}
+:root {
+    --k-serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", "Batang", serif;
+    --k-mono: ui-monospace, "D2Coding", "SFMono-Regular", Consolas, "Courier New", monospace;
+    --site-accent: var(--k-red);
+    --site-accent-hover: var(--k-red);
+}
+
+:root:root:root html, :root:root:root body { background: var(--k-bg); color: var(--k-ink); }
+
+/* ===== 헤더: 한지 바탕 + 아래에 오방색 띠 ===== */
+:root:root:root header { background: #f5eddb; border-bottom: 1px solid var(--k-line); color: #2b2520; position: sticky; }
+:root:root:root header::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px;
+    background: linear-gradient(90deg, #264a82 0 20%, #b3322a 20% 40%, #d9a441 40% 60%, #3c6f5c 60% 80%, #2b2520 80% 100%);
+}
+
+/* ===== 첫 화면: 격자(창살) 무늬, 해, 산 ===== */
+:root:root:root .hero {
+    position: relative; isolation: isolate; overflow-x: clip; overflow-y: visible; padding-bottom: 150px;
+    background:
+        repeating-linear-gradient(0deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        repeating-linear-gradient(90deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        var(--k-bg);
+}
+:root:root:root .hero::before {
+    content: ""; position: absolute; top: 70px; right: 9%; width: 230px; height: 230px; border-radius: 50%;
+    background: var(--k-sun); opacity: 0.9;
+}
+:root:root:root .hero::after {
+    content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; height: 190px; background: var(--k-mtn);
+    clip-path: polygon(0 100%, 0 72%, 9% 50%, 18% 70%, 31% 28%, 44% 64%, 57% 38%, 70% 66%, 83% 44%, 93% 62%, 100% 48%, 100% 100%);
+}
+:root:root:root .hero .container { position: relative; }
+:root:root:root .hero h1, :root:root:root .hero-text, :root:root:root .hero-news, :root:root:root .hero .container::before { position: relative; z-index: 1; }
+/* 호랑이가 아래 섹션까지 걸치므로 첫 화면 위아래는 자르지 않는다(가로만 자름). 섹션 안쪽 내용은 호랑이 위에 놓는다 */
+:root:root:root main > section:not(.hero) > .container { position: relative; z-index: 1; }
+:root:root:root .hero .container::before {
+    content: "<itsolvers />"; display: block; margin-bottom: 18px;
+    font-family: var(--k-mono); font-size: 14px; color: var(--k-goldtxt);
+}
+:root:root:root .hero h1 { font-family: var(--k-serif); font-weight: 800; color: var(--k-ink); letter-spacing: -2.5px; }
+:root:root:root .hero h1 span {
+    color: var(--k-red);
+    background: linear-gradient(transparent 68%, color-mix(in srgb, var(--k-red) 20%, transparent) 68%);
+}
+:root:root:root .hero-text { color: var(--k-muted); }
+:root:root:root .hero-news {
+    background: color-mix(in srgb, var(--k-card) 62%, transparent);
+    -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px);
+    border: 3px double var(--k-line); border-radius: 2px;
+}
+:root:root:root .hero-news-title { font-family: var(--k-mono); color: var(--k-goldtxt); }
+:root:root:root .hero-news-title::before { content: "// "; }
+:root:root:root .hero-news-list li { border-top: 1px dashed var(--k-line); }
+:root:root:root .hero-news-date { font-family: var(--k-mono); color: var(--k-muted); font-size: 13px; }
+:root:root:root .hero-news-tag { border-radius: 2px; background: transparent; border: 1px solid var(--k-red); color: var(--k-red); }
+:root:root:root .hero-news-list li:nth-child(4n+2) .hero-news-tag { border-color: var(--k-blue); color: var(--k-blue); }
+:root:root:root .hero-news-list li:nth-child(4n+3) .hero-news-tag { border-color: var(--k-goldtxt); color: var(--k-goldtxt); }
+:root:root:root .hero-news-list li:nth-child(4n) .hero-news-tag { border-color: var(--k-green); color: var(--k-green); }
+:root:root:root .hero-news-list a { color: var(--k-ink); }
+:root:root:root .hero-news-list a:hover { color: var(--k-red); }
+
+/* ===== 섹션 제목: 코드 주석 같은 라벨 + 겹줄 ===== */
+:root:root:root main > section:not(.hero) { border-top: 1px solid var(--k-line); }
+:root:root:root .section-label { font-family: var(--k-mono); font-size: 13px; letter-spacing: 0; color: var(--k-goldtxt); }
+:root:root:root .section-label::before { content: "// "; }
+:root:root:root .section-title h2 { font-family: var(--k-serif); font-weight: 800; letter-spacing: -1.5px; color: var(--k-ink); }
+:root:root:root .section-title h2::after {
+    content: ""; display: block; width: 64px; height: 5px; margin-top: 14px;
+    border-top: 1px solid var(--k-gold); border-bottom: 1px solid var(--k-gold);
+}
+:root:root:root .section-title p { color: var(--k-muted); }
+:root:root:root .insights, :root:root:root .process { background: var(--k-bg); }
+:root:root:root .services, :root:root:root #history {
+    background:
+        repeating-linear-gradient(0deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        repeating-linear-gradient(90deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        var(--k-bg2);
+}
+:root:root:root .history-group-title { color: var(--k-ink); border-left: 4px solid var(--k-red); padding-left: 10px; }
+
+/* ===== 카드: 창호처럼 겹테두리, 마우스를 올리면 오방색으로 ===== */
+:root:root:root .service-card, :root:root:root .insight-card, :root:root:root .history-item {
+    /* 배경을 반쯤 투명하게 해서 뒤의 호랑이가 비쳐 보이게 한다. 안쪽 겹테두리는 outline으로 그린다 */
+    background: color-mix(in srgb, var(--k-card) 66%, transparent);
+    -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px);
+    border: 1px solid var(--k-line); border-radius: 3px;
+    outline: 1px solid var(--k-line2); outline-offset: -5px;
+    box-shadow: 3px 3px 0 var(--k-shadow);
+    transition: border-color 0.18s ease, outline-color 0.18s ease;
+}
+:root:root:root .service-card h3, :root:root:root .insight-card h3, :root:root:root .process-card h3, :root:root:root .history-desc { color: var(--k-ink); }
+:root:root:root .service-card p, :root:root:root .insight-card p, :root:root:root .process-card p, :root:root:root .service-card ul { color: var(--k-muted); }
+:root:root:root .service-card li::before { color: var(--k-red); }
+:root:root:root .service-card, :root:root:root .insight-card { --bar: var(--k-red); }
+:root:root:root .service-card:nth-child(3n+2) { --bar: var(--k-blue); }
+:root:root:root .service-card:nth-child(3n) { --bar: var(--k-goldtxt); }
+:root:root:root .insight-card:nth-child(4n+2) { --bar: var(--k-blue); }
+:root:root:root .insight-card:nth-child(4n+3) { --bar: var(--k-goldtxt); }
+:root:root:root .insight-card:nth-child(4n) { --bar: var(--k-green); }
+:root:root:root .service-card:hover, :root:root:root .insight-card:hover, :root:root:root .insight-card:focus-visible {
+    transform: none; border-color: var(--bar); outline-color: var(--bar);
+}
+:root:root:root .service-icon {
+    border-radius: 3px; background: var(--bar); color: var(--k-on);
+    font-family: var(--k-serif); font-weight: 800;
+}
+:root:root:root .history-date { font-family: var(--k-mono); color: var(--k-goldtxt); }
+:root:root:root .history-client { border-radius: 2px; background: transparent; border: 1px solid var(--k-blue); color: var(--k-blue); }
+:root:root:root .history-role { border-radius: 2px; background: transparent; border: 1px solid var(--k-red); color: var(--k-red); }
+:root:root:root .history-env { border-top: 1px dashed var(--k-line); }
+:root:root:root .env-tag { border-radius: 2px; font-family: var(--k-mono); font-size: 12px; background: transparent; border: 1px solid var(--k-line); color: var(--k-muted); }
+
+/* ===== 버튼·문의·푸터 ===== */
+:root:root:root .button, :root:root:root .contact-submit, :root:root:root .contact-copy, :root:root:root .history-more-btn { border-radius: 2px; }
+:root:root:root .button-primary, :root:root:root .contact-submit, :root:root:root .contact-copy { background: var(--k-red); color: #fff; box-shadow: none; }
+:root:root:root .button-primary:hover, :root:root:root .contact-submit:hover, :root:root:root .contact-copy:hover { background: var(--k-blue); color: #fff; transform: none; }
+:root:root:root .contact { background: var(--k-bg3); color: var(--k-ink); }
+:root:root:root .contact .section-label { color: var(--k-goldtxt); }
+:root:root:root .contact p, :root:root:root .contact-field label, :root:root:root .contact-consent, :root:root:root .contact .contact-address { color: var(--k-muted); }
+:root:root:root .contact-field input, :root:root:root .contact-field textarea { background: var(--k-card); color: var(--k-ink); border: 1px solid var(--k-line); border-radius: 2px; }
+:root:root:root .contact-field input:focus, :root:root:root .contact-field textarea:focus { border-color: var(--k-red); }
+:root:root:root .contact-alt a { color: var(--k-red); }
+:root:root:root footer, :root:root:root .site-footer { background: var(--k-foot-bg); color: var(--k-foot-fg); border-top: 4px solid var(--k-gold); }
+:root:root:root footer strong, :root:root:root footer a { color: var(--k-foot-fg); }
+
+/* ===== 진행순서: 도장 같은 번호를 선으로 잇는 단계 흐름(마우스를 올린 단계까지 채워짐) ===== */
+:root { --flow: var(--k-gold); }
+:root:root:root .process-card { --bar: var(--k-red); }
+:root:root:root .process-card:nth-child(4n+2) { --bar: var(--k-blue); }
+:root:root:root .process-card:nth-child(4n+3) { --bar: var(--k-goldtxt); }
+:root:root:root .process-card:nth-child(4n) { --bar: var(--k-green); }
+:root:root:root .process-grid .process-card.process-card {
+    position: relative; min-height: 0; padding: 0 14px 0 0;
+    background: transparent; border: 0; border-radius: 0; box-shadow: none;
+}
+:root:root:root .process-grid .process-card .process-number {
+    position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; min-width: 46px; padding: 0; border-radius: 3px;
+    font-family: var(--k-serif); font-size: 16px; font-weight: 800;
+    background: var(--k-bg); border: 2px solid var(--bar); color: var(--bar);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+:root:root:root .process-grid .process-card:hover .process-number,
+:root:root:root .process-grid .process-card:has(~ .process-card:hover) .process-number { background: var(--bar); color: var(--k-on); }
+.process-card h3 { margin-top: 16px; }
+@media (min-width: 1000px) {
+    .process-grid { grid-template-columns: repeat(6, 1fr); gap: 0; }
+    :root:root:root .process-grid .process-card.process-card { text-align: center; padding: 0 12px; }
+    :root:root:root .process-grid .process-card .process-number { margin: 0 auto; }
+    .process-card::before { content: ""; position: absolute; top: 22px; left: 50%; right: -50%; border-top: 2px dashed var(--flow); opacity: 0.7; }
+    .process-card:last-child::before { display: none; }
+    .process-card:not(:last-child)::after { content: "▸"; position: absolute; top: 12px; right: -8px; z-index: 2; color: var(--flow); font-size: 18px; line-height: 1; }
+    .process-card:has(~ .process-card:hover)::before { border-top-style: solid; opacity: 1; }
+}
+@media (max-width: 999px) {
+    .process-grid { grid-template-columns: 1fr; gap: 0; }
+    :root:root:root .process-grid .process-card.process-card { padding: 0 0 30px 68px; }
+    :root:root:root .process-grid .process-card .process-number { position: absolute; left: 0; top: 0; }
+    .process-card h3 { margin-top: 10px; }
+    .process-card::before { content: ""; position: absolute; top: 46px; bottom: 0; left: 22px; border-left: 2px dashed var(--flow); opacity: 0.7; }
+    .process-card:last-child { padding-bottom: 0; }
+    .process-card:last-child::before { display: none; }
+    .process-card:has(~ .process-card:hover)::before { border-left-style: solid; opacity: 1; }
+    :root:root:root .hero::before { width: 92px; height: 92px; top: 22px; right: 16px; opacity: 0.85; }
+}
+
+/* 카드 제목 옆 ↗ 표시도 카드 색을 따른다 */
+:root:root:root .insight-link-cue { background: transparent; color: var(--bar); border: 1px solid var(--bar); border-radius: 2px; }
+
+/* ===== 어두운 화면에는 달과 별, 밝은 화면에는 해 ===== */
+:root:root:root.dark-mode .hero::before {
+    background:
+        radial-gradient(circle at 34% 38%, rgba(120, 100, 50, 0.16) 0 9%, transparent 10%),
+        radial-gradient(circle at 64% 60%, rgba(120, 100, 50, 0.14) 0 12%, transparent 13%),
+        radial-gradient(circle at 58% 26%, rgba(120, 100, 50, 0.12) 0 6%, transparent 7%),
+        #f0e4b8;
+    box-shadow: 0 0 60px 12px rgba(240, 228, 184, 0.22), 0 0 140px 40px rgba(240, 228, 184, 0.08);
+    opacity: 0.95;
+}
+:root:root:root.dark-mode .hero {
+    background:
+        radial-gradient(circle at 8% 18%, #efe7d4 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 22% 62%, #efe7d4 0 1px, transparent 2px),
+        radial-gradient(circle at 41% 14%, #efe7d4 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 63% 22%, #efe7d4 0 1px, transparent 2px),
+        radial-gradient(circle at 74% 70%, #efe7d4 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 90% 16%, #efe7d4 0 1px, transparent 2px),
+        radial-gradient(circle at 95% 58%, #efe7d4 0 1.5px, transparent 2.5px),
+        repeating-linear-gradient(0deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        repeating-linear-gradient(90deg, transparent 0 39px, var(--k-grid) 39px 40px),
+        var(--k-bg);
+}
+@media (max-width: 999px) {
+    :root:root:root.dark-mode .hero::before { opacity: 0.85; }
+}
+
+/* 밝은 화면의 해: 붉은 원은 일장기를 떠올리게 해서, 오방색 '황'의 금빛 해로 바꾼다 */
+:root:root:root:not(.dark-mode) .hero::before {
+    background: radial-gradient(circle at 38% 34%, #f8da86 0, #eeb64a 55%, #dd9a30 100%);
+    box-shadow: 0 0 70px 22px rgba(238, 182, 74, 0.28);
+    opacity: 1;
+}
+
+/* ===== 호랑이: 국립중앙박물관 소장 「용맹한 호랑이(猛虎圖)」(공공누리 제1유형)를 먹 그림만 남겨 은은하게 앉힌다 =====
+   images/tiger.webp는 원본에서 한지 바탕을 투명하게 만든 그림이며, 이 파일을 색 가리개로 써서 밝기별로 색을 바꾼다. */
+:root:root:root .hero .container::after {
+    content: ""; position: absolute; right: -30px; bottom: -630px; z-index: 0;
+    width: 616px; height: 1085px; pointer-events: none;
+    transform: scaleX(-1); /* 좌우 반전: 호랑이가 화면 안쪽(글자 쪽)을 바라본다 */
+    /* 그림의 양쪽 끝과 아래쪽을 부드럽게 지워, 호랑이가 첫 화면에서 아래 섹션으로 걸쳐 걸어 나오는 것처럼 보이게 한다 */
+    -webkit-mask: url(../images/tiger.webp) center / contain no-repeat,
+        linear-gradient(to right, transparent 0, #000 14%, #000 82%, transparent 100%),
+        linear-gradient(to bottom, #000 0, #000 84%, transparent 99%);
+    -webkit-mask-composite: source-in, source-in;
+    mask: url(../images/tiger.webp) center / contain no-repeat,
+        linear-gradient(to right, transparent 0, #000 14%, #000 82%, transparent 100%),
+        linear-gradient(to bottom, #000 0, #000 84%, transparent 99%);
+    mask-composite: intersect, intersect;
+    background: #2b2520; opacity: 0.5;
+}
+:root:root:root.dark-mode .hero .container::after { background: var(--k-gold); opacity: 0.44; }
+/* 폰·태블릿: 더 작고 흐리게 오른쪽 아래에 둔다(글자 뒤에 깔려 읽기를 방해하지 않도록) */
+@media (max-width: 999px) {
+    :root:root:root .hero .container::after { right: -70px; bottom: -330px; width: 340px; height: 599px; opacity: 0.3; }
+    :root:root:root.dark-mode .hero .container::after { opacity: 0.28; }
+}
