@@ -7300,7 +7300,7 @@ function apply(){
     const okQ=!qq||r.hay.includes(qq)||(qc&&r.hayC.includes(qc));
     const show=okCat&&okQ;r.art.hidden=!show;r.li.hidden=!show;if(show)n++;
   });
-  $$('.toc-group',toc).forEach(g=>{const c=$$('li',g).filter(li=>!li.hidden).length;g.hidden=!c;$('.n',g).textContent=c});
+  $$('.toc-group',toc).forEach(g=>{const c=$$('li',g).filter(li=>!li.hidden).length;g.hidden=!c;$('.n',g).textContent='('+c+')'});
   countEl.textContent=n+' / '+ITEMS.length+'개';
   emptyEl.hidden=n!==0;
 }
