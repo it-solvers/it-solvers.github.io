@@ -234,3 +234,4 @@ CLAUDE.md                        Claude 작업 규칙
 | v1.0 | 2026-11-02 17:20 | 한글 용어 사전의 SEO에 영어를 병기했다(title·description·OG에 Web UI Glossary와 Hero Section·Modal·Toast 등 영어 용어, JSON-LD의 이름·영어 키워드·언어 ko/en, 화면 제목 아래 영문 부제). (2026-11-02 17:20) |
 | v1.0 | 2026-11-02 17:50 | 용어 사전 푸터를 정리했다. 하단 "확인한 근거" 상자를 접이식(`details`)으로 바꿔 푸터와 분리하고, 본문 아래 여백을 푸터 위로 옮겼으며, 영문 페이지에 빠져 있던 푸터 스타일(회사명 색 등)을 다른 영문 서브페이지와 같게 넣었다. (2026-11-02 17:50) |
 | v1.0 | 2026-11-02 18:10 | 영문 페이지 푸터(영문 메인·소개·문의·개인정보·인사이트 전부, 단 전자계약서 제외)를 한글 푸터와 같은 구성으로 맞췄다. 회사 정보는 한 줄(`IT Solvers | CEO Hyeok Lee | Biz. Reg. No. …`), 그 아래 링크, 저작권 순이며 "Translated with AI assistance" 안내는 맨 아래 작은 줄로 옮겼다. (2026-11-02 18:10) |
+| v1.0 | 2026-11-02 18:30 | 푸터를 한글과 같은 구성으로 바꾸면서 영문 페이지에 남은 푸터용 스타일(`footer-layout`, `footer-company`, `translation-note`, `company-details`, `footer-inner`)을 영문 서브페이지·`en/styles.css`·`css/styles.css`·`css/hanji-en.css`에서 지웠다. 영문 메인의 번역 안내 링크 색은 `.site-footer a` 규칙으로 보완했다. (2026-11-02 18:30) |

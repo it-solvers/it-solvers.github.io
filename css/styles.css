@@ -1100,16 +1100,6 @@ footer {
     font-size: 13px;
 }
 
-.footer-inner {
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    flex-wrap: wrap;
-}
-
 /* =========================
 MOBILE MENU
 ========================= */
@@ -1350,13 +1340,6 @@ MOBILE
         align-self: flex-start;
     }
 
-
-    /* FOOTER */
-
-    .footer-inner {
-        flex-direction: column;
-        gap: 8px;
-    }
 
 }
 
@@ -2258,11 +2241,9 @@ html:not(.dark-mode) .contact-alt a { color: #2f5fc4; }
 html:not(.dark-mode) .contact-alt a:hover { color: #274fa3; }
 
 html:not(.dark-mode) footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
-html:not(.dark-mode) footer strong,
-html:not(.dark-mode) footer .footer-company strong { color: #2b2824; }
+html:not(.dark-mode) footer strong { color: #2b2824; }
 html:not(.dark-mode) footer a { color: #3a362f; }
 html:not(.dark-mode) .site-footer { background: #e4dfd3; color: #5a554d; border-top: 1px solid #d8d2c4; }
-html:not(.dark-mode) .site-footer .translation-note a { color: #3a362f; }
 
 /* 주요실적: 연도 슬라이드 바(왼쪽 끝=전체, 오른쪽으로 갈수록 오래된 연도). 선택 값은 동그라미 위에 따라다닌다 */
 .history-years {

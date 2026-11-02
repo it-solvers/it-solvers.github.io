@@ -16,7 +16,7 @@ html.dark-mode .site-header .brand { color: #2b2520; }
 html.dark-mode .site-header .language-link { color: #6a5c4c; }
 .site-footer { border-top: 4px solid #a8762a; }
 html:not(.dark-mode) .site-footer { background: #2b2520; color: #d8cbb0; }
-html:not(.dark-mode) .site-footer .translation-note a, html:not(.dark-mode) .footer-links a { color: #d8cbb0; }
+html:not(.dark-mode) .footer-links a, html:not(.dark-mode) .site-footer a { color: #d8cbb0; }
 html.dark-mode .site-footer { background: #0d0e10; }
 h1, h2 { font-family: var(--k-serif); font-weight: 900; letter-spacing: -0.02em; }
 .site-header .brand { font-family: inherit; }
