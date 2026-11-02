@@ -1,0 +1,38 @@
+/* 전자계약서 페이지 전용 색: 이 페이지는 자체 색 변수를 쓰므로 변수 값만 사이트 테마(밝은 푸른 바탕 + 블루 포인트)로 바꾼다 */
+html:not(.dark-mode) {
+  --text: #0a1230; --muted: #566085; --bg: #f6f9ff; --panel: #ffffff; --border: #dbe3f5;
+  --accent: #1d4ed8; --accent-bg: #eef3ff; --warm: #0f766e;
+}
+html.dark-mode {
+  --text: #e8ecf8; --muted: #98a2c3; --bg: #0b0d14; --panel: #141826; --border: #262c40;
+  --accent: #6b9bff; --accent-bg: #14213f; --warm: #f0a050;
+}
+/* 버튼 글자: 밝은 화면은 진한 파랑 + 흰 글자, 어두운 화면은 밝은 파랑 + 남색 글자 */
+html:not(.dark-mode) .btn, html:not(.dark-mode) .btn:hover { color: #ffffff; background: #1d4ed8; }
+html:not(.dark-mode) .btn.ghost { background: transparent; color: #1d4ed8; border-color: #1d4ed8; }
+html.dark-mode .btn, html.dark-mode .btn:hover { color: #06122e; background: #6b9bff; }
+html.dark-mode .btn.ghost { background: transparent; color: #6b9bff; border-color: #6b9bff; }
+html.dark-mode .steps .n { color: #06122e; }
+html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0a0c12; color: #dfe5f7; border-color: #303756; }
+html.dark-mode .apply-submit { color: #06122e; }
+html.dark-mode .shot a, html.dark-mode .shot img { border-color: #262c40; }
+html.dark-mode .know { background: #141826; }
+html.dark-mode .price { background: #14213f; }
+.btn, .apply-field input, .apply-field textarea, .apply-copy { border-radius: 12px; }
+
+/* 푸터: 연한 선 위에 흰 바탕(어두운 화면은 짙은 남색) */
+footer { border-top: 1px solid var(--border); padding: 28px 0; font-size: 13px; line-height: 1.65; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+html:not(.dark-mode) footer { background: #ffffff; color: #566085; }
+html:not(.dark-mode) footer a, html:not(.dark-mode) footer strong, html:not(.dark-mode) footer .name { color: #0a1230; }
+html.dark-mode footer { background: #080a10; color: #98a2c3; }
+html.dark-mode footer a { color: #c3cbe6; }
+footer .name, footer strong { font-weight: 700; }
+html.dark-mode footer.site-footer strong { color: #e8ecf8; }
+footer .footer-links { margin-top: 10px; }
+footer.site-footer a { text-decoration: underline; }
+
+/* 영문 헤더: 한국어 링크가 오른쪽으로 붙어 있으므로 작성일은 그 옆에 바로 붙인다(양쪽 자동 여백으로 가운데로 밀리지 않게) */
+header .wrap a[hreflang="ko"] ~ .page-date { margin-left: 14px; }
+
+/* 로고 그림의 흰 배경이 헤더 위에서 네모로 보이지 않게 한다(밝은 화면). 이 페이지는 styles.css를 불러오지 않아 여기에 둔다 */
+html:not(.dark-mode) header img { mix-blend-mode: multiply; }
