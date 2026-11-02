@@ -18,6 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A glossary of 99 web UI terms used to describe screens, from hero sections, modals, drawers, and toasts to skeleton loading and scroll animations. Each term comes with a key syntax table, a live example you can try, and copy-ready HTML, CSS, and JavaScript.">
   <title>Web UI Glossary | 99 Screen Elements with Live Examples and Code | IT Solvers</title>
+  <meta name="keywords" content="Hero Section, Responsive Layout, Card Layout, Bento Grid, Sidebar Layout, Sticky Header, Split Layout, Tabs, Accordion, Modal / Dialog, Drawer, Dropdown, Tooltip, Toast / Snackbar, Carousel, Skeleton Loading, Hover Effect, Scroll Reveal, Stagger Animation, Smooth Transition, Glassmorphism, Parallax Scrolling, Scroll Snap, Micro-interaction, Fade, Slide, Scale, Easing, Spring, Bounce, Duration · Delay, Loop, Typewriter, Text Scramble, Split Text, Count-up, Line Drawing, Morphing, Marquee, Motion Path, Page Transition, Shared Element Transition, Pin · Scrollytelling, Horizontal Scroll, Magnetic Button, Custom Cursor, 3D Tilt, Confetti, Container / Wrapper, Grid System / Flexbox, Z-Index, Aspect Ratio, Overflow, Placeholder, Breakpoint, Fluid Typography, CSS Reset / Normalize, Breadcrumb, Pagination, Infinite Scroll, Bottom Sheet, Mega Menu, Back to Top Button, Empty State, Loading / Error State, Badges / Chips, Progress Bar, Inline Validation, Segmented Control, Multi-Select Tag Input, Floating Label, Stepper, Auto-complete / Typeahead, Uncontrolled vs Controlled Component, Field Level Validation, Dirty / Touched State, Sticky Sidebar, Floating Action Button (FAB), Modal Backdrop / Overlay, Portal, Safe Area, Infinite Loop, Lightbox, Accordion Collapse / Expand, Tooltip Direction, Ripple Effect, Pull-to-Refresh, Swipe to Dismiss / Actions, Haptic Feedback, Dark / Light Mode Toggle, Lazy Loading, Debounce / Throttle, Optimistic UI / Update, FOUC (Flash of Unstyled Content), ErrorBoundary, Fallback UI, Stale-While-Revalidate (SWR), Code Splitting, Hydration, web UI glossary, UI terminology, UI components, CSS animation, web accessibility, front-end, HTML CSS JavaScript examples, UX patterns">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://itsolvers.co.kr/en/insights/web-ui-glossary.html">
   <link rel="alternate" hreflang="ko" href="https://itsolvers.co.kr/insights/web-ui-glossary.html">
@@ -61,6 +62,7 @@
     "url": "https://itsolvers.co.kr/images/logo.png"
    }
   },
+  "keywords": "Hero Section, Responsive Layout, Card Layout, Bento Grid, Sidebar Layout, Sticky Header, Split Layout, Tabs, Accordion, Modal / Dialog, Drawer, Dropdown, Tooltip, Toast / Snackbar, Carousel, Skeleton Loading, Hover Effect, Scroll Reveal, Stagger Animation, Smooth Transition, Glassmorphism, Parallax Scrolling, Scroll Snap, Micro-interaction, Fade, Slide, Scale, Easing, Spring, Bounce, Duration · Delay, Loop, Typewriter, Text Scramble, Split Text, Count-up, Line Drawing, Morphing, Marquee, Motion Path, Page Transition, Shared Element Transition, Pin · Scrollytelling, Horizontal Scroll, Magnetic Button, Custom Cursor, 3D Tilt, Confetti, Container / Wrapper, Grid System / Flexbox, Z-Index, Aspect Ratio, Overflow, Placeholder, Breakpoint, Fluid Typography, CSS Reset / Normalize, Breadcrumb, Pagination, Infinite Scroll, Bottom Sheet, Mega Menu, Back to Top Button, Empty State, Loading / Error State, Badges / Chips, Progress Bar, Inline Validation, Segmented Control, Multi-Select Tag Input, Floating Label, Stepper, Auto-complete / Typeahead, Uncontrolled vs Controlled Component, Field Level Validation, Dirty / Touched State, Sticky Sidebar, Floating Action Button (FAB), Modal Backdrop / Overlay, Portal, Safe Area, Infinite Loop, Lightbox, Accordion Collapse / Expand, Tooltip Direction, Ripple Effect, Pull-to-Refresh, Swipe to Dismiss / Actions, Haptic Feedback, Dark / Light Mode Toggle, Lazy Loading, Debounce / Throttle, Optimistic UI / Update, FOUC (Flash of Unstyled Content), ErrorBoundary, Fallback UI, Stale-While-Revalidate (SWR), Code Splitting, Hydration, web UI glossary, UI terminology, UI components, CSS animation, web accessibility, front-end, HTML CSS JavaScript examples, UX patterns",
   "isPartOf": {
    "@type": "WebSite",
    "name": "IT Solvers",
@@ -822,10 +824,10 @@ html.dark-mode{
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans);-webkit-text-size-adjust:100%;padding:0 0 64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans);-webkit-text-size-adjust:100%;padding:0}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.shell{max-width:1320px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.shell{max-width:1320px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
 code{font:12px var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
 
 /* 머리글 */
@@ -915,6 +917,8 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
 
 #empty{padding:40px 16px;text-align:center;color:var(--ink-2);background:var(--surface);border:1px dashed var(--line);border-radius:14px}
 .foot{margin-top:28px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px;color:var(--ink-2)}
+.foot summary{cursor:pointer;font:900 14px var(--serif);color:var(--ink)}
+.foot[open] summary{margin-bottom:10px}
 .foot h2{margin:0 0 8px;font:600 14px var(--display);color:var(--ink)}
 .foot ul{margin:0;padding-left:18px}
 .foot li{margin-bottom:8px}
@@ -935,6 +939,11 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
 .page-date-row{margin:0 0 14px}
 @media (max-width:640px){.nav-right{gap:10px}}
 
+footer .footer-layout{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+footer .footer-company{display:flex;flex-direction:column;gap:2px}
+footer .footer-company strong{color:#fff}
+footer .translation-note{margin:0;max-width:340px;font-size:11px;line-height:1.6;text-align:right}
+footer .translation-note a{color:#d0d5dd;text-decoration:underline}
 </style>
 </head>
 <body class="lease-page">
@@ -987,8 +996,8 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
   </div>
   <div id="empty" hidden>No results found. Try a different word.</div>
 
-  <aside class="foot">
-    <h2>Sources checked and what still needs checking (first reviewed 2026-10-29 · cards added 2026-11-02)</h2>
+  <details class="foot evidence">
+    <summary>Sources checked and what still needs checking (first reviewed 2026-10-29 · cards added 2026-11-02)</summary>
     <p><b>Reference browser: Chrome</b> — Every example on this page is built to work in Chrome and was opened and checked directly. The browser version numbers below are for reference if you also target Safari and Firefox; if you only use Chrome, there is nothing you cannot use. (Latest Chrome)</p>
     <ul>
       <li><b>Browser support (checked)</b>: backdrop-filter is supported from Chrome 76, Edge 79, Firefox 103, and Safari 18, and has been at the newly available stage of Baseline (a web standards indicator that a feature works in all major browsers) since 2024-09-16. Container queries are supported from Chrome and Edge 105, Firefox 110, and Safari 16, and have been at the widely available stage since 2025-08-14. CSS linear() is supported from Chrome and Edge 113, Firefox 112, and Safari 17.2. Intl.Segmenter is supported from Chrome and Edge 87, Safari 14.1, and Firefox 125. Sources: the Web Features Explorer pages for <a href="https://web-platform-dx.github.io/web-features-explorer/features/backdrop-filter">backdrop-filter</a>, <a href="https://web-platform-dx.github.io/web-features-explorer/features/container-queries">container queries</a>, <a href="https://web-platform-dx.github.io/web-features-explorer/features/linear-easing">linear()</a>, and <a href="https://web-platform-dx.github.io/web-features-explorer/features/intl-segmenter">Intl.Segmenter</a>.</li><li>offset-path (motion path) is supported from Chrome 46, Edge 79, Firefox 72, and Safari 16 according to caniuse (<a href="https://caniuse.com/css-motion-paths">caniuse</a>). However, detailed support for the path() function form is not in the sources and needs checking.</li><li>View Transitions are supported within the same page from Chrome and Edge 111, Safari 18, and Firefox 144 (<a href="https://developer.chrome.com/blog/view-transitions-in-2025">Chrome for Developers</a>). For transitions between pages, Chrome shipped it in 2024 and Safari is said to support it, but Firefox's status and the exact versions are not in the sources. The name attribute of details is supported from Chrome and Edge 120, Firefox 130, and Safari 17.2 (<a href="https://developer.chrome.com/docs/css-ui/exclusive-accordion">Chrome for Developers</a>). Scroll-driven animations are supported from Chrome and Edge 115 and Safari 26, and Firefox is listed as a technology preview (<a href="https://developer.chrome.com/docs/css-ui/scroll-driven-animations">Chrome for Developers</a>). MDN lists it as limited availability, so whether Firefox fully supports it needs checking (<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline/scroll">MDN</a>).</li><li>Libraries and tools: flubber's latest version, 0.4.2, dates from March 2018 and is classified as inactive in Snyk's assessment (<a href="https://snyk.io/advisor/npm-package/flubber">Snyk</a>). canvas-confetti's latest version on jsDelivr is 1.9.4 (<a href="https://www.jsdelivr.com/package/npm/canvas-confetti">jsDelivr</a>). I could not confirm whether it is listed on cdnjs or its actual file path. cubic-bezier.com is a tool introduced in <a href="https://lea.verou.me/2011/09/a-better-tool-for-cubic-bezier-easing/">Lea Verou's 2011 post</a>; I could not confirm whether it is currently reachable.</li><li>Timing guidance: the Material Design 1 documentation gives 150–200ms on desktop, about 300ms on mobile, 375ms for large, complex full-screen transitions, 225ms for entering elements, and 195ms for leaving elements (<a href="https://m1.material.io/motion/duration-easing.html">m1.material.io</a>). Other timing figures (stagger of 60–100ms, micro-interactions of 0.1–0.4 seconds, and so on) are rules of thumb with no source.</li>
@@ -999,7 +1008,7 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
       <li>Statistics, quotations, and figures that need sources are not included in this document. All numbers and sentences shown in the examples are illustrative.</li>
       <li>Note: the live examples inside each card use Korean sample text (button labels, sample content), because the examples are shared with the Korean page. Only the explanations, tables, and interface are translated.</li>
     </ul>
-  </aside>
+  </details>
 </div>
 <script>
 const ITEMS=[];

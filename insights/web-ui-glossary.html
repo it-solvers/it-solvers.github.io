@@ -926,10 +926,10 @@ html.dark-mode{
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans);-webkit-text-size-adjust:100%;padding:0 0 64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans);-webkit-text-size-adjust:100%;padding:0}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.shell{max-width:1320px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.shell{max-width:1320px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
 code{font:12px var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
 
 /* 머리글 */
@@ -1019,6 +1019,8 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
 
 #empty{padding:40px 16px;text-align:center;color:var(--ink-2);background:var(--surface);border:1px dashed var(--line);border-radius:14px}
 .foot{margin-top:28px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px;color:var(--ink-2)}
+.foot summary{cursor:pointer;font:900 14px var(--serif);color:var(--ink)}
+.foot[open] summary{margin-bottom:10px}
 .foot h2{margin:0 0 8px;font:600 14px var(--display);color:var(--ink)}
 .foot ul{margin:0;padding-left:18px}
 .foot li{margin-bottom:8px}
@@ -1091,8 +1093,8 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
   </div>
   <div id="empty" hidden>검색 결과가 없습니다. 다른 단어로 찾아보세요.</div>
 
-  <aside class="foot">
-    <h2>확인한 근거와 아직 확인 필요한 부분 (처음 조회 2026-10-29 · 카드 추가 2026-11-02)</h2>
+  <details class="foot evidence">
+    <summary>확인한 근거와 아직 확인 필요한 부분 (처음 조회 2026-10-29 · 카드 추가 2026-11-02)</summary>
     <p><b>기준 브라우저: Chrome(크롬)</b> — 이 페이지의 모든 예시는 Chrome 기준으로 동작하도록 만들었고 직접 열어 확인했습니다. 아래 브라우저별 버전 숫자는 Safari·Firefox까지 쓸 때 참고하는 정보이며, Chrome만 쓰신다면 못 쓰는 기능은 없습니다. (Chrome 최신 버전 기준)</p>
     <ul>
       <li><b>브라우저 지원 범위(확인함)</b>: backdrop-filter는 Chrome 76, Edge 79, Firefox 103, Safari 18부터이며 2024-09-16부터 Baseline(베이스라인, 주요 브라우저에서 모두 쓸 수 있다는 웹 표준 지표) 중 신규 제공 단계입니다. 컨테이너 쿼리는 Chrome·Edge 105, Firefox 110, Safari 16부터이며 2025-08-14부터 폭넓게 제공 단계입니다. CSS linear()는 Chrome·Edge 113, Firefox 112, Safari 17.2부터입니다. Intl.Segmenter는 Chrome·Edge 87, Safari 14.1, Firefox 125부터입니다. 출처: Web Features Explorer의 <a href="https://web-platform-dx.github.io/web-features-explorer/features/backdrop-filter">backdrop-filter</a>, <a href="https://web-platform-dx.github.io/web-features-explorer/features/container-queries">컨테이너 쿼리</a>, <a href="https://web-platform-dx.github.io/web-features-explorer/features/linear-easing">linear()</a>, <a href="https://web-platform-dx.github.io/web-features-explorer/features/intl-segmenter">Intl.Segmenter</a> 페이지.</li><li>offset-path(모션 패스)는 caniuse 기준 Chrome 46, Edge 79, Firefox 72, Safari 16부터입니다(<a href="https://caniuse.com/css-motion-paths">caniuse</a>). 다만 path() 함수 형식의 세부 지원은 자료에 없어 확인 필요.</li><li>View Transitions(화면 전환 기능)는 같은 페이지 안에서 Chrome·Edge 111, Safari 18, Firefox 144부터입니다(<a href="https://developer.chrome.com/blog/view-transitions-in-2025">Chrome for Developers</a>). 페이지 간 이동 전환은 Chrome이 2024년에 제공했고 Safari도 지원한다고 하나, Firefox 상태와 정확한 버전은 자료에 없음. details의 name 속성은 Chrome·Edge 120, Firefox 130, Safari 17.2부터입니다(<a href="https://developer.chrome.com/docs/css-ui/exclusive-accordion">Chrome for Developers</a>). 스크롤 연동 애니메이션은 Chrome·Edge 115, Safari 26부터이고 Firefox는 기술 미리보기로 표기되어 있습니다(<a href="https://developer.chrome.com/docs/css-ui/scroll-driven-animations">Chrome for Developers</a>). MDN은 제한적 제공으로 표기하므로 Firefox 정식 지원 여부는 확인 필요(<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline/scroll">MDN</a>).</li><li>라이브러리와 도구: flubber는 최신 버전 0.4.2가 2018년 3월 것이고 Snyk 평가에서 비활성으로 분류됩니다(<a href="https://snyk.io/advisor/npm-package/flubber">Snyk</a>). canvas-confetti는 jsDelivr 기준 최신 1.9.4입니다(<a href="https://www.jsdelivr.com/package/npm/canvas-confetti">jsDelivr</a>). 다만 cdnjs 등록 여부와 실제 파일 경로는 확인하지 못했습니다. cubic-bezier.com은 <a href="https://lea.verou.me/2011/09/a-better-tool-for-cubic-bezier-easing/">Lea Verou의 2011년 글</a>에서 소개된 도구이며, 현재 접속 가능 여부는 확인하지 못했습니다.</li><li>시간 기준: Material Design 1 문서는 데스크톱 150~200ms, 모바일 약 300ms, 크고 복잡한 전체 화면 전환 375ms, 들어오는 요소 225ms, 나가는 요소 195ms로 안내합니다(<a href="https://m1.material.io/motion/duration-easing.html">m1.material.io</a>). 이 외의 시간 수치(스태거 60~100ms, 마이크로 인터랙션 0.1~0.4초 등)는 경험적인 값이며 출처가 없습니다.</li>
@@ -1102,7 +1104,7 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
       <li>코드는 이해를 돕기 위해 줄인 예시입니다. 실제 서비스에 넣기 전 접근성 검사와 기기별 시험은 별도로 확인 필요.</li>
       <li>통계, 인용, 출처가 필요한 수치는 이 문서에 넣지 않았습니다. 화면에 보이는 숫자와 문장은 모두 예시입니다.</li>
     </ul>
-  </aside>
+  </details>
 </div>
 <script>
 const ITEMS=[];
