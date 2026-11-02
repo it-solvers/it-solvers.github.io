@@ -221,7 +221,7 @@ html:not(.dark-mode) footer { background: #2b2520; color: #d8cbb0; }
 html:not(.dark-mode) footer a, html:not(.dark-mode) footer strong { color: #d8cbb0; }
 
 /* 영문 서브페이지 푸터: 영문 메인(.site-footer)과 같은 모양(얇은 테두리, 줄 간격 1.65, 링크는 흐리지 않고 밑줄) */
-footer.site-footer { line-height: 1.65; }
+footer.site-footer { line-height: 1.65; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 html:not(.dark-mode) footer.site-footer { border-top: 1px solid #d8d2c4; background: #2b2520; color: #d8cbb0; }
 html.dark-mode footer.site-footer { border-top: 0; }
 footer.site-footer a { opacity: 1; text-decoration: underline; }
