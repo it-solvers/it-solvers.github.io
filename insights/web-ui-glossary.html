@@ -940,13 +940,10 @@ h1{margin:0 0 8px;font:900 clamp(1.8rem,4.5vw,2.7rem)/1.2 var(--serif);letter-sp
 
 /* 검색 줄 */
 .toolbar{position:sticky;top:var(--hh,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);
-  display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"q btn" "chips count";gap:8px 10px}
+  display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"q btn" "count count";gap:8px 10px}
 #q{grid-area:q;min-width:0;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);padding:0 14px;font:15px var(--sans)}
 #q:focus{border-color:var(--accent)}
 #toggle-code{grid-area:btn}
-.chips{grid-area:chips;display:flex;gap:6px;overflow-x:auto;min-width:0;padding-bottom:2px}
-.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:5px 12px;border-radius:999px;font:600 12.5px var(--sans);cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .count{grid-area:count;align-self:center;font:12px var(--mono);color:var(--ink-2);white-space:nowrap}
 
 /* 본문 2단 */
@@ -958,6 +955,7 @@ h1{margin:0 0 8px;font:900 clamp(1.8rem,4.5vw,2.7rem)/1.2 var(--serif);letter-sp
 }
 .toc-group h3{margin:14px 0 6px;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .toc-group:first-child h3{margin-top:0}
+.toc-group h3 .n{margin-left:8px;color:var(--accent);font-weight:700}
 .toc-group ul{list-style:none;margin:0;padding:0}
 .toc-group a{display:block;padding:4px 8px;border-radius:6px;color:var(--ink);text-decoration:none;line-height:1.4}
 .toc-group a:hover{background:var(--surface)}
@@ -1030,8 +1028,7 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
 html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
 .item h2 .en{font-family:var(--serif);font-weight:900;letter-spacing:-.01em}
 .foot h2{font-family:var(--serif);font-weight:900}
-#q,.d-btn,.chip,.copy,.d-ctl select,.d-ctl input[type=text]{border-radius:2px}
-.chip{border-radius:2px}
+#q,.d-btn,.copy,.d-ctl select,.d-ctl input[type=text]{border-radius:2px}
 .d-btn-primary{background:var(--accent)}
 .page-date-row{margin:0 0 14px}
 @media (max-width:640px){.nav-right{gap:10px}}
@@ -1078,7 +1075,6 @@ html.dark-mode .item{box-shadow:3px 3px 0 rgba(0,0,0,.35)}
     <label class="sr" for="q">용어 검색</label>
     <input id="q" type="search" placeholder="검색 예: 모달, scroll, 부드럽게, 마우스   (/ 키로 이동)" autocomplete="off">
     <button id="toggle-code" class="d-btn" type="button" aria-pressed="false">코드 모두 펼치기</button>
-    <div class="chips" id="chips"></div>
     <span id="count" class="count" aria-live="polite"></span>
   </div>
 
@@ -7257,19 +7253,12 @@ const compact=s=>norm(s).replace(/[\s\-_/·.,()]+/g,'');
 /* 예시용 CSS를 한 번에 주입 */
 (function(){const st=document.createElement('style');st.textContent=ITEMS.map(i=>i.css||'').join('\n');document.head.appendChild(st)})();
 
-const list=$('#list'),toc=$('#toc'),chips=$('#chips'),q=$('#q'),countEl=$('#count'),emptyEl=$('#empty'),toggleBtn=$('#toggle-code');
+const list=$('#list'),toc=$('#toc'),q=$('#q'),countEl=$('#count'),emptyEl=$('#empty'),toggleBtn=$('#toggle-code');
 const state={cat:'all',q:''};
 const records=[];
 
 /* 목차 그룹 */
-Object.keys(CATS).forEach(c=>{const g=document.createElement('div');g.className='toc-group';g.dataset.cat=c;g.innerHTML='<h3>'+esc(CATS[c])+'</h3><ul></ul>';toc.appendChild(g)});
-
-/* 필터 칩 */
-[['all','전체']].concat(Object.entries(CATS)).forEach(([k,v])=>{
-  const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.cat=k;b.setAttribute('aria-pressed',k==='all');
-  const n=k==='all'?ITEMS.length:ITEMS.filter(i=>i.cat===k).length;b.textContent=v+' '+n;
-  b.addEventListener('click',()=>{state.cat=k;$$('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));apply()});chips.appendChild(b);
-});
+Object.keys(CATS).forEach(c=>{const g=document.createElement('div');g.className='toc-group';g.dataset.cat=c;g.innerHTML='<h3>'+esc(CATS[c])+'<span class="n"></span></h3><ul></ul>';toc.appendChild(g)});
 
 /* 카드 만들기 */
 ITEMS.forEach((it,idx)=>{
@@ -7311,7 +7300,7 @@ function apply(){
     const okQ=!qq||r.hay.includes(qq)||(qc&&r.hayC.includes(qc));
     const show=okCat&&okQ;r.art.hidden=!show;r.li.hidden=!show;if(show)n++;
   });
-  $$('.toc-group',toc).forEach(g=>{g.hidden=!$$('li',g).some(li=>!li.hidden)});
+  $$('.toc-group',toc).forEach(g=>{const c=$$('li',g).filter(li=>!li.hidden).length;g.hidden=!c;$('.n',g).textContent=c});
   countEl.textContent=n+' / '+ITEMS.length+'개';
   emptyEl.hidden=n!==0;
 }
