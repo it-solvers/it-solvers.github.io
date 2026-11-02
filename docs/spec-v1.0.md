@@ -164,7 +164,7 @@ CLAUDE.md                        Claude 작업 규칙
 | `lease-revenue-recognition-guide.html` | 리스 수익 인식 가이드 |
 | `lease-terms.html` | 리스 용어 정리 |
 | `lease-overview.html` | 리스 개요(K-IFRS 제1116호) |
-| `web-ui-glossary.html` | 웹 UI 용어 사전(99개 용어, 업무지식 그룹). 용어 카드를 자바스크립트로 그리는 한 파일 앱이며 영문판 `en/insights/web-ui-glossary.html`이 있다. 사이트 CSS는 `@import … layer(site)`로 불러와 카드 안쪽 요소에 번지지 않게 했고, 색은 한지 테마 값을 쓰며 어두운 화면은 `html.dark-mode`를 따른다. 영문판은 설명·표·용어·주의만 번역하고 예시와 코드는 한글판과 같다. (2026-11-02 16:10) |
+| `web-ui-glossary.html` | 웹 UI 용어 사전(99개 용어, 업무지식 그룹). 용어 카드를 자바스크립트로 그리는 한 파일 앱이며 영문판 `en/insights/web-ui-glossary.html`이 있다. 사이트 CSS는 `@import … layer(site)`로 불러와 카드 안쪽 요소에 번지지 않게 했고, 색은 한지 테마 값을 쓰며 어두운 화면은 `html.dark-mode`를 따른다. 영문판은 설명·표·용어·주의와 예시(demo·init 안의 문구, 표 첫 칸)를 번역하며(한글 조각을 사전으로 바꿈) 코드 보기(`<pre>`)는 한글판과 같다. (2026-11-02 16:40) |
 | `lease-payment-calculator.html`, `lease-cashflow-irr-calculator.html`, `irr-to-rate-calculator.html` | 계산기 3종 |
 | `e-contract.html` | 전자계약서 소개(7장) |
 | `lease-estimate.html`, `account-quiz.html` | 리스 견적 내기(진행중), 개발자를 위한 회계 — MVP 소개 페이지 |
@@ -229,3 +229,4 @@ CLAUDE.md                        Claude 작업 규칙
 | v1.0 | 2026-10-27 14:09 | 버전별 파일을 없애고 이 파일 하나로 통합했다. 문서 규칙을 "새 파일을 만들지 않고 계속 추가, 추가한 문장 끝에 (일자 시간) 표시"로 바꿨다. v0.90~v0.93 파일은 지웠다(git 기록에는 남아 있다). 내용은 v0.93과 같다. (2026-10-27 14:09) |
 | v1.0 | 2026-10-27 14:10 | 화면 밝기 자동 전환의 기준 위치를 인천 시청 부근에서 **인천 동인천역**(북위 37.4752°, 동경 126.6329°)으로 바꿨다. 좌표는 검색한 값이다. 인천 안에서는 위치에 따른 일출·일몰 차이가 1~2분이라 체감 차이는 거의 없다. (2026-10-27 14:10) |
 | v1.0 | 2026-11-02 16:10 | 웹 UI 용어 사전(`insights/web-ui-glossary.html`, 영문판 포함)을 추가하고 한지 테마·SEO(JSON-LD DefinedTermSet)·사이트맵을 적용했다. 업무지식 그룹 카드와 새소식(기술 인사이트)에 넣고 새소식 가장 오래된 항목(개발자를 위한 회계)을 뺐다. (2026-11-02 16:10) |
+| v1.0 | 2026-11-02 16:40 | 영문 메인(`en/index.html`)의 새소식(Web UI Glossary, 2026-11-02)과 인사이트 카드에 웹 UI 용어 사전을 추가했다(새소식은 가장 오래된 Lease business overview를 뺌). 영문 용어 사전의 예시 문구도 영어로 바꿨다. (2026-11-02 16:40) |
