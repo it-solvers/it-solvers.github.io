@@ -165,8 +165,10 @@
     .price p { margin: 0; }
     .price p + p { margin-top: 8px; color: var(--muted); }
 
-    footer { border-top: 1px solid var(--border); background: #2a2622; color: #d9d2c8; padding: 28px 0; font-size: 14px; }
-    footer .name { font-weight: 700; color: #fff; }
+    footer.site-footer { border-top: 1px solid #d8d2c4; background: #2b2520; color: #d8cbb0; padding: 28px 0; font-size: 13px; line-height: 1.65; }
+    footer.site-footer strong { color: #d8cbb0; }
+    footer.site-footer a { color: inherit; text-decoration: underline; }
+    footer.site-footer .footer-links { margin-top: 10px; font-size: 13px; }
 
     @media (max-width: 640px) {
       body { font-size: 16px; }
@@ -179,8 +181,6 @@
       h2 { font-size: 22px; }
       .btn.ghost { margin-left: 0; margin-top: 10px; }
     }
-      .footer-links { margin-top: 8px; font-size: 13px; }
-    .footer-links a { color: inherit; text-decoration: underline; }
     .page-date-row { text-align: left; padding-top: 26px; padding-bottom: 0; }
     .page-date-row + .hero { padding-top: 12px; }
     .page-date { margin-left: 0; font-size: 13px; opacity: .75; white-space: nowrap; }
@@ -406,14 +406,15 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="name">IT Solvers</div>
-    <div>CEO Hyeok Lee · Biz. Reg. No. 364-11-03265</div>
-    <div class="footer-links"><a href="../about.html">About</a> · <a href="../contact.html">Contact</a> · <a href="../privacy.html">Privacy Policy</a></div>
-    <div>&copy; 2026 IT Solvers. All rights reserved.</div>
-    <div><a href="../../insights/e-contract.html" style="color:inherit">Translated with AI assistance. View the Korean original.</a></div>
-  </div>
+<footer class="site-footer">
+    <div class="container">
+      <strong>IT Solvers</strong>
+      <span style="margin-left: 8px; opacity: 0.8;">| CEO Hyeok Lee</span>
+      <span style="margin-left: 8px; opacity: 0.8;">| Biz. Reg. No. 364-11-03265</span>
+    </div>
+  <div class="container footer-links"><a href="../about.html">About</a> · <a href="../contact.html">Contact</a> · <a href="../privacy.html">Privacy Policy</a></div>
+  <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 IT Solvers. All rights reserved.</div>
+  <div class="container" style="margin-top:8px;font-size:12px;opacity:.7;text-align:left;">Translated with AI assistance. <a href="../../insights/e-contract.html">View the Korean original.</a></div>
 </footer>
 
 <script>
