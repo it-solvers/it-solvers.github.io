@@ -4808,23 +4808,36 @@ cheat:[
 terms:[['loading','Loading, data is being fetched'],['error','Error, the failed state'],['retry','Retry, try again'],['timeout','Timeout, treating it as a failure when there is no response within a set time']],
 note:'In an error message, write the cause (if possible) and the fix. "An error occurred"alone is not enough. When loading is very fast, you can also delay the spinner slightly so it does not flicker.',
 css:`
+/* The outer box of the query result example. */
 .x-le{display:grid;gap:10px}
+/* The result card: a minimum height keeps the card size from jumping when the state changes. */
 .x-le-card{min-height:130px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px;display:grid;align-content:center;justify-items:start;gap:6px;font-size:13px}
+/* In the error state (the err class), the border and background turn light red. color-mix blends in only 10% red. */
 .x-le-card.err{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
+/* A spinning loading indicator: a round border with only the top in the accent color (reusing the x-is-spin animation). */
 .x-le-sp{width:22px;height:22px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-is-spin .8s linear infinite}
+/* A pill label showing the current state (loading, success, error). */
 .x-le-pill{font:700 11px var(--mono);padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+/* One order row: the name on the left and the amount at the right end. */
 .x-le-ord{display:flex;justify-content:space-between;width:100%;padding:6px 0;border-bottom:1px solid var(--line)}
 `,
 demo:`<div class="x-le"><div class="d-ctl"><label for="x-le-s">Server response <select id="x-le-s"><option value="ok">Success</option><option value="fail">Failure (server error)</option><option value="slow">Too slow (timeout)</option></select></label><button class="d-btn d-btn-primary" type="button">Load order history</button><span class="x-le-pill">idle</span></div><div class="x-le-card" aria-live="polite" aria-busy="false">Not loaded yet.</div></div>`,
 init(r){
+  // Find the result card (card), the state label (pill), and the result selector (sel), and prepare tm (the timer id) and n (the request number).
   const card=r.querySelector('.x-le-card'),pill=r.querySelector('.x-le-pill'),sel=r.querySelector('select');let tm,n=0;
+  // st(state): change the label text, set aria-busy to true while loading, and add the err class on error.
   const st=(s)=>{pill.textContent=s;card.setAttribute('aria-busy',s==='loading');card.classList.toggle('err',s==='error')};
+  // run(): start the query. Clear the previous timer, raise the request number (id), and show the "loading" screen. The waiting time (delay) is set by the chosen mode.
   const run=()=>{clearTimeout(tm);const id=++n;st('loading');card.innerHTML='<div class="x-le-sp" role="img" aria-label="Loading"></div>Loading order history...';
     const mode=sel.value,delay=mode==='slow'?4200:900;
+    // After the time passes, show the result (imitating a server response). If id differs from the latest request number (a new query was pressed in the meantime), it is a stale response and is discarded. This is the trick that stops an old response from overwriting the screen.
     tm=setTimeout(()=>{if(id!==n)return;
+      // Success: draw and show the order list.
       if(mode==='ok'){st('success');card.innerHTML='<div class="x-le-ord"><span>2 loaves of bread</span><b>KRW 9,000</b></div><div class="x-le-ord"><span>1 caffè latte</span><b>KRW 4,000</b></div><span style="color:var(--ink-2)">Example order history</span>'}
+      // Failure: show a message (msg) that fits the cause with role="alert" so it is read out immediately, and add a "try again" button. Pressing it switches to the success mode and queries again.
       else{st('error');const msg=mode==='slow'?'The response was slow, so it could not be loaded. Please check your network connection.':'The server has a temporary problem. Please try again in a moment.';
         card.innerHTML='<b role="alert">⚠️ '+msg+'</b>';const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent='Try again';b.addEventListener('click',()=>{sel.value='ok';run()});card.appendChild(b)}},mode==='slow'?3000:delay)};
+  // Pressing the query button runs run().
   r.querySelector('.d-btn-primary').addEventListener('click',run);
 },
 code:`// Manage the state as a single value
@@ -4868,29 +4881,50 @@ cheat:[
 terms:[['badge','Badge, a small status or number marker'],['chip','Chip, a pill-shaped selection or input element'],['pill','Pill, a fully rounded capsule shape']],
 note:'If only the color differs, users who have trouble telling colors apart cannot tell. Make badges not look pressable, and make chips large enough to press.',
 css:`
+/* The outer box of the badge and chip example. */
 .x-bc2{display:grid;gap:12px}
+/* The top row: the notification icon and buttons side by side. */
 .x-bc2-top{display:flex;align-items:center;gap:14px}
+/* The notification bell icon: position:relative makes the reference point for the number badge inside. */
 .x-bell{position:relative;font-size:24px}
+/* The notification count badge: a red circle (pill) placed over the top right of the bell with absolute positioning. The line-height equals the height to center the number vertically. */
 .x-bell em{position:absolute;top:-6px;right:-10px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--rose);color:#fff;font:700 11px/18px var(--sans);font-style:normal;text-align:center}
+/* The row of chips (filter buttons): laid out horizontally and wrapping when narrow. */
 .x-chips{display:flex;flex-wrap:wrap;gap:6px}
+/* The look of one chip: a pill-shaped bordered button. */
 .x-chips button{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;font:600 12.5px var(--sans);cursor:pointer}
+/* The selected chip (aria-pressed="true") is shown in the accent color. */
 .x-chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* The product list: bullets and spacing removed, with rows stacked one by one. */
 .x-bd-l{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+/* One product row: the name on the left and the badge next to it. */
 .x-bd-l li{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:13px}
+/* The default look of a badge (status marker): a small rounded rectangle with small bold text. */
 .x-bd{font:700 10.5px var(--sans);padding:2px 7px;border-radius:5px;color:#fff;background:var(--accent)}
+/* A sold-out badge is gray, and a sale badge is red. */
 .x-bd.sold{background:var(--ink-2)}.x-bd.sale{background:var(--rose)}
+/* An input chip (a removable tag): a pill shape with a × button on the right. */
 .x-ic{display:inline-flex;align-items:center;gap:4px;padding:3px 4px 3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 12px var(--sans)}
+/* The × button: the default look removed, as a 20px circle. */
 .x-ic button{border:0;background:none;color:inherit;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:14px}
 `,
 demo:`<div class="x-bc2"><div class="x-bc2-top"><span class="x-bell" role="img" aria-label="Notifications">🔔<em>3</em></span><button class="d-btn" type="button" data-a="add">Notifications +1</button><button class="d-btn" type="button" data-a="read">Mark all as read</button></div><div class="x-chips" role="group" aria-label="Category filter"><button type="button" aria-pressed="true" data-c="all">All</button><button type="button" aria-pressed="false" data-c="Bread">Bread</button><button type="button" aria-pressed="false" data-c="Drinks">Drinks</button><button type="button" aria-pressed="false" data-c="Dessert">Dessert</button></div><ul class="x-bd-l"></ul><div class="x-chips x-sel"><span class="x-ic">Seoul<button type="button" aria-label="Remove Seoul">×</button></span><span class="x-ic">Same-day delivery<button type="button" aria-label="Remove same-day delivery">×</button></span></div></div>`,
 init(r){
+  // D: the product data collection [name, category, badge type, badge text].
   const D=[['Loaf bread','Bread','sale','10%'],['Croissant','Bread','','NEW'],['Cold brew','Drinks','sold','Sold out'],['Matcha latte','Drinks','','NEW'],['Strawberry cake','Dessert','sale','20%'],['Cheesecake','Dessert','sold','Sold out']];
+  // Find the product list (l) and the notification count badge (em), and prepare n (the notification count) and cat (the chosen category).
   const l=r.querySelector('.x-bd-l'),em=r.querySelector('.x-bell em');let n=3,cat='all';
+  // draw(): pick only the products of the chosen category (or all) (filter) and draw the names and badges as a list.
   const draw=()=>{l.textContent='';D.filter(d=>cat==='all'||d[1]===cat).forEach(d=>{const li=document.createElement('li');li.innerHTML='<span>'+d[0]+'</span>'+(d[2]?'<span class="x-bd '+d[2]+'">'+d[3]+'</span>':'<span class="x-bd">'+d[3]+'</span>');l.appendChild(li)})};
+  // bell(): hide the badge (hidden) when there are 0 notifications, and shorten it to "99+" when over 99.
   const bell=()=>{em.hidden=n===0;em.textContent=n>99?'99+':n};
+  // Pressing a category chip changes the chosen category, turns on aria-pressed for only the pressed chip, and redraws the list.
   r.querySelectorAll('.x-chips[role=group] button').forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.c;r.querySelectorAll('.x-chips[role=group] button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()}));
+  // The "add notification" button raises the count by 1 (by 50 at once beyond 98), and "mark all read" sets it to 0, and the badge is redrawn.
   r.querySelector('[data-a=add]').addEventListener('click',()=>{n+=n>=98?50:1;bell()});r.querySelector('[data-a=read]').addEventListener('click',()=>{n=0;bell()});
+  // Pressing the × of an input chip removes that chip (the parent element). closest checks whether the pressed spot is a button.
   r.querySelector('.x-sel').addEventListener('click',e=>{const b=e.target.closest('button');if(b)b.parentElement.remove()});
+  // Draw the first screen.
   draw();bell();
 },
 code:`<!-- Badge: number -->
@@ -4927,22 +4961,36 @@ cheat:[
 terms:[['progress bar','Progress bar, a bar showing the completion rate'],['determinate','Determinate, when the progress is known'],['indeterminate','Indeterminate, when the progress is unknown'],['upload','Upload, sending a file from your device to a server']],
 note:'If the progress moves falsely, trust drops. When it is unknown, leave it indeterminate, and when it takes long, provide a cancel button and the remaining time too.',
 css:`
+/* The outer box of the progress bar example. */
 .x-pb{display:grid;gap:14px}
+/* The track of the progress bar: a thin rounded bar. overflow:hidden keeps the fill inside from spilling over. */
 .x-pb-t{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+/* The fill: its width is set by the variable --p (a percentage). transition makes it grow smoothly when the value changes. */
 .x-pb-t i{display:block;height:100%;width:var(--p,0%);background:var(--accent);transition:width .15s linear;border-radius:5px}
+/* An indeterminate bar (the ind class): the width is fixed at 35% and an animation keeps moving it across. */
 .x-pb-t.ind i{width:35%;animation:x-ind 1.2s ease-in-out infinite}
+/* A movement from outside the left edge to outside the right edge. */
 @keyframes x-ind{0%{transform:translateX(-110%)}100%{transform:translateX(300%)}}
+/* The row above the bar: the name on the left and the percentage at the right end. */
 .x-pb-h{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+/* A fake screen that shows the progress bar at the top of a page. */
 .x-pb-top{position:relative;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;font-size:12.5px;display:grid;place-items:center;color:var(--ink-2)}
+/* The thin red bar at the very top of the screen: JavaScript changes its width. */
 .x-pb-top i{position:absolute;left:0;top:0;height:3px;width:0;background:var(--rose)}
 `,
 demo:`<div class="x-pb"><div><div class="x-pb-h"><span>📄 menu_final.pdf (example)</span><b class="x-pb-v">0%</b></div><div class="x-pb-t" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Upload progress"><i></i></div><div class="d-row" style="margin-top:8px"><button class="d-btn d-btn-primary x-pb-go" type="button">Start upload</button><button class="d-btn x-pb-x" type="button" disabled>Cancel</button></div></div><div><div class="x-pb-h"><span>Processing (unknown end)</span></div><div class="x-pb-t ind" role="progressbar" aria-label="Processing"><i></i></div></div><div class="x-pb-top"><i></i>A thin loading line that appears at the top when navigating pages<button class="d-btn x-pb-pg" type="button" style="position:absolute;right:8px;bottom:6px">Navigate</button></div></div>`,
 init(r){
+  // Find the bar (t), the percentage text (v), the start button (go), and the cancel button (x), and prepare p (the progress) and iv (the timer id).
   const t=r.querySelector('.x-pb-t'),v=r.querySelector('.x-pb-v'),go=r.querySelector('.x-pb-go'),x=r.querySelector('.x-pb-x');let p=0,iv;
+  // set(n): put the progress into the CSS variable --p to grow the bar, and also update the values for screen readers (aria-valuenow, the number, and aria-valuetext, the sentence to read) and the percentage text.
   const set=n=>{p=n;t.style.setProperty('--p',n+'%');t.setAttribute('aria-valuenow',Math.round(n));t.setAttribute('aria-valuetext',Math.round(n)+'%, '+(n*0.12).toFixed(1)+' MB of 12 MB');v.textContent=Math.round(n)+'%'};
+  // Start: from 0%, raise it randomly by 0 to 7% every 0.12 seconds (imitating a file upload). At 100% it stops and shows "Done", and while running the start button is disabled and the cancel button is enabled.
   go.addEventListener('click',()=>{clearInterval(iv);set(0);go.disabled=true;x.disabled=false;iv=setInterval(()=>{set(Math.min(100,p+Math.random()*7));if(p>=100){clearInterval(iv);go.disabled=false;x.disabled=true;v.textContent='Done'}},120)});
+  // Cancel: stop the timer and return to 0%.
   x.addEventListener('click',()=>{clearInterval(iv);set(0);go.disabled=false;x.disabled=true;v.textContent='Canceled'});
+  // Prepare the bar at the top of the screen (bar) and a timer variable (tm).
   const bar=r.querySelector('.x-pb-top i');let tm;
+  // The "go to page" button: the bar fills quickly up to 90% (12% of the remaining distance each step), and when loading ends it fills to 100% and disappears. It is an imitation used when the real time is unknown.
   r.querySelector('.x-pb-pg').addEventListener('click',()=>{clearInterval(tm);let w=0;bar.style.opacity=1;bar.style.width='0%';tm=setInterval(()=>{w+=(90-w)*.12;bar.style.width=w+'%';},80);setTimeout(()=>{clearInterval(tm);bar.style.width='100%';setTimeout(()=>{bar.style.opacity=0;setTimeout(()=>{bar.style.width='0%';bar.style.opacity=1},300)},250)},1200)});
 },
 code:`<!-- HTML built-in -->
@@ -4983,26 +5031,44 @@ cheat:[
 terms:[['validation','Validation, checking whether a value follows the rules'],['blur','Blur, when focus (the cursor) leaves an input field'],['aria-invalid','aria-invalid, an attribute that tells assistive devices the value is wrong']],
 note:'Showing a red error right away while someone is still typing for the first time is unpleasant. Show it only after they leave the field (touched), and clear it as soon as it is fixed. You must also validate again on the server.',
 css:`
+/* The outer box of the sign-up form: stacked vertically with a maximum width of 340px. */
 .x-iv{display:grid;gap:10px;max-width:340px}
+/* The input label text. */
 .x-iv label{font-size:12.5px;font-weight:600;display:block;margin-bottom:3px}
+/* The input look: 100% wide, with a border and rounded corners. */
 .x-iv input{width:100%;padding:9px 11px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* An invalid input (aria-invalid="true") gets a red border. Screen readers announce the error with the same attribute. */
 .x-iv input[aria-invalid="true"]{border-color:var(--rose)}
+/* A valid input gets a green border. */
 .x-iv input.ok{border-color:var(--leaf)}
+/* The message spot under an input: min-height keeps the content below from shifting when a message appears. */
 .x-iv .m{min-height:16px;font-size:12px;margin-top:3px}
+/* Error messages are red and success messages are green. */
 .x-iv .m.e{color:var(--rose)}.x-iv .m.o{color:var(--leaf)}
+/* The password rules list: bullets removed and small text. */
 .x-iv ul{margin:4px 0 0;padding:0;list-style:none;font-size:12px;color:var(--ink-2)}
+/* An empty circle (○) is added before each rule. */
 .x-iv li::before{content:"○ ";color:var(--ink-2)}
+/* A rule that is satisfied (the y class) turns into green text with a check (✓). */
 .x-iv li.y{color:var(--leaf)}.x-iv li.y::before{content:"✓ ";color:var(--leaf)}
 `,
 demo:`<form class="x-iv" novalidate onsubmit="return false"><div class="d-ctl"><label for="x-iv-t" style="margin:0">Validation timing <select id="x-iv-t"><option value="blur">When leaving the field</option><option value="input">On every keystroke</option></select></label></div><div><label for="x-iv-e">Email</label><input id="x-iv-e" type="email" autocomplete="off" placeholder="Example: hello@company.com" aria-describedby="x-iv-em"><div class="m" id="x-iv-em"></div></div><div><label for="x-iv-p">Password</label><input id="x-iv-p" type="password" autocomplete="new-password" aria-describedby="x-iv-pl"><ul id="x-iv-pl"><li data-r="len">8 or more characters</li><li data-r="num">Includes a number</li><li data-r="eng">Includes a letter</li></ul></div><div><label for="x-iv-c">Confirm password</label><input id="x-iv-c" type="password" autocomplete="new-password" aria-describedby="x-iv-cm"><div class="m" id="x-iv-cm"></div></div></form>`,
 init(r){
+  // Find the email (E), password (P), password confirm (C), and validation timing selector (T) inputs, and prepare touched (a record of fields the user has already left once).
   const E=r.querySelector('#x-iv-e'),P=r.querySelector('#x-iv-p'),C=r.querySelector('#x-iv-c'),T=r.querySelector('#x-iv-t');const touched={};
+  // msg(id, text, kind): put text in the message spot and set the class (e for error, o for success).
   const msg=(id,t,k)=>{const m=r.querySelector('#'+id);m.textContent=t;m.className='m '+(k||'')};
+  // mark(input, ok, show): change the border state of the input with aria-invalid and the ok class.
   const mark=(i,ok,show)=>{i.setAttribute('aria-invalid',show&&!ok);i.classList.toggle('ok',show&&ok)};
+  // vE (email check): use a regular expression (/^[^\s@]+@.../) to check the "text@domain.2+ letters" format. If it is not yet time to show or it is empty, clear the message; otherwise show a success or error message.
   const vE=(show)=>{const v=E.value.trim(),ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);mark(E,ok,show&&v!=='');if(!show||!v){msg('x-iv-em','');return}msg('x-iv-em',ok?'This email can be used':'Please check the email format (e.g., name@company.com)',ok?'o':'e')};
+  // vP (password check): check 8 or more characters (len), a digit (num), and a letter (eng) separately and turn the y class on or off for each rule row. It returns true only when all three are met.
   const vP=()=>{const v=P.value,rs={len:v.length>=8,num:/\d/.test(v),eng:/[a-zA-Z]/.test(v)};r.querySelectorAll('[data-r]').forEach(li=>li.classList.toggle('y',rs[li.dataset.r]));return rs.len&&rs.num&&rs.eng};
+  // vC (confirm check): it passes only when the confirm field is not empty and equals the password.
   const vC=(show)=>{const ok=C.value!==''&&C.value===P.value;mark(C,ok,show&&C.value!=='');msg('x-iv-cm',show&&C.value?(ok?'Passwords match':'Passwords do not match'):'',ok?'o':'e')};
+  // when(field, check): decides when to check. Leaving a field (blur) always checks it (recorded in touched), and while typing (input) it checks only in the "on every keystroke" mode or for a field already left once. Not showing errors too early is the key to good inline validation.
   const when=(el,fn)=>{el.addEventListener('blur',()=>{touched[el.id]=1;fn(true)});el.addEventListener('input',()=>{fn(T.value==='input'||touched[el.id])})};
+  // Connect the checks to the three fields. When the password changes, the confirm field is checked again too.
   when(E,vE);when(P,()=>{vP();if(C.value)vC(true)});when(C,vC);
 },
 code:`<label for="email">Email</label>
@@ -5038,22 +5104,36 @@ cheat:[
 terms:[['segmented control','Segmented control, a bundle of joined selection buttons'],['radio group','Radio group, a selection group where only one can be chosen'],['roving tabindex','Roving tabindex, a method of moving focus with arrow keys within a group']],
 note:'It applies the moment you select, so no "Apply" button should be needed. Keep labels short, and offer only as many as fit in one row.',
 css:`
+/* The outer box of the segmented control example. */
 .x-sg{display:grid;gap:12px}
+/* The segmented control box: grid-auto-flow:column with grid-auto-columns:1fr splits the buttons horizontally with equal widths. position:relative is the reference point for the moving highlight. */
 .x-sg-c{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:3px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);justify-self:start}
+/* The moving white bar that shows the selected segment. Its width is the whole width divided by the number of segments (--n), and its position is shifted sideways (translateX) by the segment number (--i). It slides with a springy transition curve. */
 .x-sg-c::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / var(--n,3));border-radius:8px;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25);transform:translateX(calc(var(--i,0) * 100%));transition:transform .25s cubic-bezier(.3,1.2,.5,1)}
+/* A segment button: the default look removed, and position:relative makes it show in front of the highlight. */
 .x-sg-c button{position:relative;border:0;background:none;padding:7px 20px;font:600 13px var(--sans);color:var(--ink-2);cursor:pointer}
+/* The selected segment (aria-checked="true") has darker text. */
 .x-sg-c button[aria-checked="true"]{color:var(--ink)}
+/* Lays the value cards below in a grid. */
 .x-sg-v{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+/* The look of one value card. */
 .x-sg-v div{padding:12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--ink-2)}
+/* The big number: tabular-nums gives digits the same width. */
 .x-sg-v b{display:block;font:700 18px var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
 `,
 demo:`<div class="x-sg"><div class="x-sg-c" role="radiogroup" aria-label="Select period"><button type="button" role="radio" aria-checked="true" tabindex="0">Day</button><button type="button" role="radio" aria-checked="false" tabindex="-1">Week</button><button type="button" role="radio" aria-checked="false" tabindex="-1">Month</button></div><div class="x-sg-v" aria-live="polite"></div><p class="d-hint">After selecting, you can also change with the ← → arrow keys. The figures are examples.</p></div>`,
 init(r){
+  // Find the segmented control (c), the buttons inside (bs), and the value area (v).
   const c=r.querySelector('.x-sg-c'),bs=[...c.querySelectorAll('button')],v=r.querySelector('.x-sg-v');
+  // D: the [name, value] data to show for each segment (today, this week, this month).
   const D=[[['Today’s sales','KRW 184,000'],['Orders','23'],['Visitors','412']],[['This week’s sales','KRW 1,240,000'],['Orders','158'],['Visitors','2,930']],[['This month’s sales','KRW 5,380,000'],['Orders','702'],['Visitors','11,800']]];
+  // Put the number of segments into the CSS variable --n to set the highlight width.
   c.style.setProperty('--n',bs.length);
+  // pick(index, focus): mark only that segment as selected with aria-checked and make it reachable by Tab (tabIndex 0), move the highlight with --i, and change the value cards below to that segment data.
   const pick=(i,f)=>{bs.forEach((b,j)=>{b.setAttribute('aria-checked',i===j);b.tabIndex=i===j?0:-1});c.style.setProperty('--i',i);v.innerHTML=D[i].map(x=>'<div>'+x[0]+'<b>'+x[1]+'</b></div>').join('');if(f)bs[i].focus()};
+  // Pressing a segment selects it. The right and left arrows move to the neighboring segment (wrapping at the ends) and give the focus to it.
   bs.forEach((b,i)=>{b.addEventListener('click',()=>pick(i));b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();pick((i+1)%bs.length,1)}if(e.key==='ArrowLeft'){e.preventDefault();pick((i+bs.length-1)%bs.length,1)}})});
+  // At the start, select the first segment.
   pick(0);
 },
 code:`<div class="seg" role="radiogroup" aria-label="Select period" style="--n:3;--i:0">
@@ -5086,25 +5166,42 @@ cheat:[
 terms:[['tag input','Tag input, an input that stacks several values as chips'],['token','Token, one confirmed chunk of value'],['combobox','Combobox, an element that combines typing and choosing from a list']],
 note:'Pressing Enter during Korean text composition (while composing) can be handled twice, so you need to check isComposing. Mark invalid values by showing the chip in a different color.',
 css:`
+/* The outer box of the tag input example. */
 .x-ti{display:grid;gap:8px;max-width:360px}
+/* The box that holds tags and the input together: flex with flex-wrap wraps when there are many tags. cursor:text signals that typing is possible anywhere you click. */
 .x-ti-box{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:7px 8px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:text}
+/* When the input inside has focus (:focus-within), the box border turns the accent color. */
 .x-ti-box:focus-within{border-color:var(--accent)}
+/* The input inside: its border and outline are removed so it looks like one piece with the box, and it takes the leftover width (flex:1). */
 .x-ti-box input{flex:1;min-width:120px;border:0;outline:0;background:none;color:var(--ink);font:13px var(--sans);padding:4px}
+/* The look of one tag (chip). */
 .x-ti-c{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 12px var(--sans)}
+/* A tag with a wrong format (the bad class) is shown with a light red background and red text. */
 .x-ti-c.bad{background:color-mix(in srgb,var(--rose) 20%,var(--surface));color:var(--rose)}
+/* The × delete button of a tag. */
 .x-ti-c button{border:0;background:none;color:inherit;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:14px}
+/* The message spot below: a minimum height keeps the screen from shifting when a message appears. */
 .x-ti-m{font-size:12px;color:var(--ink-2);min-height:16px}
 `,
 demo:`<div class="x-ti"><label for="x-ti-i" style="font-size:12.5px;font-weight:600">Recipients (up to 5)</label><div class="x-ti-box"><input id="x-ti-i" type="text" placeholder="Enter an email, then press Enter or a comma" autocomplete="off"></div><div class="x-ti-m" aria-live="polite"></div></div>`,
 init(r){
+  // Find the box, the input (inp), and the message spot (m), and set tags (the tag list) and MAX (5 at most).
   const box=r.querySelector('.x-ti-box'),inp=r.querySelector('input'),m=r.querySelector('.x-ti-m');const tags=[];const MAX=5;
+  // say(text): show text in the message spot.
   const say=t=>{m.textContent=t};
+  // draw(): remove all tags in the box and rebuild them from tags. A tag that is not an email format gets the bad class. Each tag gets a × button (aria-label tells which tag) that removes it and returns the focus to the input.
   const draw=()=>{box.querySelectorAll('.x-ti-c').forEach(e=>e.remove());tags.forEach((t,i)=>{const s=document.createElement('span');s.className='x-ti-c'+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)?'':' bad');s.innerHTML='<span></span><button type="button" aria-label=""></button>';s.firstChild.textContent=t;const b=s.querySelector('button');b.textContent='×';b.setAttribute('aria-label',t+' Delete');b.addEventListener('click',()=>{tags.splice(i,1);draw();say(t+' removed');inp.focus()});box.insertBefore(s,inp)})};
+  // add(value): trim spaces, filter out empty values, duplicates, and going over the maximum, then add it to the list and redraw. It explains the reason with a message each time.
   const add=v=>{v=v.trim();if(!v)return;if(tags.includes(v)){say('This value has already been added.');return}if(tags.length>=MAX){say('You can add up to '+MAX+' people.');return}tags.push(v);draw();say(v+' added ('+tags.length+'/'+MAX+')')};
+  // Key input: ignore it during Korean composition (isComposing), and pressing Enter or a comma (,) adds the current text as a tag. Pressing Backspace in an empty input removes the last tag.
   inp.addEventListener('keydown',e=>{if(e.isComposing)return;if(e.key==='Enter'||e.key===','){e.preventDefault();add(inp.value);inp.value=''}else if(e.key==='Backspace'&&!inp.value&&tags.length){const t=tags.pop();draw();say(t+' removed')}});
+  // Paste: if the text contains commas, line breaks, or semicolons, the default behavior is prevented and it is split and added as tags all at once.
   inp.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text');if(/[,\n;]/.test(t)){e.preventDefault();t.split(/[,\n;]/).forEach(add)}});
+  // When leaving the input, any remaining text is added as a tag.
   inp.addEventListener('blur',()=>{if(inp.value.trim()){add(inp.value);inp.value=''}});
+  // Clicking an empty part of the box also gives the input the focus.
   box.addEventListener('click',()=>inp.focus());
+  // At the start, add two example tags and show the message.
   ['kim@company.com','lee@company.com'].forEach(add);say('Try adding with Enter. A wrong format is shown in red.');
 },
 code:`input.addEventListener('keydown', e => {
@@ -5142,11 +5239,17 @@ cheat:[
 terms:[['floating label','Floating label, an input name tag that floats up'],['focus','Focus, the state where the field is selected and has the cursor'],['placeholder-shown',':placeholder-shown, the state where the placeholder text is visible (empty)']],
 note:'The label shrinks inside the field, so text that gets too small is hard to read. Check that the label does not overlap when autofill fills in a value. Show input examples only after focus.',
 css:`
+/* The outer box of the floating label example. */
 .x-fl{display:grid;gap:14px;max-width:340px}
+/* The area of one input: position:relative is the reference point for laying the label over the input. */
 .x-fl-f{position:relative}
+/* The input look: a large top padding (20px) makes room for the label to float up. */
 .x-fl-f input,.x-fl-f textarea{width:100%;padding:20px 12px 7px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans);outline:0;resize:none}
+/* The label: laid over the input with position:absolute. pointer-events:none keeps the label from stealing clicks, and transform-origin is the reference point when it shrinks. */
 .x-fl-f label{position:absolute;left:12px;top:14px;font-size:14px;color:var(--ink-2);pointer-events:none;transform-origin:left top;transition:transform .15s ease,color .15s}
+/* When the input has focus, the border turns the accent color. */
 .x-fl-f input:focus,.x-fl-f textarea:focus{border-color:var(--accent)}
+/* When there is focus or text inside (:not(:placeholder-shown)), the label right after it (+ label) floats up (translateY), shrinks (scale), and turns the accent color. It works with only CSS, no JavaScript. (It assumes the input has placeholder=" " with a single space.) */
 .x-fl-f input:focus+label,.x-fl-f input:not(:placeholder-shown)+label,.x-fl-f textarea:focus+label,.x-fl-f textarea:not(:placeholder-shown)+label{transform:translateY(-9px) scale(.78);color:var(--accent)}
 `,
 demo:`<form class="x-fl" onsubmit="return false"><div class="x-fl-f"><input id="x-fl-n" type="text" placeholder=" " autocomplete="off"><label for="x-fl-n">Name</label></div><div class="x-fl-f"><input id="x-fl-e" type="email" placeholder=" " autocomplete="off"><label for="x-fl-e">Email</label></div><div class="x-fl-f"><textarea id="x-fl-m" rows="3" placeholder=" "></textarea><label for="x-fl-m">Inquiry details</label></div></form><p class="d-hint">The label floats up when you click the field or type something.</p>`,
@@ -5185,37 +5288,65 @@ cheat:[
 terms:[['stepper','Stepper, a step indicator or a +/- increment input'],['wizard','Wizard, a procedure screen that guides you through several steps'],['quantity','Quantity, the amount']],
 note:'With many steps it is easy to get stuck midway, so ask only for the necessary information and keep input even when going back. For quantity, disable the buttons at the minimum and maximum to signal the limit.',
 css:`
+/* The outer box of the stepper example. */
 .x-st{display:grid;gap:12px}
+/* The step list (ol): bullets and default spacing removed and laid out horizontally. */
 .x-st ol{list-style:none;margin:0;padding:0;display:flex;align-items:center}
+/* One step: the number circle and the name side by side, with flex:1 sharing the leftover width. */
 .x-st li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);flex:1}
+/* The last step does not stretch (flex:none). */
 .x-st li:last-child{flex:none}
+/* The step number circle: a 24px circle with the number centered, gray by default. */
 .x-st li i{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 12px var(--sans);font-style:normal;background:var(--line);color:var(--ink)}
+/* A finished step (the done class) is an accent-colored circle with a check (✓). */
 .x-st li.done i{background:var(--accent);color:var(--accent-ink)}
+/* The current step (the cur class) stands out with a light accent circle and an accent outline. */
 .x-st li.cur i{background:var(--accent-soft);color:var(--accent);outline:2px solid var(--accent)}
+/* The name of the current step is bold and dark. */
 .x-st li.cur{color:var(--ink);font-weight:700}
+/* The line connecting steps is drawn with ::after. flex:1 fills the leftover width. */
 .x-st li::after{content:"";flex:1;height:2px;background:var(--line);margin:0 4px}
+/* The line after a finished step is the accent color. */
 .x-st li.done::after{background:var(--accent)}
+/* No line is drawn after the last step. */
 .x-st li:last-child::after{display:none}
+/* The content box of the current step. */
 .x-st-p{min-height:90px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:13px;display:grid;gap:8px;align-content:start}
+/* The text input look. */
 .x-st-p input[type=text]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* The quantity control box (− number +): a rounded box of three joined parts. */
 .x-st-q{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+/* The look of the − and + buttons. */
 .x-st-q button{width:36px;height:36px;border:0;background:var(--surface-2);color:var(--ink);font-size:18px;cursor:pointer}
+/* Dimmed when it cannot be reduced or increased any further (disabled). */
 .x-st-q button:disabled{opacity:.35;cursor:default}
+/* The quantity number. */
 .x-st-q output{min-width:40px;text-align:center;font:700 14px var(--sans)}
+/* The error message spot: red with a minimum height. */
 .x-st-err{color:var(--rose);font-size:12px;min-height:16px}
 `,
 demo:`<div class="x-st"><ol aria-label="Order steps"></ol><div class="x-st-p"></div><div class="x-st-err" role="alert"></div><div class="d-row"><button class="d-btn x-st-pv" type="button">Previous</button><button class="d-btn d-btn-primary x-st-nx" type="button">Next</button></div></div>`,
 init(r){
+  // S: the step names; find ol (the step list), pn (the content box), er (the error message spot), pv (the previous button), and nx (the next button), and prepare i (the current step number), qty (the quantity), and addr (the address).
   const S=['Cart','Shipping','Payments','Done'],ol=r.querySelector('ol'),pn=r.querySelector('.x-st-p'),er=r.querySelector('.x-st-err'),pv=r.querySelector('.x-st-pv'),nx=r.querySelector('.x-st-nx');let i=0,qty=2,addr='';
+  // draw(): redraw the whole screen for the current step (i). In the step list, past steps get done, the current step gets cur and aria-current="step", the previous button is disabled on the first and last steps, and the next button text becomes "Pay" at the payment step.
   const draw=()=>{ol.innerHTML=S.map((t,k)=>'<li class="'+(k<i?'done':k===i?'cur':'')+'"'+(k===i?' aria-current="step"':'')+'><i>'+(k<i?'✓':k+1)+'</i>'+t+'</li>').join('');er.textContent='';
     pv.disabled=i===0||i===3;nx.hidden=i===3;nx.textContent=i===2?'Pay':'Next';
+    // Step 0 (cart): draw the product and the quantity control.
     if(i===0){pn.innerHTML='<span>🥐 Croissant 6-pack · KRW 12,000</span><div class="x-st-q"><button type="button" aria-label="Decrease quantity">−</button><output aria-live="polite">'+qty+'</output><button type="button" aria-label="Increase quantity">+</button></div><span style="color:var(--ink-2)">Total '+(qty*12000).toLocaleString('ko-KR')+' KRW</span>';
+      // Find the quantity buttons (m to decrease, p to increase) and the number (o), and up(): update the quantity text and the total and disable the matching button at 1 or less and 10 or more.
       const [m,p]=pn.querySelectorAll('.x-st-q button'),o=pn.querySelector('output');const up=()=>{o.textContent=qty;m.disabled=qty<=1;p.disabled=qty>=10;pn.lastChild.textContent='Total '+(qty*12000).toLocaleString('ko-KR')+' KRW'};
+      // Pressing a button changes the quantity and runs up(). up() also runs once at the start.
       m.addEventListener('click',()=>{qty--;up()});p.addEventListener('click',()=>{qty++;up()});up()}
+    // Step 1 (address): draw the input and save it to addr on every keystroke so the value stays when moving between steps.
     else if(i===1){pn.innerHTML='<label for="x-st-a">Shipping address (required)</label><input id="x-st-a" type="text" placeholder="Example: 12 Example-ro, Yeonsu-gu, Incheon"><span style="color:var(--ink-2)">Leave it empty and press Next</span>';const a=pn.querySelector('input');a.value=addr;a.addEventListener('input',()=>{addr=a.value})}
+    // Step 2 (payment): show the total and the address.
     else if(i===2)pn.innerHTML='<span>Payment amount <b>'+(qty*12000).toLocaleString('ko-KR')+' KRW</b></span><span style="color:var(--ink-2)">Shipping address: '+addr+'</span>';
+    // Step 3 (done): show the completion message and a "start over" button.
     else pn.innerHTML='<b>🎉 Your order is complete</b><span style="color:var(--ink-2)">This is an example screen.</span><button class="d-btn" type="button">Start over</button>';
+    // Pressing "start over" on the completion screen resets all values.
     if(i===3)pn.querySelector('button').addEventListener('click',()=>{i=0;qty=2;addr='';draw()})};
+  // The next button: on the address step, if the address is empty, show an error message and return the focus to the input so it cannot go to the next step (a required-field check). If it passes, go to the next step and redraw. The previous button goes back one step.
   nx.addEventListener('click',()=>{if(i===1&&!addr.trim()){er.textContent='You must enter a shipping address to go to the next step.';pn.querySelector('input').focus();return}i++;draw()});pv.addEventListener('click',()=>{i--;draw()});draw();
 },
 code:`<ol class="steps" aria-label="Order steps">

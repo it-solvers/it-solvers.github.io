@@ -4919,23 +4919,36 @@ cheat:[
 terms:[['loading','로딩, 데이터를 불러오는 중'],['error','에러, 실패한 상태'],['retry','리트라이, 다시 시도'],['timeout','타임아웃, 정해진 시간 안에 응답이 없어 실패 처리하는 것']],
 note:'오류 문구에는 원인(가능하면)과 해결 방법을 씁니다. "오류가 발생했습니다"만 쓰지 않습니다. 로딩이 아주 빠를 땐 스피너가 깜빡이지 않게 약간 지연해서 보여 주는 방법도 있습니다.',
 css:`
+/* 조회 결과 예시 바깥 상자. */
 .x-le{display:grid;gap:10px}
+/* 결과 카드: 최소 높이를 두어 상태가 바뀌어도 카드 크기가 덜컥 변하지 않게 합니다. */
 .x-le-card{min-height:130px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px;display:grid;align-content:center;justify-items:start;gap:6px;font-size:13px}
+/* 오류 상태(err 클래스)에서는 테두리와 바탕을 연한 빨강으로 바꿉니다. color-mix 로 빨강을 10%만 섞습니다. */
 .x-le-card.err{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
+/* 빙글빙글 도는 로딩 표시: 둥근 테두리 윗부분만 강조색(x-is-spin 애니메이션 재사용). */
 .x-le-sp{width:22px;height:22px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-is-spin .8s linear infinite}
+/* 현재 상태(loading, success, error)를 보여 주는 알약 이름표. */
 .x-le-pill{font:700 11px var(--mono);padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+/* 주문 내역 한 줄: 이름은 왼쪽, 금액은 오른쪽 끝. */
 .x-le-ord{display:flex;justify-content:space-between;width:100%;padding:6px 0;border-bottom:1px solid var(--line)}
 `,
 demo:`<div class="x-le"><div class="d-ctl"><label for="x-le-s">서버 응답 <select id="x-le-s"><option value="ok">성공</option><option value="fail">실패 (서버 오류)</option><option value="slow">너무 느림 (타임아웃)</option></select></label><button class="d-btn d-btn-primary" type="button">주문 내역 불러오기</button><span class="x-le-pill">idle</span></div><div class="x-le-card" aria-live="polite" aria-busy="false">아직 불러오지 않았습니다.</div></div>`,
 init(r){
+  // 결과 카드(card), 상태 이름표(pill), 결과 선택(sel)을 찾고, tm(타이머 번호)과 n(요청 번호)을 준비합니다.
   const card=r.querySelector('.x-le-card'),pill=r.querySelector('.x-le-pill'),sel=r.querySelector('select');let tm,n=0;
+  // st(상태): 이름표 글자를 바꾸고, 불러오는 중이면 aria-busy 를 true 로, 오류면 err 클래스를 붙입니다.
   const st=(s)=>{pill.textContent=s;card.setAttribute('aria-busy',s==='loading');card.classList.toggle('err',s==='error')};
+  // run(): 조회를 시작합니다. 이전 타이머를 지우고 요청 번호(id)를 올린 뒤 "불러오는 중" 화면을 보여 줍니다. 선택한 방식에 따라 기다리는 시간(delay)이 정해집니다.
   const run=()=>{clearTimeout(tm);const id=++n;st('loading');card.innerHTML='<div class="x-le-sp" role="img" aria-label="불러오는 중"></div>주문 내역을 불러오는 중...';
     const mode=sel.value,delay=mode==='slow'?4200:900;
+    // 시간이 지난 뒤 결과를 보여 줍니다(서버 응답 흉내). id 가 최신 요청 번호와 다르면(그사이 새 조회를 눌렀다면) 낡은 응답이므로 버립니다. 이것이 오래된 응답이 화면을 덮어쓰는 문제를 막는 요령입니다.
     tm=setTimeout(()=>{if(id!==n)return;
+      // 성공: 주문 내역을 그려 보여 줍니다.
       if(mode==='ok'){st('success');card.innerHTML='<div class="x-le-ord"><span>식빵 2개</span><b>9,000원</b></div><div class="x-le-ord"><span>카페라떼 1잔</span><b>4,000원</b></div><span style="color:var(--ink-2)">예시 주문 내역</span>'}
+      // 실패: 원인에 맞는 안내 문구(msg)를 role="alert" 로 바로 읽어 주게 보여 주고, "다시 시도" 버튼을 붙입니다. 누르면 성공 모드로 바꿔 다시 조회합니다.
       else{st('error');const msg=mode==='slow'?'응답이 늦어 불러오지 못했어요. 네트워크 상태를 확인해 주세요.':'서버에 일시적인 문제가 있어요. 잠시 후 다시 시도해 주세요.';
         card.innerHTML='<b role="alert">⚠️ '+msg+'</b>';const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent='다시 시도';b.addEventListener('click',()=>{sel.value='ok';run()});card.appendChild(b)}},mode==='slow'?3000:delay)};
+  // 조회 버튼을 누르면 run()을 실행합니다.
   r.querySelector('.d-btn-primary').addEventListener('click',run);
 },
 code:`// 상태를 한 값으로 관리
@@ -4979,29 +4992,50 @@ cheat:[
 terms:[['badge','배지, 작은 상태·숫자 표시'],['chip','칩, 알약 모양의 선택·입력 요소'],['pill','필, 완전히 둥근 알약 모양']],
 note:'색만 다르게 하면 색을 구분하기 어려운 사용자가 알 수 없습니다. 배지는 누를 수 있는 것처럼 보이지 않게, 칩은 누를 수 있게 크기를 충분히 둡니다.',
 css:`
+/* 배지·칩 예시 바깥 상자. */
 .x-bc2{display:grid;gap:12px}
+/* 위쪽 줄: 알림 아이콘과 버튼을 가로로 나란히. */
 .x-bc2-top{display:flex;align-items:center;gap:14px}
+/* 알림 종 아이콘: position:relative 로 안쪽 숫자 배지의 기준점. */
 .x-bell{position:relative;font-size:24px}
+/* 알림 개수 배지: 종 오른쪽 위에 absolute 로 겹쳐 놓은 빨간 동그라미(알약)입니다. line-height 를 높이와 같게 해서 숫자를 세로 가운데에 놓습니다. */
 .x-bell em{position:absolute;top:-6px;right:-10px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--rose);color:#fff;font:700 11px/18px var(--sans);font-style:normal;text-align:center}
+/* 칩(필터 버튼) 줄: 가로로 나열하고 좁으면 줄바꿈합니다. */
 .x-chips{display:flex;flex-wrap:wrap;gap:6px}
+/* 칩 하나의 모양: 알약 모양 테두리 버튼. */
 .x-chips button{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;font:600 12.5px var(--sans);cursor:pointer}
+/* 선택된 칩(aria-pressed="true")은 강조색으로 표시합니다. */
 .x-chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* 상품 목록: 점과 여백을 지우고 한 줄씩 쌓습니다. */
 .x-bd-l{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+/* 상품 한 줄: 이름은 왼쪽, 배지는 옆에. */
 .x-bd-l li{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:13px}
+/* 배지(상태 표시) 기본 모양: 작고 굵은 글자의 둥근 네모. */
 .x-bd{font:700 10.5px var(--sans);padding:2px 7px;border-radius:5px;color:#fff;background:var(--accent)}
+/* 품절 배지는 회색, 할인(sale) 배지는 빨강. */
 .x-bd.sold{background:var(--ink-2)}.x-bd.sale{background:var(--rose)}
+/* 입력 칩(삭제할 수 있는 태그): 알약 모양에 오른쪽에 × 버튼이 있습니다. */
 .x-ic{display:inline-flex;align-items:center;gap:4px;padding:3px 4px 3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 12px var(--sans)}
+/* × 버튼: 기본 모양을 지우고 20px 동그라미로. */
 .x-ic button{border:0;background:none;color:inherit;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:14px}
 `,
 demo:`<div class="x-bc2"><div class="x-bc2-top"><span class="x-bell" role="img" aria-label="알림">🔔<em>3</em></span><button class="d-btn" type="button" data-a="add">알림 +1</button><button class="d-btn" type="button" data-a="read">모두 읽음</button></div><div class="x-chips" role="group" aria-label="카테고리 필터"><button type="button" aria-pressed="true" data-c="all">전체</button><button type="button" aria-pressed="false" data-c="빵">빵</button><button type="button" aria-pressed="false" data-c="음료">음료</button><button type="button" aria-pressed="false" data-c="디저트">디저트</button></div><ul class="x-bd-l"></ul><div class="x-chips x-sel"><span class="x-ic">서울<button type="button" aria-label="서울 삭제">×</button></span><span class="x-ic">당일 배송<button type="button" aria-label="당일 배송 삭제">×</button></span></div></div>`,
 init(r){
+  // D: 상품 데이터 [이름, 분류, 배지 종류, 배지 글자] 모음입니다.
   const D=[['식빵','빵','sale','10%'],['크루아상','빵','','NEW'],['콜드브루','음료','sold','품절'],['말차 라떼','음료','','NEW'],['딸기 케이크','디저트','sale','20%'],['치즈 케이크','디저트','sold','품절']];
+  // 상품 목록(l)과 알림 개수 배지(em)를 찾고, n(알림 수)과 cat(선택한 분류)을 준비합니다.
   const l=r.querySelector('.x-bd-l'),em=r.querySelector('.x-bell em');let n=3,cat='all';
+  // draw(): 선택한 분류(또는 전체)의 상품만 골라(filter) 이름과 배지를 목록으로 그립니다.
   const draw=()=>{l.textContent='';D.filter(d=>cat==='all'||d[1]===cat).forEach(d=>{const li=document.createElement('li');li.innerHTML='<span>'+d[0]+'</span>'+(d[2]?'<span class="x-bd '+d[2]+'">'+d[3]+'</span>':'<span class="x-bd">'+d[3]+'</span>');l.appendChild(li)})};
+  // bell(): 알림이 0이면 배지를 숨기고(hidden), 99를 넘으면 "99+"로 줄여 보여 줍니다.
   const bell=()=>{em.hidden=n===0;em.textContent=n>99?'99+':n};
+  // 분류 칩을 누르면 선택한 분류를 바꾸고, 눌린 칩에만 aria-pressed 를 켜서 표시한 뒤 목록을 다시 그립니다.
   r.querySelectorAll('.x-chips[role=group] button').forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.c;r.querySelectorAll('.x-chips[role=group] button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()}));
+  // "알림 추가" 버튼은 1개씩(98개를 넘으면 한 번에 50개) 늘리고, "모두 읽음"은 0으로 만들고 배지를 다시 그립니다.
   r.querySelector('[data-a=add]').addEventListener('click',()=>{n+=n>=98?50:1;bell()});r.querySelector('[data-a=read]').addEventListener('click',()=>{n=0;bell()});
+  // 입력 칩의 × 를 누르면 그 칩(부모 요소)을 지웁니다. closest 로 눌린 곳이 버튼인지 확인합니다.
   r.querySelector('.x-sel').addEventListener('click',e=>{const b=e.target.closest('button');if(b)b.parentElement.remove()});
+  // 처음 화면을 그립니다.
   draw();bell();
 },
 code:`<!-- 배지: 숫자 -->
@@ -5038,22 +5072,36 @@ cheat:[
 terms:[['progress bar','프로그레스 바, 진행률 막대'],['determinate','디터미닛, 진행률을 알 수 있는'],['indeterminate','인디터미닛, 진행률을 알 수 없는'],['upload','업로드, 내 기기에서 서버로 파일을 보내는 것']],
 note:'진행률이 거짓으로 움직이면 신뢰가 떨어집니다. 알 수 없으면 indeterminate로 두고, 길어질 때는 취소 버튼과 남은 시간을 함께 제공합니다.',
 css:`
+/* 진행 막대 예시 바깥 상자. */
 .x-pb{display:grid;gap:14px}
+/* 진행 막대의 바깥 길(트랙): 둥근 가는 막대. overflow:hidden 으로 안쪽 채움이 넘치지 않게 합니다. */
 .x-pb-t{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+/* 채움 부분: 너비를 변수 --p(퍼센트)로 정합니다. transition 으로 값이 바뀔 때 부드럽게 늘어납니다. */
 .x-pb-t i{display:block;height:100%;width:var(--p,0%);background:var(--accent);transition:width .15s linear;border-radius:5px}
+/* 진행률을 알 수 없는 막대(ind 클래스): 폭을 35%로 고정하고 애니메이션으로 좌우로 계속 오가게 합니다. */
 .x-pb-t.ind i{width:35%;animation:x-ind 1.2s ease-in-out infinite}
+/* 왼쪽 밖에서 오른쪽 밖으로 지나가는 움직임. */
 @keyframes x-ind{0%{transform:translateX(-110%)}100%{transform:translateX(300%)}}
+/* 막대 위 줄: 이름은 왼쪽, 퍼센트 숫자는 오른쪽 끝. */
 .x-pb-h{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+/* 페이지 상단 진행 막대를 보여 줄 가짜 화면. */
 .x-pb-top{position:relative;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;font-size:12.5px;display:grid;place-items:center;color:var(--ink-2)}
+/* 화면 맨 위의 가는 빨간 막대: 너비를 자바스크립트가 바꿉니다. */
 .x-pb-top i{position:absolute;left:0;top:0;height:3px;width:0;background:var(--rose)}
 `,
 demo:`<div class="x-pb"><div><div class="x-pb-h"><span>📄 메뉴판_최종.pdf (예시)</span><b class="x-pb-v">0%</b></div><div class="x-pb-t" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="업로드 진행률"><i></i></div><div class="d-row" style="margin-top:8px"><button class="d-btn d-btn-primary x-pb-go" type="button">업로드 시작</button><button class="d-btn x-pb-x" type="button" disabled>취소</button></div></div><div><div class="x-pb-h"><span>처리 중 (끝을 모름)</span></div><div class="x-pb-t ind" role="progressbar" aria-label="처리 중"><i></i></div></div><div class="x-pb-top"><i></i>페이지 이동 시 맨 위에 얇게 나타나는 로딩 줄<button class="d-btn x-pb-pg" type="button" style="position:absolute;right:8px;bottom:6px">이동</button></div></div>`,
 init(r){
+  // 막대(t), 퍼센트 글(v), 시작 버튼(go), 취소 버튼(x)을 찾고, p(진행률)와 iv(타이머 번호)를 준비합니다.
   const t=r.querySelector('.x-pb-t'),v=r.querySelector('.x-pb-v'),go=r.querySelector('.x-pb-go'),x=r.querySelector('.x-pb-x');let p=0,iv;
+  // set(n): 진행률을 CSS 변수 --p 에 넣어 막대를 늘리고, 화면 낭독기용 값(aria-valuenow 숫자, aria-valuetext 읽을 문장)과 퍼센트 글도 함께 갱신합니다.
   const set=n=>{p=n;t.style.setProperty('--p',n+'%');t.setAttribute('aria-valuenow',Math.round(n));t.setAttribute('aria-valuetext',Math.round(n)+'%, '+(n*0.12).toFixed(1)+'MB 중 12MB');v.textContent=Math.round(n)+'%'};
+  // 시작: 0%에서 0.12초마다 0~7%씩 무작위로 올립니다(파일 업로드 흉내). 100%가 되면 멈추고 "완료"를 보여 주며, 진행 중에는 시작 버튼을 막고 취소 버튼을 켭니다.
   go.addEventListener('click',()=>{clearInterval(iv);set(0);go.disabled=true;x.disabled=false;iv=setInterval(()=>{set(Math.min(100,p+Math.random()*7));if(p>=100){clearInterval(iv);go.disabled=false;x.disabled=true;v.textContent='완료'}},120)});
+  // 취소: 타이머를 멈추고 0%로 되돌립니다.
   x.addEventListener('click',()=>{clearInterval(iv);set(0);go.disabled=false;x.disabled=true;v.textContent='취소됨'});
+  // 화면 맨 위 막대(bar)와 타이머 변수(tm)를 준비합니다.
   const bar=r.querySelector('.x-pb-top i');let tm;
+  // "페이지 이동" 버튼: 막대가 빠르게 90%까지 차오르다가(남은 거리의 12%씩) 로딩이 끝나면 100%로 채우고 사라집니다. 실제로 걸리는 시간을 모를 때 쓰는 흉내입니다.
   r.querySelector('.x-pb-pg').addEventListener('click',()=>{clearInterval(tm);let w=0;bar.style.opacity=1;bar.style.width='0%';tm=setInterval(()=>{w+=(90-w)*.12;bar.style.width=w+'%';},80);setTimeout(()=>{clearInterval(tm);bar.style.width='100%';setTimeout(()=>{bar.style.opacity=0;setTimeout(()=>{bar.style.width='0%';bar.style.opacity=1},300)},250)},1200)});
 },
 code:`<!-- HTML 기본 -->
@@ -5094,26 +5142,44 @@ cheat:[
 terms:[['validation','밸리데이션, 값이 규칙에 맞는지 검사'],['blur','블러, 입력칸에서 포커스(커서)가 빠져나가는 것'],['aria-invalid','에이리어 인밸리드, 잘못된 값임을 보조 기기에 알리는 속성']],
 note:'처음 입력하는 도중에 바로 빨간 오류를 띄우면 불쾌합니다. 칸을 벗어난 뒤(touched)부터 보여 주고, 고쳐지면 바로 지웁니다. 서버에서도 반드시 다시 검증해야 합니다.',
 css:`
+/* 가입 폼 바깥 상자: 세로로 쌓고 최대 폭 340px. */
 .x-iv{display:grid;gap:10px;max-width:340px}
+/* 입력 칸 이름표 글자. */
 .x-iv label{font-size:12.5px;font-weight:600;display:block;margin-bottom:3px}
+/* 입력 칸 모양: 폭 100%, 테두리, 둥근 모서리. */
 .x-iv input{width:100%;padding:9px 11px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* 잘못된 입력(aria-invalid="true")은 테두리를 빨강으로. 화면 낭독기도 같은 속성으로 오류를 알립니다. */
 .x-iv input[aria-invalid="true"]{border-color:var(--rose)}
+/* 올바른 입력은 테두리를 초록으로. */
 .x-iv input.ok{border-color:var(--leaf)}
+/* 입력 칸 아래 안내 문구 자리: min-height 로 문구가 생겨도 아래가 밀리지 않게 합니다. */
 .x-iv .m{min-height:16px;font-size:12px;margin-top:3px}
+/* 오류 문구는 빨강, 통과 문구는 초록. */
 .x-iv .m.e{color:var(--rose)}.x-iv .m.o{color:var(--leaf)}
+/* 비밀번호 조건 목록: 점을 없애고 작은 글자로. */
 .x-iv ul{margin:4px 0 0;padding:0;list-style:none;font-size:12px;color:var(--ink-2)}
+/* 조건 앞에 빈 동그라미(○)를 붙입니다. */
 .x-iv li::before{content:"○ ";color:var(--ink-2)}
+/* 조건을 만족한 줄(y 클래스)은 초록 글자와 체크(✓)로 바꿉니다. */
 .x-iv li.y{color:var(--leaf)}.x-iv li.y::before{content:"✓ ";color:var(--leaf)}
 `,
 demo:`<form class="x-iv" novalidate onsubmit="return false"><div class="d-ctl"><label for="x-iv-t" style="margin:0">검증 시점 <select id="x-iv-t"><option value="blur">칸을 벗어날 때</option><option value="input">입력할 때마다</option></select></label></div><div><label for="x-iv-e">이메일</label><input id="x-iv-e" type="email" autocomplete="off" placeholder="예: hello@company.com" aria-describedby="x-iv-em"><div class="m" id="x-iv-em"></div></div><div><label for="x-iv-p">비밀번호</label><input id="x-iv-p" type="password" autocomplete="new-password" aria-describedby="x-iv-pl"><ul id="x-iv-pl"><li data-r="len">8자 이상</li><li data-r="num">숫자 포함</li><li data-r="eng">영문 포함</li></ul></div><div><label for="x-iv-c">비밀번호 확인</label><input id="x-iv-c" type="password" autocomplete="new-password" aria-describedby="x-iv-cm"><div class="m" id="x-iv-cm"></div></div></form>`,
 init(r){
+  // 이메일(E), 비밀번호(P), 비밀번호 확인(C), 검사 시점 선택(T) 입력 칸을 찾고, touched(이미 한 번 벗어난 칸 기록)를 준비합니다.
   const E=r.querySelector('#x-iv-e'),P=r.querySelector('#x-iv-p'),C=r.querySelector('#x-iv-c'),T=r.querySelector('#x-iv-t');const touched={};
+  // msg(칸 id, 글, 종류): 안내 문구 자리에 글을 넣고 클래스(e 오류, o 통과)를 정합니다.
   const msg=(id,t,k)=>{const m=r.querySelector('#'+id);m.textContent=t;m.className='m '+(k||'')};
+  // mark(입력 칸, 통과 여부, 보일지): aria-invalid 와 ok 클래스로 칸의 테두리 상태를 바꿉니다.
   const mark=(i,ok,show)=>{i.setAttribute('aria-invalid',show&&!ok);i.classList.toggle('ok',show&&ok)};
+  // vE(이메일 검사): 정규식(/^[^\s@]+@.../)으로 "글@도메인.글자2개 이상" 형식인지 확인합니다. 아직 보여 주지 않는 시점이거나 비어 있으면 문구를 지우고, 아니면 통과/오류 문구를 보여 줍니다.
   const vE=(show)=>{const v=E.value.trim(),ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);mark(E,ok,show&&v!=='');if(!show||!v){msg('x-iv-em','');return}msg('x-iv-em',ok?'사용할 수 있는 이메일입니다':'이메일 형식을 확인해 주세요 (예: name@company.com)',ok?'o':'e')};
+  // vP(비밀번호 검사): 8자 이상(len), 숫자 포함(num), 영문 포함(eng)을 각각 확인해 해당 조건 줄에 y 클래스를 켜고 끕니다. 세 조건이 모두 참일 때만 true 를 돌려줍니다.
   const vP=()=>{const v=P.value,rs={len:v.length>=8,num:/\d/.test(v),eng:/[a-zA-Z]/.test(v)};r.querySelectorAll('[data-r]').forEach(li=>li.classList.toggle('y',rs[li.dataset.r]));return rs.len&&rs.num&&rs.eng};
+  // vC(확인 검사): 확인 칸이 비어 있지 않고 비밀번호와 같을 때만 통과로 봅니다.
   const vC=(show)=>{const ok=C.value!==''&&C.value===P.value;mark(C,ok,show&&C.value!=='');msg('x-iv-cm',show&&C.value?(ok?'비밀번호가 일치합니다':'비밀번호가 서로 달라요'):'',ok?'o':'e')};
+  // when(칸, 검사 함수): 검사 시점을 정합니다. 칸을 벗어날 때(blur)에는 항상 검사하고(touched 기록), 입력 중(input)에는 "입력할 때마다" 모드이거나 이미 한 번 벗어난 칸일 때만 검사합니다. 너무 일찍 오류를 띄우지 않는 것이 좋은 인라인 검증의 핵심입니다.
   const when=(el,fn)=>{el.addEventListener('blur',()=>{touched[el.id]=1;fn(true)});el.addEventListener('input',()=>{fn(T.value==='input'||touched[el.id])})};
+  // 세 칸에 검사를 연결합니다. 비밀번호가 바뀌면 확인 칸도 다시 검사합니다.
   when(E,vE);when(P,()=>{vP();if(C.value)vC(true)});when(C,vC);
 },
 code:`<label for="email">이메일</label>
@@ -5149,22 +5215,36 @@ cheat:[
 terms:[['segmented control','세그먼트드 컨트롤, 붙어 있는 선택 버튼 묶음'],['radio group','라디오 그룹, 하나만 고르는 선택 그룹'],['roving tabindex','로빙 탭인덱스, 그룹 안에서 방향키로 초점을 옮기는 방식']],
 note:'선택 즉시 바뀌는 즉시 반영형이라 "적용" 버튼이 필요 없어야 합니다. 라벨은 짧게 쓰고, 한 줄에 들어가는 개수만 둡니다.',
 css:`
+/* 분할 버튼 예시 바깥 상자. */
 .x-sg{display:grid;gap:12px}
+/* 분할 버튼(세그먼트) 상자: grid-auto-flow:column 과 grid-auto-columns:1fr 로 버튼을 같은 폭으로 가로로 나눕니다. position:relative 는 움직이는 하이라이트의 기준점입니다. */
 .x-sg-c{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:3px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);justify-self:start}
+/* 선택 칸을 보여 주는 움직이는 흰 막대입니다. 폭은 전체를 칸 수(--n)로 나눈 값, 위치는 칸 번호(--i)만큼 옆으로 밀어(translateX) 정합니다. transition 의 탄성 곡선으로 미끄러집니다. */
 .x-sg-c::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px) / var(--n,3));border-radius:8px;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25);transform:translateX(calc(var(--i,0) * 100%));transition:transform .25s cubic-bezier(.3,1.2,.5,1)}
+/* 칸 버튼: 기본 모양을 지우고, position:relative 로 위의 하이라이트보다 앞에 보이게 합니다. */
 .x-sg-c button{position:relative;border:0;background:none;padding:7px 20px;font:600 13px var(--sans);color:var(--ink-2);cursor:pointer}
+/* 선택된 칸(aria-checked="true")은 글자를 진하게. */
 .x-sg-c button[aria-checked="true"]{color:var(--ink)}
+/* 아래 값 카드들을 격자로 놓습니다. */
 .x-sg-v{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+/* 값 카드 하나의 모양. */
 .x-sg-v div{padding:12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--ink-2)}
+/* 큰 숫자 글자: tabular-nums 로 자릿수 폭을 같게 합니다. */
 .x-sg-v b{display:block;font:700 18px var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
 `,
 demo:`<div class="x-sg"><div class="x-sg-c" role="radiogroup" aria-label="기간 선택"><button type="button" role="radio" aria-checked="true" tabindex="0">일</button><button type="button" role="radio" aria-checked="false" tabindex="-1">주</button><button type="button" role="radio" aria-checked="false" tabindex="-1">월</button></div><div class="x-sg-v" aria-live="polite"></div><p class="d-hint">선택한 뒤 ← → 방향키로도 바꿀 수 있습니다. 수치는 예시입니다.</p></div>`,
 init(r){
+  // 분할 버튼(c), 안쪽 버튼들(bs), 값 영역(v)을 찾습니다.
   const c=r.querySelector('.x-sg-c'),bs=[...c.querySelectorAll('button')],v=r.querySelector('.x-sg-v');
+  // D: 칸(오늘, 이번 주, 이번 달)마다 보여 줄 [이름, 값] 데이터.
   const D=[[['오늘 매출','184,000원'],['주문 수','23건'],['방문자','412명']],[['이번 주 매출','1,240,000원'],['주문 수','158건'],['방문자','2,930명']],[['이번 달 매출','5,380,000원'],['주문 수','702건'],['방문자','11,800명']]];
+  // 칸 개수를 CSS 변수 --n 에 넣어 하이라이트 폭을 정합니다.
   c.style.setProperty('--n',bs.length);
+  // pick(번호, 포커스 여부): 해당 칸만 aria-checked 로 선택 표시하고 Tab 키가 닿게(tabIndex 0) 하며, 하이라이트를 --i 로 옮기고, 아래 값 카드를 그 칸의 데이터로 바꿉니다.
   const pick=(i,f)=>{bs.forEach((b,j)=>{b.setAttribute('aria-checked',i===j);b.tabIndex=i===j?0:-1});c.style.setProperty('--i',i);v.innerHTML=D[i].map(x=>'<div>'+x[0]+'<b>'+x[1]+'</b></div>').join('');if(f)bs[i].focus()};
+  // 칸을 누르면 선택합니다. 오른쪽·왼쪽 화살표로 옆 칸으로 이동하고(끝에서는 반대쪽으로), 이동한 칸에 포커스를 줍니다.
   bs.forEach((b,i)=>{b.addEventListener('click',()=>pick(i));b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();pick((i+1)%bs.length,1)}if(e.key==='ArrowLeft'){e.preventDefault();pick((i+bs.length-1)%bs.length,1)}})});
+  // 처음에는 첫 칸을 선택합니다.
   pick(0);
 },
 code:`<div class="seg" role="radiogroup" aria-label="기간 선택" style="--n:3;--i:0">
@@ -5197,25 +5277,42 @@ cheat:[
 terms:[['tag input','태그 인풋, 여러 값을 칩으로 쌓는 입력'],['token','토큰, 확정된 한 덩어리의 값'],['combobox','콤보박스, 입력과 목록 선택이 합쳐진 요소']],
 note:'한글 입력 중(조합 중)에 Enter를 누르면 두 번 처리되는 문제가 있으니 isComposing 확인이 필요합니다. 유효하지 않은 값은 칩을 다른 색으로 표시해 알려 줍니다.',
 css:`
+/* 태그 입력 예시 바깥 상자. */
 .x-ti{display:grid;gap:8px;max-width:360px}
+/* 태그와 입력 칸이 함께 들어가는 상자: flex 와 flex-wrap 으로 태그가 많으면 줄바꿈합니다. cursor:text 는 어디를 눌러도 글자를 쓸 수 있다는 신호입니다. */
 .x-ti-box{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:7px 8px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:text}
+/* 안쪽 입력 칸에 포커스가 있으면(:focus-within) 상자 테두리를 강조색으로 바꿉니다. */
 .x-ti-box:focus-within{border-color:var(--accent)}
+/* 안쪽 입력 칸: 테두리와 윤곽선을 없애 상자와 한 몸처럼 보이게 하고, 남는 폭을 차지합니다(flex:1). */
 .x-ti-box input{flex:1;min-width:120px;border:0;outline:0;background:none;color:var(--ink);font:13px var(--sans);padding:4px}
+/* 태그(칩) 하나의 모양. */
 .x-ti-c{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 12px var(--sans)}
+/* 형식이 틀린 태그(bad 클래스)는 연한 빨강 바탕과 빨간 글자로 표시합니다. */
 .x-ti-c.bad{background:color-mix(in srgb,var(--rose) 20%,var(--surface));color:var(--rose)}
+/* 태그의 × 삭제 버튼. */
 .x-ti-c button{border:0;background:none;color:inherit;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:14px}
+/* 아래 안내 문구 자리: 최소 높이를 두어 문구가 생겨도 화면이 밀리지 않게 합니다. */
 .x-ti-m{font-size:12px;color:var(--ink-2);min-height:16px}
 `,
 demo:`<div class="x-ti"><label for="x-ti-i" style="font-size:12.5px;font-weight:600">받는 사람 (최대 5명)</label><div class="x-ti-box"><input id="x-ti-i" type="text" placeholder="이메일 입력 후 Enter 또는 쉼표" autocomplete="off"></div><div class="x-ti-m" aria-live="polite"></div></div>`,
 init(r){
+  // 상자(box), 입력 칸(inp), 안내 문구 자리(m)를 찾고, tags(태그 목록)와 MAX(최대 5개)를 정합니다.
   const box=r.querySelector('.x-ti-box'),inp=r.querySelector('input'),m=r.querySelector('.x-ti-m');const tags=[];const MAX=5;
+  // say(글): 안내 문구 자리에 글을 보여 줍니다.
   const say=t=>{m.textContent=t};
+  // draw(): 상자 안의 태그를 모두 지우고 tags 로 다시 만듭니다. 이메일 형식이 아니면 bad 클래스를 붙입니다. 태그마다 × 버튼(aria-label 로 어떤 태그인지 알림)을 달고, 누르면 지우고 입력 칸에 포커스를 돌려줍니다.
   const draw=()=>{box.querySelectorAll('.x-ti-c').forEach(e=>e.remove());tags.forEach((t,i)=>{const s=document.createElement('span');s.className='x-ti-c'+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)?'':' bad');s.innerHTML='<span></span><button type="button" aria-label=""></button>';s.firstChild.textContent=t;const b=s.querySelector('button');b.textContent='×';b.setAttribute('aria-label',t+' 삭제');b.addEventListener('click',()=>{tags.splice(i,1);draw();say(t+' 삭제됨');inp.focus()});box.insertBefore(s,inp)})};
+  // add(값): 앞뒤 공백을 지우고, 빈 값·중복·최대 개수 초과를 걸러 낸 뒤 목록에 추가하고 다시 그립니다. 그때그때 이유를 안내 문구로 알려 줍니다.
   const add=v=>{v=v.trim();if(!v)return;if(tags.includes(v)){say('이미 추가된 값입니다.');return}if(tags.length>=MAX){say('최대 '+MAX+'명까지 추가할 수 있습니다.');return}tags.push(v);draw();say(v+' 추가됨 ('+tags.length+'/'+MAX+')')};
+  // 키 입력: 한글 조합 중(isComposing)에는 무시하고, Enter 나 쉼표(,)를 누르면 현재 글을 태그로 추가합니다. 입력 칸이 비어 있을 때 Backspace 를 누르면 마지막 태그를 지웁니다.
   inp.addEventListener('keydown',e=>{if(e.isComposing)return;if(e.key==='Enter'||e.key===','){e.preventDefault();add(inp.value);inp.value=''}else if(e.key==='Backspace'&&!inp.value&&tags.length){const t=tags.pop();draw();say(t+' 삭제됨')}});
+  // 붙여넣기: 쉼표, 줄바꿈, 세미콜론이 섞인 글이면 기본 동작을 막고 쪼개어 한꺼번에 태그로 추가합니다.
   inp.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text');if(/[,\n;]/.test(t)){e.preventDefault();t.split(/[,\n;]/).forEach(add)}});
+  // 입력 칸을 벗어날 때 남은 글이 있으면 태그로 추가합니다.
   inp.addEventListener('blur',()=>{if(inp.value.trim()){add(inp.value);inp.value=''}});
+  // 상자의 빈 곳을 눌러도 입력 칸에 포커스를 줍니다.
   box.addEventListener('click',()=>inp.focus());
+  // 처음에 예시 태그 두 개를 넣고 안내 문구를 보여 줍니다.
   ['kim@company.com','lee@company.com'].forEach(add);say('엔터로 추가해 보세요. 형식이 틀리면 붉게 표시됩니다.');
 },
 code:`input.addEventListener('keydown', e => {
@@ -5253,11 +5350,17 @@ cheat:[
 terms:[['floating label','플로팅 라벨, 떠오르는 입력칸 이름표'],['focus','포커스, 입력칸을 선택해 커서가 있는 상태'],['placeholder-shown','플레이스홀더 쇼운, 자리 표시 문구가 보이는(비어 있는) 상태']],
 note:'라벨이 칸 안에서 작아지므로 글자가 너무 작아지면 읽기 어렵습니다. 자동완성이 값을 채울 때 라벨이 겹치지 않는지 확인하세요. 입력 예시는 포커스 후에만 보이게 합니다.',
 css:`
+/* 떠오르는 이름표 예시 바깥 상자. */
 .x-fl{display:grid;gap:14px;max-width:340px}
+/* 입력 칸 하나의 영역: position:relative 로 이름표를 입력 칸 위에 겹쳐 놓을 기준점. */
 .x-fl-f{position:relative}
+/* 입력 칸 모양: 위 여백(20px)을 크게 두어 이름표가 위로 올라갈 자리를 만듭니다. */
 .x-fl-f input,.x-fl-f textarea{width:100%;padding:20px 12px 7px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans);outline:0;resize:none}
+/* 이름표: position:absolute 로 입력 칸 위에 겹쳐 놓습니다. pointer-events:none 은 이름표가 클릭을 가로채지 않게 하고, transform-origin 은 줄어들 때의 기준점입니다. */
 .x-fl-f label{position:absolute;left:12px;top:14px;font-size:14px;color:var(--ink-2);pointer-events:none;transform-origin:left top;transition:transform .15s ease,color .15s}
+/* 입력 칸에 포커스가 있으면 테두리를 강조색으로. */
 .x-fl-f input:focus,.x-fl-f textarea:focus{border-color:var(--accent)}
+/* 포커스가 있거나 글자가 들어 있으면(:not(:placeholder-shown)) 바로 뒤의 이름표(+ label)를 위로 올리고(translateY) 작게(scale) 만들어 강조색으로 바꿉니다. 자바스크립트 없이 CSS만으로 동작합니다. (입력 칸에 placeholder=" " 를 한 칸 공백으로 넣어 두는 것이 전제입니다.) */
 .x-fl-f input:focus+label,.x-fl-f input:not(:placeholder-shown)+label,.x-fl-f textarea:focus+label,.x-fl-f textarea:not(:placeholder-shown)+label{transform:translateY(-9px) scale(.78);color:var(--accent)}
 `,
 demo:`<form class="x-fl" onsubmit="return false"><div class="x-fl-f"><input id="x-fl-n" type="text" placeholder=" " autocomplete="off"><label for="x-fl-n">이름</label></div><div class="x-fl-f"><input id="x-fl-e" type="email" placeholder=" " autocomplete="off"><label for="x-fl-e">이메일</label></div><div class="x-fl-f"><textarea id="x-fl-m" rows="3" placeholder=" "></textarea><label for="x-fl-m">문의 내용</label></div></form><p class="d-hint">칸을 누르거나 글자를 입력하면 라벨이 위로 올라갑니다.</p>`,
@@ -5296,37 +5399,65 @@ cheat:[
 terms:[['stepper','스테퍼, 단계 표시나 +/- 증감 입력'],['wizard','위저드, 여러 단계로 안내하는 절차 화면'],['quantity','퀀티티, 수량']],
 note:'단계가 많으면 중간에 막히기 쉬우니 필요한 정보만 받고, 이전으로 돌아가도 입력이 유지되게 합니다. 수량은 최솟값·최댓값에서 버튼을 비활성화해 알려 줍니다.',
 css:`
+/* 단계 표시 예시 바깥 상자. */
 .x-st{display:grid;gap:12px}
+/* 단계 목록(ol): 점과 기본 여백을 지우고 가로로 나열합니다. */
 .x-st ol{list-style:none;margin:0;padding:0;display:flex;align-items:center}
+/* 단계 하나: 번호 원과 이름을 가로로 나란히, flex:1 로 남는 폭을 나눠 갖습니다. */
 .x-st li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);flex:1}
+/* 마지막 단계는 늘어나지 않게(flex:none) 합니다. */
 .x-st li:last-child{flex:none}
+/* 단계 번호 원: 24px 동그라미에 번호를 가운데에, 기본은 회색. */
 .x-st li i{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 12px var(--sans);font-style:normal;background:var(--line);color:var(--ink)}
+/* 끝난 단계(done 클래스)는 강조색 원에 체크(✓). */
 .x-st li.done i{background:var(--accent);color:var(--accent-ink)}
+/* 지금 단계(cur 클래스)는 연한 강조색 원에 강조색 윤곽선(outline)으로 눈에 띄게 합니다. */
 .x-st li.cur i{background:var(--accent-soft);color:var(--accent);outline:2px solid var(--accent)}
+/* 지금 단계의 이름은 굵고 진하게. */
 .x-st li.cur{color:var(--ink);font-weight:700}
+/* 단계 사이를 잇는 선을 ::after 로 그립니다. flex:1 로 남는 폭을 채웁니다. */
 .x-st li::after{content:"";flex:1;height:2px;background:var(--line);margin:0 4px}
+/* 끝난 단계 뒤의 선은 강조색. */
 .x-st li.done::after{background:var(--accent)}
+/* 마지막 단계 뒤에는 선을 그리지 않습니다. */
 .x-st li:last-child::after{display:none}
+/* 현재 단계의 내용 상자. */
 .x-st-p{min-height:90px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:13px;display:grid;gap:8px;align-content:start}
+/* 텍스트 입력 칸 모양. */
 .x-st-p input[type=text]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* 수량 조절 상자(− 숫자 +): 붙어 있는 세 칸의 둥근 상자. */
 .x-st-q{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+/* − 와 + 버튼 모양. */
 .x-st-q button{width:36px;height:36px;border:0;background:var(--surface-2);color:var(--ink);font-size:18px;cursor:pointer}
+/* 더 줄이거나 늘릴 수 없을 때(비활성) 흐리게 합니다. */
 .x-st-q button:disabled{opacity:.35;cursor:default}
+/* 수량 숫자 글자. */
 .x-st-q output{min-width:40px;text-align:center;font:700 14px var(--sans)}
+/* 오류 문구 자리: 빨강, 최소 높이를 둡니다. */
 .x-st-err{color:var(--rose);font-size:12px;min-height:16px}
 `,
 demo:`<div class="x-st"><ol aria-label="주문 단계"></ol><div class="x-st-p"></div><div class="x-st-err" role="alert"></div><div class="d-row"><button class="d-btn x-st-pv" type="button">이전</button><button class="d-btn d-btn-primary x-st-nx" type="button">다음</button></div></div>`,
 init(r){
+  // S: 단계 이름들, ol(단계 목록), pn(내용 상자), er(오류 문구 자리), pv(이전 버튼), nx(다음 버튼)을 찾고, i(지금 단계 번호), qty(수량), addr(배송지)를 준비합니다.
   const S=['장바구니','배송지','결제','완료'],ol=r.querySelector('ol'),pn=r.querySelector('.x-st-p'),er=r.querySelector('.x-st-err'),pv=r.querySelector('.x-st-pv'),nx=r.querySelector('.x-st-nx');let i=0,qty=2,addr='';
+  // draw(): 지금 단계(i)에 맞게 화면 전체를 다시 그립니다. 단계 목록에서 지난 단계는 done, 지금 단계는 cur 와 aria-current="step" 을 붙이고, 이전 버튼은 첫·마지막 단계에서 막고, 다음 버튼 글자는 결제 단계에서 "결제하기"로 바꿉니다.
   const draw=()=>{ol.innerHTML=S.map((t,k)=>'<li class="'+(k<i?'done':k===i?'cur':'')+'"'+(k===i?' aria-current="step"':'')+'><i>'+(k<i?'✓':k+1)+'</i>'+t+'</li>').join('');er.textContent='';
     pv.disabled=i===0||i===3;nx.hidden=i===3;nx.textContent=i===2?'결제하기':'다음';
+    // 0단계(장바구니): 상품과 수량 조절을 그립니다.
     if(i===0){pn.innerHTML='<span>🥐 크루아상 6개입 · 12,000원</span><div class="x-st-q"><button type="button" aria-label="수량 줄이기">−</button><output aria-live="polite">'+qty+'</output><button type="button" aria-label="수량 늘리기">+</button></div><span style="color:var(--ink-2)">합계 '+(qty*12000).toLocaleString('ko-KR')+'원</span>';
+      // 수량 버튼(m 줄이기, p 늘리기)과 숫자(o)를 찾고, up(): 수량 글자와 합계를 갱신하고 1 이하·10 이상에서는 해당 버튼을 막습니다.
       const [m,p]=pn.querySelectorAll('.x-st-q button'),o=pn.querySelector('output');const up=()=>{o.textContent=qty;m.disabled=qty<=1;p.disabled=qty>=10;pn.lastChild.textContent='합계 '+(qty*12000).toLocaleString('ko-KR')+'원'};
+      // 버튼을 누르면 수량을 바꾸고 up() 을 실행합니다. 처음에도 up() 을 한 번 실행합니다.
       m.addEventListener('click',()=>{qty--;up()});p.addEventListener('click',()=>{qty++;up()});up()}
+    // 1단계(배송지): 입력 칸을 그리고, 입력할 때마다 addr 에 저장해 단계를 오가도 값이 남게 합니다.
     else if(i===1){pn.innerHTML='<label for="x-st-a">배송지 (필수)</label><input id="x-st-a" type="text" placeholder="예: 인천 연수구 예시로 12"><span style="color:var(--ink-2)">비워 두고 다음을 눌러 보세요</span>';const a=pn.querySelector('input');a.value=addr;a.addEventListener('input',()=>{addr=a.value})}
+    // 2단계(결제): 합계와 배송지를 보여 줍니다.
     else if(i===2)pn.innerHTML='<span>결제 금액 <b>'+(qty*12000).toLocaleString('ko-KR')+'원</b></span><span style="color:var(--ink-2)">배송지: '+addr+'</span>';
+    // 3단계(완료): 완료 안내와 "처음부터 다시" 버튼을 보여 줍니다.
     else pn.innerHTML='<b>🎉 주문이 완료되었습니다</b><span style="color:var(--ink-2)">예시 화면입니다.</span><button class="d-btn" type="button">처음부터 다시</button>';
+    // 완료 화면의 "처음부터 다시"를 누르면 모든 값을 처음으로 돌립니다.
     if(i===3)pn.querySelector('button').addEventListener('click',()=>{i=0;qty=2;addr='';draw()})};
+  // 다음 버튼: 배송지 단계에서 배송지가 비어 있으면 오류 문구를 보여 주고 입력 칸에 포커스를 돌려 다음 단계로 가지 못하게 합니다(필수 입력 검사). 통과하면 다음 단계로 가서 다시 그립니다. 이전 버튼은 한 단계 뒤로 갑니다.
   nx.addEventListener('click',()=>{if(i===1&&!addr.trim()){er.textContent='배송지를 입력해야 다음 단계로 갈 수 있어요.';pn.querySelector('input').focus();return}i++;draw()});pv.addEventListener('click',()=>{i--;draw()});draw();
 },
 code:`<ol class="steps" aria-label="주문 단계">
