@@ -5500,34 +5500,54 @@ cheat:[
 terms:[['typeahead','타입어헤드, 입력 중 앞서서 후보를 보여 주는 기능'],['combobox','콤보박스, 입력과 목록 선택이 합쳐진 요소'],['IME','아이엠이, Input Method Editor(입력기), 한글 같은 조합형 문자 입력 방식']],
 note:'한글은 조합 중(compositionstart~compositionend)에 입력 이벤트가 여러 번 발생합니다. 조합 중 Enter를 확정으로 처리하지 않도록 e.isComposing을 확인하세요. 결과가 없을 때도 안내 문구를 보여 주세요.',
 css:`
+/* 자동완성 상자: position:relative 로 아래 제안 목록의 기준점이 됩니다. */
 .x-ac{position:relative;max-width:340px}
+/* 검색 입력 칸 모양. */
 .x-ac input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans);outline:0}
+/* 포커스가 있으면 테두리를 강조색으로. */
 .x-ac input:focus{border-color:var(--accent)}
+/* 제안 목록: position:absolute 와 top:calc(100% + 4px)로 입력 칸 바로 아래에 겹쳐 띄우고, max-height 와 overflow:auto 로 길면 스크롤됩니다. */
 .x-ac ul{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:3;margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 16px 30px -16px rgba(0,0,0,.5);max-height:190px;overflow:auto}
+/* 제안 한 줄: 눌러 볼 수 있는 손 모양 커서. */
 .x-ac li{padding:8px 10px;border-radius:6px;font-size:13px;cursor:pointer}
+/* 키보드로 고른 줄(aria-selected="true")이나 마우스를 올린 줄은 연한 강조 배경. */
 .x-ac li[aria-selected="true"],.x-ac li:hover{background:var(--accent-soft)}
+/* 입력한 글자와 일치하는 부분(<mark>)은 배경 없이 강조색과 굵은 글씨로. */
 .x-ac mark{background:none;color:var(--accent);font-weight:800}
+/* "일치하는 지역이 없어요" 안내 줄. */
 .x-ac .no{padding:10px;color:var(--ink-2);font-size:12.5px}
+/* 선택 결과 안내 글 자리. */
 .x-ac-r{min-height:22px;margin-top:6px;font-size:12.5px;color:var(--ink-2)}
 `,
 demo:`<div class="x-ac"><label for="x-ac-i" style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">배송받을 지역</label><input id="x-ac-i" type="text" role="combobox" aria-expanded="false" aria-controls="x-ac-l" aria-autocomplete="list" autocomplete="off" placeholder="예: 서울, 인천, 제주"><ul id="x-ac-l" role="listbox" hidden></ul></div><div class="x-ac-r" aria-live="polite" style="min-height:60px"></div>`,
 init(r){
+  // D: 검색할 지역 이름 목록(예시 데이터).
   const D=['서울특별시','부산광역시','인천광역시','대구광역시','대전광역시','광주광역시','울산광역시','세종특별자치시','경기도 수원시','경기도 성남시','경기도 고양시','경기도 용인시','강원특별자치도 춘천시','충청북도 청주시','충청남도 천안시','전북특별자치도 전주시','전라남도 여수시','경상북도 포항시','경상남도 창원시','제주특별자치도 제주시'];
+  // 입력 칸(i), 제안 목록(l), 결과 글(out)을 찾고, act(키보드로 고른 번호, -1은 없음)와 cur(지금 보이는 제안 배열)를 준비합니다.
   const i=r.querySelector('input'),l=r.querySelector('ul'),out=r.querySelector('.x-ac-r');let act=-1,cur=[];
+  // esc(글): &, <, > 를 안전한 글자로 바꿔 입력한 글자가 HTML로 실행되지 않게 합니다.
   const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  // open(true/false): 목록을 보이거나 숨기고, aria-expanded 로 펼침 상태를 알립니다. 닫을 때는 고른 번호와 aria-activedescendant 를 지웁니다.
   const open=v=>{l.hidden=!v;i.setAttribute('aria-expanded',v);if(!v){act=-1;i.removeAttribute('aria-activedescendant')}};
+  // draw(): 입력한 글자(q)가 들어 있는 지역만 골라 제안 목록을 다시 그립니다. 글자가 없으면 목록을 닫고, 결과가 없으면 안내 줄을 보입니다.
   const draw=()=>{const q=i.value.trim();cur=q?D.filter(d=>d.includes(q)):[];l.textContent='';
     if(!q){open(false);return}open(true);
     if(!cur.length){l.innerHTML='<li class="no" role="presentation">일치하는 지역이 없어요</li>';return}
+    // 제안은 최대 8개까지: 줄마다 id 와 role="option" 을 달고, 일치한 글자를 <mark>로 감쌉니다. mousedown 에서 preventDefault 를 해서 입력 칸이 포커스를 잃어 목록이 먼저 닫히는 것을 막고 pick(k)으로 선택합니다.
     cur.slice(0,8).forEach((d,k)=>{const li=document.createElement('li');li.id='x-ac-o'+k;li.setAttribute('role','option');li.setAttribute('aria-selected','false');const p=d.indexOf(q);li.innerHTML=esc(d.slice(0,p))+'<mark>'+esc(q)+'</mark>'+esc(d.slice(p+q.length));li.addEventListener('mousedown',e=>{e.preventDefault();pick(k)});l.appendChild(li)})};
+  // mark(번호): 키보드로 고른 줄을 aria-selected 로 표시하고, 입력 칸에 aria-activedescendant(지금 가리키는 항목의 id)를 달아 화면 낭독기가 읽게 하며, 목록이 길면 그 줄이 보이게 스크롤합니다.
   const mark=k=>{act=k;[...l.querySelectorAll('[role=option]')].forEach((o,j)=>o.setAttribute('aria-selected',j===k));if(k>=0){i.setAttribute('aria-activedescendant','x-ac-o'+k);l.querySelector('#x-ac-o'+k).scrollIntoView({block:'nearest'})}};
+  // pick(번호): 고른 지역을 입력 칸에 채우고 목록을 닫고 결과 글을 보여 줍니다.
   const pick=k=>{i.value=cur[k];open(false);out.innerHTML='선택한 지역: <b>'+esc(cur[k])+'</b> (예시 목록)'};
+  // 글자를 입력할 때마다 제안을 다시 그립니다.
   i.addEventListener('input',draw);
+  // 키보드: 한글 조합 중에는 무시합니다. ↓ 는 다음 줄(목록이 닫혀 있으면 먼저 열기), ↑ 는 이전 줄, Enter 는 고른 줄 선택, Esc 는 닫기입니다. preventDefault 는 커서가 움직이거나 폼이 제출되는 기본 동작을 막습니다.
   i.addEventListener('keydown',e=>{if(e.isComposing)return;const n=Math.min(cur.length,8);
     if(e.key==='ArrowDown'){e.preventDefault();if(l.hidden)draw();mark(Math.min(n-1,act+1))}
     else if(e.key==='ArrowUp'){e.preventDefault();mark(Math.max(0,act-1))}
     else if(e.key==='Enter'&&act>=0){e.preventDefault();pick(act)}
     else if(e.key==='Escape'){open(false)}});
+  // 입력 칸에서 포커스가 벗어나면 목록을 닫습니다.
   i.addEventListener('blur',()=>open(false));
   out.textContent='글자를 입력한 뒤 ↑ ↓ Enter 를 눌러 보세요.';
 },
@@ -5573,21 +5593,34 @@ cheat:[
 terms:[['controlled component','컨트롤드 컴포넌트, 값을 React 상태가 제어하는 입력'],['uncontrolled component','언컨트롤드 컴포넌트, 값을 브라우저(DOM)가 들고 있는 입력'],['ref','레프, 화면의 실제 요소를 가리키는 참조'],['state','스테이트, 컴포넌트가 기억하는 값']],
 note:'아래 데모는 React가 아니라 순수 자바스크립트로 두 방식의 차이를 흉내 낸 화면입니다. React 공식 문서 원문은 이번에 직접 열어 확인하지 못했습니다(확인 필요). 입력이 많은 큰 폼은 폼 라이브러리를 쓰는 경우가 많습니다.',
 css:`
+/* 두 방식을 나란히 비교하는 바깥 격자: repeat(auto-fit, minmax(200px,1fr))은 공간이 좁으면 알아서 세로로 쌓입니다. */
 .x-cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+/* 각 방식의 카드 모양. */
 .x-cu>div{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:8px;align-content:start;font-size:12.5px}
+/* 방식 이름 글자. */
 .x-cu h4{margin:0;font:700 13px var(--display)}
+/* 입력 칸 모양. */
 .x-cu input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* 값을 보여 주는 상자: 고정폭 글꼴, word-break:break-all 로 긴 글자도 줄바꿈합니다. */
 .x-cu output{display:block;padding:8px;border-radius:8px;background:var(--surface-2);font:12px/1.5 var(--mono);color:var(--ink-2);min-height:54px;word-break:break-all}
+/* "다시 그린 횟수" 작은 글자. */
 .x-cu .n{font:600 11px var(--mono);color:var(--accent)}
 `,
 demo:`<div class="x-cu"><div class="un"><h4>비제어 (Uncontrolled)</h4><label for="x-cu-u" class="sr">휴대폰 번호(비제어)</label><input id="x-cu-u" type="text" placeholder="휴대폰 번호" inputmode="numeric"><button class="d-btn" type="button">제출하면 읽기</button><output aria-live="polite">입력 중에는 코드가 값을 모릅니다.</output><span class="n">다시 그린 횟수: 0 (입력해도 안 변함)</span></div><div class="co"><h4>제어 (Controlled)</h4><label for="x-cu-c" class="sr">휴대폰 번호(제어)</label><input id="x-cu-c" type="text" placeholder="휴대폰 번호 (숫자만, 자동 하이픈)" inputmode="numeric"><output aria-live="polite">상태: ""</output><span class="n">다시 그린 횟수: 0</span></div></div><p class="d-hint">오른쪽은 입력할 때마다 값을 검사해 숫자만 받고 하이픈을 붙입니다. 문자를 넣어 보세요.</p>`,
 init(r){
+  // 비제어(uncontrolled) 쪽: 입력 칸(ui), 결과 상자(uo), 제출 버튼(ub)을 찾습니다. 비제어는 브라우저가 입력값을 직접 들고 있다가 필요할 때 읽는 방식입니다.
   const ui=r.querySelector('#x-cu-u'),uo=r.querySelector('.un output'),ub=r.querySelector('.un button');
+  // 제출할 때 한 번만 입력값을 읽습니다. 입력하는 동안에는 코드가 관여하지 않아 잘못된 글자도 그대로 들어갑니다.
   ub.addEventListener('click',()=>{uo.textContent='제출 시 읽음: "'+ui.value+'" (잘못된 글자도 그대로)'});
+  // 제어(controlled) 쪽: 입력 칸(ci), 결과 상자(co), 횟수 글(cn)을 찾고, state(코드가 들고 있는 값)와 renders(다시 그린 횟수)를 준비합니다. 제어는 "값의 주인이 코드"이고 화면은 그 값을 보여 주기만 하는 방식입니다.
   const ci=r.querySelector('#x-cu-c'),co=r.querySelector('.co output'),cn=r.querySelector('.co .n');let state='',renders=0;
+  // fmt(숫자글): 숫자를 전화번호 모양(000-0000-0000)으로 나눠 줍니다.
   const fmt=d=>d.length<4?d:d.length<8?d.slice(0,3)+'-'+d.slice(3):d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7,11);
+  // render(): 코드가 가진 값(state)으로 입력 칸 화면을 다시 만들어 넣고, 결과와 횟수를 갱신합니다. 화면은 항상 state 를 따릅니다.
   const render=()=>{renders++;ci.value=fmt(state);co.textContent='상태: "'+state+'" → 화면 "'+fmt(state)+'"';cn.textContent='다시 그린 횟수: '+renders};
+  // 입력할 때마다: 한글 조합 중이 아니면 숫자만 남기고(\D 제거) 11자리까지만 state 에 저장한 뒤 render() 합니다.
   ci.addEventListener('input',e=>{if(e.isComposing)return;state=ci.value.replace(/\D/g,'').slice(0,11);render()});
+  // 한글 조합이 끝난 순간에도 같은 처리를 해서 조합 중에 놓친 값을 반영합니다.
   ci.addEventListener('compositionend',()=>{state=ci.value.replace(/\D/g,'').slice(0,11);render()});
 },
 code:`// 제어 컴포넌트: 값은 상태가 가짐
@@ -5628,24 +5661,39 @@ cheat:[
 terms:[['field','필드, 입력칸 하나'],['schema','스키마, 규칙을 한곳에 정리한 정의 (예: zod, yup 같은 도구)'],['constraint validation','컨스트레인트 밸리데이션, 브라우저가 기본 제공하는 검증 기능']],
 note:'클라이언트(브라우저) 검증은 편의 기능일 뿐이고, 보안과 정확성은 서버(WAS)에서 다시 검증해야 합니다. 규칙은 한 곳에 모아 두고 화면과 서버가 같이 쓰면 어긋남을 줄입니다.',
 css:`
+/* 입력 폼 바깥 상자: 세로로 쌓고 최대 폭 360px. */
 .x-fv{display:grid;gap:10px;max-width:360px}
+/* 입력 칸 이름표 글자. */
 .x-fv label{font-size:12.5px;font-weight:600;display:block;margin-bottom:3px}
+/* 입력 칸 모양. */
 .x-fv input{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* 잘못된 입력(aria-invalid="true")은 테두리를 빨강으로. */
 .x-fv input[aria-invalid="true"]{border-color:var(--rose)}
+/* 칸 아래 오류 문구 자리: 최소 높이를 두어 문구가 생겨도 아래가 밀리지 않게 합니다. */
 .x-fv .e{font-size:12px;color:var(--rose);min-height:15px;margin-top:2px}
+/* 제출 후 맨 위에 모아 보여 주는 오류 요약 상자: 연한 빨강 바탕. */
 .x-fv-sum{padding:10px 12px;border-radius:10px;border:1px solid var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface));font-size:12.5px}
+/* 요약의 각 항목은 누르면 해당 입력 칸으로 이동하는 링크처럼 보이게 합니다. */
 .x-fv-sum a{color:var(--rose);cursor:pointer;text-decoration:underline}
+/* 요약 목록의 들여쓰기. */
 .x-fv-sum ul{margin:4px 0 0;padding-left:18px}
 `,
 demo:`<form class="x-fv" novalidate onsubmit="return false"><div class="x-fv-sum" role="alert" tabindex="-1" hidden></div><div><label for="x-fv-n">이름 (필수)</label><input id="x-fv-n" type="text" autocomplete="off" aria-describedby="x-fv-ne"><div class="e" id="x-fv-ne"></div></div><div><label for="x-fv-a">나이 (19~120)</label><input id="x-fv-a" type="text" inputmode="numeric" autocomplete="off" aria-describedby="x-fv-ae"><div class="e" id="x-fv-ae"></div></div><div><label for="x-fv-b">사업자등록번호 (숫자 10자리)</label><input id="x-fv-b" type="text" inputmode="numeric" autocomplete="off" aria-describedby="x-fv-be"><div class="e" id="x-fv-be"></div></div><button class="d-btn d-btn-primary" type="submit">제출</button></form><p class="d-hint">칸을 벗어날 때 필드 검증, 제출을 누르면 폼 검증(오류 요약과 첫 오류로 이동)이 실행됩니다.</p>`,
 init(r){
+  // F: 검사할 칸 목록입니다. 칸마다 [입력 칸 id, 이름, 검사 함수]이고, 검사 함수는 오류 문구를 돌려주고 통과하면 빈 글자()를 돌려줍니다. 나이는 숫자인지, 19~120인지, 사업자등록번호는 숫자 10자리인지 확인합니다.
   const F=[['x-fv-n','이름',v=>v.trim()?'':'이름을 입력해 주세요.'],['x-fv-a','나이',v=>{if(!v)return '나이를 입력해 주세요.';if(!/^\d+$/.test(v))return '숫자만 입력해 주세요.';const n=+v;return n>=19&&n<=120?'':'19세 이상 120세 이하만 가능합니다.'}],['x-fv-b','사업자등록번호',v=>/^\d{10}$/.test(v.replace(/-/g,''))?'':'숫자 10자리를 입력해 주세요.']];
+  // 오류 요약 상자(sum)를 찾습니다.
   const sum=r.querySelector('.x-fv-sum');
+  // check(칸, 보일지): 검사 함수를 실행해 aria-invalid 와 칸 아래 오류 문구를 갱신하고, 오류 문구를 돌려줍니다.
   const check=(f,show)=>{const i=r.querySelector('#'+f[0]),m=f[2](i.value);i.setAttribute('aria-invalid',show&&!!m);r.querySelector('#'+f[0]+'e').textContent=show?m:'';if(!show)return m;return m};
+  // 칸마다: 포커스를 벗어날 때(blur) 검사하고, 이미 오류가 표시된 칸은 입력할 때마다 다시 검사해서 고치는 즉시 오류가 사라지게 합니다.
   F.forEach(f=>{const i=r.querySelector('#'+f[0]);r.querySelector('#'+f[0].replace(/$/,'')+'e');i.addEventListener('blur',()=>check(f,true));i.addEventListener('input',()=>{if(i.getAttribute('aria-invalid')==='true')check(f,true)})});
+  // 제출할 때 모든 칸을 검사해 오류 목록(errs)을 만듭니다. 오류가 없으면 초록 성공 안내를 보여 주고 끝냅니다.
   r.querySelector('form').addEventListener('submit',()=>{const errs=F.map(f=>[f,check(f,true)]).filter(x=>x[1]);
     if(!errs.length){sum.hidden=false;sum.style.borderColor='var(--leaf)';sum.style.background='color-mix(in srgb,var(--leaf) 12%,var(--surface))';sum.textContent='모든 항목이 올바릅니다. 제출되었습니다. (예시)';return}
+    // 오류가 있으면 요약 상자에 개수와 목록을 보여 줍니다.
     sum.style.borderColor='';sum.style.background='';sum.hidden=false;sum.innerHTML='<b>'+errs.length+'개 항목을 확인해 주세요</b><ul></ul>';
+    // 오류 항목마다 링크를 만들어(키보드 Tab/Enter 도 가능) 누르면 해당 입력 칸으로 포커스를 옮깁니다. 마지막에는 첫 오류 칸에 바로 포커스를 줍니다.
     errs.forEach(([f,m])=>{const li=document.createElement('li'),a=document.createElement('a');a.textContent=f[1]+': '+m;a.tabIndex=0;const go=()=>r.querySelector('#'+f[0]).focus();a.addEventListener('click',go);a.addEventListener('keydown',e=>{if(e.key==='Enter')go()});li.appendChild(a);sum.querySelector('ul').appendChild(li)});
     r.querySelector('#'+errs[0][0][0]).focus()});
 },
@@ -5686,28 +5734,47 @@ cheat:[
 terms:[['dirty','더티, 처음 값에서 바뀐 상태'],['pristine','프리스틴, 손대지 않은 원래 상태'],['touched','터치드, 사용자가 칸에 들어갔다 나온 상태'],['initial value','이니셜 밸류, 처음 값']],
 note:'값을 바꿨다가 원래대로 되돌리면 dirty가 아니어야 합니다(처음 값과 비교). 오류는 touched 이후에만 보여 주면 입력 중 방해를 줄입니다. 나가기 경고는 정말 값이 바뀌었을 때만 띄웁니다.',
 css:`
+/* 폼 바깥 상자: 세로로 쌓고 최대 폭 380px. */
 .x-dt{display:grid;gap:10px;max-width:380px}
+/* 입력 한 칸의 영역: 입력 칸은 왼쪽, 상태 표시는 오른쪽에 놓는 2칸 격자입니다. */
 .x-dt-f{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
+/* 이름표는 두 칸을 모두 차지하게(grid-column:1/-1) 맨 위에 놓습니다. */
 .x-dt-f label{grid-column:1/-1;font-size:12.5px;font-weight:600}
+/* 입력 칸 모양: min-width:0 은 격자 안에서 칸이 억지로 늘어나지 않게 합니다. */
 .x-dt-f input{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans);min-width:0}
+/* 값이 처음과 달라진 칸(dirty 클래스)은 테두리를 주황색으로 표시합니다. */
 .x-dt-f.dirty input{border-color:var(--warm)}
+/* 칸 옆의 작은 상태 표시 묶음(d, t)을 가로로. */
 .x-dt-s{display:flex;gap:4px;font:700 10.5px var(--mono)}
+/* 상태 표시 하나: 꺼진 상태는 회색. */
 .x-dt-s span{padding:2px 6px;border-radius:5px;background:var(--line);color:var(--ink-2)}
+/* 켜진 상태(on 클래스)는 주황 배경에 흰 글자. */
 .x-dt-s span.on{background:var(--warm);color:#fff}
+/* touched(만져 봄) 표시가 켜지면 파란색. */
 .x-dt-s span.t.on{background:var(--sky)}
+/* 현재 상태를 알려 주는 글. */
 .x-dt-st{font-size:12.5px;color:var(--ink-2)}
+/* 저장하지 않고 나갈 때 뜨는 확인 상자: 주황 계열 경고 모양. */
 .x-dt-ask{padding:10px 12px;border-radius:10px;border:1px solid var(--warm);background:color-mix(in srgb,var(--warm) 12%,var(--surface));font-size:12.5px;display:grid;gap:8px}
 `,
 demo:`<div class="x-dt"><div class="x-dt-f"><label for="x-dt-n">이름</label><input id="x-dt-n" type="text" value="김하나" autocomplete="off"><div class="x-dt-s"><span class="d">dirty</span><span class="t">touched</span></div></div><div class="x-dt-f"><label for="x-dt-e">이메일</label><input id="x-dt-e" type="text" value="hana@example.com" autocomplete="off"><div class="x-dt-s"><span class="d">dirty</span><span class="t">touched</span></div></div><div class="x-dt-st"></div><div class="d-row"><button class="d-btn d-btn-primary x-dt-sv" type="button">저장</button><button class="d-btn x-dt-rs" type="button">되돌리기</button><button class="d-btn x-dt-lv" type="button">이 화면 나가기</button></div><div class="x-dt-ask" role="alertdialog" aria-label="저장하지 않은 변경 사항" hidden>저장하지 않은 변경 사항이 있습니다. 나가시겠어요?<div class="d-row"><button class="d-btn x-dt-stay" type="button">계속 수정</button><button class="d-btn d-btn-primary x-dt-go" type="button">저장 안 하고 나가기</button></div></div></div>`,
 init(r){
+  // 입력 칸 영역들(fs), 저장 버튼(sv), 되돌리기 버튼(rs), 나가기 버튼(lv), 확인 상자(ask), 상태 글(st)을 찾습니다.
   const fs=[...r.querySelectorAll('.x-dt-f')],sv=r.querySelector('.x-dt-sv'),rs=r.querySelector('.x-dt-rs'),lv=r.querySelector('.x-dt-lv'),ask=r.querySelector('.x-dt-ask'),st=r.querySelector('.x-dt-st');
+  // init: 처음(저장된) 값의 목록, touched: 칸마다 "한 번이라도 만져 봤는지(포커스를 벗어났는지)". 처음 값과 비교해야 "바뀌었는지(dirty)"를 알 수 있습니다.
   const init=fs.map(f=>f.querySelector('input').value),touched=fs.map(()=>false);
+  // upd(): 칸마다 지금 값이 처음 값과 다르면 dirty 로 표시하고(주황 테두리, d 표시), 만져 본 칸은 t 표시를 켭니다. 하나라도 바뀌었으면 저장·되돌리기 버튼을 켜고 아니면 끄며(pristine = 변경 없는 상태), 바뀐 것이 있는지(true/false)를 돌려줍니다.
   const upd=()=>{let any=false;fs.forEach((f,i)=>{const d=f.querySelector('input').value!==init[i];any=any||d;f.classList.toggle('dirty',d);f.querySelector('.d').classList.toggle('on',d);f.querySelector('.t').classList.toggle('on',touched[i])});
     sv.disabled=!any;rs.disabled=!any;st.textContent=any?'변경된 항목이 있어 저장할 수 있습니다.':'변경 사항 없음 (pristine) — 저장 버튼 비활성';return any};
+  // 칸에 입력하면 upd()를 실행하고, 포커스가 벗어나면 touched 로 기록한 뒤 upd()를 실행합니다.
   fs.forEach((f,i)=>{const inp=f.querySelector('input');inp.addEventListener('input',upd);inp.addEventListener('blur',()=>{touched[i]=true;upd()})});
+  // 저장: 지금 값을 새 기준(init)으로 삼고 표시를 갱신합니다.
   sv.addEventListener('click',()=>{fs.forEach((f,i)=>{init[i]=f.querySelector('input').value});upd();st.textContent='저장했습니다. (예시) 현재 값이 새 기준이 됩니다.'});
+  // 되돌리기: 모든 칸을 기준 값으로 되돌립니다.
   rs.addEventListener('click',()=>{fs.forEach((f,i)=>{f.querySelector('input').value=init[i]});upd()});
+  // 나가기: 바뀐 것이 있으면 확인 상자를 보여 주고, 없으면 바로 나갑니다. 저장하지 않은 변경을 실수로 잃지 않게 하는 안전장치입니다.
   lv.addEventListener('click',()=>{if(upd()){ask.hidden=false}else{st.textContent='바뀐 것이 없어 바로 나갑니다. (예시)'}});
+  // "계속 편집"은 확인 상자를 닫고, "저장 없이 나가기"는 상자를 닫고 값을 되돌린 뒤 안내합니다.
   r.querySelector('.x-dt-stay').addEventListener('click',()=>{ask.hidden=true});r.querySelector('.x-dt-go').addEventListener('click',()=>{ask.hidden=true;rs.click();st.textContent='저장 없이 나갔습니다. (예시)'});
   upd();
 },
@@ -5749,23 +5816,38 @@ cheat:[
 terms:[['sticky','스티키, 스크롤 위치에 따라 붙는 배치 방식'],['table of contents','테이블 오브 컨텐츠, 목차'],['scroll spy','스크롤 스파이, 읽는 위치에 따라 목차를 강조하는 기능']],
 note:'sticky가 안 될 때의 대부분의 원인은 조상 요소의 overflow 값, 부모 높이 부족, align-self 누락입니다. 모바일에서는 사이드바를 본문 위나 아래로 옮기는 편이 좋습니다.',
 css:`
+/* 예시 바깥 상자. */
 .x-ss{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+/* 스크롤되는 영역: 높이 250px에 overflow:auto. */
 .x-ss-sc{height:250px;overflow:auto;background:var(--surface)}
+/* 왼쪽 목차(100px)와 오른쪽 본문의 2열 격자. align-items:start 가 중요합니다: 목차가 줄 높이만큼 늘어나지 않고 자기 높이만 가져야 sticky 가 작동합니다. */
 .x-ss-g{display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;padding:14px;align-items:start}
+/* "고장 내기" 체크: 부모에 overflow:hidden 을 주면 안쪽 sticky 가 동작하지 않는 흔한 실수를 재현합니다. */
 .x-ss-g.broken{overflow:hidden}
+/* 왼쪽 목차: position:sticky 와 top:10px 로 스크롤해도 위에서 10px 아래에 붙어 있습니다. align-self:start 로 자기 높이만 차지합니다. */
 .x-ss-s{position:sticky;top:10px;align-self:start;display:grid;gap:2px;font-size:12.5px;padding:8px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line)}
+/* 목차 제목 글자. */
 .x-ss-s b{font:700 11px var(--mono);color:var(--ink-2);margin-bottom:2px}
+/* 목차 링크 하나의 모양. */
 .x-ss-s a{padding:5px 6px;border-radius:6px;color:var(--ink);cursor:pointer;text-decoration:none}
+/* 지금 읽는 구역의 링크(on 클래스)는 강조색과 굵은 글씨로. */
 .x-ss-s a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+/* 본문 한 구역의 아래 여백. */
 .x-ss-m section{margin-bottom:14px}
+/* 구역 제목 글자. */
 .x-ss-m h4{margin:0 0 4px;font:700 14px var(--display)}
+/* 구역 본문: 최소 높이로 구역을 충분히 길게 합니다. */
 .x-ss-m p{margin:0;font-size:12.5px;line-height:1.7;color:var(--ink-2);min-height:90px}
 `,
 demo:`<div class="d-ctl"><label for="x-ss-b"><input id="x-ss-b" type="checkbox"> 부모에 overflow:hidden 주기 (고장 재현)</label></div><div class="x-ss"><div class="x-ss-sc"><div class="x-ss-g"><nav class="x-ss-s" aria-label="목차 (예시)"><b>목차</b><a data-t="s1" class="on">배송</a><a data-t="s2">환불</a><a data-t="s3">교환</a><a data-t="s4">문의</a></nav><div class="x-ss-m"><section id="x-ss-1"><h4>배송 안내</h4><p>평일 오후 2시 전 결제하면 당일 출고됩니다. 도서산간 지역은 하루가 더 걸립니다. 택배사 사정으로 지연될 수 있습니다. (예시)</p></section><section id="x-ss-2"><h4>환불 안내</h4><p>상품 수령 후 7일 이내 신청할 수 있습니다. 식품은 개봉 후 환불이 어렵습니다. (예시)</p></section><section id="x-ss-3"><h4>교환 안내</h4><p>상품에 문제가 있을 때만 교환됩니다. 사진과 함께 문의해 주세요. (예시)</p></section><section id="x-ss-4"><h4>문의</h4><p>평일 9시부터 18시까지 답변드립니다. (예시)</p></section></div></div></div></div>`,
 init(r){
+  // 스크롤 영역(sc), 격자(g), 목차 링크들(links), 본문 구역들(secs)을 찾습니다.
   const sc=r.querySelector('.x-ss-sc'),g=r.querySelector('.x-ss-g'),links=[...r.querySelectorAll('.x-ss-s a')],secs=[...r.querySelectorAll('.x-ss-m section')];
+  // "고장 내기" 체크를 바꾸면 broken 클래스를 붙였다 뗍니다.
   r.querySelector('#x-ss-b').addEventListener('change',e=>g.classList.toggle('broken',e.target.checked));
+  // 목차 링크를 누르면 해당 구역 위치(offsetTop, 14px 위)로 부드럽게 스크롤합니다.
   links.forEach((a,i)=>a.addEventListener('click',()=>{sc.scrollTo({top:secs[i].offsetTop-14,behavior:'smooth'})}));
+  // IntersectionObserver 로 구역이 스크롤 영역 위쪽 40% 안에 들어오면 그 구역의 링크만 on 으로 표시합니다(rootMargin 이 아래 60%를 제외). 지금 읽는 위치를 목차가 따라갑니다.
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach((a,j)=>a.classList.toggle('on',secs[j]===e.target))}}),{root:sc,rootMargin:'0px 0px -60% 0px'});secs.forEach(s=>io.observe(s));
 },
 code:`<div class="layout">
@@ -5805,31 +5887,54 @@ cheat:[
 terms:[['FAB','에프에이비, Floating Action Button(플로팅 액션 버튼)의 약자'],['speed dial','스피드 다이얼, 눌렀을 때 작은 버튼들이 펼쳐지는 FAB'],['extended FAB','익스텐디드 FAB, 글자가 있는 긴 형태']],
 note:'한 화면에 FAB는 하나만 둡니다. 주요 행동이 여러 개면 FAB가 아니라 다른 구조가 더 맞을 수 있습니다. 목록 마지막 항목을 가리지 않도록 아래 여백을 둡니다.',
 css:`
+/* 화면(휴대폰 같은 상자): position:relative 로 안쪽 버튼의 기준점이 됩니다. */
 .x-fb{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+/* 화면 위 제목 줄. */
 .x-fb-hd{padding:10px 14px;border-bottom:1px solid var(--line);font:700 14px var(--display)}
+/* 스크롤되는 목록: 아래에 80px 여백을 두어 떠 있는 버튼이 마지막 항목을 가리지 않게 합니다. */
 .x-fb-sc{height:250px;overflow:auto;padding-bottom:80px}
+/* 목록 항목 한 줄. */
 .x-fb-it{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px}
+/* 항목의 작은 설명 글. */
 .x-fb-it small{display:block;color:var(--ink-2)}
+/* 버튼과 펼침 메뉴를 감싸는 묶음: position:absolute 로 오른쪽 아래 구석에 고정합니다. */
 .x-fb-w{position:absolute;right:14px;bottom:14px;display:grid;justify-items:end;gap:8px}
+/* 펼쳐지는 작은 메뉴 묶음. */
 .x-fb-m{display:grid;gap:6px;justify-items:end}
+/* hidden 일 때는 숨깁니다(display 설정이 hidden 을 덮어쓰지 않게). */
 .x-fb-m[hidden]{display:none}
+/* 메뉴 항목 버튼: 알약 모양, 그림자, 나타날 때 animation 으로 살짝 올라옵니다(backwards 는 시작 전에도 처음 모양 유지). */
 .x-fb-m button{display:flex;gap:8px;align-items:center;border:0;background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 12.5px var(--sans);box-shadow:0 6px 14px -6px rgba(0,0,0,.45);cursor:pointer;animation:x-fb-in .18s ease-out backwards}
+/* 첫 항목은 0.05초 늦게 시작해 항목들이 차례로 나타나게 합니다. */
 .x-fb-m button:nth-child(1){animation-delay:.05s}
+/* 투명하고 8px 아래에서 제자리로 올라오는 애니메이션. */
 @keyframes x-fb-in{from{opacity:0;transform:translateY(8px)}}
+/* FAB(플로팅 액션 버튼) 본체: 둥근 알약 모양에 그림자. padding 이 바뀔 때 부드럽게 transition. */
 .x-fb-b{display:flex;align-items:center;gap:8px;height:52px;padding:0 18px;border:0;border-radius:26px;background:var(--accent);color:var(--accent-ink);font:700 14px var(--sans);cursor:pointer;box-shadow:0 10px 20px -8px rgba(0,0,0,.5);transition:padding .2s}
+/* 버튼 글자: max-width 를 transition 해서 글자가 부드럽게 접히고 펼쳐집니다. */
 .x-fb-b span.t{display:inline-block;max-width:80px;overflow:hidden;white-space:nowrap;transition:max-width .2s,opacity .2s}
+/* 아래로 스크롤하면(mini 클래스) 버튼이 작아집니다. */
 .x-fb-b.mini{padding:0 16px}
+/* 작아질 때 글자를 폭 0에 투명하게 접습니다. */
 .x-fb-b.mini span.t{max-width:0;opacity:0}
+/* 버튼의 + 아이콘: 회전이 부드럽게 transition. */
 .x-fb-b i{font-style:normal;font-size:20px;line-height:1;transition:transform .2s}
+/* 메뉴가 펼쳐지면(aria-expanded="true") + 가 45도 돌아 × 가 됩니다. */
 .x-fb-b[aria-expanded="true"] i{transform:rotate(45deg)}
 `,
 demo:`<div class="x-fb"><div class="x-fb-hd">메모 (예시)</div><div class="x-fb-sc"></div><div class="x-fb-w"><div class="x-fb-m" hidden><button type="button">📷 사진 메모</button><button type="button">✏️ 텍스트 메모</button></div><button class="x-fb-b" type="button" aria-expanded="false" aria-label="새 메모"><i>＋</i><span class="t">새 메모</span></button></div></div><p class="d-hint">아래로 스크롤하면 버튼이 아이콘으로 줄고, 위로 스크롤하면 다시 늘어납니다. 눌러서 펼쳐 보세요.</p>`,
 init(r){
+  // 스크롤 목록(sc), FAB 버튼(b), 펼침 메뉴(m)를 찾습니다.
   const sc=r.querySelector('.x-fb-sc'),b=r.querySelector('.x-fb-b'),m=r.querySelector('.x-fb-m');
+  // 스크롤이 생기도록 메모 14개를 만들어 목록에 붙입니다.
   for(let i=1;i<=14;i++){const d=document.createElement('div');d.className='x-fb-it';d.innerHTML='메모 '+i+'<small>오늘 · 예시 내용입니다</small>';sc.appendChild(d)}
+  // 스크롤 방향을 보고 버튼 크기를 바꿉니다: 아래로(4px 넘게) 내려가면 mini(글자 접힘), 위로 올라가거나 맨 위 근처면 원래 크기로. 읽을 때 방해가 되지 않게 하는 요령입니다.
   let last=0;sc.addEventListener('scroll',()=>{const y=sc.scrollTop;if(y>last+4&&y>30)b.classList.add('mini');else if(y<last-4||y<10)b.classList.remove('mini');last=y},{passive:true});
+  // 버튼을 누르면 펼침 상태(aria-expanded)를 반대로 바꾸고 메뉴를 보이거나 숨깁니다. 열 때는 mini 를 풉니다.
   b.addEventListener('click',()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);m.hidden=!o;if(o)b.classList.remove('mini')});
+  // 메뉴 항목을 누르면 메뉴를 닫습니다.
   m.addEventListener('click',()=>{b.setAttribute('aria-expanded',false);m.hidden=true});
+  // Esc 키로 메뉴를 닫고 포커스를 버튼으로 돌려줍니다.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden){b.setAttribute('aria-expanded',false);m.hidden=true;b.focus()}});
 },
 code:`<button class="fab" aria-label="새 메모"><i>＋</i><span>새 메모</span></button>
@@ -5871,24 +5976,40 @@ cheat:[
 terms:[['backdrop','백드롭, 모달 뒤의 배경막'],['overlay','오버레이, 화면 위에 덮이는 층'],['scroll lock','스크롤 락, 뒤 화면이 스크롤되지 않게 막기'],['focus trap','포커스 트랩, 키보드 포커스가 모달 밖으로 나가지 않게 가두는 것']],
 note:'스크롤바가 사라지며 화면이 옆으로 밀리는 현상은 scrollbar-gutter: stable로 줄입니다. <dialog>를 showModal()로 열면 뒤쪽이 자동으로 비활성화되고 Esc도 지원합니다. ::backdrop에 CSS 변수가 상속되는지는 브라우저별 확인 필요.',
 css:`
+/* 가짜 화면 상자: position:relative 로 안쪽 어두운 막의 기준점. */
 .x-mb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+/* 뒤에 깔린 페이지 영역: 스크롤됩니다. */
 .x-mb-pg{height:230px;overflow:auto;padding:12px 14px}
+/* "스크롤 잠금" 켜면(lock 클래스) overflow:hidden 으로 뒤 화면이 스크롤되지 않게 합니다. */
 .x-mb-pg.lock{overflow:hidden}
+/* 뒤 페이지의 본문 문단. */
 .x-mb-pg p{margin:0 0 10px;font-size:13px;color:var(--ink-2);line-height:1.6}
+/* 어두운 막(오버레이): inset:0 으로 화면 전체를 덮고, 투명도(--a)와 흐림 정도(--bl)는 CSS 변수라서 슬라이더로 바꿉니다. backdrop-filter:blur 는 뒤 화면을 흐리게 합니다. */
 .x-mb-ov{position:absolute;inset:0;display:grid;place-items:center;background:rgba(8,16,24,var(--a,.55));-webkit-backdrop-filter:blur(var(--bl,0px));backdrop-filter:blur(var(--bl,0px));z-index:3;animation:x-mb-in .2s ease-out}
+/* 투명한 상태에서 서서히 나타납니다. */
 @keyframes x-mb-in{from{opacity:0}}
+/* 막 위의 대화상자 카드: 폭은 280px을 넘지 않고(min), 가운데에 놓습니다. */
 .x-mb-d{width:min(280px,86%);padding:18px;border-radius:14px;background:var(--surface);box-shadow:0 20px 40px -16px rgba(0,0,0,.6);display:grid;gap:8px;font-size:13px}
+/* 대화상자 제목 글자. */
 .x-mb-d b{font:700 15px var(--display)}
 `,
 demo:`<div class="d-ctl"><label for="x-mb-a">어둡기 <input id="x-mb-a" type="range" min="0" max="90" value="55"></label><label for="x-mb-b">흐림 <input id="x-mb-b" type="range" min="0" max="10" value="0"></label></div><div class="d-ctl"><label for="x-mb-c"><input id="x-mb-c" type="checkbox" checked> 바깥을 누르면 닫기</label><label for="x-mb-l"><input id="x-mb-l" type="checkbox" checked> 뒤 화면 스크롤 잠금</label></div><div class="x-mb"><div class="x-mb-pg"><p>11월 신메뉴 소식입니다. 이 영역은 모달 뒤쪽 페이지입니다. 스크롤해 보세요.</p><p>모달이 열려 있을 때 스크롤 잠금을 켜면 이 영역이 움직이지 않습니다. (예시)</p><p>배송 안내, 이벤트, 후기 같은 내용이 길게 이어진다고 생각해 주세요.</p><p>끝까지 내려오셨습니다.</p><button class="d-btn d-btn-primary x-mb-o" type="button">쿠폰 팝업 열기</button></div></div>`,
 init(r){
+  // 화면(w), 뒤 페이지(pg), 투명도 슬라이더(a), 흐림 슬라이더(b), "막 눌러 닫기" 체크(cb), "스크롤 잠금" 체크(lk), 여는 버튼(op)을 찾고, ov(지금 열린 막, 없으면 null)를 준비합니다.
   const w=r.querySelector('.x-mb'),pg=r.querySelector('.x-mb-pg'),a=r.querySelector('#x-mb-a'),b=r.querySelector('#x-mb-b'),cb=r.querySelector('#x-mb-c'),lk=r.querySelector('#x-mb-l'),op=r.querySelector('.x-mb-o');let ov=null;
+  // style(): 슬라이더 값을 막의 CSS 변수(--a 투명도, --bl 흐림)에 넣어 모양을 바꿉니다.
   const style=()=>{if(!ov)return;ov.style.setProperty('--a',a.value/100);ov.style.setProperty('--bl',b.value+'px')};
+  // close(): 막을 지우고(remove), 스크롤 잠금을 풀고, 포커스를 여는 버튼으로 돌려줍니다(키보드 사용자가 길을 잃지 않게).
   const close=()=>{if(!ov)return;ov.remove();ov=null;pg.classList.remove('lock');op.focus()};
+  // open(): 막과 대화상자를 만들어 화면에 붙입니다. role="dialog" 와 aria-modal="true" 는 화면 낭독기에 "뒤 화면은 지금 쓸 수 없는 대화상자"임을 알립니다.
   const open=()=>{ov=document.createElement('div');ov.className='x-mb-ov';ov.innerHTML='<div class="x-mb-d" role="dialog" aria-modal="true" aria-label="쿠폰"><b>🎟️ 첫 구매 5,000원 쿠폰</b><span>11월 30일까지 사용할 수 있어요. (예시)</span><div class="d-row"><button class="d-btn d-btn-primary" type="button">받기</button><button class="d-btn x-mb-x" type="button">닫기</button></div></div>';
+    // 막(대화상자 바깥)을 눌렀을 때 "막 눌러 닫기"가 켜져 있으면 닫습니다. 버튼들도 닫기에 연결합니다.
     ov.addEventListener('click',e=>{if(e.target===ov&&cb.checked)close()});ov.querySelector('.x-mb-x').addEventListener('click',close);ov.querySelector('.d-btn-primary').addEventListener('click',close);
+    // 막을 화면에 붙이고, 스크롤 잠금을 적용하고, 막 모양을 정하고, 첫 버튼에 포커스를 줍니다.
     w.appendChild(ov);pg.classList.toggle('lock',lk.checked);style();ov.querySelector('.d-btn-primary').focus()};
+  // 버튼과 슬라이더를 연결합니다. 슬라이더를 움직이면 막 모양이 바로 바뀌고, 잠금 체크를 바꾸면 열려 있는 동안에도 반영됩니다.
   op.addEventListener('click',open);a.addEventListener('input',style);b.addEventListener('input',style);lk.addEventListener('change',()=>{if(ov)pg.classList.toggle('lock',lk.checked)});
+  // Esc 키를 누르면 닫습니다.
   w.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 },
 code:`<dialog id="coupon">
@@ -5923,26 +6044,42 @@ cheat:[
 terms:[['portal','포털, 요소를 다른 위치에 그리는 통로'],['clipping','클리핑, 부모 영역 밖의 부분이 잘림'],['top layer','탑 레이어, 브라우저 최상위 층']],
 note:'DOM(문서 구조) 위치가 body로 옮겨져도 React에서는 이벤트가 논리적 부모를 따라 올라가는 점을 알아 두세요(React 문서 설명으로 알고 있으나 원문 미조회, 확인 필요). 포털로 옮기면 스타일 상속도 바뀝니다.',
 css:`
+/* 예시 바깥 상자: position:relative 로 바깥 레이어의 기준점. */
 .x-pt{position:relative;min-height:250px}
+/* 카드: overflow:hidden 이 핵심입니다. 카드 안에 있는 메뉴는 카드 밖으로 나가는 부분이 잘립니다. */
 .x-pt-card{width:min(230px,70%);padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;display:grid;gap:8px;font-size:13px}
+/* 카드 제목 글자. */
 .x-pt-card b{font:700 14px var(--display)}
+/* 카드 안 버튼들을 가로로. */
 .x-pt-row{display:flex;gap:6px;flex-wrap:wrap}
+/* 카드 안에 만든 메뉴("나쁜 예", 빨간 테두리): 부모(.x-pt-card)의 overflow:hidden 때문에 잘립니다. */
 .x-pt-in{position:absolute;margin-top:4px;min-width:120px;padding:4px;border-radius:8px;background:var(--surface);border:1px solid var(--rose);box-shadow:0 10px 20px -10px rgba(0,0,0,.5);z-index:5}
+/* 카드 밖에 만든 바깥 레이어(포털 자리): 예시 상자 전체를 덮고 클릭은 통과시킵니다(pointer-events:none). */
 .x-pt-lay{position:absolute;inset:0;pointer-events:none;z-index:5}
+/* 바깥 레이어에 만든 메뉴("좋은 예", 초록 테두리): 카드 밖에 있어서 잘리지 않습니다. 메뉴 자체는 클릭을 받습니다(pointer-events:auto). */
 .x-pt-out{position:absolute;min-width:120px;padding:4px;border-radius:8px;background:var(--surface);border:1px solid var(--leaf);box-shadow:0 10px 20px -10px rgba(0,0,0,.5);pointer-events:auto}
+/* 두 메뉴의 항목 버튼 공통 모양. */
 .x-pt-in button,.x-pt-out button{display:block;width:100%;text-align:left;border:0;background:none;padding:7px 9px;border-radius:5px;font:12.5px var(--sans);color:var(--ink);cursor:pointer}
+/* 마우스를 올리면 연한 강조 배경. */
 .x-pt-in button:hover,.x-pt-out button:hover{background:var(--accent-soft)}
 `,
 demo:`<div class="x-pt"><div class="x-pt-card"><b>주문 #1024</b><span>크루아상 6개입 외 1건</span><div class="x-pt-row"><button class="d-btn x-pt-a" type="button">⋯ 포털 없음</button><button class="d-btn d-btn-primary x-pt-b" type="button">⋯ 포털 사용</button></div></div><div class="x-pt-lay"></div></div><p class="d-hint">카드는 overflow:hidden입니다. 왼쪽 버튼의 메뉴는 카드 안에 있어 잘리고, 오른쪽 버튼의 메뉴는 카드 바깥 층에 그려져 온전히 보입니다.</p>`,
 init(r){
+  // 카드(card), 바깥 레이어(lay), 상자(root), 두 버튼(a: 카드 안 메뉴, b: 바깥 레이어 메뉴)을 찾습니다.
   const card=r.querySelector('.x-pt-card'),lay=r.querySelector('.x-pt-lay'),root=r.querySelector('.x-pt'),a=r.querySelector('.x-pt-a'),b=r.querySelector('.x-pt-b');
+  // 메뉴 항목 글자 모음.
   const items=['주문 상세','배송 조회','주문 취소'];
+  // close(): 카드 안 메뉴와 바깥 레이어 메뉴를 모두 지웁니다.
   const close=()=>{card.querySelectorAll('.x-pt-in').forEach(e=>e.remove());lay.textContent=''};
+  // 카드 안 메뉴(나쁜 예): 이미 열려 있으면 닫기만 하고, 아니면 메뉴를 만들어 카드 안(card)에 붙입니다. 버튼의 위치를 카드 기준으로 계산해 그 아래에 놓습니다. stopPropagation 은 이 클릭이 아래 "바깥 클릭" 규칙으로 퍼져 바로 닫히는 일을 막습니다.
   a.addEventListener('click',e=>{e.stopPropagation();const o=card.querySelector('.x-pt-in');close();if(o)return;const m=document.createElement('div');m.className='x-pt-in';m.innerHTML=items.map(t=>'<button type="button">'+t+'</button>').join('');card.appendChild(m);
     const ar=a.getBoundingClientRect(),cr=card.getBoundingClientRect();m.style.left=(ar.left-cr.left)+'px';m.style.top=(ar.bottom-cr.top)+'px'});
+  // 바깥 레이어 메뉴(좋은 예): 같은 방식이지만 메뉴를 카드가 아니라 바깥 레이어(lay)에 붙이고, 위치는 상자(root) 기준으로 계산합니다. 이렇게 DOM 의 다른 곳에 그리는 것이 포털(portal)입니다.
   b.addEventListener('click',e=>{e.stopPropagation();const had=lay.children.length;close();if(had)return;const m=document.createElement('div');m.className='x-pt-out';m.innerHTML=items.map(t=>'<button type="button">'+t+'</button>').join('');lay.appendChild(m);
     const br=b.getBoundingClientRect(),rr=root.getBoundingClientRect();m.style.left=(br.left-rr.left)+'px';m.style.top=(br.bottom-rr.top+4)+'px'});
+  // 어디든 누르면 메뉴를 닫습니다.
   document.addEventListener('click',()=>close());
+  // Esc 키를 누르면 닫습니다.
   r.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 },
 code:`// React

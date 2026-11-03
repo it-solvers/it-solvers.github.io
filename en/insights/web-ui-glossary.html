@@ -5389,34 +5389,54 @@ cheat:[
 terms:[['typeahead','Typeahead, a feature that shows candidates ahead of your typing'],['combobox','Combobox, an element that combines typing and choosing from a list'],['IME','IME, Input Method Editor, a way of entering composed characters such as Korean']],
 note:'With Korean, input events fire several times during composition (compositionstart to compositionend). Check e.isComposing so that Enter during composition is not treated as a confirmation. Show a message when there are no results too.',
 css:`
+/* The autocomplete box: position:relative makes the reference point for the suggestion list below. */
 .x-ac{position:relative;max-width:340px}
+/* The look of the search input. */
 .x-ac input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans);outline:0}
+/* With focus, the border turns the accent color. */
 .x-ac input:focus{border-color:var(--accent)}
+/* The suggestion list: position:absolute with top:calc(100% + 4px) floats it right below the input, and max-height with overflow:auto makes it scroll when long. */
 .x-ac ul{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:3;margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 16px 30px -16px rgba(0,0,0,.5);max-height:190px;overflow:auto}
+/* One suggestion row: with a hand cursor to show it can be pressed. */
 .x-ac li{padding:8px 10px;border-radius:6px;font-size:13px;cursor:pointer}
+/* A row chosen with the keyboard (aria-selected="true") or under the mouse gets a light accent background. */
 .x-ac li[aria-selected="true"],.x-ac li:hover{background:var(--accent-soft)}
+/* The part matching the typed text (<mark>) is shown in the accent color and bold, with no background. */
 .x-ac mark{background:none;color:var(--accent);font-weight:800}
+/* The "no matching region" message row. */
 .x-ac .no{padding:10px;color:var(--ink-2);font-size:12.5px}
+/* The spot for the selection result text. */
 .x-ac-r{min-height:22px;margin-top:6px;font-size:12.5px;color:var(--ink-2)}
 `,
 demo:`<div class="x-ac"><label for="x-ac-i" style="font-size:12.5px;font-weight:600;display:block;margin-bottom:4px">Delivery region</label><input id="x-ac-i" type="text" role="combobox" aria-expanded="false" aria-controls="x-ac-l" aria-autocomplete="list" autocomplete="off" placeholder="Example: Seoul, Incheon, Jeju"><ul id="x-ac-l" role="listbox" hidden></ul></div><div class="x-ac-r" aria-live="polite" style="min-height:60px"></div>`,
 init(r){
+  // D: the list of region names to search (example data).
   const D=['Seoul','Busan','Incheon','Daegu','Daejeon','Gwangju','Ulsan','Sejong','Suwon, Gyeonggi','Seongnam, Gyeonggi','Goyang, Gyeonggi','Yongin, Gyeonggi','Chuncheon, Gangwon','Cheongju, North Chungcheong','Cheonan, South Chungcheong','Jeonju, North Jeolla','Yeosu, South Jeolla','Pohang, North Gyeongsang','Changwon, South Gyeongsang','Jeju, Jeju'];
+  // Find the input (i), the suggestion list (l), and the result text (out), and prepare act (the number chosen with the keyboard, -1 means none) and cur (the array of suggestions now shown).
   const i=r.querySelector('input'),l=r.querySelector('ul'),out=r.querySelector('.x-ac-r');let act=-1,cur=[];
+  // esc(text): replace &, <, and > with safe characters so typed text is never run as HTML.
   const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  // open(true/false): show or hide the list and announce the expanded state with aria-expanded. When closing, clear the chosen number and aria-activedescendant.
   const open=v=>{l.hidden=!v;i.setAttribute('aria-expanded',v);if(!v){act=-1;i.removeAttribute('aria-activedescendant')}};
+  // draw(): pick only the regions that include the typed text (q) and redraw the suggestion list. With no text, close the list; with no results, show a message row.
   const draw=()=>{const q=i.value.trim();cur=q?D.filter(d=>d.includes(q)):[];l.textContent='';
     if(!q){open(false);return}open(true);
     if(!cur.length){l.innerHTML='<li class="no" role="presentation">No matching region</li>';return}
+    // Suggestions are limited to 8: each row gets an id and role="option", and the matching text is wrapped in <mark>. preventDefault on mousedown keeps the input from losing focus (which would close the list first), and the row is chosen with pick(k).
     cur.slice(0,8).forEach((d,k)=>{const li=document.createElement('li');li.id='x-ac-o'+k;li.setAttribute('role','option');li.setAttribute('aria-selected','false');const p=d.indexOf(q);li.innerHTML=esc(d.slice(0,p))+'<mark>'+esc(q)+'</mark>'+esc(d.slice(p+q.length));li.addEventListener('mousedown',e=>{e.preventDefault();pick(k)});l.appendChild(li)})};
+  // mark(index): mark the row chosen with the keyboard using aria-selected, set aria-activedescendant (the id of the item now pointed at) on the input so screen readers read it, and scroll that row into view if the list is long.
   const mark=k=>{act=k;[...l.querySelectorAll('[role=option]')].forEach((o,j)=>o.setAttribute('aria-selected',j===k));if(k>=0){i.setAttribute('aria-activedescendant','x-ac-o'+k);l.querySelector('#x-ac-o'+k).scrollIntoView({block:'nearest'})}};
+  // pick(index): fill the input with the chosen region, close the list, and show the result text.
   const pick=k=>{i.value=cur[k];open(false);out.innerHTML='Selected region: <b>'+esc(cur[k])+'</b> (example list)'};
+  // Redraw the suggestions every time a character is typed.
   i.addEventListener('input',draw);
+  // Keyboard: ignored during Korean composition. ↓ goes to the next row (opening the list first if closed), ↑ to the previous row, Enter chooses the highlighted row, and Esc closes. preventDefault stops the default actions such as moving the caret or submitting a form.
   i.addEventListener('keydown',e=>{if(e.isComposing)return;const n=Math.min(cur.length,8);
     if(e.key==='ArrowDown'){e.preventDefault();if(l.hidden)draw();mark(Math.min(n-1,act+1))}
     else if(e.key==='ArrowUp'){e.preventDefault();mark(Math.max(0,act-1))}
     else if(e.key==='Enter'&&act>=0){e.preventDefault();pick(act)}
     else if(e.key==='Escape'){open(false)}});
+  // When the input loses focus, close the list.
   i.addEventListener('blur',()=>open(false));
   out.textContent='Type some text, then press ↑ ↓ Enter.';
 },
@@ -5462,21 +5482,34 @@ cheat:[
 terms:[['controlled component','Controlled component, an input whose value is controlled by React state'],['uncontrolled component','Uncontrolled component, an input whose value is held by the browser (DOM)'],['ref','Ref, a reference that points to an actual element on screen'],['state','State, a value that a component remembers']],
 note:'The demo below is not React; it imitates the difference between the two approaches in plain JavaScript. We could not open the original React documentation this time (needs verification). Large forms with many inputs often use a form library.',
 css:`
+/* The outer grid that compares the two approaches side by side: repeat(auto-fit, minmax(200px,1fr)) stacks them vertically on its own when space is tight. */
 .x-cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+/* The card look of each approach. */
 .x-cu>div{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:8px;align-content:start;font-size:12.5px}
+/* The approach name. */
 .x-cu h4{margin:0;font:700 13px var(--display)}
+/* The input look. */
 .x-cu input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* The box that shows values: a monospaced font, and word-break:break-all wraps even long text. */
 .x-cu output{display:block;padding:8px;border-radius:8px;background:var(--surface-2);font:12px/1.5 var(--mono);color:var(--ink-2);min-height:54px;word-break:break-all}
+/* The small "redraw count" text. */
 .x-cu .n{font:600 11px var(--mono);color:var(--accent)}
 `,
 demo:`<div class="x-cu"><div class="un"><h4>Uncontrolled</h4><label for="x-cu-u" class="sr">Mobile number (uncontrolled)</label><input id="x-cu-u" type="text" placeholder="Mobile phone number" inputmode="numeric"><button class="d-btn" type="button">Read on submit</button><output aria-live="polite">While typing, the code does not know the value.</output><span class="n">Redraw count: 0 (does not change as you type)</span></div><div class="co"><h4>Controlled</h4><label for="x-cu-c" class="sr">Mobile number (controlled)</label><input id="x-cu-c" type="text" placeholder="Mobile number (digits only, auto hyphens)" inputmode="numeric"><output aria-live="polite">Status: ""</output><span class="n">Redraw count: 0</span></div></div><p class="d-hint">The one on the right checks the value on every keystroke, accepts only digits, and adds hyphens. Try typing letters.</p>`,
 init(r){
+  // The uncontrolled side: find the input (ui), the result box (uo), and the submit button (ub). In the uncontrolled approach the browser holds the input value itself and you read it when needed.
   const ui=r.querySelector('#x-cu-u'),uo=r.querySelector('.un output'),ub=r.querySelector('.un button');
+  // The input value is read only once on submit. While typing, the code does not take part, so even wrong characters go in as they are.
   ub.addEventListener('click',()=>{uo.textContent='Read on submit: "'+ui.value+'" (invalid characters stay as they are)'});
+  // The controlled side: find the input (ci), the result box (co), and the count text (cn), and prepare state (the value the code holds) and renders (the redraw count). In the controlled approach "the code owns the value" and the screen only shows it.
   const ci=r.querySelector('#x-cu-c'),co=r.querySelector('.co output'),cn=r.querySelector('.co .n');let state='',renders=0;
+  // fmt(digits): split digits into a phone number shape (000-0000-0000).
   const fmt=d=>d.length<4?d:d.length<8?d.slice(0,3)+'-'+d.slice(3):d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7,11);
+  // render(): rebuild the input screen from the value the code holds (state), and update the result and the count. The screen always follows state.
   const render=()=>{renders++;ci.value=fmt(state);co.textContent='Status: "'+state+'" → screen "'+fmt(state)+'"';cn.textContent='Redraw count: '+renders};
+  // On every input: unless composing Korean, keep only digits (removing \D), save up to 11 digits into state, and call render().
   ci.addEventListener('input',e=>{if(e.isComposing)return;state=ci.value.replace(/\D/g,'').slice(0,11);render()});
+  // Do the same handling at the moment Korean composition ends, to catch values missed during composition.
   ci.addEventListener('compositionend',()=>{state=ci.value.replace(/\D/g,'').slice(0,11);render()});
 },
 code:`// Controlled component: state holds the value
@@ -5517,24 +5550,39 @@ cheat:[
 terms:[['field','Field, a single input'],['schema','Schema, a definition that gathers the rules in one place (tools such as zod and yup)'],['constraint validation','Constraint validation, the validation feature the browser provides']],
 note:'Client (browser) validation is only a convenience; for security and correctness you must validate again on the server (WAS). Keeping rules in one place shared by the screen and the server reduces mismatches.',
 css:`
+/* The outer box of the form: stacked vertically with a maximum width of 360px. */
 .x-fv{display:grid;gap:10px;max-width:360px}
+/* The input label text. */
 .x-fv label{font-size:12.5px;font-weight:600;display:block;margin-bottom:3px}
+/* The input look. */
 .x-fv input{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* An invalid input (aria-invalid="true") gets a red border. */
 .x-fv input[aria-invalid="true"]{border-color:var(--rose)}
+/* The error message spot under a field: a minimum height keeps the content below from shifting when a message appears. */
 .x-fv .e{font-size:12px;color:var(--rose);min-height:15px;margin-top:2px}
+/* The error summary box shown at the top after submitting: a light red background. */
 .x-fv-sum{padding:10px 12px;border-radius:10px;border:1px solid var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface));font-size:12.5px}
+/* Each item in the summary looks like a link that jumps to the matching input when pressed. */
 .x-fv-sum a{color:var(--rose);cursor:pointer;text-decoration:underline}
+/* The indent of the summary list. */
 .x-fv-sum ul{margin:4px 0 0;padding-left:18px}
 `,
 demo:`<form class="x-fv" novalidate onsubmit="return false"><div class="x-fv-sum" role="alert" tabindex="-1" hidden></div><div><label for="x-fv-n">Name (required)</label><input id="x-fv-n" type="text" autocomplete="off" aria-describedby="x-fv-ne"><div class="e" id="x-fv-ne"></div></div><div><label for="x-fv-a">Age (19–120)</label><input id="x-fv-a" type="text" inputmode="numeric" autocomplete="off" aria-describedby="x-fv-ae"><div class="e" id="x-fv-ae"></div></div><div><label for="x-fv-b">Business registration number (10 digits)</label><input id="x-fv-b" type="text" inputmode="numeric" autocomplete="off" aria-describedby="x-fv-be"><div class="e" id="x-fv-be"></div></div><button class="d-btn d-btn-primary" type="submit">Submit</button></form><p class="d-hint">Field validation runs when you leave a field, and pressing Submit runs form validation (error summary and moving to the first error).</p>`,
 init(r){
+  // F: the list of fields to check. Each is [input id, name, check function], and the check function returns an error message, or an empty string () if it passes. Age is checked for being a number and within 19 to 120, and the business registration number for being 10 digits.
   const F=[['x-fv-n','Name',v=>v.trim()?'':'Please enter a name.'],['x-fv-a','Age',v=>{if(!v)return 'Please enter an age.';if(!/^\d+$/.test(v))return 'Please enter numbers only.';const n=+v;return n>=19&&n<=120?'':'Only ages 19 through 120 are allowed.'}],['x-fv-b','Business registration number',v=>/^\d{10}$/.test(v.replace(/-/g,''))?'':'Please enter 10 digits.']];
+  // Find the error summary box (sum).
   const sum=r.querySelector('.x-fv-sum');
+  // check(field, show): run the check function to update aria-invalid and the error message under the field, and return the error message.
   const check=(f,show)=>{const i=r.querySelector('#'+f[0]),m=f[2](i.value);i.setAttribute('aria-invalid',show&&!!m);r.querySelector('#'+f[0]+'e').textContent=show?m:'';if(!show)return m;return m};
+  // For each field: check it when it loses focus (blur), and re-check an already-flagged field on every keystroke so the error disappears as soon as it is fixed.
   F.forEach(f=>{const i=r.querySelector('#'+f[0]);r.querySelector('#'+f[0].replace(/$/,'')+'e');i.addEventListener('blur',()=>check(f,true));i.addEventListener('input',()=>{if(i.getAttribute('aria-invalid')==='true')check(f,true)})});
+  // On submit, check all fields and build the error list (errs). If there are no errors, show a green success message and finish.
   r.querySelector('form').addEventListener('submit',()=>{const errs=F.map(f=>[f,check(f,true)]).filter(x=>x[1]);
     if(!errs.length){sum.hidden=false;sum.style.borderColor='var(--leaf)';sum.style.background='color-mix(in srgb,var(--leaf) 12%,var(--surface))';sum.textContent='Everything is valid. Submitted. (example)';return}
+    // If there are errors, show the count and a list in the summary box.
     sum.style.borderColor='';sum.style.background='';sum.hidden=false;sum.innerHTML='<b>'+errs.length+' fields need checking</b><ul></ul>';
+    // Create a link for each error item (also usable with Tab and Enter) that moves the focus to the matching input when pressed. Finally, give the focus directly to the first error field.
     errs.forEach(([f,m])=>{const li=document.createElement('li'),a=document.createElement('a');a.textContent=f[1]+': '+m;a.tabIndex=0;const go=()=>r.querySelector('#'+f[0]).focus();a.addEventListener('click',go);a.addEventListener('keydown',e=>{if(e.key==='Enter')go()});li.appendChild(a);sum.querySelector('ul').appendChild(li)});
     r.querySelector('#'+errs[0][0][0]).focus()});
 },
@@ -5575,28 +5623,47 @@ cheat:[
 terms:[['dirty','Dirty, changed from the initial value'],['pristine','Pristine, the untouched original state'],['touched','Touched, the user has entered and left the field'],['initial value','Initial value, the starting value']],
 note:'If you change a value and then change it back, it should no longer be dirty (compare with the initial value). Showing errors only after touched reduces interruption while typing. Show the leave warning only when values really changed.',
 css:`
+/* The outer box of the form: stacked vertically with a maximum width of 380px. */
 .x-dt{display:grid;gap:10px;max-width:380px}
+/* The area of one field: a 2-column grid with the input on the left and the status markers on the right. */
 .x-dt-f{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
+/* The label spans both columns (grid-column:1/-1) at the top. */
 .x-dt-f label{grid-column:1/-1;font-size:12.5px;font-weight:600}
+/* The input look: min-width:0 keeps the cell from being forced wider inside the grid. */
 .x-dt-f input{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans);min-width:0}
+/* A field whose value differs from the start (the dirty class) gets an orange border. */
 .x-dt-f.dirty input{border-color:var(--warm)}
+/* The group of small status markers (d, t) next to a field, laid out horizontally. */
 .x-dt-s{display:flex;gap:4px;font:700 10.5px var(--mono)}
+/* One status marker: gray when off. */
 .x-dt-s span{padding:2px 6px;border-radius:5px;background:var(--line);color:var(--ink-2)}
+/* The on state (the on class) is a white text on an orange background. */
 .x-dt-s span.on{background:var(--warm);color:#fff}
+/* When the touched marker is on, it is blue. */
 .x-dt-s span.t.on{background:var(--sky)}
+/* The text that tells the current state. */
 .x-dt-st{font-size:12.5px;color:var(--ink-2)}
+/* The confirmation box shown when leaving without saving: an orange warning look. */
 .x-dt-ask{padding:10px 12px;border-radius:10px;border:1px solid var(--warm);background:color-mix(in srgb,var(--warm) 12%,var(--surface));font-size:12.5px;display:grid;gap:8px}
 `,
 demo:`<div class="x-dt"><div class="x-dt-f"><label for="x-dt-n">Name</label><input id="x-dt-n" type="text" value="Kim Hana" autocomplete="off"><div class="x-dt-s"><span class="d">dirty</span><span class="t">touched</span></div></div><div class="x-dt-f"><label for="x-dt-e">Email</label><input id="x-dt-e" type="text" value="hana@example.com" autocomplete="off"><div class="x-dt-s"><span class="d">dirty</span><span class="t">touched</span></div></div><div class="x-dt-st"></div><div class="d-row"><button class="d-btn d-btn-primary x-dt-sv" type="button">Save</button><button class="d-btn x-dt-rs" type="button">Undo</button><button class="d-btn x-dt-lv" type="button">Leave this screen</button></div><div class="x-dt-ask" role="alertdialog" aria-label="Unsaved changes" hidden>You have unsaved changes. Do you want to leave?<div class="d-row"><button class="d-btn x-dt-stay" type="button">Keep editing</button><button class="d-btn d-btn-primary x-dt-go" type="button">Leave without saving</button></div></div></div>`,
 init(r){
+  // Find the field areas (fs), the save button (sv), the reset button (rs), the leave button (lv), the confirmation box (ask), and the status text (st).
   const fs=[...r.querySelectorAll('.x-dt-f')],sv=r.querySelector('.x-dt-sv'),rs=r.querySelector('.x-dt-rs'),lv=r.querySelector('.x-dt-lv'),ask=r.querySelector('.x-dt-ask'),st=r.querySelector('.x-dt-st');
+  // init: the list of the initial (saved) values, touched: whether each field has been touched at least once (left after focus). You must compare with the initial value to know whether it "changed (dirty)".
   const init=fs.map(f=>f.querySelector('input').value),touched=fs.map(()=>false);
+  // upd(): for each field, mark it dirty if its current value differs from the initial value (an orange border and the d marker), and turn on the t marker for touched fields. If anything changed, enable the save and reset buttons, otherwise disable them (pristine = no changes), and return whether anything changed (true/false).
   const upd=()=>{let any=false;fs.forEach((f,i)=>{const d=f.querySelector('input').value!==init[i];any=any||d;f.classList.toggle('dirty',d);f.querySelector('.d').classList.toggle('on',d);f.querySelector('.t').classList.toggle('on',touched[i])});
     sv.disabled=!any;rs.disabled=!any;st.textContent=any?'There are changed items, so you can save.':'No changes (pristine) — Save button disabled';return any};
+  // Typing in a field runs upd(), and leaving it records touched and then runs upd().
   fs.forEach((f,i)=>{const inp=f.querySelector('input');inp.addEventListener('input',upd);inp.addEventListener('blur',()=>{touched[i]=true;upd()})});
+  // Save: take the current values as the new baseline (init) and refresh the markers.
   sv.addEventListener('click',()=>{fs.forEach((f,i)=>{init[i]=f.querySelector('input').value});upd();st.textContent='Saved. (example) The current values become the new baseline.'});
+  // Reset: restore every field to the baseline values.
   rs.addEventListener('click',()=>{fs.forEach((f,i)=>{f.querySelector('input').value=init[i]});upd()});
+  // Leave: if something changed, show the confirmation box; otherwise leave right away. It is a safety net against accidentally losing unsaved changes.
   lv.addEventListener('click',()=>{if(upd()){ask.hidden=false}else{st.textContent='Nothing changed, so you leave right away. (example)'}});
+  // "Keep editing" closes the confirmation box, and "leave without saving" closes the box, restores the values, and shows a message.
   r.querySelector('.x-dt-stay').addEventListener('click',()=>{ask.hidden=true});r.querySelector('.x-dt-go').addEventListener('click',()=>{ask.hidden=true;rs.click();st.textContent='You left without saving. (example)'});
   upd();
 },
@@ -5638,23 +5705,38 @@ cheat:[
 terms:[['sticky','Sticky, a layout that sticks depending on the scroll position'],['table of contents','Table of contents'],['scroll spy','Scroll spy, a feature that highlights the table of contents based on the reading position']],
 note:'Most causes when sticky fails are an ancestor’s overflow value, a parent with insufficient height, or a missing align-self. On mobile, it is better to move the sidebar above or below the content.',
 css:`
+/* The outer box of the example. */
 .x-ss{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+/* The scrolling area: 250px tall with overflow:auto. */
 .x-ss-sc{height:250px;overflow:auto;background:var(--surface)}
+/* A 2-column grid with a 100px table of contents on the left and the body on the right. align-items:start matters: the contents must keep only its own height and not stretch to the row height for sticky to work. */
 .x-ss-g{display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;padding:14px;align-items:start}
+/* The "break it" checkbox: reproduces the common mistake where overflow:hidden on a parent stops the sticky inside from working. */
 .x-ss-g.broken{overflow:hidden}
+/* The table of contents on the left: position:sticky with top:10px keeps it stuck 10px from the top while scrolling. align-self:start makes it take only its own height. */
 .x-ss-s{position:sticky;top:10px;align-self:start;display:grid;gap:2px;font-size:12.5px;padding:8px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line)}
+/* The contents title. */
 .x-ss-s b{font:700 11px var(--mono);color:var(--ink-2);margin-bottom:2px}
+/* The look of one contents link. */
 .x-ss-s a{padding:5px 6px;border-radius:6px;color:var(--ink);cursor:pointer;text-decoration:none}
+/* The link of the section being read (the on class) is shown in the accent color and bold. */
 .x-ss-s a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+/* The bottom margin of one body section. */
 .x-ss-m section{margin-bottom:14px}
+/* The section title. */
 .x-ss-m h4{margin:0 0 4px;font:700 14px var(--display)}
+/* The section text: a minimum height makes each section long enough. */
 .x-ss-m p{margin:0;font-size:12.5px;line-height:1.7;color:var(--ink-2);min-height:90px}
 `,
 demo:`<div class="d-ctl"><label for="x-ss-b"><input id="x-ss-b" type="checkbox"> Give the parent overflow:hidden (reproduces the breakage)</label></div><div class="x-ss"><div class="x-ss-sc"><div class="x-ss-g"><nav class="x-ss-s" aria-label="Table of contents (example)"><b>Table of contents</b><a data-t="s1" class="on">Shipping</a><a data-t="s2">Refunds</a><a data-t="s3">Exchanges</a><a data-t="s4">Questions</a></nav><div class="x-ss-m"><section id="x-ss-1"><h4>Shipping information</h4><p>Orders paid before 2 p.m. on weekdays ship the same day. Remote islands and mountain areas take one more day. Delays may occur depending on the courier. (example)</p></section><section id="x-ss-2"><h4>Refund information</h4><p>You can apply within 7 days of receiving the item. Food is hard to refund once opened. (example)</p></section><section id="x-ss-3"><h4>Exchange information</h4><p>Exchanges are made only when there is a problem with the item. Please send an inquiry with photos. (example)</p></section><section id="x-ss-4"><h4>Questions</h4><p>We reply from 9 a.m. to 6 p.m. on weekdays. (example)</p></section></div></div></div></div>`,
 init(r){
+  // Find the scroll area (sc), the grid (g), the contents links (links), and the body sections (secs).
   const sc=r.querySelector('.x-ss-sc'),g=r.querySelector('.x-ss-g'),links=[...r.querySelectorAll('.x-ss-s a')],secs=[...r.querySelectorAll('.x-ss-m section')];
+  // Changing the "break it" checkbox adds or removes the broken class.
   r.querySelector('#x-ss-b').addEventListener('change',e=>g.classList.toggle('broken',e.target.checked));
+  // Pressing a contents link smoothly scrolls to that section position (offsetTop, 14px above).
   links.forEach((a,i)=>a.addEventListener('click',()=>{sc.scrollTo({top:secs[i].offsetTop-14,behavior:'smooth'})}));
+  // With IntersectionObserver, when a section enters the top 40% of the scroll area, only its link is marked on (rootMargin excludes the bottom 60%). The contents follow the position being read.
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach((a,j)=>a.classList.toggle('on',secs[j]===e.target))}}),{root:sc,rootMargin:'0px 0px -60% 0px'});secs.forEach(s=>io.observe(s));
 },
 code:`<div class="layout">
@@ -5694,31 +5776,54 @@ cheat:[
 terms:[['FAB','FAB, an abbreviation of Floating Action Button'],['speed dial','Speed dial, a FAB that expands small buttons when pressed'],['extended FAB','Extended FAB, the long form with text']],
 note:'Put only one FAB on a screen. If there are several primary actions, another structure may fit better than a FAB. Leave bottom margin so it does not cover the last list item.',
 css:`
+/* The screen (a phone-like box): position:relative makes the reference point for the button inside. */
 .x-fb{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+/* The title row at the top of the screen. */
 .x-fb-hd{padding:10px 14px;border-bottom:1px solid var(--line);font:700 14px var(--display)}
+/* The scrolling list: an 80px bottom padding keeps the floating button from covering the last item. */
 .x-fb-sc{height:250px;overflow:auto;padding-bottom:80px}
+/* One list item row. */
 .x-fb-it{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px}
+/* The small description of an item. */
 .x-fb-it small{display:block;color:var(--ink-2)}
+/* The group that wraps the button and the menu: fixed at the bottom right corner with position:absolute. */
 .x-fb-w{position:absolute;right:14px;bottom:14px;display:grid;justify-items:end;gap:8px}
+/* The group of small menu items that unfold. */
 .x-fb-m{display:grid;gap:6px;justify-items:end}
+/* Hidden when hidden (so the display setting does not override hidden). */
 .x-fb-m[hidden]{display:none}
+/* A menu item button: pill-shaped with a shadow, rising slightly with an animation when it appears (backwards keeps the starting look before it begins). */
 .x-fb-m button{display:flex;gap:8px;align-items:center;border:0;background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 12.5px var(--sans);box-shadow:0 6px 14px -6px rgba(0,0,0,.45);cursor:pointer;animation:x-fb-in .18s ease-out backwards}
+/* The first item starts 0.05 seconds later so the items appear one after another. */
 .x-fb-m button:nth-child(1){animation-delay:.05s}
+/* An animation rising into place from transparent and 8px lower. */
 @keyframes x-fb-in{from{opacity:0;transform:translateY(8px)}}
+/* The FAB (floating action button) itself: a round pill with a shadow. transition smooths padding changes. */
 .x-fb-b{display:flex;align-items:center;gap:8px;height:52px;padding:0 18px;border:0;border-radius:26px;background:var(--accent);color:var(--accent-ink);font:700 14px var(--sans);cursor:pointer;box-shadow:0 10px 20px -8px rgba(0,0,0,.5);transition:padding .2s}
+/* The button text: a transition on max-width makes the text fold and unfold smoothly. */
 .x-fb-b span.t{display:inline-block;max-width:80px;overflow:hidden;white-space:nowrap;transition:max-width .2s,opacity .2s}
+/* When scrolling down (the mini class), the button gets smaller. */
 .x-fb-b.mini{padding:0 16px}
+/* When it gets small, the text folds to zero width and becomes transparent. */
 .x-fb-b.mini span.t{max-width:0;opacity:0}
+/* The + icon of the button: its rotation is smoothed with transition. */
 .x-fb-b i{font-style:normal;font-size:20px;line-height:1;transition:transform .2s}
+/* When the menu is open (aria-expanded="true"), the + rotates 45 degrees into a ×. */
 .x-fb-b[aria-expanded="true"] i{transform:rotate(45deg)}
 `,
 demo:`<div class="x-fb"><div class="x-fb-hd">Notes (example)</div><div class="x-fb-sc"></div><div class="x-fb-w"><div class="x-fb-m" hidden><button type="button">📷 Photo note</button><button type="button">✏️ Text note</button></div><button class="x-fb-b" type="button" aria-expanded="false" aria-label="New note"><i>＋</i><span class="t">New note</span></button></div></div><p class="d-hint">Scroll down and the button shrinks to an icon; scroll up and it grows again. Press it to expand.</p>`,
 init(r){
+  // Find the scroll list (sc), the FAB button (b), and the unfolding menu (m).
   const sc=r.querySelector('.x-fb-sc'),b=r.querySelector('.x-fb-b'),m=r.querySelector('.x-fb-m');
+  // Create 14 notes and add them to the list so a scrollbar appears.
   for(let i=1;i<=14;i++){const d=document.createElement('div');d.className='x-fb-it';d.innerHTML='Note '+i+'<small>Today · This is sample content</small>';sc.appendChild(d)}
+  // Change the button size by scroll direction: scrolling down (by more than 4px) makes it mini (text folded), and scrolling up or being near the top restores it. It is a trick to stay out of the way while reading.
   let last=0;sc.addEventListener('scroll',()=>{const y=sc.scrollTop;if(y>last+4&&y>30)b.classList.add('mini');else if(y<last-4||y<10)b.classList.remove('mini');last=y},{passive:true});
+  // Pressing the button flips the expanded state (aria-expanded) and shows or hides the menu. When opening, it removes mini.
   b.addEventListener('click',()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);m.hidden=!o;if(o)b.classList.remove('mini')});
+  // Pressing a menu item closes the menu.
   m.addEventListener('click',()=>{b.setAttribute('aria-expanded',false);m.hidden=true});
+  // The Esc key closes the menu and returns the focus to the button.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden){b.setAttribute('aria-expanded',false);m.hidden=true;b.focus()}});
 },
 code:`<button class="fab" aria-label="New note"><i>＋</i><span>New note</span></button>
@@ -5760,24 +5865,40 @@ cheat:[
 terms:[['backdrop','Backdrop, the layer behind a modal'],['overlay','Overlay, a layer laid over the screen'],['scroll lock','Scroll lock, preventing the screen behind from scrolling'],['focus trap','Focus trap, keeping keyboard focus from leaving the modal']],
 note:'The page shifting sideways when the scrollbar disappears can be reduced with scrollbar-gutter: stable. <dialog>When opened with showModal(), the area behind is disabled automatically and Esc is supported. Whether CSS variables are inherited by ::backdrop needs verification per browser.',
 css:`
+/* The fake screen box: position:relative is the reference point for the dark layer inside. */
 .x-mb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+/* The page area behind: it scrolls. */
 .x-mb-pg{height:230px;overflow:auto;padding:12px 14px}
+/* With "scroll lock" on (the lock class), overflow:hidden keeps the page behind from scrolling. */
 .x-mb-pg.lock{overflow:hidden}
+/* The body paragraphs of the page behind. */
 .x-mb-pg p{margin:0 0 10px;font-size:13px;color:var(--ink-2);line-height:1.6}
+/* The dark layer (overlay): inset:0 covers the whole screen, and the transparency (--a) and blur amount (--bl) are CSS variables changed by sliders. backdrop-filter:blur blurs the screen behind. */
 .x-mb-ov{position:absolute;inset:0;display:grid;place-items:center;background:rgba(8,16,24,var(--a,.55));-webkit-backdrop-filter:blur(var(--bl,0px));backdrop-filter:blur(var(--bl,0px));z-index:3;animation:x-mb-in .2s ease-out}
+/* Fades in from transparent. */
 @keyframes x-mb-in{from{opacity:0}}
+/* The dialog card above the layer: its width never exceeds 280px (min), centered. */
 .x-mb-d{width:min(280px,86%);padding:18px;border-radius:14px;background:var(--surface);box-shadow:0 20px 40px -16px rgba(0,0,0,.6);display:grid;gap:8px;font-size:13px}
+/* The dialog title. */
 .x-mb-d b{font:700 15px var(--display)}
 `,
 demo:`<div class="d-ctl"><label for="x-mb-a">Darkness <input id="x-mb-a" type="range" min="0" max="90" value="55"></label><label for="x-mb-b">Blur <input id="x-mb-b" type="range" min="0" max="10" value="0"></label></div><div class="d-ctl"><label for="x-mb-c"><input id="x-mb-c" type="checkbox" checked> Close when clicking outside</label><label for="x-mb-l"><input id="x-mb-l" type="checkbox" checked> Lock scrolling of the screen behind</label></div><div class="x-mb"><div class="x-mb-pg"><p>This is the November new menu news. This area is the page behind the modal. Try scrolling.</p><p>With scroll lock on while the modal is open, this area does not move. (example)</p><p>Imagine that content like shipping information, events, and reviews continues for a long stretch.</p><p>You have reached the end.</p><button class="d-btn d-btn-primary x-mb-o" type="button">Open coupon popup</button></div></div>`,
 init(r){
+  // Find the screen (w), the page behind (pg), the transparency slider (a), the blur slider (b), the "close on backdrop click" checkbox (cb), the "scroll lock" checkbox (lk), and the open button (op), and prepare ov (the layer now open, or null).
   const w=r.querySelector('.x-mb'),pg=r.querySelector('.x-mb-pg'),a=r.querySelector('#x-mb-a'),b=r.querySelector('#x-mb-b'),cb=r.querySelector('#x-mb-c'),lk=r.querySelector('#x-mb-l'),op=r.querySelector('.x-mb-o');let ov=null;
+  // style(): put the slider values into the CSS variables of the layer (--a for transparency, --bl for blur) to change its look.
   const style=()=>{if(!ov)return;ov.style.setProperty('--a',a.value/100);ov.style.setProperty('--bl',b.value+'px')};
+  // close(): remove the layer, release the scroll lock, and return the focus to the open button (so keyboard users do not get lost).
   const close=()=>{if(!ov)return;ov.remove();ov=null;pg.classList.remove('lock');op.focus()};
+  // open(): create the layer and the dialog and add them to the screen. role="dialog" and aria-modal="true" tell screen readers this is a dialog and the screen behind is not usable now.
   const open=()=>{ov=document.createElement('div');ov.className='x-mb-ov';ov.innerHTML='<div class="x-mb-d" role="dialog" aria-modal="true" aria-label="Coupon"><b>🎟️ First-purchase KRW 5,000 coupon</b><span>Valid until November 30. (example)</span><div class="d-row"><button class="d-btn d-btn-primary" type="button">Claim</button><button class="d-btn x-mb-x" type="button">Close</button></div></div>';
+    // Clicking the layer (outside the dialog) closes it if "close on backdrop click" is on. The buttons are also connected to closing.
     ov.addEventListener('click',e=>{if(e.target===ov&&cb.checked)close()});ov.querySelector('.x-mb-x').addEventListener('click',close);ov.querySelector('.d-btn-primary').addEventListener('click',close);
+    // Add the layer to the screen, apply the scroll lock, set the layer look, and give the focus to the first button.
     w.appendChild(ov);pg.classList.toggle('lock',lk.checked);style();ov.querySelector('.d-btn-primary').focus()};
+  // Connect the button and sliders. Moving a slider changes the layer look right away, and changing the lock checkbox applies even while it is open.
   op.addEventListener('click',open);a.addEventListener('input',style);b.addEventListener('input',style);lk.addEventListener('change',()=>{if(ov)pg.classList.toggle('lock',lk.checked)});
+  // Pressing the Esc key closes it.
   w.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 },
 code:`<dialog id="coupon">
@@ -5812,26 +5933,42 @@ cheat:[
 terms:[['portal','Portal, a passage for rendering an element elsewhere'],['clipping','Clipping, parts outside the parent area getting cut off'],['top layer','Top layer, the browser’s topmost level']],
 note:'Note that even when the DOM (document structure) position moves to the body, in React events still bubble up through the logical parent (this is how we understand the React documentation, but the original was not consulted, needs verification). Moving to a portal also changes style inheritance.',
 css:`
+/* The outer box of the example: position:relative is the reference point for the outer layer. */
 .x-pt{position:relative;min-height:250px}
+/* The card: overflow:hidden is the key. A menu inside the card is clipped where it goes outside the card. */
 .x-pt-card{width:min(230px,70%);padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;display:grid;gap:8px;font-size:13px}
+/* The card title. */
 .x-pt-card b{font:700 14px var(--display)}
+/* The buttons inside the card in a row. */
 .x-pt-row{display:flex;gap:6px;flex-wrap:wrap}
+/* A menu made inside the card (the "bad example", with a red border): clipped because of the overflow:hidden of the parent (.x-pt-card). */
 .x-pt-in{position:absolute;margin-top:4px;min-width:120px;padding:4px;border-radius:8px;background:var(--surface);border:1px solid var(--rose);box-shadow:0 10px 20px -10px rgba(0,0,0,.5);z-index:5}
+/* The outer layer made outside the card (the portal spot): it covers the whole example box and lets clicks pass through (pointer-events:none). */
 .x-pt-lay{position:absolute;inset:0;pointer-events:none;z-index:5}
+/* A menu made in the outer layer (the "good example", with a green border): it is outside the card so it is not clipped. The menu itself receives clicks (pointer-events:auto). */
 .x-pt-out{position:absolute;min-width:120px;padding:4px;border-radius:8px;background:var(--surface);border:1px solid var(--leaf);box-shadow:0 10px 20px -10px rgba(0,0,0,.5);pointer-events:auto}
+/* The common look of the item buttons in both menus. */
 .x-pt-in button,.x-pt-out button{display:block;width:100%;text-align:left;border:0;background:none;padding:7px 9px;border-radius:5px;font:12.5px var(--sans);color:var(--ink);cursor:pointer}
+/* A light accent background on hover. */
 .x-pt-in button:hover,.x-pt-out button:hover{background:var(--accent-soft)}
 `,
 demo:`<div class="x-pt"><div class="x-pt-card"><b>Order #1024</b><span>Croissant 6-pack and 1 more item</span><div class="x-pt-row"><button class="d-btn x-pt-a" type="button">⋯ Without portal</button><button class="d-btn d-btn-primary x-pt-b" type="button">⋯ With portal</button></div></div><div class="x-pt-lay"></div></div><p class="d-hint">The card has overflow:hidden. The menu of the left button sits inside the card and is clipped, while the menu of the right button is drawn on a layer outside the card and appears in full.</p>`,
 init(r){
+  // Find the card, the outer layer (lay), the box (root), and the two buttons (a: the menu inside the card, b: the menu in the outer layer).
   const card=r.querySelector('.x-pt-card'),lay=r.querySelector('.x-pt-lay'),root=r.querySelector('.x-pt'),a=r.querySelector('.x-pt-a'),b=r.querySelector('.x-pt-b');
+  // The collection of menu item names.
   const items=['Order details','Track delivery','Cancel order'];
+  // close(): remove both the menu inside the card and the one in the outer layer.
   const close=()=>{card.querySelectorAll('.x-pt-in').forEach(e=>e.remove());lay.textContent=''};
+  // The menu inside the card (the bad example): if already open, only close it; otherwise create the menu and add it inside the card. The button position is calculated relative to the card to place the menu below it. stopPropagation keeps this click from spreading to the "outside click" rule below and closing it right away.
   a.addEventListener('click',e=>{e.stopPropagation();const o=card.querySelector('.x-pt-in');close();if(o)return;const m=document.createElement('div');m.className='x-pt-in';m.innerHTML=items.map(t=>'<button type="button">'+t+'</button>').join('');card.appendChild(m);
     const ar=a.getBoundingClientRect(),cr=card.getBoundingClientRect();m.style.left=(ar.left-cr.left)+'px';m.style.top=(ar.bottom-cr.top)+'px'});
+  // The menu in the outer layer (the good example): the same way, but the menu is added to the outer layer (lay) instead of the card, and its position is calculated relative to the box (root). Drawing it elsewhere in the DOM like this is a portal.
   b.addEventListener('click',e=>{e.stopPropagation();const had=lay.children.length;close();if(had)return;const m=document.createElement('div');m.className='x-pt-out';m.innerHTML=items.map(t=>'<button type="button">'+t+'</button>').join('');lay.appendChild(m);
     const br=b.getBoundingClientRect(),rr=root.getBoundingClientRect();m.style.left=(br.left-rr.left)+'px';m.style.top=(br.bottom-rr.top+4)+'px'});
+  // Clicking anywhere closes the menus.
   document.addEventListener('click',()=>close());
+  // Pressing the Esc key closes them.
   r.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 },
 code:`// React
