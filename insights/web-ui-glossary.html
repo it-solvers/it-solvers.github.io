@@ -1083,9 +1083,19 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
-.purpose{margin:0 0 14px;max-width:64ch;padding:9px 12px;border-radius:8px;background:var(--surface-2);font-size:13px;color:var(--ink-2)}
+/* 상단 안내 영역: 안내 문구는 가는 강조선, 접이식 3개는 하나의 묶음 카드로 보이게 한다 */
+.purpose{max-width:880px;margin:0 0 16px;padding:2px 0 2px 14px;background:none;border-left:3px solid var(--accent);border-radius:0;font-size:13.5px;line-height:1.7;color:var(--ink-2)}
 .purpose b{color:var(--ink)}
-.hist-box{margin-bottom:8px}
+.top details.gloss{max-width:880px;margin:0;padding:0 16px;border-radius:0;border-bottom-width:0}
+.top details.gloss:first-of-type{border-radius:12px 12px 0 0}
+.top details.gloss:last-of-type{border-radius:0 0 12px 12px;border-bottom-width:1px}
+.hist-box{margin-bottom:0}
+.top .gloss summary{display:flex;align-items:center;gap:10px;padding:12px 0;font:600 13.5px var(--sans);list-style:none}
+.top .gloss summary::-webkit-details-marker{display:none}
+.top .gloss summary::before{content:"";flex:none;width:7px;height:7px;border-right:2px solid var(--ink-2);border-bottom:2px solid var(--ink-2);transform:rotate(-45deg);transition:transform .2s}
+.top .gloss[open] summary::before{transform:rotate(45deg)}
+.top .gloss summary:hover{color:var(--accent)}
+.top .gloss[open]>summary{border-bottom:1px solid var(--line);margin-bottom:10px}
 .hist{margin:0;padding:0 0 12px;list-style:none;display:grid;gap:8px;font-size:13px}
 .hist li{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px}
 .hist time{font:600 12px var(--mono);color:var(--accent)}
