@@ -6007,22 +6007,35 @@ cheat:[
 terms:[['safe area','Safe area, the area that is safe to use'],['notch','Notch, the camera cutout at the top of the screen'],['home indicator','Home indicator, the bottom home bar (the horizontal bar on iOS)'],['viewport-fit','Viewport fit, a setting that decides whether to use the full screen']],
 note:'This demo imitates the values by typing them in directly. The actual env() values are decided by the device and browser. On desktop browsers they are mostly 0 (needs verification: test actual values per device).',
 css:`
+/* The outer box that centers the fake phone. */
 .x-sa-w{display:flex;justify-content:center}
+/* The fake phone screen: a black border and rounded corners with overflow:hidden. */
 .x-sa-ph{position:relative;width:210px;height:330px;border:6px solid #1b2a35;border-radius:30px;background:var(--surface);overflow:hidden;box-shadow:0 14px 30px -16px rgba(0,0,0,.6)}
+/* The notch at the top of the screen (the camera cutout): placed at the top center with absolute positioning. */
 .x-sa-notch{position:absolute;left:50%;top:0;width:80px;height:24px;margin-left:-40px;background:#1b2a35;border-radius:0 0 14px 14px;z-index:3}
+/* The home bar at the bottom of the screen (an underline-shaped marker). */
 .x-sa-home{position:absolute;left:50%;bottom:6px;width:70px;height:4px;margin-left:-35px;border-radius:2px;background:#1b2a35;z-index:3}
+/* The header: --sat (the top safe area value) is added to padding-top and height. Pushing it down by that much so the notch does not cover it is safe area handling. Real apps use env(safe-area-inset-top). */
 .x-sa-hd{padding:calc(8px + var(--sat,0px)) 12px 8px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--display);height:calc(40px + var(--sat,0px));box-sizing:border-box}
+/* The body text look. */
 .x-sa-bd{padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.6}
+/* The bottom tab bar: --sab (the bottom safe area value) is added to padding-bottom so it does not overlap the home bar. Real apps use env(safe-area-inset-bottom). */
 .x-sa-tab{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:10px 0 calc(10px + var(--sab,0px));background:var(--surface-2);border-top:1px solid var(--line);font-size:18px;z-index:2}
+/* With "apply safe area" off (the off class), no extra padding is added so the title runs under the notch (the wrong example). */
 .x-sa-ph.off .x-sa-hd{padding-top:8px;height:40px}
+/* When off, the tab icons overlap the home bar. */
 .x-sa-ph.off .x-sa-tab{padding-bottom:10px}
+/* When "regular screen (no notch)" is chosen (the plain class), the notch and the home bar are hidden. */
 .x-sa-ph.plain .x-sa-notch,.x-sa-ph.plain .x-sa-home{display:none}
 `,
 demo:`<div class="d-ctl"><label for="x-sa-d">Device <select id="x-sa-d"><option value="notch">Notch + home bar (like a recent smartphone)</option><option value="plain">Regular screen (safe area 0)</option></select></label><label for="x-sa-on"><input id="x-sa-on" type="checkbox" checked> apply safe-area</label></div><div class="x-sa-w"><div class="x-sa-ph" style="--sat:30px;--sab:22px"><div class="x-sa-notch"></div><div class="x-sa-hd">Example Market</div><div class="x-sa-bd">A screen that adds margins so the top title and bottom tab bar do not overlap the notch and home bar. (example)</div><div class="x-sa-tab" role="presentation"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div><div class="x-sa-home"></div></div></div><p class="d-hint x-sa-ro"></p>`,
 init(r){
+  // Find the fake phone (ph), the screen type selector (d), the apply checkbox (on), and the description text (ro).
   const ph=r.querySelector('.x-sa-ph'),d=r.querySelector('#x-sa-d'),on=r.querySelector('#x-sa-on'),ro=r.querySelector('.x-sa-ro');
+  // u(): for a regular screen add the plain class and set the safe area values (--sat, --sab) to 0, otherwise to 30px and 22px. If the apply checkbox is off, add the off class, and show a description that fits the situation.
   const u=()=>{const plain=d.value==='plain';ph.classList.toggle('plain',plain);ph.style.setProperty('--sat',plain?'0px':'30px');ph.style.setProperty('--sab',plain?'0px':'22px');ph.classList.toggle('off',!on.checked);
     ro.textContent=!on.checked&&!plain?'Without it, the title digs under the notch and the tab icons overlap the home bar.':plain?'The safe-area value is 0, so no margin is added.':'Safe margins were added to padding-top / padding-bottom.'};
+  // Run u() when the selection or checkbox changes, and at the start.
   d.addEventListener('change',u);on.addEventListener('change',u);u();
 },
 code:`<!-- 1) Declare that you use the whole screen -->
@@ -6061,32 +6074,56 @@ cheat:[
 terms:[['infinite loop','Infinite loop, an endless cycle'],['clone','Clone, a copy'],['autoplay','Autoplay, playing automatically']],
 note:'A moving banner that advances before it can be read is uncomfortable, so a pause button must be provided (an accessibility recommendation). Unlike the "Carousel"on this card, it does not rewind from the end to the start and continues in the same direction.',
 css:`
+/* The outer box of the infinitely looping carousel: overflow:hidden hides the neighboring slides. */
 .x-il{overflow:hidden;border-radius:12px;position:relative}
+/* The track with the slides joined horizontally: moved sideways with transform. */
 .x-il-t{display:flex;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+/* With the "no transition" (nt) class, it jumps instantly without animation. It is used to jump secretly from a copy slide to the real slide. */
 .x-il-t.nt{transition:none}
+/* One slide: flex:0 0 100% makes it take 100% of the box width without shrinking. */
 .x-il-s{flex:0 0 100%;min-height:130px;padding:20px;display:flex;flex-direction:column;justify-content:flex-end;background:color-mix(in srgb,var(--c) 28%,var(--surface))}
+/* The slide title. */
 .x-il-s h4{margin:0 0 3px;font:700 17px var(--display)}
+/* The slide description. */
 .x-il-s p{margin:0;font-size:12.5px;color:var(--ink-2)}
+/* The control row below (previous, dots, next, pause). */
 .x-il-c{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
+/* The position dots in a row. */
 .x-il-d{display:flex;gap:6px}
+/* One dot (a small gray bar). */
 .x-il-d i{width:8px;height:8px;border-radius:4px;background:var(--line);transition:width .25s,background .25s}
+/* The dot of the current slide is long and in the accent color. */
 .x-il-d i.on{width:22px;background:var(--accent)}
 `,
 demo:`<div class="x-il" role="group" aria-roledescription="carousel" aria-label="Event banner"><div class="x-il-t"></div></div><div class="x-il-c"><button class="d-btn x-il-p" type="button" aria-label="Previous">‹</button><div class="x-il-d" aria-hidden="true"></div><button class="d-btn x-il-pa" type="button" aria-pressed="false">⏸ Pause</button><button class="d-btn x-il-n" type="button" aria-label="Next">›</button></div><p class="d-hint">Keep pressing Next. It does not rewind from the last to the first and continues in the same direction.</p>`,
 init(r){
+  // S: the collection of slide content [title, description, color].
   const S=[['Autumn sale','Up to 50% off (example)','var(--rose)'],['Free shipping','On orders over KRW 30,000 (example)','var(--sky)'],['Invite a friend','Earn KRW 5,000 (example)','var(--leaf)']];
+  // Find n (the number of slides), the track, the dots spot (dots), and the box, and prepare i (the current position on the track, starting at 1), busy (moving), paused (autoplay stopped; stopped from the start if "reduce motion" is on), and tm (the timer).
   const n=S.length,track=r.querySelector('.x-il-t'),dots=r.querySelector('.x-il-d'),box=r.querySelector('.x-il');let i=1,busy=false,paused=matchMedia('(prefers-reduced-motion:reduce)').matches,tm;
+  // mk(slide): create the <div> of one slide. role="group" and aria-roledescription="slide" tell screen readers it is a "slide".
   const mk=s=>{const d=document.createElement('div');d.className='x-il-s';d.style.setProperty('--c',s[2]);d.setAttribute('role','group');d.setAttribute('aria-roledescription','slide');d.innerHTML='<h4>'+s[0]+'</h4><p>'+s[1]+'</p>';return d};
+  // Add a copy of the last slide at the front of the track, then the real slides, then a copy of the first slide at the end. Thanks to the copies, it slides naturally even when going from the end to the start (the key of the infinite loop).
   track.appendChild(mk(S[n-1]));S.forEach(s=>track.appendChild(mk(s)));track.appendChild(mk(S[0]));
+  // Create as many dots as there are slides.
   S.forEach(()=>dots.appendChild(document.createElement('i')));
+  // set(animate): without animation add the nt class, slide the track sideways to the current position (i), and mark the matching dot as on (a copy slide is converted to the real dot on the other side).
   const set=(animate)=>{track.classList.toggle('nt',!animate);track.style.transform='translateX(-'+i*100+'%)';[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===((i-1+n)%n)))};
+  // go(direction): ignore it while moving; otherwise move the position by one and animate.
   const go=d=>{if(busy)return;busy=true;i+=d;set(true)};
+  // When the move ends, check whether it landed on a copy and secretly jump to the real slide (copy 0 → the last real one, copy n+1 → the first real one). It is done without animation, so the user does not notice. Then release busy.
   track.addEventListener('transitionend',()=>{if(i===0){i=n;set(false)}else if(i===n+1){i=1;set(false)}busy=false});
+  // Connect the next and previous buttons.
   r.querySelector('.x-il-n').addEventListener('click',()=>go(1));r.querySelector('.x-il-p').addEventListener('click',()=>go(-1));
+  // The pause button (pa) and sync(): change aria-pressed and the button text to match the state.
   const pa=r.querySelector('.x-il-pa');const sync=()=>{pa.setAttribute('aria-pressed',paused);pa.textContent=paused?'▶ Play':'⏸ Pause'};
+  // Pressing the button stops or resumes autoplay. Content that moves on its own must provide a way to stop it (accessibility).
   pa.addEventListener('click',()=>{paused=!paused;sync()});
+  // While the mouse is over it or keyboard focus is inside (hover), it does not advance automatically.
   let hover=false;box.addEventListener('mouseenter',()=>hover=true);box.addEventListener('mouseleave',()=>hover=false);box.addEventListener('focusin',()=>hover=true);box.addEventListener('focusout',()=>hover=false);
+  // Advance to the next slide automatically every 3.2 seconds. It does not advance when paused, when the mouse or focus is over it, or when the tab is not visible (visibilityState).
   tm=setInterval(()=>{if(!paused&&!hover&&document.visibilityState==='visible')go(1)},3200);
+  // Set the initial position and the button text.
   set(false);sync();
 },
 code:`// Structure: [last clone][1][2][3][first clone]
@@ -6122,30 +6159,50 @@ cheat:[
 terms:[['lightbox','Lightbox, a window that shows a large photo over a dark background'],['thumbnail','Thumbnail, a small preview image'],['focus return','Focus return, giving focus back to where it was originally pressed when closing']],
 note:'Use max-width and max-height so the enlarged image does not overflow the screen on mobile. If you need pinch zoom (two-finger enlargement), it needs separate handling.',
 css:`
+/* The photo collection box: position:relative is the reference point for the enlarged view (overlay) inside. */
 .x-lb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);padding:12px}
+/* Lays the thumbnails in a 4-column grid. */
 .x-lb-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+/* A thumbnail button: aspect-ratio:1 makes it square, and cursor:zoom-in shows the magnifier (zoom) cursor. */
 .x-lb-g button{aspect-ratio:1;border:0;border-radius:10px;font-size:34px;cursor:zoom-in;background:color-mix(in srgb,var(--c) 32%,var(--surface))}
+/* Slightly brighter on hover. */
 .x-lb-g button:hover{filter:brightness(1.06)}
+/* The enlarged view (overlay): inset:0 covers the box with a dark translucent background, and grid-template-rows divides it into three rows: top (close), middle (photo), bottom (previous/next). */
 .x-lb-o{position:absolute;inset:0;z-index:4;background:rgba(6,12,18,.88);display:grid;grid-template-rows:auto 1fr auto;color:#fff;animation:x-mb-in .2s ease-out}
+/* The top row: the position count on the left and the close button at the right end. */
 .x-lb-top{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:12.5px}
+/* The common look of the close, previous, and next buttons: translucent white round buttons. */
 .x-lb-top button,.x-lb-nav button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:999px;min-width:36px;height:36px;padding:0 12px;font-size:16px;cursor:pointer}
+/* The photo area: the photo is centered and anything overflowing is hidden. */
 .x-lb-img{display:grid;place-items:center;font-size:110px;position:relative;overflow:hidden}
+/* One photo: a square card that appears growing slightly with the x-lb-z animation when it changes. */
 .x-lb-img span{display:grid;place-items:center;width:min(230px,80%);aspect-ratio:1;border-radius:16px;background:color-mix(in srgb,var(--c) 40%,#0d1b25);animation:x-lb-z .25s ease-out}
+/* From a transparent state at 92% size to the normal size. */
 @keyframes x-lb-z{from{opacity:0;transform:scale(.92)}}
+/* The bottom row: the previous button, a text in the middle, and the next button. */
 .x-lb-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:12.5px}
 `,
 demo:`<div class="x-lb"><div class="x-lb-g" role="group" aria-label="Review photos (example)"></div><p class="d-hint" style="margin:8px 0 0">Press a photo to view it larger. The ← → keys and Esc work too.</p></div>`,
 init(r){
+  // P: the photo list [emoji, name, color].
   const P=[['🥐','Croissant','var(--warm)'],['🍞','Whole wheat bread','var(--sun)'],['🥗','Salad','var(--leaf)'],['🍓','Strawberry tart','var(--rose)'],['🧀','Cheesecake','var(--sky)'],['☕','Cold brew','var(--accent)'],['🍰','Fresh cream cake','var(--rose)'],['🥪','Sandwich','var(--warm)']];
+  // Find the thumbnail spot (g) and the box, and prepare cur (the number being viewed), from (the thumbnail that was pressed), and ov (the enlarged view that is open).
   const g=r.querySelector('.x-lb-g'),box=r.querySelector('.x-lb');let cur=0,from=null,ov=null;
+  // Create a thumbnail button for each photo and add it. aria-label gives it a name, and pressing it shows that photo large (open).
   P.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.style.setProperty('--c',p[2]);b.textContent=p[0];b.setAttribute('aria-label',p[1]+' view larger');b.addEventListener('click',()=>open(i,b));if(i<4)g.appendChild(b);else{const b2=b;g.appendChild(b2)}});
+  // show(): draw the current photo (cur) in the enlarged view and update the "n / total · name" text. role="img" and aria-label give the image a description.
   const show=()=>{const p=P[cur];ov.querySelector('.x-lb-img').innerHTML='<span style="--c:'+p[2]+'" role="img" aria-label="'+p[1]+'">'+p[0]+'</span>';ov.querySelector('.x-lb-cnt').textContent=(cur+1)+' / '+P.length+' · '+p[1]};
+  // move(direction): move the photo number by one (wrapping at the ends) and redraw.
   const move=d=>{cur=(cur+d+P.length)%P.length;show()};
+  // close(): remove the enlarged view and return the focus to the thumbnail that was pressed (so keyboard users do not get lost).
   const close=()=>{if(!ov)return;ov.remove();ov=null;if(from)from.focus()};
+  // open(index, thumbnail): create the enlarged view and add it to the screen. role="dialog" and aria-modal="true" announce a dialog where the screen behind is not usable, and the close button gets the focus.
   const open=(i,b)=>{cur=i;from=b;ov=document.createElement('div');ov.className='x-lb-o';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','View photo larger');
     ov.innerHTML='<div class="x-lb-top"><span class="x-lb-cnt"></span><button type="button" class="x-lb-x" aria-label="Close">✕</button></div><div class="x-lb-img"></div><div class="x-lb-nav"><button type="button" class="x-lb-p" aria-label="Previous">‹</button><span>Example photo</span><button type="button" class="x-lb-n" aria-label="Next">›</button></div>';
+    // Connect the close, previous, and next buttons, and clicking an empty part of the photo area also closes it.
     ov.querySelector('.x-lb-x').addEventListener('click',close);ov.querySelector('.x-lb-p').addEventListener('click',()=>move(-1));ov.querySelector('.x-lb-n').addEventListener('click',()=>move(1));
     ov.addEventListener('click',e=>{if(e.target.classList.contains('x-lb-img'))close()});box.appendChild(ov);show();ov.querySelector('.x-lb-x').focus()};
+  // Keyboard while open: Esc closes, and the right and left arrows go to the next and previous photo.
   box.addEventListener('keydown',e=>{if(!ov)return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowLeft')move(-1)});
 },
 code:`<div class="gallery">
@@ -6186,27 +6243,44 @@ cheat:[
 terms:[['collapse','Collapse, to fold'],['expand','Expand, to unfold'],['interpolate-size','interpolate-size, a property that lets keyword sizes such as auto transition too']],
 note:'While transitioning, use visibility or inert as well so the Tab key does not focus collapsed content. Which method in the demo below fits depends on whether you know the content height.',
 css:`
+/* The outer box that stacks the four folding methods vertically. */
 .x-ac2{display:grid;gap:8px}
+/* The card look of one item. */
 .x-ac2-i{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+/* The title button: fills the full width with its default look removed. */
 .x-ac2-i>button{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center;border:0;background:none;padding:10px 12px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+/* The method name (small text). */
 .x-ac2-i>button small{color:var(--ink-2);font:500 11px var(--mono)}
+/* The look of the content text. */
 .x-ac2-p{padding:0 12px 12px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+/* Method 1 (max-height): the closed state is max-height:0 with overflow:hidden, and transition makes the change smooth. */
 .x-ac2-m .x-ac2-w{max-height:0;overflow:hidden;transition:max-height .35s ease}
+/* When open, max-height is set to a large enough value (240px). The downside is that the speed looks off when it differs from the real content height. */
 .x-ac2-m.open .x-ac2-w{max-height:240px}
+/* Method 2 (grid): changing grid-template-rows from 0fr to 1fr. fr can be transitioned, so it unfolds naturally even without knowing the height. */
 .x-ac2-g .x-ac2-w{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+/* When open, 1fr (as tall as the content). */
 .x-ac2-g.open .x-ac2-w{grid-template-rows:1fr}
+/* The inner div uses min-height:0 and overflow:hidden to clip the content while folding. */
 .x-ac2-g .x-ac2-w>div{min-height:0;overflow:hidden}
+/* Method 3 (JavaScript): JavaScript changes the height from 0 to the real height. */
 .x-ac2-j .x-ac2-w{overflow:hidden;height:0;transition:height .35s ease}
+/* Method 4 (display): turns on and off instantly with display:none and block. There is no smooth motion. */
 .x-ac2-a .x-ac2-w{display:none}
+/* When open, it is shown. */
 .x-ac2-a.open .x-ac2-w{display:block}
 `,
 demo:`<div class="x-ac2"><div class="x-ac2-i x-ac2-a"><button type="button" aria-expanded="false">Direct height:auto transition <small>Not smooth</small></button><div class="x-ac2-w"><div class="x-ac2-p">Shipping usually takes 1–2 days. It opens instantly and the elements below are pushed suddenly. (example)</div></div></div><div class="x-ac2-i x-ac2-m"><button type="button" aria-expanded="false">max-height method <small>Height must be estimated</small></button><div class="x-ac2-w"><div class="x-ac2-p">Refunds can be requested within 7 days of receipt. If the content is longer than max-height, it is cut off. (example)</div></div></div><div class="x-ac2-i x-ac2-g"><button type="button" aria-expanded="false">grid 0fr → 1fr method <small>Recommended</small></button><div class="x-ac2-w"><div><div class="x-ac2-p">Group orders are available from 20 items, and it opens smoothly to fit the content exactly without knowing the height. (example)</div></div></div></div><div class="x-ac2-i x-ac2-j"><button type="button" aria-expanded="false">Measure height with JS <small>Exact</small></button><div class="x-ac2-w"><div class="x-ac2-p">A tax invoice is issued after payment once business information is registered. It reads scrollHeight and transitions to the exact height. (example)</div></div></div></div>`,
 init(r){
+  // For each item, find the title button (b) and the content box (w).
   r.querySelectorAll('.x-ac2-i').forEach(it=>{const b=it.querySelector('button'),w=it.querySelector('.x-ac2-w');
+    // Pressing flips the open state (the open class, aria-expanded), and for method 3 (JavaScript) sets the height directly. When opening, it grows to scrollHeight (the real content height), and after the move ends it is released to height:auto so it fits even if content changes.
     b.addEventListener('click',()=>{const o=!it.classList.contains('open');it.classList.toggle('open',o);b.setAttribute('aria-expanded',o);
       if(it.classList.contains('x-ac2-j')){w.style.height=o?w.scrollHeight+'px':'0px';if(o)w.addEventListener('transitionend',function f(){if(it.classList.contains('open'))w.style.height='auto';w.removeEventListener('transitionend',f)})}})
     if(it.classList.contains('x-ac2-j')){}});
+  // Find the content box (j) and the title button (jb) of method 3.
   const j=r.querySelector('.x-ac2-j .x-ac2-w'),jb=r.querySelector('.x-ac2-j button');
+  // When closing, transition does not work if height is auto, so first set the real height (px) and change it to 0 on the next frame to fold smoothly. The third argument true makes this run before the click handling above.
   jb.addEventListener('click',()=>{if(!jb.parentElement.classList.contains('open')){j.style.height=j.scrollHeight+'px';requestAnimationFrame(()=>{j.style.height='0px'})}},true);
 },
 code:`/* 1) grid 0fr → 1fr (recommended, no need to know the height) */
@@ -6245,35 +6319,57 @@ cheat:[
 terms:[['placement','Placement, the direction of arrangement'],['flip','Flip, turning to the opposite side when there is not enough room'],['collision','Collision, the situation of bumping into the screen edge'],['arrow','Arrow, the small pointer on a tooltip']],
 note:'Rather than calculating by hand, a proven library such as Floating UI is often used (the library’s current status was not checked this time and needs verification). Tooltips must appear on keyboard focus as well as on hover.',
 css:`
+/* The box for testing tooltip directions: a dashed border, position:relative, and overflow:hidden (content going outside is clipped). */
 .x-td{position:relative;height:200px;border:1.5px dashed var(--ink-2);border-radius:12px;background:var(--surface-2);overflow:hidden}
+/* The common look of the icon buttons (freely placed with position:absolute). */
 .x-td button{position:absolute;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px}
+/* Button 1: the top left corner. */
 .x-td button:nth-child(1){left:8px;top:8px}
+/* Button 2: the top right corner. */
 .x-td button:nth-child(2){right:8px;top:8px}
+/* Button 3: the center (negative margins center it). */
 .x-td button:nth-child(3){left:50%;top:50%;margin:-20px 0 0 -20px}
+/* Button 4: the bottom left corner. */
 .x-td button:nth-child(4){left:8px;bottom:8px}
+/* Button 5: the bottom right corner. */
 .x-td button:nth-child(5){right:8px;bottom:8px}
+/* The tooltip (bubble): position:absolute because JavaScript decides its position. Normally transparent (opacity:0) and lets clicks pass through. */
 .x-td-t{position:absolute;z-index:3;max-width:150px;padding:6px 9px;border-radius:6px;background:var(--ink);color:var(--bg);font:12px/1.35 var(--sans);pointer-events:none;opacity:0;transition:opacity .12s}
+/* With the show class, it is visible. */
 .x-td-t.show{opacity:1}
+/* The bubble tail (a triangle): made with a transparent border with only one side colored. */
 .x-td-t::after{content:"";position:absolute;border:5px solid transparent}
+/* When the bubble is above the button (top): the tail sits at the bottom of the bubble pointing down. The horizontal position uses the variable --ax to point at the button center. */
 .x-td-t[data-p="top"]::after{top:100%;left:var(--ax,50%);margin-left:-5px;border-top-color:var(--ink)}
+/* When below the button (bottom): the tail sits at the top pointing up. */
 .x-td-t[data-p="bottom"]::after{bottom:100%;left:var(--ax,50%);margin-left:-5px;border-bottom-color:var(--ink)}
+/* When to the left of the button (left): the tail sits on the right pointing right. The vertical position is --ay. */
 .x-td-t[data-p="left"]::after{left:100%;top:var(--ay,50%);margin-top:-5px;border-left-color:var(--ink)}
+/* When to the right of the button (right): the tail sits on the left pointing left. */
 .x-td-t[data-p="right"]::after{right:100%;top:var(--ay,50%);margin-top:-5px;border-right-color:var(--ink)}
 `,
 demo:`<div class="d-ctl"><label for="x-td-p">Wanted direction <select id="x-td-p"><option>top</option><option>bottom</option><option>left</option><option>right</option></select></label><label for="x-td-f"><input id="x-td-f" type="checkbox" checked> Flip if there is no room</label></div><div class="x-td"><button type="button" data-t="Save (Ctrl+S)" aria-label="Save">💾</button><button type="button" data-t="Share, copy link" aria-label="Share">🔗</button><button type="button" data-t="The middle button can go in any direction" aria-label="Center">⭐</button><button type="button" data-t="Delete (to trash)" aria-label="Delete">🗑️</button><button type="button" data-t="Open settings" aria-label="Settings">⚙️</button><div class="x-td-t" role="tooltip"></div></div><p class="d-hint x-td-ro">Hover over a button or move to it with the keyboard.</p>`,
 init(r){
+  // Find the box, the tooltip (tip), the direction selector (sel), the "flip when no room" checkbox (fl), and the description text (ro), and set G (the 8px gap between the button and the tooltip).
   const box=r.querySelector('.x-td'),tip=r.querySelector('.x-td-t'),sel=r.querySelector('#x-td-p'),fl=r.querySelector('#x-td-f'),ro=r.querySelector('.x-td-ro');const G=8;
+  // place(button, direction): calculate the left and top coordinates [x, y] where the tooltip goes. It reads the button position and size and the tooltip size with getBoundingClientRect/offsetWidth and spaces it by G for each direction.
   const place=(b,p)=>{const br=b.getBoundingClientRect(),bx=box.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;const x0=br.left-bx.left,y0=br.top-bx.top;
     if(p==='top')return[x0+br.width/2-tw/2,y0-th-G];if(p==='bottom')return[x0+br.width/2-tw/2,y0+br.height+G];if(p==='left')return[x0-tw-G,y0+br.height/2-th/2];return[x0+br.width+G,y0+br.height/2-th/2]};
+  // fits(xy): check whether the tooltip fits completely inside the box (with a 2px margin).
   const fits=(xy)=>xy[0]>=2&&xy[1]>=2&&xy[0]+tip.offsetWidth<=box.clientWidth-2&&xy[1]+tip.offsetHeight<=box.clientHeight-2;
+  // OP: a table of the opposite of each direction (top ↔ bottom, left ↔ right).
   const OP={top:'bottom',bottom:'top',left:'right',right:'left'};
+  // show(button): put text into the tooltip, show it, and try placing it in the chosen direction. If "flip" is on and there is not enough room, try the opposite direction and flip to it if it fits, noting the reason in the description.
   const show=b=>{tip.textContent=b.dataset.t;tip.classList.add('show');tip.style.left='0px';tip.style.top='0px';
     let p=sel.value,xy=place(b,p),note='';if(fl.checked&&!fits(xy)){const q=OP[p];const xy2=place(b,q);if(fits(xy2)){p=q;xy=xy2;note=' (not enough room, so flipped to '+sel.value+' → '+p+')'}else note=' (not enough room on either side)'}
+    // If it still goes outside the box, pull the coordinates inside (Math.max, Math.min) to correct the position, and set --ax and --ay so the tail points at the button center. aria-describedby links the button and the tooltip so screen readers read the description.
     const sx=Math.max(2,Math.min(xy[0],box.clientWidth-tip.offsetWidth-2)),sy=Math.max(2,Math.min(xy[1],box.clientHeight-tip.offsetHeight-2));
     tip.style.left=sx+'px';tip.style.top=sy+'px';tip.dataset.p=p;const br=b.getBoundingClientRect(),bx=box.getBoundingClientRect();
     tip.style.setProperty('--ax',Math.max(8,Math.min(tip.offsetWidth-8,br.left-bx.left+br.width/2-sx))+'px');tip.style.setProperty('--ay',Math.max(8,Math.min(tip.offsetHeight-8,br.top-bx.top+br.height/2-sy))+'px');
     ro.textContent='Actual direction: '+p+note;b.setAttribute('aria-describedby','x-td-tip');tip.id='x-td-tip'};
+  // hide(button): hide the tooltip and remove the link (aria-describedby).
   const hide=b=>{tip.classList.remove('show');b.removeAttribute('aria-describedby')};
+  // On every button, show it on mouse hover or keyboard focus and hide it when leaving (keyboard users must be able to see it too).
   box.querySelectorAll('button').forEach(b=>{b.addEventListener('mouseenter',()=>show(b));b.addEventListener('focus',()=>show(b));b.addEventListener('mouseleave',()=>hide(b));b.addEventListener('blur',()=>hide(b))});
 },
 code:`function place(anchor, tip, preferred){
@@ -6310,22 +6406,36 @@ cheat:[
 terms:[['ripple','Ripple, a wave'],['feedback','Feedback, an immediate response to a user’s action'],['touch target','Touch target, the area pressed with a finger (must be large enough)']],
 note:'If the effect is too long, the response feels slow, so keep it short at about 0.4–0.6 seconds (a rule of thumb, no source). It works on the same principle as the ripple button in the micro-interaction card, extended here to list items and cards.',
 css:`
+/* The outer box of the ripple example. */
 .x-rp{display:grid;gap:10px}
+/* Common to elements that get the ripple: position:relative and overflow:hidden keep the ripple from going outside the element. -webkit-tap-highlight-color removes the default tap color on mobile. */
 .x-rpb{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+/* One ripple (w): a circle that starts at size 0 (scale(0)) and spreads with the x-rp-a animation. The color (--wc) and time (--wd) are CSS variables. */
 .x-rpb .w{position:absolute;border-radius:50%;background:var(--wc,rgba(255,255,255,.5));transform:scale(0);animation:x-rp-a var(--wd,.6s) ease-out forwards;pointer-events:none}
+/* Grows 4 times larger while fading away (opacity:0). */
 @keyframes x-rp-a{to{transform:scale(4);opacity:0}}
+/* The list box: bullets removed and a border added. */
 .x-rp-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+/* The divider between list items. */
 .x-rp-l li{border-bottom:1px solid var(--line)}
+/* The last item has no divider. */
 .x-rp-l li:last-child{border-bottom:0}
+/* A list item button: fills the whole row with its default look removed. */
 .x-rp-l button{display:flex;width:100%;gap:10px;align-items:center;padding:12px;border:0;background:none;color:var(--ink);font:13px var(--sans);cursor:pointer;text-align:left}
+/* The ripple in the list is a light color with only 30% of the accent mixed in. */
 .x-rp-l .w{--wc:color-mix(in srgb,var(--accent) 30%,transparent)}
+/* The look of the card button. */
 .x-rp-card{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-align:left;font:13px var(--sans);cursor:pointer}
+/* The ripple in the card is 22% accent. */
 .x-rp-card .w{--wc:color-mix(in srgb,var(--accent) 22%,transparent)}
 `,
 demo:`<div class="x-rp"><div class="d-ctl"><label for="x-rp-c"><input id="x-rp-c" type="checkbox"> Always start from the center</label><label for="x-rp-d">Length <input id="x-rp-d" type="range" min="300" max="1200" step="100" value="600"></label></div><button class="d-btn d-btn-primary x-rpb" type="button">Pay · KRW 12,000</button><ul class="x-rp-l"><li><button class="x-rpb" type="button"><span>🔔</span>Notification settings</button></li><li><button class="x-rpb" type="button"><span>📦</span>Order history</button></li><li><button class="x-rpb" type="button"><span>⭐</span>Favorites</button></li></ul><button class="x-rpb x-rp-card" type="button"><b>Autumn new menu</b><br>Press for details (the whole card is a button)</button></div>`,
 init(r){
+  // Find the "spread from the center" checkbox (cen) and the duration slider (dur).
   const cen=r.querySelector('#x-rp-c'),dur=r.querySelector('#x-rp-d');
+  // On every element that uses the ripple, create a ripple the moment it is pressed (pointerdown). It is not created for people with "reduce motion" on (accessibility).
   r.querySelectorAll('.x-rpb').forEach(el=>el.addEventListener('pointerdown',e=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    // The ripple size (s) equals the longer side of the element, and the center (x, y) is the element center if the checkbox is on, otherwise the pressed position (click coordinates minus element position). The ripple is added inside the element and removed around the end of the animation.
     const b=el.getBoundingClientRect(),s=Math.max(b.width,b.height),w=document.createElement('span');w.className='w';
     const x=cen.checked?b.width/2:e.clientX-b.left,y=cen.checked?b.height/2:e.clientY-b.top;w.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(x-s/2)+'px;top:'+(y-s/2)+'px';w.style.setProperty('--wd',dur.value+'ms');el.appendChild(w);setTimeout(()=>w.remove(),+dur.value+50)}));
 },
@@ -6369,31 +6479,54 @@ cheat:[
 terms:[['pull-to-refresh','Pull to refresh, refreshing by pulling down'],['overscroll','Overscroll, scrolling that pulls further past the end'],['gesture','Gesture, a finger motion'],['threshold','Threshold, the reference distance']],
 note:'Browsers (especially Chrome on mobile) also have a default pull-to-refresh, which can conflict. If you implement it yourself, check touch-action and overscroll-behavior. For accessibility, provide a button too. Actual behavior on mobile devices must be tested directly (needs verification).',
 css:`
+/* The outer box like a phone screen. */
 .x-pr{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+/* The title row at the top of the screen. */
 .x-pr-h{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font:700 14px var(--display)}
+/* The scrolling list area: overscroll-behavior-y:contain stops the browser default refresh when pulling further at the top, and touch-action:pan-y allows only vertical movement. */
 .x-pr-sc{height:240px;overflow:auto;overscroll-behavior-y:contain;touch-action:pan-y;position:relative}
+/* The list content: pushed down by the variable --pull (translateY). Normally it returns smoothly with transition. */
 .x-pr-in{transform:translateY(var(--pull,0px));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+/* While pulling (the drag class), transition is off so it follows the finger right away. */
 .x-pr-in.drag{transition:none}
+/* The indicator that comes down from above when pulling: top starts at -36px and comes down by --pull. */
 .x-pr-ind{position:absolute;left:0;right:0;top:calc(-36px + var(--pull,0px));height:36px;display:grid;place-items:center;font-size:12px;color:var(--ink-2);pointer-events:none;transition:top .25s}
+/* While pulling, transition is off. */
 .x-pr-ind.drag{transition:none}
+/* The spinning circle: its rotation angle is the variable --rot, so it turns as much as you pull. */
 .x-pr-ind i{width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;display:block;transform:rotate(var(--rot,0deg))}
+/* While refreshing (the spin class), it keeps spinning. */
 .x-pr-ind.spin i{animation:x-is-spin .7s linear infinite}
+/* One list item row. */
 .x-pr-it{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px;background:var(--surface)}
+/* The small time text of an item. */
 .x-pr-it small{display:block;color:var(--ink-2)}
+/* A newly added item (the new class) stands out with a light accent background and a drop-in animation. */
 .x-pr-it.new{animation:x-pr-n .6s ease-out;background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+/* Comes down into place from transparent and 8px higher. */
 @keyframes x-pr-n{from{opacity:0;transform:translateY(-8px)}}
 `,
 demo:`<div class="x-pr"><div class="x-pr-h"><span>Order notifications (example)</span><button class="d-btn x-pr-b" type="button">Refresh</button></div><div class="x-pr-sc"><div class="x-pr-ind"><i></i></div><div class="x-pr-in"></div></div></div><p class="d-hint">Pull down from the top of the list and release (mouse dragging works too). The button works as well.</p>`,
 init(r){
+  // Find the scroll area (sc), the content (inn), and the indicator (ind), set T (the distance that triggers a refresh, 64px), and prepare n (the item count), y0 (the start position of the pull), pull (the pulled distance), and busy (refreshing).
   const sc=r.querySelector('.x-pr-sc'),inn=r.querySelector('.x-pr-in'),ind=r.querySelector('.x-pr-ind'),T=64;let n=0,y0=null,pull=0,busy=false;
+  // add(isNew): create one order item and add it to the very top of the list (prepend).
   const add=(isNew)=>{n++;const d=document.createElement('div');d.className='x-pr-it'+(isNew?' new':'');d.innerHTML='Order #'+(1020+n)+' received<small>'+(isNew?'Just now':n+' min ago')+' · example</small>';inn.prepend(d)};
+  // At the start, fill 8 items and set the time text (3 minutes ago, 6 minutes ago, ...).
   for(let i=0;i<8;i++)add(false);inn.querySelectorAll('.x-pr-it').forEach((d,i)=>d.querySelector('small').textContent=(i+1)*3+' min ago · example');
+  // set(distance): put the pulled distance into the CSS variable --pull to push the content and indicator down, and set the rotation angle (--rot) in proportion to the distance.
   const set=p=>{pull=p;sc.style.setProperty('--pull',p+'px');ind.style.setProperty('--pull',p+'px');ind.style.setProperty('--rot',(p/T*270)+'deg')};
+  // refresh(): reload. Ignore it if already running; otherwise hold the indicator at 48px and spin it, and after 0.9 seconds (imitating a server) add a new item and return everything to the original position.
   const refresh=()=>{if(busy)return;busy=true;set(48);ind.classList.add('spin');setTimeout(()=>{add(true);ind.classList.remove('spin');set(0);busy=false;sc.scrollTop=0},900)};
+  // On touch: ignore it if refreshing or not at the top (scrollTop>0); only at the top, remember the start position (y0) and turn off transition with the drag class.
   inn.style.transform='translateY(var(--pull,0px))';sc.addEventListener('pointerdown',e=>{if(busy||sc.scrollTop>0)return;y0=e.clientY;inn.classList.add('drag');ind.classList.add('drag')});
+  // While moving, the content follows down by half of the downward pull distance (dy) (for a feeling of resistance, up to 110px). Moving up keeps it at 0.
   sc.addEventListener('pointermove',e=>{if(y0===null)return;const dy=e.clientY-y0;if(dy<=0){set(0);return}set(Math.min(110,dy*.5))});
+  // end(): when released, finish the pull. If the pulled distance is at least 80% of the threshold (T), reload with refresh(); otherwise return to the original position.
   const end=()=>{if(y0===null)return;y0=null;inn.classList.remove('drag');ind.classList.remove('drag');if(pull>=T*.8){refresh()}else set(0)};
+  // Run end when released, interrupted (pointercancel), or when the pointer leaves the area (pointerleave).
   sc.addEventListener('pointerup',end);sc.addEventListener('pointercancel',end);sc.addEventListener('pointerleave',()=>{if(y0!==null)end()});
+  // Set the initial pull value to 0, and also connect the "refresh" button (an alternative for people without touch) to refresh().
   sc.style.setProperty('--pull','0px');r.querySelector('.x-pr-b').addEventListener('click',refresh);
 },
 code:`let startY=null, pull=0
@@ -6432,35 +6565,60 @@ cheat:[
 terms:[['swipe','Swipe, the motion of pushing a finger sideways'],['undo','Undo, reversing an action'],['affordance','Affordance, a clue that shows how something can be used'],['destructive action','Destructive action, an action such as a hard-to-reverse deletion']],
 note:'Gestures are not noticeable, so the same function should also be offered as visible buttons or a menu. Give an undo for hard-to-reverse actions such as delete. The exact feel on touch devices must be tested directly (needs verification).',
 css:`
+/* The outer box of the swipe list. */
 .x-sw{display:grid;gap:8px}
+/* The list box: bullets removed and a border added. */
 .x-sw-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);min-height:60px}
+/* One row: overflow:hidden hides what is outside the slid front, and touch-action:pan-y allows vertical scrolling while leaving horizontal movement to our own code. When removed, max-height and opacity are transitioned so it folds smoothly. */
 .x-sw-r{position:relative;overflow:hidden;border-bottom:1px solid var(--line);touch-action:pan-y;transition:max-height .25s,opacity .25s;max-height:90px}
+/* A removed row (the gone class) folds to zero height, transparent, with no bottom line. */
 .x-sw-r.gone{max-height:0;opacity:0;border-bottom-width:0}
+/* The background under the front: it covers the whole row with the archive (left) and delete (right) labels at the ends. */
 .x-sw-bg{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 14px;font:700 12.5px var(--sans);color:#fff}
+/* The label text in the background is white. */
 .x-sw-bg .a{color:#fff}
+/* The background is green when swiped right (archive) and red when swiped left (delete). */
 .x-sw-bg.l{background:var(--leaf)}.x-sw-bg.rr{background:var(--rose)}
+/* The front (content): shifted sideways by the variable --dx (translateX). Normally it returns smoothly to place with transition, cursor:grab is the hand shape for grabbing, and user-select:none keeps text from being selected while dragging. */
 .x-sw-f{position:relative;background:var(--surface);padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;transform:translateX(var(--dx,0px));transition:transform .22s cubic-bezier(.2,.8,.2,1);cursor:grab;user-select:none}
+/* While dragging (the drag class), transition is off so it follows the finger right away. */
 .x-sw-f.drag{transition:none;cursor:grabbing}
+/* The small time text. */
 .x-sw-f small{display:block;color:var(--ink-2)}
+/* The group of alternative buttons (archive, delete) for keyboard and mouse. People who cannot swipe must be able to do the same thing. */
 .x-sw-f .ks{display:flex;gap:4px}
+/* The look of the alternative buttons. */
 .x-sw-f .ks button{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;font:600 11px var(--sans);padding:4px 7px;color:var(--ink);cursor:pointer}
+/* Hidden when hidden. */
 .x-sw-u[hidden]{display:none}
+/* The "undo" message row (a toast): light text on a dark background. */
 .x-sw-u{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:12.5px}
+/* The undo button: looks like underlined text. */
 .x-sw-u button{border:0;background:none;color:inherit;font:700 12.5px var(--sans);text-decoration:underline;cursor:pointer}
 `,
 demo:`<div class="x-sw"><ul class="x-sw-l" aria-label="Inbox notifications (example)"></ul><div class="x-sw-u" role="status" hidden></div><p class="d-hint">Swipe an item right to archive and left to delete (mouse dragging works). The small buttons on the right are for users who cannot use gestures.</p></div>`,
 init(r){
+  // Find the list (L) and the undo row (U).
+  // D: the notification data collection [title, time]. last and tm are variables for the last removed item and the timer.
   const L=r.querySelector('.x-sw-l'),U=r.querySelector('.x-sw-u');const D=[['Your order has been received','Just now'],['Your delivery is on its way','10 minutes ago'],['Your coupon expires soon','1 hour ago'],['A new review was posted','Yesterday']];let last=null,tm;
+  // toast(text, undo): show the message row, and run the undo function when the "undo" button is pressed. It disappears by itself after 4 seconds.
   const toast=(t,undo)=>{clearTimeout(tm);U.hidden=false;U.innerHTML='<span></span><button type="button">Undo</button>';U.firstChild.textContent=t;U.querySelector('button').addEventListener('click',()=>{undo();U.hidden=true});tm=setTimeout(()=>U.hidden=true,4000)};
+  // act(row, kind): remove a row. Remember the next row (prev) so it can be undone, fold it with the gone class, and actually remove it after 0.26 seconds. Pressing undo puts it back into the remembered spot. Being able to undo a mistaken removal is the safety net of swipe delete.
   const act=(row,kind)=>{const prev=row.nextSibling;row.classList.add('gone');setTimeout(()=>{row.remove();if(!L.children.length&&!L.dataset.e){}},260);
     toast(kind==='del'?'Deleted':'Archived',()=>{L.insertBefore(row,prev);requestAnimationFrame(()=>{row.classList.remove('gone');row.querySelector('.x-sw-f').style.setProperty('--dx','0px')})})};
+  // Create a row (li) for each notification, and prepare the background (bg), the front (f), x0 (the pressed position), and dx (the moved distance).
   D.forEach(d=>{const li=document.createElement('li');li.className='x-sw-r';li.innerHTML='<div class="x-sw-bg l"><span>📥 Archive</span><span>Delete 🗑️</span></div><div class="x-sw-f" tabindex="0"><span><b>'+d[0]+'</b><small>'+d[1]+' · example</small></span><span class="ks"><button type="button">Archive</button><button type="button">Delete</button></span></div>';
     const bg=li.querySelector('.x-sw-bg'),f=li.querySelector('.x-sw-f');let x0=null,dx=0;
+    // colour(): switch the background to green when swiped right and red when swiped left.
     const colour=()=>{bg.className='x-sw-bg '+(dx>=0?'l':'rr')};
+    // On press: unless it is on an alternative button, remember the start position, use setPointerCapture to keep tracking even if the finger leaves, and turn off transition with the drag class.
     f.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;x0=e.clientX;f.setPointerCapture(e.pointerId);f.classList.add('drag')});
+    // While moving, slide the front sideways by the moved distance (dx) and match the background color.
     f.addEventListener('pointermove',e=>{if(x0===null)return;dx=e.clientX-x0;f.style.setProperty('--dx',dx+'px');colour()});
+    // end(): decide when released. Swiped right more than 90px means archive, swiped left more than 90px means delete, and anything less returns to the original position. This threshold cancels accidental light swipes.
     const end=()=>{if(x0===null)return;x0=null;f.classList.remove('drag');if(dx>90)act(li,'arc');else if(dx<-90)act(li,'del');else f.style.setProperty('--dx','0px');dx=0};
     f.addEventListener('pointerup',end);f.addEventListener('pointercancel',end);
+    // Pressing the alternative buttons (archive, delete) runs the same act(). The Delete key can also remove it (keyboard accessibility).
     const [b1,b2]=f.querySelectorAll('button');b1.addEventListener('click',()=>act(li,'arc'));b2.addEventListener('click',()=>act(li,'del'));
     f.addEventListener('keydown',e=>{if(e.key==='Delete')act(li,'del')});L.appendChild(li)});
 },

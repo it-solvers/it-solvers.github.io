@@ -6118,22 +6118,35 @@ cheat:[
 terms:[['safe area','세이프 에어리어, 안전 영역'],['notch','노치, 화면 위쪽의 카메라 파임'],['home indicator','홈 인디케이터, 하단 홈 바 (iOS의 가로 막대)'],['viewport-fit','뷰포트 핏, 화면을 가득 쓸지 정하는 설정']],
 note:'이 데모는 값을 직접 입력해 흉내 낸 것입니다. 실제 env() 값은 기기와 브라우저가 정해 줍니다. 데스크톱 브라우저에서는 대부분 0입니다(확인 필요: 기기별 실제 값은 직접 시험).',
 css:`
+/* 가짜 휴대폰을 가운데 놓는 바깥 상자. */
 .x-sa-w{display:flex;justify-content:center}
+/* 가짜 휴대폰 화면: 검은 테두리와 둥근 모서리, overflow:hidden. */
 .x-sa-ph{position:relative;width:210px;height:330px;border:6px solid #1b2a35;border-radius:30px;background:var(--surface);overflow:hidden;box-shadow:0 14px 30px -16px rgba(0,0,0,.6)}
+/* 화면 위쪽 노치(카메라 가림 부분): 가운데 위에 absolute 로 놓습니다. */
 .x-sa-notch{position:absolute;left:50%;top:0;width:80px;height:24px;margin-left:-40px;background:#1b2a35;border-radius:0 0 14px 14px;z-index:3}
+/* 화면 아래 홈 바(밑줄 모양 표시). */
 .x-sa-home{position:absolute;left:50%;bottom:6px;width:70px;height:4px;margin-left:-35px;border-radius:2px;background:#1b2a35;z-index:3}
+/* 머리글: padding-top 과 height 에 --sat(위쪽 안전 영역 값)을 더합니다. 노치에 가리지 않게 그만큼 아래로 밀어 내리는 것이 안전 영역(safe area) 처리입니다. 실제 앱에서는 env(safe-area-inset-top)을 씁니다. */
 .x-sa-hd{padding:calc(8px + var(--sat,0px)) 12px 8px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--display);height:calc(40px + var(--sat,0px));box-sizing:border-box}
+/* 본문 글자 모양. */
 .x-sa-bd{padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.6}
+/* 아래 탭 막대: padding-bottom 에 --sab(아래쪽 안전 영역 값)을 더해 홈 바와 겹치지 않게 합니다. 실제 앱에서는 env(safe-area-inset-bottom)을 씁니다. */
 .x-sa-tab{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:10px 0 calc(10px + var(--sab,0px));background:var(--surface-2);border-top:1px solid var(--line);font-size:18px;z-index:2}
+/* "안전 영역 적용"을 끄면(off 클래스) 여백을 더하지 않아 제목이 노치 아래로 파고듭니다(잘못된 예). */
 .x-sa-ph.off .x-sa-hd{padding-top:8px;height:40px}
+/* 끄면 탭 아이콘이 홈 바와 겹칩니다. */
 .x-sa-ph.off .x-sa-tab{padding-bottom:10px}
+/* "일반 화면(노치 없음)" 선택 시(plain 클래스) 노치와 홈 바를 숨깁니다. */
 .x-sa-ph.plain .x-sa-notch,.x-sa-ph.plain .x-sa-home{display:none}
 `,
 demo:`<div class="d-ctl"><label for="x-sa-d">기기 <select id="x-sa-d"><option value="notch">노치 + 홈 바 (최신 스마트폰 같은)</option><option value="plain">일반 화면 (안전 영역 0)</option></select></label><label for="x-sa-on"><input id="x-sa-on" type="checkbox" checked> safe-area 적용</label></div><div class="x-sa-w"><div class="x-sa-ph" style="--sat:30px;--sab:22px"><div class="x-sa-notch"></div><div class="x-sa-hd">예시마켓</div><div class="x-sa-bd">상단 제목과 하단 탭바가 노치, 홈 바와 겹치지 않도록 여백을 더하는 화면입니다. (예시)</div><div class="x-sa-tab" role="presentation"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div><div class="x-sa-home"></div></div></div><p class="d-hint x-sa-ro"></p>`,
 init(r){
+  // 가짜 휴대폰(ph), 화면 종류 선택(d), 적용 체크(on), 설명 글(ro)을 찾습니다.
   const ph=r.querySelector('.x-sa-ph'),d=r.querySelector('#x-sa-d'),on=r.querySelector('#x-sa-on'),ro=r.querySelector('.x-sa-ro');
+  // u(): 일반 화면이면 plain 클래스를 붙이고 안전 영역 값(--sat, --sab)을 0으로, 아니면 30px·22px 로 정합니다. 적용 체크가 꺼져 있으면 off 클래스를 붙이고, 상황에 맞는 설명 글을 보여 줍니다.
   const u=()=>{const plain=d.value==='plain';ph.classList.toggle('plain',plain);ph.style.setProperty('--sat',plain?'0px':'30px');ph.style.setProperty('--sab',plain?'0px':'22px');ph.classList.toggle('off',!on.checked);
     ro.textContent=!on.checked&&!plain?'적용하지 않으면 제목이 노치 아래로 파고들고 탭 아이콘이 홈 바와 겹칩니다.':plain?'안전 영역 값이 0이라 여백이 추가되지 않습니다.':'padding-top / padding-bottom에 안전 여백을 더했습니다.'};
+  // 선택이나 체크가 바뀔 때, 그리고 처음에 u()를 실행합니다.
   d.addEventListener('change',u);on.addEventListener('change',u);u();
 },
 code:`<!-- 1) 화면 전체를 쓰겠다고 선언 -->
@@ -6172,32 +6185,56 @@ cheat:[
 terms:[['infinite loop','인피니트 루프, 끝없는 순환'],['clone','클론, 복제본'],['autoplay','오토플레이, 자동 재생']],
 note:'움직이는 배너는 읽기 전에 넘어가면 불편하므로 일시정지 버튼을 제공해야 합니다(접근성 권고). 이 카드의 "캐러셀"과 달리, 끝에서 처음으로 되감기지 않고 계속 같은 방향으로 이어집니다.',
 css:`
+/* 무한 반복 캐러셀의 바깥 상자: overflow:hidden 으로 옆 슬라이드가 안 보이게 합니다. */
 .x-il{overflow:hidden;border-radius:12px;position:relative}
+/* 슬라이드를 가로로 이은 띠(트랙): transform 으로 옆으로 밀며 움직입니다. */
 .x-il-t{display:flex;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+/* "no transition"(nt) 클래스가 붙으면 움직임 없이 즉시 이동합니다. 가짜 슬라이드에서 진짜 슬라이드로 몰래 점프할 때 씁니다. */
 .x-il-t.nt{transition:none}
+/* 슬라이드 하나: flex:0 0 100% 로 상자 폭 100%를 차지하고 줄어들지 않습니다. */
 .x-il-s{flex:0 0 100%;min-height:130px;padding:20px;display:flex;flex-direction:column;justify-content:flex-end;background:color-mix(in srgb,var(--c) 28%,var(--surface))}
+/* 슬라이드 제목 글자. */
 .x-il-s h4{margin:0 0 3px;font:700 17px var(--display)}
+/* 슬라이드 설명 글. */
 .x-il-s p{margin:0;font-size:12.5px;color:var(--ink-2)}
+/* 아래 조작 줄(이전, 점, 다음, 일시정지). */
 .x-il-c{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
+/* 위치 점들을 가로로. */
 .x-il-d{display:flex;gap:6px}
+/* 점 하나(회색 작은 막대). */
 .x-il-d i{width:8px;height:8px;border-radius:4px;background:var(--line);transition:width .25s,background .25s}
+/* 현재 슬라이드의 점은 길고 강조색. */
 .x-il-d i.on{width:22px;background:var(--accent)}
 `,
 demo:`<div class="x-il" role="group" aria-roledescription="carousel" aria-label="이벤트 배너"><div class="x-il-t"></div></div><div class="x-il-c"><button class="d-btn x-il-p" type="button" aria-label="이전">‹</button><div class="x-il-d" aria-hidden="true"></div><button class="d-btn x-il-pa" type="button" aria-pressed="false">⏸ 일시정지</button><button class="d-btn x-il-n" type="button" aria-label="다음">›</button></div><p class="d-hint">다음 버튼을 계속 눌러 보세요. 마지막에서 처음으로 되감기지 않고 같은 방향으로 이어집니다.</p>`,
 init(r){
+  // S: 슬라이드 내용 [제목, 설명, 색] 모음.
   const S=[['가을 할인','최대 50% (예시)','var(--rose)'],['무료 배송','3만원 이상 (예시)','var(--sky)'],['친구 초대','5,000원 적립 (예시)','var(--leaf)']];
+  // n(슬라이드 수), 띠(track), 점 자리(dots), 상자(box)를 찾고, i(띠에서의 현재 위치, 1로 시작), busy(이동 중), paused(자동 재생 멈춤, "동작 줄이기"면 처음부터 멈춤), tm(타이머)를 준비합니다.
   const n=S.length,track=r.querySelector('.x-il-t'),dots=r.querySelector('.x-il-d'),box=r.querySelector('.x-il');let i=1,busy=false,paused=matchMedia('(prefers-reduced-motion:reduce)').matches,tm;
+  // mk(슬라이드): 슬라이드 하나의 <div>를 만듭니다. role="group" 과 aria-roledescription="slide" 는 화면 낭독기에 "슬라이드"라고 알립니다.
   const mk=s=>{const d=document.createElement('div');d.className='x-il-s';d.style.setProperty('--c',s[2]);d.setAttribute('role','group');d.setAttribute('aria-roledescription','slide');d.innerHTML='<h4>'+s[0]+'</h4><p>'+s[1]+'</p>';return d};
+  // 띠 맨 앞에 마지막 슬라이드 복사본, 진짜 슬라이드들, 맨 뒤에 첫 슬라이드 복사본을 붙입니다. 복사본 덕분에 끝에서 처음으로 넘어갈 때도 자연스럽게 미끄러집니다(무한 루프의 핵심).
   track.appendChild(mk(S[n-1]));S.forEach(s=>track.appendChild(mk(s)));track.appendChild(mk(S[0]));
+  // 슬라이드 수만큼 점을 만듭니다.
   S.forEach(()=>dots.appendChild(document.createElement('i')));
+  // set(애니메이션 여부): 애니메이션이 없으면 nt 클래스를 붙이고, 띠를 현재 위치(i)만큼 옆으로 밀고, 해당 점(복사본은 반대쪽 진짜 점으로 환산)을 on 으로 표시합니다.
   const set=(animate)=>{track.classList.toggle('nt',!animate);track.style.transform='translateX(-'+i*100+'%)';[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===((i-1+n)%n)))};
+  // go(방향): 이동 중이면 무시하고, 아니면 위치를 한 칸 옮기고 애니메이션으로 이동합니다.
   const go=d=>{if(busy)return;busy=true;i+=d;set(true)};
+  // 이동이 끝나면 복사본에 도착했는지 확인해 몰래 진짜 슬라이드로 점프합니다(0번 복사본 → 마지막 진짜, n+1번 복사본 → 첫 진짜). 애니메이션 없이 하므로 사용자는 눈치채지 못합니다. 그다음 busy 를 풉니다.
   track.addEventListener('transitionend',()=>{if(i===0){i=n;set(false)}else if(i===n+1){i=1;set(false)}busy=false});
+  // 다음, 이전 버튼을 연결합니다.
   r.querySelector('.x-il-n').addEventListener('click',()=>go(1));r.querySelector('.x-il-p').addEventListener('click',()=>go(-1));
+  // 일시정지 버튼(pa)과 sync(): 상태에 맞게 aria-pressed 와 버튼 글자를 바꿉니다.
   const pa=r.querySelector('.x-il-pa');const sync=()=>{pa.setAttribute('aria-pressed',paused);pa.textContent=paused?'▶ 재생':'⏸ 일시정지'};
+  // 버튼을 누르면 자동 재생을 멈추거나 다시 시작합니다. 자동으로 움직이는 내용은 멈출 방법을 반드시 줘야 합니다(접근성).
   pa.addEventListener('click',()=>{paused=!paused;sync()});
+  // 마우스를 올리거나 키보드 포커스가 들어와 있는 동안(hover)에는 자동으로 넘기지 않습니다.
   let hover=false;box.addEventListener('mouseenter',()=>hover=true);box.addEventListener('mouseleave',()=>hover=false);box.addEventListener('focusin',()=>hover=true);box.addEventListener('focusout',()=>hover=false);
+  // 3.2초마다 자동으로 다음으로 넘깁니다. 멈춤 상태, 마우스·포커스가 올라가 있을 때, 탭이 보이지 않을 때(visibilityState)는 넘기지 않습니다.
   tm=setInterval(()=>{if(!paused&&!hover&&document.visibilityState==='visible')go(1)},3200);
+  // 처음 위치와 버튼 글자를 맞춥니다.
   set(false);sync();
 },
 code:`// 구조: [마지막 복제][1][2][3][첫 복제]
@@ -6233,30 +6270,50 @@ cheat:[
 terms:[['lightbox','라이트박스, 어두운 배경 위에 큰 사진을 띄우는 창'],['thumbnail','썸네일, 작은 미리보기 이미지'],['focus return','포커스 리턴, 닫을 때 원래 누른 위치로 포커스를 돌려줌']],
 note:'확대한 이미지가 모바일에서 화면 밖으로 넘치지 않게 max-width, max-height를 쓰세요. 핀치 줌(두 손가락 확대)이 필요하면 별도 처리가 필요합니다.',
 css:`
+/* 사진 모음 상자: position:relative 로 안쪽 확대 화면(오버레이)의 기준점. */
 .x-lb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);padding:12px}
+/* 썸네일을 4열 격자로 놓습니다. */
 .x-lb-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+/* 썸네일 버튼: aspect-ratio:1 로 정사각형, cursor:zoom-in 은 돋보기(확대) 커서입니다. */
 .x-lb-g button{aspect-ratio:1;border:0;border-radius:10px;font-size:34px;cursor:zoom-in;background:color-mix(in srgb,var(--c) 32%,var(--surface))}
+/* 마우스를 올리면 살짝 밝아집니다. */
 .x-lb-g button:hover{filter:brightness(1.06)}
+/* 확대 화면(오버레이): inset:0 으로 상자를 덮고 어두운 반투명 바탕, grid-template-rows 로 위(닫기)·가운데(사진)·아래(이전/다음) 세 줄로 나눕니다. */
 .x-lb-o{position:absolute;inset:0;z-index:4;background:rgba(6,12,18,.88);display:grid;grid-template-rows:auto 1fr auto;color:#fff;animation:x-mb-in .2s ease-out}
+/* 위 줄: 몇 번째인지는 왼쪽, 닫기 버튼은 오른쪽 끝. */
 .x-lb-top{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:12.5px}
+/* 닫기·이전·다음 버튼 공통 모양: 반투명 흰 동그라미 버튼. */
 .x-lb-top button,.x-lb-nav button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:999px;min-width:36px;height:36px;padding:0 12px;font-size:16px;cursor:pointer}
+/* 사진 영역: 사진을 가운데 놓고 넘치는 부분은 가립니다. */
 .x-lb-img{display:grid;place-items:center;font-size:110px;position:relative;overflow:hidden}
+/* 사진 한 장: 정사각형 카드이고 바뀔 때 x-lb-z 애니메이션으로 살짝 커지며 나타납니다. */
 .x-lb-img span{display:grid;place-items:center;width:min(230px,80%);aspect-ratio:1;border-radius:16px;background:color-mix(in srgb,var(--c) 40%,#0d1b25);animation:x-lb-z .25s ease-out}
+/* 92% 크기의 투명 상태에서 원래 크기로. */
 @keyframes x-lb-z{from{opacity:0;transform:scale(.92)}}
+/* 아래 줄: 이전 버튼, 가운데 글, 다음 버튼. */
 .x-lb-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:12.5px}
 `,
 demo:`<div class="x-lb"><div class="x-lb-g" role="group" aria-label="후기 사진 (예시)"></div><p class="d-hint" style="margin:8px 0 0">사진을 눌러 크게 보세요. ← → 키와 Esc도 됩니다.</p></div>`,
 init(r){
+  // P: 사진 목록 [이모지, 이름, 색].
   const P=[['🥐','크루아상','var(--warm)'],['🍞','통밀 식빵','var(--sun)'],['🥗','샐러드','var(--leaf)'],['🍓','딸기 타르트','var(--rose)'],['🧀','치즈 케이크','var(--sky)'],['☕','콜드브루','var(--accent)'],['🍰','생크림 케이크','var(--rose)'],['🥪','샌드위치','var(--warm)']];
+  // 썸네일 자리(g)와 상자(box)를 찾고, cur(지금 보는 번호), from(눌렀던 썸네일), ov(열려 있는 확대 화면)를 준비합니다.
   const g=r.querySelector('.x-lb-g'),box=r.querySelector('.x-lb');let cur=0,from=null,ov=null;
+  // 사진마다 썸네일 버튼을 만들어 붙입니다. aria-label 로 이름을 달고, 누르면 그 사진을 크게 봅니다(open).
   P.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.style.setProperty('--c',p[2]);b.textContent=p[0];b.setAttribute('aria-label',p[1]+' 크게 보기');b.addEventListener('click',()=>open(i,b));if(i<4)g.appendChild(b);else{const b2=b;g.appendChild(b2)}});
+  // show(): 지금 사진(cur)을 확대 화면에 그리고 "몇 / 전체 · 이름" 글을 갱신합니다. role="img" 와 aria-label 로 이미지에 설명을 붙입니다.
   const show=()=>{const p=P[cur];ov.querySelector('.x-lb-img').innerHTML='<span style="--c:'+p[2]+'" role="img" aria-label="'+p[1]+'">'+p[0]+'</span>';ov.querySelector('.x-lb-cnt').textContent=(cur+1)+' / '+P.length+' · '+p[1]};
+  // move(방향): 사진 번호를 한 칸 옮기고(끝에서는 반대쪽으로) 다시 그립니다.
   const move=d=>{cur=(cur+d+P.length)%P.length;show()};
+  // close(): 확대 화면을 지우고, 눌렀던 썸네일로 포커스를 돌려줍니다(키보드 사용자가 길을 잃지 않게).
   const close=()=>{if(!ov)return;ov.remove();ov=null;if(from)from.focus()};
+  // open(번호, 썸네일): 확대 화면을 만들어 화면에 붙입니다. role="dialog" 와 aria-modal="true" 로 "뒤 화면은 쓸 수 없는 대화상자"임을 알리고, 닫기 버튼에 포커스를 줍니다.
   const open=(i,b)=>{cur=i;from=b;ov=document.createElement('div');ov.className='x-lb-o';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','사진 크게 보기');
     ov.innerHTML='<div class="x-lb-top"><span class="x-lb-cnt"></span><button type="button" class="x-lb-x" aria-label="닫기">✕</button></div><div class="x-lb-img"></div><div class="x-lb-nav"><button type="button" class="x-lb-p" aria-label="이전">‹</button><span>예시 사진</span><button type="button" class="x-lb-n" aria-label="다음">›</button></div>';
+    // 닫기, 이전, 다음 버튼을 연결하고, 사진 영역의 빈 곳을 눌러도 닫습니다.
     ov.querySelector('.x-lb-x').addEventListener('click',close);ov.querySelector('.x-lb-p').addEventListener('click',()=>move(-1));ov.querySelector('.x-lb-n').addEventListener('click',()=>move(1));
     ov.addEventListener('click',e=>{if(e.target.classList.contains('x-lb-img'))close()});box.appendChild(ov);show();ov.querySelector('.x-lb-x').focus()};
+  // 열려 있을 때 키보드: Esc 는 닫기, 오른쪽·왼쪽 화살표는 다음·이전 사진입니다.
   box.addEventListener('keydown',e=>{if(!ov)return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')move(1);else if(e.key==='ArrowLeft')move(-1)});
 },
 code:`<div class="gallery">
@@ -6297,27 +6354,44 @@ cheat:[
 terms:[['collapse','콜랩스, 접기'],['expand','익스팬드, 펼치기'],['interpolate-size','인터폴레이트 사이즈, auto 같은 키워드 크기도 전환하게 하는 속성']],
 note:'전환 중 접힌 내용에 탭 키로 초점이 가지 않도록 visibility나 inert를 함께 씁니다. 아래 데모의 어떤 방식이 맞는지는 내용 높이를 아는지에 따라 달라집니다.',
 css:`
+/* 네 가지 접기 방식을 세로로 쌓는 바깥 상자. */
 .x-ac2{display:grid;gap:8px}
+/* 항목 하나의 카드 모양. */
 .x-ac2-i{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+/* 제목 버튼: 가로를 꽉 채우고 기본 모양을 지웁니다. */
 .x-ac2-i>button{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center;border:0;background:none;padding:10px 12px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+/* 방식 이름(작은 글자). */
 .x-ac2-i>button small{color:var(--ink-2);font:500 11px var(--mono)}
+/* 내용 글 모양. */
 .x-ac2-p{padding:0 12px 12px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+/* 방식 1(max-height): 닫힌 상태는 max-height:0 과 overflow:hidden 이고, transition 으로 부드럽게 변합니다. */
 .x-ac2-m .x-ac2-w{max-height:0;overflow:hidden;transition:max-height .35s ease}
+/* 열리면 max-height 를 충분히 큰 값(240px)으로 정합니다. 단점은 실제 내용 높이와 다르면 속도가 어색하다는 것입니다. */
 .x-ac2-m.open .x-ac2-w{max-height:240px}
+/* 방식 2(grid): grid-template-rows 를 0fr 에서 1fr 로 바꾸는 방법입니다. fr 은 transition 이 가능해서 높이를 몰라도 자연스럽게 펼쳐집니다. */
 .x-ac2-g .x-ac2-w{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+/* 열리면 1fr(내용 높이만큼). */
 .x-ac2-g.open .x-ac2-w{grid-template-rows:1fr}
+/* 안쪽 div 는 min-height:0 과 overflow:hidden 으로 접히는 동안 잘라 냅니다. */
 .x-ac2-g .x-ac2-w>div{min-height:0;overflow:hidden}
+/* 방식 3(JavaScript): 높이(height)를 0 에서 실제 높이로 자바스크립트가 바꿉니다. */
 .x-ac2-j .x-ac2-w{overflow:hidden;height:0;transition:height .35s ease}
+/* 방식 4(display): display:none 과 block 으로 즉시 켜고 끕니다. 부드러운 움직임은 없습니다. */
 .x-ac2-a .x-ac2-w{display:none}
+/* 열리면 보입니다. */
 .x-ac2-a.open .x-ac2-w{display:block}
 `,
 demo:`<div class="x-ac2"><div class="x-ac2-i x-ac2-a"><button type="button" aria-expanded="false">height:auto 로 바로 전환 <small>부드럽지 않음</small></button><div class="x-ac2-w"><div class="x-ac2-p">배송은 보통 1~2일 걸립니다. 순간적으로 펼쳐지며 아래 요소가 갑자기 밀립니다. (예시)</div></div></div><div class="x-ac2-i x-ac2-m"><button type="button" aria-expanded="false">max-height 방식 <small>높이 추정 필요</small></button><div class="x-ac2-w"><div class="x-ac2-p">환불은 수령 후 7일 안에 신청할 수 있습니다. 내용이 max-height보다 길면 잘립니다. (예시)</div></div></div><div class="x-ac2-i x-ac2-g"><button type="button" aria-expanded="false">grid 0fr → 1fr 방식 <small>권장</small></button><div class="x-ac2-w"><div><div class="x-ac2-p">단체 주문은 20개 이상부터 가능하며, 높이를 몰라도 내용에 딱 맞게 부드럽게 열립니다. (예시)</div></div></div></div><div class="x-ac2-i x-ac2-j"><button type="button" aria-expanded="false">JS로 높이 측정 <small>정확</small></button><div class="x-ac2-w"><div class="x-ac2-p">세금계산서는 결제 후 사업자 정보를 등록하면 발행됩니다. scrollHeight를 읽어 정확한 높이로 전환합니다. (예시)</div></div></div></div>`,
 init(r){
+  // 항목마다 제목 버튼(b)과 내용 상자(w)를 찾습니다.
   r.querySelectorAll('.x-ac2-i').forEach(it=>{const b=it.querySelector('button'),w=it.querySelector('.x-ac2-w');
+    // 누르면 열림 상태를 반대로 바꾸고(open 클래스, aria-expanded), 방식 3(JavaScript)이면 높이를 직접 정합니다. 열 때는 scrollHeight(실제 내용 높이)로 늘리고, 이동이 끝나면 height:auto 로 풀어 내용이 바뀌어도 맞게 합니다.
     b.addEventListener('click',()=>{const o=!it.classList.contains('open');it.classList.toggle('open',o);b.setAttribute('aria-expanded',o);
       if(it.classList.contains('x-ac2-j')){w.style.height=o?w.scrollHeight+'px':'0px';if(o)w.addEventListener('transitionend',function f(){if(it.classList.contains('open'))w.style.height='auto';w.removeEventListener('transitionend',f)})}})
     if(it.classList.contains('x-ac2-j')){}});
+  // 방식 3 의 내용 상자(j)와 제목 버튼(jb)을 찾습니다.
   const j=r.querySelector('.x-ac2-j .x-ac2-w'),jb=r.querySelector('.x-ac2-j button');
+  // 닫을 때 height 가 auto 이면 transition 이 안 되므로, 먼저 실제 높이(px)로 정해 둔 뒤 다음 프레임에 0 으로 바꿔 부드럽게 접습니다. 세 번째 인자 true 는 위의 클릭 처리보다 먼저 실행되게 합니다.
   jb.addEventListener('click',()=>{if(!jb.parentElement.classList.contains('open')){j.style.height=j.scrollHeight+'px';requestAnimationFrame(()=>{j.style.height='0px'})}},true);
 },
 code:`/* 1) grid 0fr → 1fr (권장, 높이를 몰라도 됨) */
@@ -6356,35 +6430,57 @@ cheat:[
 terms:[['placement','플레이스먼트, 배치 방향'],['flip','플립, 공간이 모자라면 반대쪽으로 뒤집기'],['collision','콜리전, 화면 가장자리와 부딪히는 상황'],['arrow','애로우, 툴팁의 작은 화살표']],
 note:'직접 계산하기보다 Floating UI(플로팅 유아이)처럼 검증된 라이브러리를 쓰는 경우가 많습니다(라이브러리 현재 상태는 이번에 조회하지 않아 확인 필요). 툴팁은 호버뿐 아니라 키보드 포커스에서도 보여야 합니다.',
 css:`
+/* 툴팁 방향을 시험할 상자: 점선 테두리, position:relative, overflow:hidden(상자 밖으로 나가면 잘림). */
 .x-td{position:relative;height:200px;border:1.5px dashed var(--ink-2);border-radius:12px;background:var(--surface-2);overflow:hidden}
+/* 아이콘 버튼 공통 모양(position:absolute 로 자유롭게 놓음). */
 .x-td button{position:absolute;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px}
+/* 1번 버튼: 왼쪽 위 구석. */
 .x-td button:nth-child(1){left:8px;top:8px}
+/* 2번 버튼: 오른쪽 위 구석. */
 .x-td button:nth-child(2){right:8px;top:8px}
+/* 3번 버튼: 가운데(음수 margin 으로 중심을 맞춤). */
 .x-td button:nth-child(3){left:50%;top:50%;margin:-20px 0 0 -20px}
+/* 4번 버튼: 왼쪽 아래 구석. */
 .x-td button:nth-child(4){left:8px;bottom:8px}
+/* 5번 버튼: 오른쪽 아래 구석. */
 .x-td button:nth-child(5){right:8px;bottom:8px}
+/* 툴팁(말풍선): 자바스크립트가 위치를 정하므로 position:absolute 입니다. 평소에는 투명(opacity:0)하고 클릭은 통과시킵니다. */
 .x-td-t{position:absolute;z-index:3;max-width:150px;padding:6px 9px;border-radius:6px;background:var(--ink);color:var(--bg);font:12px/1.35 var(--sans);pointer-events:none;opacity:0;transition:opacity .12s}
+/* show 클래스가 붙으면 보입니다. */
 .x-td-t.show{opacity:1}
+/* 말풍선 꼬리(삼각형): 투명한 border 에 한 변만 색을 주는 방법으로 만듭니다. */
 .x-td-t::after{content:"";position:absolute;border:5px solid transparent}
+/* 말풍선이 버튼 위에 있을 때(top): 꼬리를 말풍선 아래쪽에 놓고 아래를 가리키게 합니다. 가로 위치는 변수 --ax 로 버튼 중심을 가리킵니다. */
 .x-td-t[data-p="top"]::after{top:100%;left:var(--ax,50%);margin-left:-5px;border-top-color:var(--ink)}
+/* 버튼 아래(bottom)일 때: 꼬리를 위쪽에 놓고 위를 가리키게 합니다. */
 .x-td-t[data-p="bottom"]::after{bottom:100%;left:var(--ax,50%);margin-left:-5px;border-bottom-color:var(--ink)}
+/* 버튼 왼쪽(left)일 때: 꼬리를 오른쪽에 놓고 오른쪽을 가리키게 합니다. 세로 위치는 --ay 입니다. */
 .x-td-t[data-p="left"]::after{left:100%;top:var(--ay,50%);margin-top:-5px;border-left-color:var(--ink)}
+/* 버튼 오른쪽(right)일 때: 꼬리를 왼쪽에 놓고 왼쪽을 가리키게 합니다. */
 .x-td-t[data-p="right"]::after{right:100%;top:var(--ay,50%);margin-top:-5px;border-right-color:var(--ink)}
 `,
 demo:`<div class="d-ctl"><label for="x-td-p">원하는 방향 <select id="x-td-p"><option>top</option><option>bottom</option><option>left</option><option>right</option></select></label><label for="x-td-f"><input id="x-td-f" type="checkbox" checked> 자리가 없으면 뒤집기(flip)</label></div><div class="x-td"><button type="button" data-t="저장 (Ctrl+S)" aria-label="저장">💾</button><button type="button" data-t="공유하기 링크 복사" aria-label="공유">🔗</button><button type="button" data-t="가운데 버튼은 어느 방향도 가능" aria-label="가운데">⭐</button><button type="button" data-t="삭제 (휴지통으로)" aria-label="삭제">🗑️</button><button type="button" data-t="설정 열기" aria-label="설정">⚙️</button><div class="x-td-t" role="tooltip"></div></div><p class="d-hint x-td-ro">버튼에 마우스를 올리거나 키보드로 이동해 보세요.</p>`,
 init(r){
+  // 상자(box), 툴팁(tip), 방향 선택(sel), "공간 없으면 뒤집기" 체크(fl), 설명 글(ro)을 찾고, G(버튼과 툴팁 사이 간격 8px)를 정합니다.
   const box=r.querySelector('.x-td'),tip=r.querySelector('.x-td-t'),sel=r.querySelector('#x-td-p'),fl=r.querySelector('#x-td-f'),ro=r.querySelector('.x-td-ro');const G=8;
+  // place(버튼, 방향): 툴팁이 놓일 왼쪽·위쪽 좌표 [x, y]를 계산합니다. 버튼 위치와 크기, 툴팁 크기를 getBoundingClientRect/offsetWidth 로 읽어 방향별로 간격 G 만큼 띄웁니다.
   const place=(b,p)=>{const br=b.getBoundingClientRect(),bx=box.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;const x0=br.left-bx.left,y0=br.top-bx.top;
     if(p==='top')return[x0+br.width/2-tw/2,y0-th-G];if(p==='bottom')return[x0+br.width/2-tw/2,y0+br.height+G];if(p==='left')return[x0-tw-G,y0+br.height/2-th/2];return[x0+br.width+G,y0+br.height/2-th/2]};
+  // fits(좌표): 툴팁이 상자 안(2px 여백)에 모두 들어오는지 확인합니다.
   const fits=(xy)=>xy[0]>=2&&xy[1]>=2&&xy[0]+tip.offsetWidth<=box.clientWidth-2&&xy[1]+tip.offsetHeight<=box.clientHeight-2;
+  // OP: 각 방향의 반대 방향(위↔아래, 왼쪽↔오른쪽) 표.
   const OP={top:'bottom',bottom:'top',left:'right',right:'left'};
+  // show(버튼): 툴팁에 글을 넣고 보이게 한 뒤, 선택한 방향으로 놓아 봅니다. "뒤집기"가 켜져 있고 공간이 모자라면 반대 방향을 시험해 들어맞으면 그쪽으로 뒤집고, 안내 글에 이유를 적습니다.
   const show=b=>{tip.textContent=b.dataset.t;tip.classList.add('show');tip.style.left='0px';tip.style.top='0px';
     let p=sel.value,xy=place(b,p),note='';if(fl.checked&&!fits(xy)){const q=OP[p];const xy2=place(b,q);if(fits(xy2)){p=q;xy=xy2;note=' (공간이 부족해 '+sel.value+' → '+p+'로 뒤집음)'}else note=' (양쪽 모두 공간이 부족)'}
+    // 그래도 상자 밖으로 나가면 좌표를 상자 안으로 끌어당겨(Math.max, Math.min) 위치를 보정하고, 꼬리가 버튼 중심을 가리키도록 --ax, --ay 를 정합니다. aria-describedby 로 버튼과 툴팁을 연결해 화면 낭독기가 설명을 읽게 합니다.
     const sx=Math.max(2,Math.min(xy[0],box.clientWidth-tip.offsetWidth-2)),sy=Math.max(2,Math.min(xy[1],box.clientHeight-tip.offsetHeight-2));
     tip.style.left=sx+'px';tip.style.top=sy+'px';tip.dataset.p=p;const br=b.getBoundingClientRect(),bx=box.getBoundingClientRect();
     tip.style.setProperty('--ax',Math.max(8,Math.min(tip.offsetWidth-8,br.left-bx.left+br.width/2-sx))+'px');tip.style.setProperty('--ay',Math.max(8,Math.min(tip.offsetHeight-8,br.top-bx.top+br.height/2-sy))+'px');
     ro.textContent='실제 방향: '+p+note;b.setAttribute('aria-describedby','x-td-tip');tip.id='x-td-tip'};
+  // hide(버튼): 툴팁을 숨기고 연결(aria-describedby)을 지웁니다.
   const hide=b=>{tip.classList.remove('show');b.removeAttribute('aria-describedby')};
+  // 모든 버튼에서 마우스를 올리거나 키보드로 선택하면 보이고, 벗어나면 숨깁니다(키보드 사용자도 볼 수 있어야 합니다).
   box.querySelectorAll('button').forEach(b=>{b.addEventListener('mouseenter',()=>show(b));b.addEventListener('focus',()=>show(b));b.addEventListener('mouseleave',()=>hide(b));b.addEventListener('blur',()=>hide(b))});
 },
 code:`function place(anchor, tip, preferred){
@@ -6421,22 +6517,36 @@ cheat:[
 terms:[['ripple','리플, 물결'],['feedback','피드백, 사용자 동작에 대한 즉각적인 반응'],['touch target','터치 타깃, 손가락으로 누르는 영역 (충분히 커야 함)']],
 note:'효과가 너무 길면 반응이 느리게 느껴지니 0.4~0.6초 정도로 짧게 둡니다(경험적 값, 출처 없음). 마이크로인터랙션 카드의 물결 버튼과 같은 원리이며, 여기서는 목록 항목과 카드까지 확장했습니다.',
 css:`
+/* 리플 예시 바깥 상자. */
 .x-rp{display:grid;gap:10px}
+/* 물결 효과가 들어갈 요소 공통: position:relative 와 overflow:hidden 으로 물결이 요소 밖으로 나가지 않게 합니다. -webkit-tap-highlight-color 는 모바일의 기본 눌림 색을 없앱니다. */
 .x-rpb{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+/* 물결 하나(w): 처음엔 크기 0(scale(0))인 원이 애니메이션(x-rp-a)으로 퍼집니다. 색(--wc)과 시간(--wd)은 CSS 변수입니다. */
 .x-rpb .w{position:absolute;border-radius:50%;background:var(--wc,rgba(255,255,255,.5));transform:scale(0);animation:x-rp-a var(--wd,.6s) ease-out forwards;pointer-events:none}
+/* 4배로 커지면서 사라집니다(opacity:0). */
 @keyframes x-rp-a{to{transform:scale(4);opacity:0}}
+/* 목록 상자: 점을 없애고 테두리를 줍니다. */
 .x-rp-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+/* 목록 항목 사이의 구분선. */
 .x-rp-l li{border-bottom:1px solid var(--line)}
+/* 마지막 항목은 구분선 없음. */
 .x-rp-l li:last-child{border-bottom:0}
+/* 목록 항목 버튼: 한 줄을 꽉 채우고 기본 모양을 지웁니다. */
 .x-rp-l button{display:flex;width:100%;gap:10px;align-items:center;padding:12px;border:0;background:none;color:var(--ink);font:13px var(--sans);cursor:pointer;text-align:left}
+/* 목록 안의 물결은 강조색을 30%만 섞은 연한 색. */
 .x-rp-l .w{--wc:color-mix(in srgb,var(--accent) 30%,transparent)}
+/* 카드 버튼 모양. */
 .x-rp-card{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-align:left;font:13px var(--sans);cursor:pointer}
+/* 카드 안의 물결은 강조색 22%. */
 .x-rp-card .w{--wc:color-mix(in srgb,var(--accent) 22%,transparent)}
 `,
 demo:`<div class="x-rp"><div class="d-ctl"><label for="x-rp-c"><input id="x-rp-c" type="checkbox"> 항상 가운데에서 시작</label><label for="x-rp-d">길이 <input id="x-rp-d" type="range" min="300" max="1200" step="100" value="600"></label></div><button class="d-btn d-btn-primary x-rpb" type="button">결제하기 · 12,000원</button><ul class="x-rp-l"><li><button class="x-rpb" type="button"><span>🔔</span>알림 설정</button></li><li><button class="x-rpb" type="button"><span>📦</span>주문 내역</button></li><li><button class="x-rpb" type="button"><span>⭐</span>즐겨찾기</button></li></ul><button class="x-rpb x-rp-card" type="button"><b>가을 신메뉴</b><br>눌러서 자세히 보기 (카드 전체가 버튼)</button></div>`,
 init(r){
+  // "가운데에서 퍼지기" 체크(cen)와 시간 슬라이더(dur)를 찾습니다.
   const cen=r.querySelector('#x-rp-c'),dur=r.querySelector('#x-rp-d');
+  // 물결을 쓸 요소마다 누르는 순간(pointerdown) 물결을 만듭니다. "동작 줄이기"를 켠 사람에게는 만들지 않습니다(접근성).
   r.querySelectorAll('.x-rpb').forEach(el=>el.addEventListener('pointerdown',e=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    // 물결 크기(s)는 요소의 긴 변과 같게 정하고, 중심(x, y)은 체크가 켜져 있으면 요소 가운데, 아니면 누른 위치(클릭 좌표 - 요소 위치)로 정합니다. 물결을 요소 안에 붙이고 애니메이션이 끝날 즈음 지웁니다.
     const b=el.getBoundingClientRect(),s=Math.max(b.width,b.height),w=document.createElement('span');w.className='w';
     const x=cen.checked?b.width/2:e.clientX-b.left,y=cen.checked?b.height/2:e.clientY-b.top;w.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(x-s/2)+'px;top:'+(y-s/2)+'px';w.style.setProperty('--wd',dur.value+'ms');el.appendChild(w);setTimeout(()=>w.remove(),+dur.value+50)}));
 },
@@ -6480,31 +6590,54 @@ cheat:[
 terms:[['pull-to-refresh','풀 투 리프레시, 당겨서 새로고침'],['overscroll','오버스크롤, 끝에서 더 끌어당기는 스크롤'],['gesture','제스처, 손가락 동작'],['threshold','스레숄드, 기준 거리']],
 note:'브라우저(특히 모바일 크롬)에도 기본 당겨서 새로고침이 있어 충돌할 수 있습니다. 직접 구현하면 touch-action과 overscroll-behavior를 점검하세요. 접근성을 위해 버튼도 함께 제공합니다. 모바일 기기에서의 실제 동작은 직접 시험이 필요합니다(확인 필요).',
 css:`
+/* 휴대폰 화면 같은 바깥 상자. */
 .x-pr{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+/* 화면 위 제목 줄. */
 .x-pr-h{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font:700 14px var(--display)}
+/* 스크롤되는 목록 영역: overscroll-behavior-y:contain 은 맨 위에서 더 당길 때 브라우저의 기본 새로고침이 일어나지 않게 막고, touch-action:pan-y 는 세로 움직임만 허용합니다. */
 .x-pr-sc{height:240px;overflow:auto;overscroll-behavior-y:contain;touch-action:pan-y;position:relative}
+/* 목록 내용: 변수 --pull 만큼 아래로 밀립니다(translateY). 평소에는 transition 으로 부드럽게 돌아옵니다. */
 .x-pr-in{transform:translateY(var(--pull,0px));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+/* 당기는 중(drag 클래스)에는 transition 을 꺼서 손가락을 바로 따라갑니다. */
 .x-pr-in.drag{transition:none}
+/* 당길 때 위에서 내려오는 표시(인디케이터): top 이 -36px 에서 시작해 --pull 만큼 내려옵니다. */
 .x-pr-ind{position:absolute;left:0;right:0;top:calc(-36px + var(--pull,0px));height:36px;display:grid;place-items:center;font-size:12px;color:var(--ink-2);pointer-events:none;transition:top .25s}
+/* 당기는 중에는 transition 을 끕니다. */
 .x-pr-ind.drag{transition:none}
+/* 빙글빙글 도는 동그라미: 회전 각도는 변수 --rot 이라 당기는 만큼 돌아갑니다. */
 .x-pr-ind i{width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;display:block;transform:rotate(var(--rot,0deg))}
+/* 새로 불러오는 중(spin 클래스)에는 계속 돕니다. */
 .x-pr-ind.spin i{animation:x-is-spin .7s linear infinite}
+/* 목록 항목 한 줄. */
 .x-pr-it{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px;background:var(--surface)}
+/* 항목의 작은 시간 글. */
 .x-pr-it small{display:block;color:var(--ink-2)}
+/* 방금 추가된 항목(new 클래스)은 연한 강조 배경과 위에서 내려오는 애니메이션으로 눈에 띄게 합니다. */
 .x-pr-it.new{animation:x-pr-n .6s ease-out;background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+/* 투명하고 8px 위에서 제자리로 내려옵니다. */
 @keyframes x-pr-n{from{opacity:0;transform:translateY(-8px)}}
 `,
 demo:`<div class="x-pr"><div class="x-pr-h"><span>주문 알림 (예시)</span><button class="d-btn x-pr-b" type="button">새로고침</button></div><div class="x-pr-sc"><div class="x-pr-ind"><i></i></div><div class="x-pr-in"></div></div></div><p class="d-hint">목록 맨 위에서 아래로 끌어당겼다 놓아 보세요(마우스 드래그도 됩니다). 버튼으로도 됩니다.</p>`,
 init(r){
+  // 스크롤 영역(sc), 내용(inn), 표시(ind)를 찾고, T(새로고침이 되는 거리 64px)를 정하며, n(항목 수), y0(당기기 시작 위치), pull(당긴 거리), busy(새로 불러오는 중)를 준비합니다.
   const sc=r.querySelector('.x-pr-sc'),inn=r.querySelector('.x-pr-in'),ind=r.querySelector('.x-pr-ind'),T=64;let n=0,y0=null,pull=0,busy=false;
+  // add(새 항목 여부): 주문 항목 하나를 만들어 목록 맨 위(prepend)에 붙입니다.
   const add=(isNew)=>{n++;const d=document.createElement('div');d.className='x-pr-it'+(isNew?' new':'');d.innerHTML='주문 #'+(1020+n)+' 접수<small>'+(isNew?'방금 전':n+'분 전')+' · 예시</small>';inn.prepend(d)};
+  // 처음에 항목 8개를 채우고 시간 글(3분 전, 6분 전 ...)을 정리합니다.
   for(let i=0;i<8;i++)add(false);inn.querySelectorAll('.x-pr-it').forEach((d,i)=>d.querySelector('small').textContent=(i+1)*3+'분 전 · 예시');
+  // set(거리): 당긴 거리를 CSS 변수 --pull 에 넣어 내용과 표시를 아래로 밀고, 회전 각도(--rot)도 거리에 비례해 정합니다.
   const set=p=>{pull=p;sc.style.setProperty('--pull',p+'px');ind.style.setProperty('--pull',p+'px');ind.style.setProperty('--rot',(p/T*270)+'deg')};
+  // refresh(): 새로 불러오기. 이미 하는 중이면 무시하고, 아니면 표시를 48px 위치에 고정하고 돌리다가 0.9초 뒤(서버 응답 흉내) 새 항목을 추가하고 원위치로 돌려보냅니다.
   const refresh=()=>{if(busy)return;busy=true;set(48);ind.classList.add('spin');setTimeout(()=>{add(true);ind.classList.remove('spin');set(0);busy=false;sc.scrollTop=0},900)};
+  // 손가락을 대면: 새로 불러오는 중이거나 맨 위가 아니면(scrollTop>0) 무시하고, 맨 위일 때만 시작 위치(y0)를 기억하고 drag 클래스로 transition 을 끕니다.
   inn.style.transform='translateY(var(--pull,0px))';sc.addEventListener('pointerdown',e=>{if(busy||sc.scrollTop>0)return;y0=e.clientY;inn.classList.add('drag');ind.classList.add('drag')});
+  // 움직이는 동안 아래로 당긴 거리(dy)의 절반(저항감, 최대 110px)만큼 내용이 따라 내려옵니다. 위로 움직이면 0 으로 둡니다.
   sc.addEventListener('pointermove',e=>{if(y0===null)return;const dy=e.clientY-y0;if(dy<=0){set(0);return}set(Math.min(110,dy*.5))});
+  // end(): 손을 떼면 당기기를 끝냅니다. 당긴 거리가 기준(T)의 80% 이상이면 refresh() 로 새로 불러오고, 아니면 원위치로 돌아갑니다.
   const end=()=>{if(y0===null)return;y0=null;inn.classList.remove('drag');ind.classList.remove('drag');if(pull>=T*.8){refresh()}else set(0)};
+  // 손을 떼거나, 중단되거나(pointercancel), 영역을 벗어나도(pointerleave) end 를 실행합니다.
   sc.addEventListener('pointerup',end);sc.addEventListener('pointercancel',end);sc.addEventListener('pointerleave',()=>{if(y0!==null)end()});
+  // 처음 당김 값을 0 으로 두고, "새로고침" 버튼(손가락이 없는 사람용 대체 수단)도 refresh() 에 연결합니다.
   sc.style.setProperty('--pull','0px');r.querySelector('.x-pr-b').addEventListener('click',refresh);
 },
 code:`let startY=null, pull=0
@@ -6543,35 +6676,60 @@ cheat:[
 terms:[['swipe','스와이프, 손가락을 옆으로 미는 동작'],['undo','언두, 실행 취소'],['affordance','어포던스, 이렇게 쓸 수 있다는 단서'],['destructive action','디스트럭티브 액션, 되돌리기 어려운 삭제 같은 동작']],
 note:'제스처는 눈에 안 띄기 때문에 같은 기능을 보이는 버튼이나 메뉴로도 제공해야 합니다. 삭제처럼 되돌리기 어려운 동작은 실행 취소를 줍니다. 터치 기기에서의 정확한 느낌은 직접 시험이 필요합니다(확인 필요).',
 css:`
+/* 스와이프 목록 바깥 상자. */
 .x-sw{display:grid;gap:8px}
+/* 목록 상자: 점을 없애고 테두리를 줍니다. */
 .x-sw-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);min-height:60px}
+/* 목록 한 줄(row): overflow:hidden 으로 밀린 앞면 밖은 가리고, touch-action:pan-y 는 세로 스크롤은 허용하되 가로 움직임은 직접 처리하게 합니다. 지워질 때 max-height 와 opacity 를 transition 해서 부드럽게 접힙니다. */
 .x-sw-r{position:relative;overflow:hidden;border-bottom:1px solid var(--line);touch-action:pan-y;transition:max-height .25s,opacity .25s;max-height:90px}
+/* 지워진 줄(gone 클래스)은 높이 0, 투명, 아래 선 없음으로 접힙니다. */
 .x-sw-r.gone{max-height:0;opacity:0;border-bottom-width:0}
+/* 앞면 뒤에 깔린 배경: 줄 전체를 덮고, 보관(왼쪽)과 삭제(오른쪽) 안내 글을 양 끝에 둡니다. */
 .x-sw-bg{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 14px;font:700 12.5px var(--sans);color:#fff}
+/* 배경 안내 글은 흰색. */
 .x-sw-bg .a{color:#fff}
+/* 오른쪽으로 밀 때(보관) 배경은 초록, 왼쪽으로 밀 때(삭제)는 빨강입니다. */
 .x-sw-bg.l{background:var(--leaf)}.x-sw-bg.rr{background:var(--rose)}
+/* 앞면(내용): 변수 --dx 만큼 옆으로 밀립니다(translateX). 평소에는 transition 으로 제자리에 부드럽게 돌아오고, cursor:grab 은 잡을 수 있다는 손 모양, user-select:none 은 끌 때 글자가 선택되지 않게 합니다. */
 .x-sw-f{position:relative;background:var(--surface);padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;transform:translateX(var(--dx,0px));transition:transform .22s cubic-bezier(.2,.8,.2,1);cursor:grab;user-select:none}
+/* 끄는 중(drag 클래스)에는 transition 을 꺼서 손가락을 바로 따라갑니다. */
 .x-sw-f.drag{transition:none;cursor:grabbing}
+/* 작은 시간 글. */
 .x-sw-f small{display:block;color:var(--ink-2)}
+/* 키보드·마우스용 대체 버튼(보관, 삭제) 묶음. 스와이프를 못 하는 사람도 같은 일을 할 수 있어야 합니다. */
 .x-sw-f .ks{display:flex;gap:4px}
+/* 대체 버튼 모양. */
 .x-sw-f .ks button{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;font:600 11px var(--sans);padding:4px 7px;color:var(--ink);cursor:pointer}
+/* hidden 일 때는 숨깁니다. */
 .x-sw-u[hidden]{display:none}
+/* "되돌리기" 안내 줄(토스트): 어두운 바탕에 밝은 글자. */
 .x-sw-u{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:12.5px}
+/* 되돌리기 버튼: 밑줄 있는 글자 모양. */
 .x-sw-u button{border:0;background:none;color:inherit;font:700 12.5px var(--sans);text-decoration:underline;cursor:pointer}
 `,
 demo:`<div class="x-sw"><ul class="x-sw-l" aria-label="받은 알림 (예시)"></ul><div class="x-sw-u" role="status" hidden></div><p class="d-hint">항목을 오른쪽으로 밀면 보관, 왼쪽으로 밀면 삭제입니다(마우스 드래그 가능). 오른쪽 작은 버튼은 제스처를 못 쓰는 사용자용입니다.</p></div>`,
 init(r){
+  // 목록(L)과 되돌리기 줄(U)을 찾습니다.
+  // D: 알림 데이터 [제목, 시간] 모음. last, tm 은 마지막 지운 항목과 타이머를 위한 변수입니다.
   const L=r.querySelector('.x-sw-l'),U=r.querySelector('.x-sw-u');const D=[['주문이 접수되었습니다','방금 전'],['배송이 출발했습니다','10분 전'],['쿠폰이 곧 만료됩니다','1시간 전'],['새 후기가 등록되었습니다','어제']];let last=null,tm;
+  // toast(글, 되돌리기 함수): 하단 안내 줄을 보이고 "되돌리기" 버튼을 누르면 되돌리기 함수를 실행합니다. 4초 뒤 저절로 사라집니다.
   const toast=(t,undo)=>{clearTimeout(tm);U.hidden=false;U.innerHTML='<span></span><button type="button">되돌리기</button>';U.firstChild.textContent=t;U.querySelector('button').addEventListener('click',()=>{undo();U.hidden=true});tm=setTimeout(()=>U.hidden=true,4000)};
+  // act(줄, 종류): 줄을 지웁니다. 되돌릴 수 있게 다음 줄(prev)을 기억해 두고, gone 클래스로 접은 뒤 0.26초 후에 실제로 지웁니다. 되돌리기를 누르면 기억해 둔 자리에 다시 끼워 넣습니다. 실수로 지워도 되돌릴 수 있게 하는 것이 스와이프 삭제의 안전장치입니다.
   const act=(row,kind)=>{const prev=row.nextSibling;row.classList.add('gone');setTimeout(()=>{row.remove();if(!L.children.length&&!L.dataset.e){}},260);
     toast(kind==='del'?'삭제했습니다':'보관했습니다',()=>{L.insertBefore(row,prev);requestAnimationFrame(()=>{row.classList.remove('gone');row.querySelector('.x-sw-f').style.setProperty('--dx','0px')})})};
+  // 알림마다 줄(li)을 만듭니다. 뒤 배경(bg), 앞면(f), x0(누른 위치), dx(옮긴 거리)를 준비합니다.
   D.forEach(d=>{const li=document.createElement('li');li.className='x-sw-r';li.innerHTML='<div class="x-sw-bg l"><span>📥 보관</span><span>삭제 🗑️</span></div><div class="x-sw-f" tabindex="0"><span><b>'+d[0]+'</b><small>'+d[1]+' · 예시</small></span><span class="ks"><button type="button">보관</button><button type="button">삭제</button></span></div>';
     const bg=li.querySelector('.x-sw-bg'),f=li.querySelector('.x-sw-f');let x0=null,dx=0;
+    // colour(): 오른쪽으로 밀면 초록, 왼쪽이면 빨강 배경으로 바꿉니다.
     const colour=()=>{bg.className='x-sw-bg '+(dx>=0?'l':'rr')};
+    // 누르면: 대체 버튼 위가 아니면 시작 위치를 기억하고, setPointerCapture 로 손가락이 밖으로 나가도 계속 추적하며, drag 클래스로 transition 을 끕니다.
     f.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;x0=e.clientX;f.setPointerCapture(e.pointerId);f.classList.add('drag')});
+    // 움직이는 동안 옮긴 거리(dx)만큼 앞면을 옆으로 밀고 배경 색을 맞춥니다.
     f.addEventListener('pointermove',e=>{if(x0===null)return;dx=e.clientX-x0;f.style.setProperty('--dx',dx+'px');colour()});
+    // end(): 손을 떼면 판단합니다. 오른쪽으로 90px 넘게 밀었으면 보관, 왼쪽으로 90px 넘게 밀었으면 삭제, 그보다 적으면 원위치로 돌아갑니다. 실수로 살짝 스친 것은 취소하는 기준입니다.
     const end=()=>{if(x0===null)return;x0=null;f.classList.remove('drag');if(dx>90)act(li,'arc');else if(dx<-90)act(li,'del');else f.style.setProperty('--dx','0px');dx=0};
     f.addEventListener('pointerup',end);f.addEventListener('pointercancel',end);
+    // 대체 버튼(보관, 삭제)을 눌러도 같은 act() 를 실행합니다. Delete 키로도 지울 수 있습니다(키보드 접근성).
     const [b1,b2]=f.querySelectorAll('button');b1.addEventListener('click',()=>act(li,'arc'));b2.addEventListener('click',()=>act(li,'del'));
     f.addEventListener('keydown',e=>{if(e.key==='Delete')act(li,'del')});L.appendChild(li)});
 },
