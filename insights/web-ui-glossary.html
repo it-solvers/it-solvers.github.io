@@ -1531,10 +1531,15 @@ css:`
 `,
 demo:`<div class="d-tablist" role="tablist" aria-label="예시 탭"><button class="d-tab" role="tab" type="button" aria-selected="true">설명</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">후기</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">문의</button></div><div class="d-tabpanel" role="tabpanel"><h4>상품 설명</h4><p>국산 밀과 천연 발효종으로 하루 숙성해 굽습니다. (예시)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>후기 128건</h4><p>겉은 바삭하고 속은 촉촉해요. (예시)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>문의하기</h4><p>배송과 포장에 대해 궁금한 점을 남겨 주세요. (예시)</p></div><p class="d-hint">탭을 누르거나, 선택한 뒤 좌우 방향키를 눌러 보세요.</p>`,
 init(r){
+  // 탭 버튼들(tabs)과 내용 패널들(panels)을 찾아 배열로 만듭니다. [...목록]은 찾은 목록을 진짜 배열로 바꾸는 문법입니다.
   const tabs=[...r.querySelectorAll('.d-tab')],panels=[...r.querySelectorAll('.d-tabpanel')];
+  // pick(번호, 포커스 여부): 번호에 해당하는 탭만 선택 상태로 바꿉니다. aria-selected 로 선택을 알리고, tabIndex 로 선택된 탭만 Tab 키가 닿게(0) 하고 나머지는 제외(-1)하며, 패널은 선택된 것만 보여 줍니다.
   const pick=(i,focus)=>tabs.forEach((t,j)=>{const on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;panels[j].hidden=!on;if(on&&focus)t.focus()});
+  // 탭마다 클릭하면 그 탭을 선택합니다. 키보드를 누르면 아래 규칙으로 이동합니다.
   tabs.forEach((t,i)=>{t.addEventListener('click',()=>pick(i));t.addEventListener('keydown',e=>{
+    // 오른쪽 화살표: 다음 탭으로. (i+1)%tabs.length 는 마지막 탭에서 첫 탭으로 돌아가게 합니다.
     if(e.key==='ArrowRight')pick((i+1)%tabs.length,true);
+    // 왼쪽 화살표: 이전 탭으로. 첫 탭에서는 마지막 탭으로 돌아갑니다.
     if(e.key==='ArrowLeft')pick((i+tabs.length-1)%tabs.length,true)})});
 },
 code:`<div role="tablist" aria-label="상품 정보">
@@ -1578,21 +1583,34 @@ cheat:[
 terms:[['FAQ','Frequently Asked Questions, 자주 묻는 질문'],['0fr / 1fr','fr은 남는 공간의 비율 단위, 0fr은 높이 0'],['aria-expanded','펼침 여부를 알리는 ARIA 속성']],
 note:'단순한 경우에는 HTML 기본 태그 details와 summary가 가장 안전합니다. 부드러운 애니메이션이 필요할 때만 직접 만드세요.',
 css:`
+/* 아코디언 항목 하나: 테두리와 둥근 모서리, overflow:hidden 으로 접힌 내용이 밖으로 보이지 않게 합니다. */
 .d-acc-item{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:8px;overflow:hidden}
+/* 제목 버튼: 가로를 꽉 채우고(width:100%), 제목은 왼쪽, 화살표는 오른쪽 끝(space-between)에 둡니다. */
 .d-acc-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:none;border:0;padding:12px 14px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+/* 화살표를 CSS로 그립니다. 두 변에만 선을 주고(border-right, border-bottom) 45도 돌리면(rotate) 아래쪽 화살표(v)가 됩니다. */
 .d-acc-btn::after{content:"";flex:none;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .25s}
+/* 펼쳐지면(aria-expanded="true") 화살표를 뒤집습니다. */
 .d-acc-btn[aria-expanded="true"]::after{transform:rotate(-135deg)}
+/* 내용 영역입니다. grid-template-rows:0fr 는 높이 0으로 접힌 상태이고, transition 이 높이 변화를 부드럽게 만듭니다. */
 .d-acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+/* open 클래스가 붙으면 1fr(내용 높이만큼)로 펼쳐집니다. */
 .d-acc-panel.open{grid-template-rows:1fr}
+/* 안쪽 div 는 overflow:hidden 으로 접히는 동안 내용을 잘라 냅니다. */
 .d-acc-panel>div{overflow:hidden}
+/* 내용 문단의 여백과 글자 모양. */
 .d-acc-panel p{margin:0;padding:0 14px 12px;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="acc-one"><input id="acc-one" type="checkbox" checked> 하나만 열기</label></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="true">배송은 얼마나 걸리나요?</button><div class="d-acc-panel open"><div><p>주문 후 평일 기준 1~2일 안에 출발합니다. (예시)</p></div></div></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="false">환불은 어떻게 하나요?</button><div class="d-acc-panel"><div><p>수령 후 7일 안에 마이페이지에서 신청할 수 있습니다. (예시)</p></div></div></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="false">단체 주문이 가능한가요?</button><div class="d-acc-panel"><div><p>20개 이상은 문의 게시판에 남겨 주세요. (예시)</p></div></div></div>`,
 init(r){
+  // 항목들(items)과 "하나만 펼치기" 체크박스(one)를 찾습니다.
   const items=[...r.querySelectorAll('.d-acc-item')],one=r.querySelector('input');
+  // 항목마다 제목 버튼(b)과 내용 영역(p)을 찾습니다.
   items.forEach(it=>{const b=it.querySelector('button'),p=it.querySelector('.d-acc-panel');
+    // 제목을 누르면: 지금 펼쳐진 상태인지 보고 반대로 바꿉니다(open).
     b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')!=='true';
+      // "하나만 펼치기"가 켜져 있으면 다른 항목을 모두 접습니다.
       if(open&&one.checked)items.forEach(o=>{o.querySelector('button').setAttribute('aria-expanded','false');o.querySelector('.d-acc-panel').classList.remove('open')});
+      // 이 항목의 펼침 상태를 화면 낭독기용 속성(aria-expanded)과 CSS용 클래스(open)에 함께 반영합니다.
       b.setAttribute('aria-expanded',open);p.classList.toggle('open',open)})});
 },
 code:`<!-- 가장 쉬운 방법: HTML 기본 태그 -->
@@ -1648,9 +1666,13 @@ css:`
 `,
 demo:`<div class="d-row"><button class="d-btn d-btn-primary" type="button">삭제 확인창 열기</button><span class="d-readout">결과: -</span></div><p class="d-hint">바깥 어두운 영역을 누르거나 Esc를 눌러도 닫힙니다.</p><dialog class="d-dialog" aria-labelledby="dlg-t"><div class="d-dialog-in"><h3 id="dlg-t">이 예약을 삭제할까요?</h3><p>삭제하면 되돌릴 수 없습니다. (예시)</p><form method="dialog"><button class="d-btn" value="cancel">취소</button><button class="d-btn d-danger" value="delete">삭제</button></form></div></dialog>`,
 init(r){
+  // <dialog> 요소(dlg)와 결과를 보여 줄 글(out)을 찾습니다.
   const dlg=r.querySelector('dialog'),out=r.querySelector('.d-readout');
+  // 열기 버튼을 누르면 showModal() 로 엽니다. 이렇게 열면 뒤 화면이 눌리지 않고, Esc 키로 닫히며, 포커스가 대화상자 안에 갇힙니다.
   r.querySelector('.d-btn-primary').addEventListener('click',()=>dlg.showModal());
+  // 대화상자 바깥(어두운 막)을 누르면 닫습니다. e.target===dlg 는 "눌린 곳이 상자 자체"일 때만 참입니다.
   dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close('backdrop')});
+  // 닫힐 때 어떻게 닫혔는지(returnValue)를 글로 보여 줍니다. Esc 로 닫으면 값이 비어 있습니다.
   dlg.addEventListener('close',()=>{out.textContent='결과: '+(dlg.returnValue||'esc')});
 },
 code:`<button id="open">삭제</button>
@@ -1704,10 +1726,15 @@ css:`
 demo:`<div class="d-dr"><h4>상품 목록</h4><p>필터를 열어 조건을 고를 수 있습니다. (예시)</p><button class="d-btn d-open" type="button">필터 열기</button><div class="d-scrim"></div><aside class="d-drawer" aria-label="필터"><h4>필터 <button class="d-btn d-close" type="button" aria-label="닫기">닫기</button></h4><label><input type="checkbox" checked> 당일 발송</label><label><input type="checkbox"> 무료 배송</label><label><input type="checkbox"> 할인 중</label></aside></div>`,
 flush:true,
 init(r){
+  // 화면 상자(w), 열기 버튼(o), 닫기 버튼(c)을 찾습니다.
   const w=r.querySelector('.d-dr'),o=r.querySelector('.d-open'),c=r.querySelector('.d-close');
+  // set(true/false): open 클래스를 붙이거나 떼서 서랍을 열고 닫습니다. 열면 닫기 버튼으로, 닫으면 열기 버튼으로 포커스를 옮겨 키보드 사용자가 길을 잃지 않게 합니다.
   const set=v=>{w.classList.toggle('open',v);(v?c:o).focus()};
+  // 열기 버튼은 열고, 닫기 버튼은 닫습니다.
   o.addEventListener('click',()=>set(true));c.addEventListener('click',()=>set(false));
+  // 어두운 막을 눌러도 닫습니다.
   r.querySelector('.d-scrim').addEventListener('click',()=>set(false));
+  // 열려 있을 때 Esc 키를 누르면 닫습니다.
   w.addEventListener('keydown',e=>{if(e.key==='Escape'&&w.classList.contains('open'))set(false)});
 },
 code:`<button id="open">필터 열기</button>
@@ -1758,12 +1785,19 @@ css:`
 `,
 demo:`<div class="d-dd"><button class="d-btn d-dd-btn" type="button" aria-haspopup="menu" aria-expanded="false">정렬: 최신순</button><ul class="d-dd-menu" role="menu" hidden><li role="none"><button role="menuitemradio" aria-checked="true">최신순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">인기순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">낮은 가격순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">높은 가격순</button></li></ul></div>`,
 init(r){
+  // 열기 버튼(btn), 메뉴(menu), 메뉴 항목들(items)을 찾습니다.
   const btn=r.querySelector('.d-dd-btn'),menu=r.querySelector('.d-dd-menu'),items=[...menu.querySelectorAll('button')];
+  // set(true/false): 메뉴의 hidden 속성과 버튼의 aria-expanded(펼침 상태)를 함께 바꿔 메뉴를 열고 닫습니다.
   const set=v=>{menu.hidden=!v;btn.setAttribute('aria-expanded',v)};
+  // 버튼을 누르면 메뉴를 열거나 닫습니다. stopPropagation 은 이 클릭이 아래 "바깥 클릭" 규칙까지 퍼져 바로 닫히는 일을 막습니다. 열리면 첫 항목에 포커스를 줍니다.
   btn.addEventListener('click',e=>{e.stopPropagation();set(menu.hidden);if(!menu.hidden)items[0].focus()});
+  // 항목마다 클릭하면: 그 항목만 선택 표시(aria-checked)하고, 버튼 글자를 바꾸고, 메뉴를 닫고, 포커스를 버튼으로 돌려줍니다.
   items.forEach((b,i)=>{b.addEventListener('click',()=>{items.forEach(o=>o.setAttribute('aria-checked',o===b));btn.textContent='정렬: '+b.textContent;set(false);btn.focus()});
+    // 키보드: 아래·위 화살표로 항목을 옮겨 다닙니다. 끝에서는 반대쪽 끝으로 돌아가고, preventDefault 는 화면이 스크롤되는 기본 동작을 막습니다.
     b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();items[(i+1)%items.length].focus()}if(e.key==='ArrowUp'){e.preventDefault();items[(i+items.length-1)%items.length].focus()}})});
+  // 메뉴 바깥을 누르면 닫습니다. contains() 는 눌린 곳이 메뉴 안인지 확인합니다.
   document.addEventListener('click',e=>{if(!menu.hidden&&!menu.contains(e.target))set(false)});
+  // Esc 키를 누르면 닫고 포커스를 버튼으로 돌려줍니다.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){set(false);btn.focus()}});
 },
 code:`<div class="dd">
@@ -6559,21 +6593,37 @@ demo:`<div class="d-ctl"><label for="rs-range">화면 너비 <input id="rs-range
 
 REAL['tooltip']={
 css:`
+/* 예시 화면 바깥 상자: 도구 모음, 입력 칸을 세로로 쌓고(grid), 위쪽에 툴팁이 뜰 공간(padding)을 둡니다. */
 .r-tt{display:grid;gap:22px;justify-items:start;padding:18px 6px 40px}
+/* 아이콘 도구 모음: 아이콘 버튼을 가로로 나란히 놓은 둥근 상자. */
 .r-tbar{display:flex;gap:6px;padding:6px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+/* 아이콘 버튼: 38px 네모에 기본 버튼 모양을 지우고 아이콘을 가운데에 놓습니다. */
 .r-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:8px;border:0;background:none;color:var(--ink);cursor:pointer}
+/* 마우스를 올리면 연한 강조 배경. */
 .r-ic:hover{background:var(--accent-soft)}
+/* 입력 칸과 도움말 아이콘을 가로로 나란히. */
 .r-field{display:flex;align-items:center;gap:8px;font-size:13px}
+/* 도움말(?) 아이콘: 동그란 20px, cursor:help 는 물음표 모양 커서를 보여 줍니다. */
 .r-help{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 12px var(--sans);cursor:help}
+/* 입력 칸 모양: 테두리, 둥근 모서리, 폭 180px(최대 100%). */
 .r-tt input{font:13px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:180px;max-width:100%}
+/* 툴팁이 붙는 요소입니다. position:relative 로 말풍선이 이 요소를 기준으로 놓입니다. */
 .d-tip{position:relative}
+/* 말풍선(::after)과 화살표(::before)의 공통 설정: 평소에는 투명하고(opacity:0) 클릭을 가로채지 않습니다(pointer-events:none). */
 .d-tip::after,.d-tip::before{position:absolute;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s}
+/* 말풍선 본체입니다. content:attr(data-tip)는 요소의 data-tip 속성 글자를 그대로 가져와 보여 줍니다. 요소 위쪽(bottom)에 가운데 정렬로 띄웁니다. */
 .d-tip::after{content:attr(data-tip);left:50%;bottom:calc(100% + 9px);transform:translate(-50%,4px);background:var(--ink);color:var(--bg);font:12px/1.35 var(--sans);padding:6px 9px;border-radius:6px;width:max-content;max-width:170px;text-align:center;z-index:2}
+/* 말풍선 아래의 작은 삼각형 화살표입니다. border 로 삼각형을 만듭니다(한 변만 색을 주고 나머지는 투명). */
 .d-tip::before{content:"";left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);border-bottom:0}
+/* 마우스를 올리거나 키보드로 선택하면 말풍선이 나타납니다(opacity:1). :is() 는 여러 조건을 한꺼번에 적는 문법입니다. */
 .d-tip:is(:hover,:focus-visible)::after{opacity:1;transform:translate(-50%,0)}
+/* 화살표도 함께 나타납니다. */
 .d-tip:is(:hover,:focus-visible)::before{opacity:1}
+/* data-pos="bottom" 이면 말풍선을 위가 아니라 아래쪽에 띄웁니다. */
 .d-tip[data-pos="bottom"]::after{bottom:auto;top:calc(100% + 9px);transform:translate(-50%,-4px)}
+/* 아래쪽일 때는 화살표 방향도 반대로(위쪽을 가리킴) 바꿉니다. */
 .d-tip[data-pos="bottom"]::before{bottom:auto;top:calc(100% + 4px);border-top-color:transparent;border-bottom:5px solid var(--ink)}
+/* 아래쪽 말풍선이 나타날 때의 최종 위치. */
 .d-tip[data-pos="bottom"]:is(:hover,:focus-visible)::after{transform:translate(-50%,0)}
 `,
 demo:`<div class="r-tt"><div class="r-tbar" role="toolbar" aria-label="문서 도구"><button class="r-ic d-tip" type="button" data-tip="저장 (Ctrl+S)" aria-label="저장"><svg ${SVG_ATTR}><path d="M5 3h11l3 3v15H5z M8 3v6h8V3 M8 21v-7h8v7"/></svg></button><button class="r-ic d-tip" type="button" data-tip="인쇄" aria-label="인쇄"><svg ${SVG_ATTR}><path d="M7 9V3h10v6 M7 17H4v-7h16v7h-3 M7 14h10v7H7z"/></svg></button><button class="r-ic d-tip" type="button" data-tip="링크로 공유" aria-label="공유"><svg ${SVG_ATTR}><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/></svg></button><button class="r-ic d-tip" type="button" data-tip="삭제 (휴지통으로 이동)" aria-label="삭제"><svg ${SVG_ATTR}><path d="M4 7h16 M9 7V4h6v3 M6 7l1 14h10l1-14 M10 11v6 M14 11v6"/></svg></button></div><div class="r-field"><label for="tt-biz">사업자등록번호</label><span class="r-help d-tip" data-tip="숫자 10자리를 하이픈(-) 없이 입력하세요" data-pos="bottom" tabindex="0" role="img" aria-label="입력 도움말">?</span></div><input id="tt-biz" type="text" inputmode="numeric" placeholder="예: 1234567890"></div>`,
@@ -6951,18 +7001,31 @@ init(r){
 /* ───────── UI 컴포넌트 + 효과 ───────── */
 REAL['tabs']={
 css:`
+/* 탭 버튼 줄입니다. display:flex 로 가로 배치, 아래 구분선, overflow-x:auto 는 탭이 많아 넘치면 가로로 스크롤되게 합니다. */
 .d-tablist{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+/* 탭 버튼 하나입니다. flex:none 은 줄어들지 않게, background:none 과 border:0 은 버튼 기본 모양을 지웁니다. margin-bottom:-1px 은 탭의 아래 선이 구분선 위에 겹치게 합니다. */
 .d-tab{flex:none;background:none;border:0;padding:9px 12px;margin-bottom:-1px;font:600 13px var(--sans);color:var(--ink-2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+/* 마우스를 올리면 글자를 진하게 합니다. */
 .d-tab:hover{color:var(--ink)}
+/* 선택된 탭(aria-selected="true")은 강조색 글자와 강조색 아래 선으로 표시합니다. 화면 낭독기도 같은 속성으로 선택 상태를 읽습니다. */
 .d-tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+/* 탭 옆의 개수 표시: 기울임을 없애고 빨간색으로 보여 줍니다. */
 .d-tab em{font-style:normal;color:var(--rose);margin-left:3px;font-size:12px}
+/* 탭 내용 영역입니다. grid 로 안쪽 요소를 세로로 쌓습니다. */
 .d-tabpanel{padding:12px 4px;font-size:13px;color:var(--ink-2);display:grid;gap:6px}
+/* hidden 속성이 붙은 패널은 보이지 않게(display:none) 합니다. 위의 display:grid 가 hidden 을 덮어쓰지 않게 하려고 따로 적었습니다. */
 .d-tabpanel[hidden]{display:none}
+/* 패널 제목 글자. */
 .d-tabpanel h4{margin:0;color:var(--ink);font:600 14px var(--display)}
+/* 패널 문단: 기본 바깥 여백을 지웁니다. */
 .d-tabpanel p{margin:0}
+/* 상품 요약 카드: 그림과 글자를 가로로 나란히(flex) 놓습니다. */
 .r-prod{display:flex;gap:12px;align-items:center;padding:10px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* 상품 그림 자리: 60px 네모에 이모지를 가운데(place-items:center)에 놓습니다. */
 .r-prod i{font-style:normal;font-size:34px;width:60px;height:60px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft)}
+/* 상품 이름은 한 줄을 차지하게(display:block), 아래 설명은 작고 연한 글자로. */
 .r-prod b{display:block;font-size:14px}.r-prod span{font-size:12.5px;color:var(--ink-2)}
+/* 후기 한 줄: 연한 바탕과 둥근 모서리. */
 .r-rv{padding:8px 10px;border-radius:8px;background:var(--surface-2)}
 `,
 demo:`<div class="r-prod"><i>🥐</i><div><b>버터 크루아상 6개입</b><span>12,000원 · 내일 도착</span></div></div><div class="d-tablist" role="tablist" aria-label="상품 정보 탭"><button class="d-tab" role="tab" type="button" aria-selected="true">상세정보</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">리뷰<em>128</em></button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">문의<em>5</em></button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">배송/교환</button></div><div class="d-tabpanel" role="tabpanel"><h4>상품 상세정보</h4><p>프랑스산 버터를 쓰고 하루 숙성한 반죽을 아침에 굽습니다.</p><p>중량 60g × 6개 · 냉동 보관 시 30일 (예시)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>리뷰 128건 · ★ 4.7</h4><p class="r-rv">“겹이 살아 있고 버터 향이 좋아요.” — 김*연</p><p class="r-rv">“선물용으로 샀는데 포장이 깔끔했어요.” — 이*호 (예시)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>상품 문의 5건</h4><p class="r-rv">Q. 알레르기 성분이 있나요? → 밀, 우유, 계란이 들어 있습니다.</p><p class="r-rv">Q. 당일 배송이 되나요? → 오후 2시 전 주문은 당일 출발합니다. (예시)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>배송 · 교환 안내</h4><p>3만원 이상 무료 배송, 도서산간은 추가 3,000원입니다.</p><p>식품 특성상 단순 변심 교환은 어렵습니다. (예시)</p></div><p class="d-hint">탭을 누르거나, 선택한 뒤 좌우 방향키를 눌러 보세요.</p>`
@@ -6975,19 +7038,33 @@ demo:`<div class="d-ctl"><label for="acc-one"><input id="acc-one" type="checkbox
 REAL['modal-dialog']={
 demo:`<div class="r-resv"><div class="r-resv-i">🍽️</div><div><b>모모식당 · 2명</b><span>10월 31일(토) 오후 7:00 (예시)</span></div><button class="d-btn d-btn-primary" type="button">예약 취소</button></div><span class="d-readout">결과: -</span><p class="d-hint">바깥 어두운 영역을 누르거나 Esc를 눌러도 닫힙니다.</p><dialog class="d-dialog" aria-labelledby="dlg-t"><div class="d-dialog-in"><h3 id="dlg-t">예약을 취소할까요?</h3><p>모모식당 10월 31일(토) 오후 7시 2명 예약이 취소되며 되돌릴 수 없습니다. 수수료는 없습니다. (예시)</p><form method="dialog"><button class="d-btn" value="유지">예약 유지</button><button class="d-btn d-danger" value="취소 완료">예약 취소하기</button></form></div></dialog>`,
 css:`
+/* <dialog> 상자 모양: 테두리, 둥근 모서리, 안쪽 여백 0. width:min(360px, 100vw - 32px)는 360px을 넘지 않고, 화면이 좁으면 좌우 16px씩 남깁니다. */
 .d-dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(360px,calc(100vw - 32px));box-shadow:0 24px 60px -20px rgba(0,0,0,.55)}
+/* ::backdrop 은 대화상자 뒤를 덮는 어두운 막입니다. 브라우저가 showModal() 을 쓰면 자동으로 만들어 줍니다. */
 .d-dialog::backdrop{background:rgba(8,16,24,.55);backdrop-filter:blur(2px)}
+/* 열린 대화상자(open 속성)에는 아래 d-pop 애니메이션을 0.22초 동안 적용합니다. */
 .d-dialog[open]{animation:d-pop .22s ease-out}
+/* d-pop 애니메이션: 투명하고 살짝 아래·작은 상태에서 시작해 제자리로 올라옵니다(from 만 쓰면 끝은 원래 모양). */
 @keyframes d-pop{from{opacity:0;transform:translateY(10px) scale(.97)}}
+/* 대화상자 안쪽 여백. */
 .d-dialog-in{padding:20px}
+/* 대화상자 제목 글자. */
 .d-dialog h3{margin:0 0 6px;font:600 16px var(--display)}
+/* 대화상자 설명 글. */
 .d-dialog p{margin:0 0 16px;font-size:13px;color:var(--ink-2)}
+/* 버튼들을 오른쪽 끝에 모읍니다(justify-content:flex-end). */
 .d-dialog form{display:flex;justify-content:flex-end;gap:8px}
+/* 삭제 같은 위험한 동작 버튼: 빨간 바탕에 흰 글자. */
 .d-danger{background:var(--rose);color:#fff;border-color:transparent}
+/* 마우스를 올리면 살짝 밝아집니다. */
 .d-danger:hover{background:var(--rose);filter:brightness(1.08)}
+/* 예약 카드: 그림, 글자, 버튼을 가로로 나란히 놓습니다. */
 .r-resv{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:8px}
+/* 예약 카드의 이모지 크기. */
 .r-resv-i{font-size:28px}
+/* 예약 이름은 한 줄을 차지하게(display:block), 아래 설명은 작고 연한 글자로. */
 .r-resv b{display:block;font-size:14px}.r-resv span{font-size:12.5px;color:var(--ink-2)}
+/* 버튼은 margin-left:auto 로 오른쪽 끝에 붙이고, flex:none 으로 줄어들지 않게 합니다. */
 .r-resv .d-btn{margin-left:auto;flex:none}
 `
 };
@@ -6995,16 +7072,27 @@ css:`
 REAL['drawer']={
 demo:`<div class="d-dr"><h4>가을 신상 · 128개</h4><p style="margin-bottom:8px">조건을 고르면 목록이 바뀝니다. (예시)</p><button class="d-btn d-open" type="button">필터 (2)</button><div class="r-dr-grid"><span>🧥</span><span>🧣</span><span>👟</span><span>👜</span></div><div class="d-scrim"></div><aside class="d-drawer" aria-label="필터"><h4>필터 <button class="d-btn d-close" type="button" aria-label="닫기">닫기</button></h4><b style="font-size:12px">가격</b><label><input type="radio" name="dr-p" checked> 전체</label><label><input type="radio" name="dr-p"> 3만원 이하</label><label><input type="radio" name="dr-p"> 3~10만원</label><b style="font-size:12px">배송</b><label><input type="checkbox" checked> 무료 배송</label><label><input type="checkbox"> 오늘 출발</label><button class="d-btn d-btn-primary" type="button">결과 128개 보기</button></aside></div>`,
 css:`
+/* 서랍을 담는 화면 상자입니다. position:relative 는 안쪽 서랍과 막이 이 상자를 기준으로 놓이게 하고, overflow:hidden 은 바깥에 숨은 서랍을 가립니다. */
 .d-dr{position:relative;min-height:250px;overflow:hidden;padding:16px}
+/* 본문 제목 글자. */
 .d-dr h4{margin:0 0 6px;font:600 14px var(--display)}
+/* 본문 설명 글. */
 .d-dr p{margin:0 0 12px;font-size:13px;color:var(--ink-2)}
+/* 서랍 뒤를 덮는 어두운 막입니다. inset:0 은 상자 전체를 덮고, 처음에는 투명(opacity:0)하며 pointer-events:none 이라 클릭이 통과합니다. */
 .d-scrim{position:absolute;inset:0;background:rgba(8,16,24,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+/* 서랍이 열리면(open) 막이 보이고 클릭도 받습니다(막을 누르면 닫기). */
 .d-dr.open .d-scrim{opacity:1;pointer-events:auto}
+/* 서랍 본체입니다. 오른쪽에 붙어(top, right, bottom:0) 있고, transform:translateX(100%)로 자기 폭만큼 오른쪽 밖으로 밀어 숨깁니다. cubic-bezier 는 움직임의 가속 곡선, visibility:hidden 은 닫힌 동안 Tab 키가 닿지 않게 합니다. */
 .d-drawer{position:absolute;top:0;right:0;bottom:0;width:min(240px,86%);background:var(--surface);border-left:1px solid var(--line);padding:14px;display:grid;align-content:start;gap:8px;font-size:13px;transform:translateX(100%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s}
+/* 열리면 transform:none 으로 제자리에 오고 visibility:visible 로 보입니다. */
 .d-dr.open .d-drawer{transform:none;visibility:visible;transition-delay:0s}
+/* 서랍 안 체크박스 줄: 상자와 글자를 가로로 나란히. */
 .d-drawer label{display:flex;gap:8px;align-items:center}
+/* 서랍 제목 줄: 제목은 왼쪽, 닫기 버튼은 오른쪽 끝. */
 .d-drawer h4{display:flex;justify-content:space-between;align-items:center;margin:0}
+/* 본문 그림 격자: 같은 폭의 4열. */
 .r-dr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+/* 격자 칸: 이모지를 가운데에 놓은 연한 상자. */
 .r-dr-grid span{display:grid;place-items:center;height:54px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:26px}
 `
 };
@@ -7012,17 +7100,29 @@ css:`
 REAL['dropdown']={
 demo:`<div class="r-dd-bar"><span>상품 128개</span><div class="d-dd"><button class="d-btn d-dd-btn" type="button" aria-haspopup="menu" aria-expanded="false">정렬: 인기순</button><ul class="d-dd-menu" role="menu" hidden><li role="none"><button role="menuitemradio" aria-checked="true">인기순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">최신순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">낮은 가격순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">높은 가격순</button></li><li role="none"><button role="menuitemradio" aria-checked="false">리뷰 많은순</button></li></ul></div></div><div class="r-dd-list"><div>🧥 울 코트 · 89,000원</div><div>🧣 캐시미어 목도리 · 39,000원</div><div>👟 러닝화 · 64,000원</div></div>`,
 css:`
+/* 드롭다운 전체 상자: position:relative 는 메뉴가 이 버튼 기준으로 놓이게 하고, inline-block 은 버튼 크기만큼만 차지하게 합니다. */
 .d-dd{position:relative;display:inline-block}
+/* 버튼 안에서 글자와 화살표를 가로로 나란히(inline-flex) 놓습니다. */
 .d-dd-btn{display:inline-flex;align-items:center;gap:8px}
+/* CSS로 그린 아래쪽 화살표입니다(두 변의 선을 45도 회전). */
 .d-dd-btn::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+/* 메뉴가 열리면(aria-expanded="true") 화살표를 뒤집습니다. */
 .d-dd-btn[aria-expanded="true"]::after{transform:rotate(-135deg)}
+/* 메뉴 목록입니다. position:absolute 와 top:calc(100% + 6px)은 버튼 바로 아래 6px에 겹쳐 띄우고, z-index 로 다른 요소 위에 올립니다. transform-origin 은 애니메이션이 퍼지는 기준점입니다. */
 .d-dd-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:3;min-width:160px;margin:0;padding:6px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 16px 30px -16px rgba(0,0,0,.5);transform-origin:top right;animation:d-menu .15s ease-out}
+/* 메뉴가 나타날 때의 애니메이션: 투명하고 살짝 위·작은 상태에서 제자리로. */
 @keyframes d-menu{from{opacity:0;transform:translateY(-4px) scale(.97)}}
+/* 메뉴 항목 버튼: 한 줄을 통째로(display:block, width:100%) 차지하고 기본 버튼 모양은 지웁니다. */
 .d-dd-menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;font:13px var(--sans);color:var(--ink);cursor:pointer}
+/* 마우스를 올리거나 키보드로 선택하면 연한 강조 배경이 됩니다. */
 .d-dd-menu button:hover,.d-dd-menu button:focus-visible{background:var(--accent-soft)}
+/* 현재 고른 항목(aria-checked="true")은 강조색과 굵은 글씨로 표시합니다. */
 .d-dd-menu button[aria-checked="true"]{color:var(--accent);font-weight:600}
+/* 목록 위 막대: 제목은 왼쪽, 정렬 드롭다운은 오른쪽 끝. */
 .r-dd-bar{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:8px}
+/* 목록: 한 줄씩 쌓고 최소 높이를 주어 메뉴가 열려도 화면이 덜컥 움직이지 않게 합니다. */
 .r-dd-list{display:grid;gap:6px;min-height:150px;align-content:start}
+/* 목록 한 줄의 카드 모양. */
 .r-dd-list div{padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px}
 `
 };

@@ -1420,10 +1420,15 @@ css:`
 `,
 demo:`<div class="d-tablist" role="tablist" aria-label="Example tabs"><button class="d-tab" role="tab" type="button" aria-selected="true">Description</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">Reviews</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">Questions</button></div><div class="d-tabpanel" role="tabpanel"><h4>Product description</h4><p>Baked after a day of aging with domestic wheat and natural sourdough. (example)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>128 reviews</h4><p>Crispy outside and moist inside. (example)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>Ask a question</h4><p>Leave any questions about shipping and packaging. (example)</p></div><p class="d-hint">Press a tab, or select one and press the left and right arrow keys.</p>`,
 init(r){
+  // Find the tab buttons (tabs) and content panels (panels) and make them arrays. [...list] is the syntax that turns the found list into a real array.
   const tabs=[...r.querySelectorAll('.d-tab')],panels=[...r.querySelectorAll('.d-tabpanel')];
+  // pick(index, focus): make only the tab with that index selected. aria-selected announces the selection, tabIndex lets the Tab key reach only the selected tab (0) and skip the rest (-1), and only the selected panel is shown.
   const pick=(i,focus)=>tabs.forEach((t,j)=>{const on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;panels[j].hidden=!on;if(on&&focus)t.focus()});
+  // For each tab, clicking selects it. Pressing keys moves as described below.
   tabs.forEach((t,i)=>{t.addEventListener('click',()=>pick(i));t.addEventListener('keydown',e=>{
+    // Right arrow: go to the next tab. (i+1)%tabs.length wraps from the last tab back to the first.
     if(e.key==='ArrowRight')pick((i+1)%tabs.length,true);
+    // Left arrow: go to the previous tab. From the first tab it wraps to the last.
     if(e.key==='ArrowLeft')pick((i+tabs.length-1)%tabs.length,true)})});
 },
 code:`<div role="tablist" aria-label="Product information">
@@ -1467,21 +1472,34 @@ cheat:[
 terms:[['FAQ','Frequently Asked Questions'],['0fr / 1fr','fr is a unit for a share of the remaining space, and 0fr means zero height'],['aria-expanded','An ARIA attribute that reports whether it is expanded']],
 note:'For simple cases, the built-in HTML tags details and summary are the safest. Build it yourself only when you need a smooth animation.',
 css:`
+/* One accordion item: a border and rounded corners, with overflow:hidden so folded content does not show outside. */
 .d-acc-item{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:8px;overflow:hidden}
+/* The title button: fills the full width (width:100%), with the title on the left and the arrow at the right end (space-between). */
 .d-acc-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;background:none;border:0;padding:12px 14px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+/* The arrow is drawn with CSS. Putting lines on only two sides (border-right, border-bottom) and rotating 45 degrees makes a down arrow. */
 .d-acc-btn::after{content:"";flex:none;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .25s}
+/* When expanded (aria-expanded="true"), the arrow flips. */
 .d-acc-btn[aria-expanded="true"]::after{transform:rotate(-135deg)}
+/* The content area. grid-template-rows:0fr is the folded state with zero height, and transition makes the height change smooth. */
 .d-acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+/* With the open class, it unfolds to 1fr (the height of the content). */
 .d-acc-panel.open{grid-template-rows:1fr}
+/* The inner div uses overflow:hidden to clip the content while it folds. */
 .d-acc-panel>div{overflow:hidden}
+/* The spacing and text style of the content paragraph. */
 .d-acc-panel p{margin:0;padding:0 14px 12px;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="acc-one"><input id="acc-one" type="checkbox" checked> Open only one</label></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="true">How long does shipping take?</button><div class="d-acc-panel open"><div><p>Orders ship within 1–2 weekdays. (example)</p></div></div></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="false">How do I get a refund?</button><div class="d-acc-panel"><div><p>You can apply on My Page within 7 days of receipt. (example)</p></div></div></div><div class="d-acc-item"><button class="d-acc-btn" type="button" aria-expanded="false">Can I place a group order?</button><div class="d-acc-panel"><div><p>For 20 or more, please leave a message on the inquiry board. (example)</p></div></div></div>`,
 init(r){
+  // Find the items and the "open only one" checkbox (one).
   const items=[...r.querySelectorAll('.d-acc-item')],one=r.querySelector('input');
+  // For each item, find its title button (b) and content area (p).
   items.forEach(it=>{const b=it.querySelector('button'),p=it.querySelector('.d-acc-panel');
+    // When the title is pressed: look at whether it is currently expanded and switch to the opposite (open).
     b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')!=='true';
+      // If "open only one" is on, fold every other item first.
       if(open&&one.checked)items.forEach(o=>{o.querySelector('button').setAttribute('aria-expanded','false');o.querySelector('.d-acc-panel').classList.remove('open')});
+      // Apply this item expanded state to both the attribute for screen readers (aria-expanded) and the class for CSS (open).
       b.setAttribute('aria-expanded',open);p.classList.toggle('open',open)})});
 },
 code:`<!-- The easiest way: the built-in HTML tags -->
@@ -1537,9 +1555,13 @@ css:`
 `,
 demo:`<div class="d-row"><button class="d-btn d-btn-primary" type="button">Open delete confirmation</button><span class="d-readout">Result: -</span></div><p class="d-hint">It also closes when you press the dark area outside or press Esc.</p><dialog class="d-dialog" aria-labelledby="dlg-t"><div class="d-dialog-in"><h3 id="dlg-t">Delete this booking?</h3><p>Once deleted, it cannot be undone. (example)</p><form method="dialog"><button class="d-btn" value="cancel">Cancel</button><button class="d-btn d-danger" value="delete">Delete</button></form></div></dialog>`,
 init(r){
+  // Find the <dialog> element (dlg) and the text that shows the result (out).
   const dlg=r.querySelector('dialog'),out=r.querySelector('.d-readout');
+  // Pressing the open button opens it with showModal(). Opened this way, the page behind cannot be clicked, the Esc key closes it, and the focus stays inside the dialog.
   r.querySelector('.d-btn-primary').addEventListener('click',()=>dlg.showModal());
+  // Clicking outside the dialog (the dark layer) closes it. e.target===dlg is true only when the click landed on the dialog itself.
   dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close('backdrop')});
+  // When it closes, show how it was closed (returnValue). If closed with Esc, the value is empty.
   dlg.addEventListener('close',()=>{out.textContent='Result: '+(dlg.returnValue||'esc')});
 },
 code:`<button id="open">Delete</button>
@@ -1593,10 +1615,15 @@ css:`
 demo:`<div class="d-dr"><h4>Product list</h4><p>Open the filter to choose conditions. (example)</p><button class="d-btn d-open" type="button">Open filter</button><div class="d-scrim"></div><aside class="d-drawer" aria-label="Filter"><h4>Filter <button class="d-btn d-close" type="button" aria-label="Close">Close</button></h4><label><input type="checkbox" checked> Same-day shipping</label><label><input type="checkbox"> Free shipping</label><label><input type="checkbox"> On sale</label></aside></div>`,
 flush:true,
 init(r){
+  // Find the screen box (w), the open button (o), and the close button (c).
   const w=r.querySelector('.d-dr'),o=r.querySelector('.d-open'),c=r.querySelector('.d-close');
+  // set(true/false): add or remove the open class to open or close the drawer. Opening moves the focus to the close button, and closing moves it back to the open button, so keyboard users do not get lost.
   const set=v=>{w.classList.toggle('open',v);(v?c:o).focus()};
+  // The open button opens it and the close button closes it.
   o.addEventListener('click',()=>set(true));c.addEventListener('click',()=>set(false));
+  // Clicking the dark scrim also closes it.
   r.querySelector('.d-scrim').addEventListener('click',()=>set(false));
+  // Pressing the Esc key while it is open closes it.
   w.addEventListener('keydown',e=>{if(e.key==='Escape'&&w.classList.contains('open'))set(false)});
 },
 code:`<button id="open">Open filter</button>
@@ -1647,12 +1674,19 @@ css:`
 `,
 demo:`<div class="d-dd"><button class="d-btn d-dd-btn" type="button" aria-haspopup="menu" aria-expanded="false">Sort: Newest</button><ul class="d-dd-menu" role="menu" hidden><li role="none"><button role="menuitemradio" aria-checked="true">Newest</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Most popular</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Price: low to high</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Price: high to low</button></li></ul></div>`,
 init(r){
+  // Find the open button (btn), the menu (menu), and the menu items (items).
   const btn=r.querySelector('.d-dd-btn'),menu=r.querySelector('.d-dd-menu'),items=[...menu.querySelectorAll('button')];
+  // set(true/false): open or close the menu by changing the menu hidden attribute and the button aria-expanded (expanded state) together.
   const set=v=>{menu.hidden=!v;btn.setAttribute('aria-expanded',v)};
+  // Pressing the button opens or closes the menu. stopPropagation keeps this click from spreading to the "outside click" rule below and closing it at once. When opened, the first item gets the focus.
   btn.addEventListener('click',e=>{e.stopPropagation();set(menu.hidden);if(!menu.hidden)items[0].focus()});
+  // For each item, clicking it: marks only that item as chosen (aria-checked), changes the button text, closes the menu, and returns the focus to the button.
   items.forEach((b,i)=>{b.addEventListener('click',()=>{items.forEach(o=>o.setAttribute('aria-checked',o===b));btn.textContent='Sort: '+b.textContent;set(false);btn.focus()});
+    // Keyboard: the down and up arrows move between items. At an end it wraps around to the other end, and preventDefault stops the default page scrolling.
     b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();items[(i+1)%items.length].focus()}if(e.key==='ArrowUp'){e.preventDefault();items[(i+items.length-1)%items.length].focus()}})});
+  // Clicking outside the menu closes it. contains() checks whether the clicked place is inside the menu.
   document.addEventListener('click',e=>{if(!menu.hidden&&!menu.contains(e.target))set(false)});
+  // Pressing the Esc key closes it and returns the focus to the button.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){set(false);btn.focus()}});
 },
 code:`<div class="dd">
@@ -6448,21 +6482,37 @@ demo:`<div class="d-ctl"><label for="rs-range">Screen width <input id="rs-range"
 
 REAL['tooltip']={
 css:`
+/* The outer box of the example: the toolbar and the input stacked vertically (grid), with padding for the tooltip to appear. */
 .r-tt{display:grid;gap:22px;justify-items:start;padding:18px 6px 40px}
+/* The icon toolbar: a rounded box with icon buttons side by side. */
 .r-tbar{display:flex;gap:6px;padding:6px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+/* An icon button: a 38px square with the default button look removed and the icon centered. */
 .r-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:8px;border:0;background:none;color:var(--ink);cursor:pointer}
+/* A light accent background on hover. */
 .r-ic:hover{background:var(--accent-soft)}
+/* The input and the help icon side by side. */
 .r-field{display:flex;align-items:center;gap:8px;font-size:13px}
+/* The help (?) icon: a round 20px badge, and cursor:help shows a question-mark cursor. */
 .r-help{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 12px var(--sans);cursor:help}
+/* The input look: a border, rounded corners, and a width of 180px (max 100%). */
 .r-tt input{font:13px var(--sans);padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:180px;max-width:100%}
+/* The element a tooltip attaches to. position:relative makes the bubble be placed relative to this element. */
 .d-tip{position:relative}
+/* Common settings for the bubble (::after) and the arrow (::before): normally transparent (opacity:0) and not stealing clicks (pointer-events:none). */
 .d-tip::after,.d-tip::before{position:absolute;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s}
+/* The bubble itself. content:attr(data-tip) takes the text of the element data-tip attribute and shows it. It floats above the element (bottom), centered. */
 .d-tip::after{content:attr(data-tip);left:50%;bottom:calc(100% + 9px);transform:translate(-50%,4px);background:var(--ink);color:var(--bg);font:12px/1.35 var(--sans);padding:6px 9px;border-radius:6px;width:max-content;max-width:170px;text-align:center;z-index:2}
+/* The small triangle arrow under the bubble. A border makes the triangle (only one side is colored and the rest are transparent). */
 .d-tip::before{content:"";left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);border-bottom:0}
+/* On hover or keyboard focus, the bubble appears (opacity:1). :is() is a syntax for writing several conditions at once. */
 .d-tip:is(:hover,:focus-visible)::after{opacity:1;transform:translate(-50%,0)}
+/* The arrow appears together. */
 .d-tip:is(:hover,:focus-visible)::before{opacity:1}
+/* With data-pos="bottom", the bubble floats below instead of above. */
 .d-tip[data-pos="bottom"]::after{bottom:auto;top:calc(100% + 9px);transform:translate(-50%,-4px)}
+/* When below, the arrow direction also flips (pointing up). */
 .d-tip[data-pos="bottom"]::before{bottom:auto;top:calc(100% + 4px);border-top-color:transparent;border-bottom:5px solid var(--ink)}
+/* The final position of the bottom bubble when it appears. */
 .d-tip[data-pos="bottom"]:is(:hover,:focus-visible)::after{transform:translate(-50%,0)}
 `,
 demo:`<div class="r-tt"><div class="r-tbar" role="toolbar" aria-label="Document tools"><button class="r-ic d-tip" type="button" data-tip="Save (Ctrl+S)" aria-label="Save"><svg ${SVG_ATTR}><path d="M5 3h11l3 3v15H5z M8 3v6h8V3 M8 21v-7h8v7"/></svg></button><button class="r-ic d-tip" type="button" data-tip="Print" aria-label="Print"><svg ${SVG_ATTR}><path d="M7 9V3h10v6 M7 17H4v-7h16v7h-3 M7 14h10v7H7z"/></svg></button><button class="r-ic d-tip" type="button" data-tip="Share by link" aria-label="Share"><svg ${SVG_ATTR}><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/></svg></button><button class="r-ic d-tip" type="button" data-tip="Delete (move to trash)" aria-label="Delete"><svg ${SVG_ATTR}><path d="M4 7h16 M9 7V4h6v3 M6 7l1 14h10l1-14 M10 11v6 M14 11v6"/></svg></button></div><div class="r-field"><label for="tt-biz">Business registration number</label><span class="r-help d-tip" data-tip="Enter 10 digits without hyphens (-)" data-pos="bottom" tabindex="0" role="img" aria-label="Input help">?</span></div><input id="tt-biz" type="text" inputmode="numeric" placeholder="Example: 1234567890"></div>`,
@@ -6840,18 +6890,31 @@ init(r){
 /* ───────── UI components + effects ───────── */
 REAL['tabs']={
 css:`
+/* The row of tab buttons. display:flex lays them out horizontally, with a bottom divider, and overflow-x:auto scrolls sideways when there are too many tabs. */
 .d-tablist{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+/* One tab button. flex:none keeps it from shrinking, and background:none with border:0 removes the default button look. margin-bottom:-1px lets the tab bottom line overlap the divider. */
 .d-tab{flex:none;background:none;border:0;padding:9px 12px;margin-bottom:-1px;font:600 13px var(--sans);color:var(--ink-2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+/* On hover, the text gets darker. */
 .d-tab:hover{color:var(--ink)}
+/* The selected tab (aria-selected="true") is shown with accent-colored text and an accent bottom line. Screen readers read the same attribute as the selected state. */
 .d-tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+/* The count next to a tab: italics removed and shown in red. */
 .d-tab em{font-style:normal;color:var(--rose);margin-left:3px;font-size:12px}
+/* The tab content area. grid stacks the items inside vertically. */
 .d-tabpanel{padding:12px 4px;font-size:13px;color:var(--ink-2);display:grid;gap:6px}
+/* A panel with the hidden attribute is not shown (display:none). It is written separately so the display:grid above does not override hidden. */
 .d-tabpanel[hidden]{display:none}
+/* The panel heading. */
 .d-tabpanel h4{margin:0;color:var(--ink);font:600 14px var(--display)}
+/* The panel paragraph: the default outer margin is removed. */
 .d-tabpanel p{margin:0}
+/* A product summary card: the picture and text laid out side by side (flex). */
 .r-prod{display:flex;gap:12px;align-items:center;padding:10px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* The product picture spot: a 60px square with the emoji centered (place-items:center). */
 .r-prod i{font-style:normal;font-size:34px;width:60px;height:60px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft)}
+/* The product name takes its own line (display:block), and the description below is small and light. */
 .r-prod b{display:block;font-size:14px}.r-prod span{font-size:12.5px;color:var(--ink-2)}
+/* One review row: a pale background and rounded corners. */
 .r-rv{padding:8px 10px;border-radius:8px;background:var(--surface-2)}
 `,
 demo:`<div class="r-prod"><i>🥐</i><div><b>Butter croissant 6-pack</b><span>KRW 12,000 · Arrives tomorrow</span></div></div><div class="d-tablist" role="tablist" aria-label="Product information tabs"><button class="d-tab" role="tab" type="button" aria-selected="true">Details</button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">Reviews<em>128</em></button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">Questions<em>5</em></button><button class="d-tab" role="tab" type="button" aria-selected="false" tabindex="-1">Shipping/Exchange</button></div><div class="d-tabpanel" role="tabpanel"><h4>Product details</h4><p>Made with French butter, and the dough is aged for a day and baked in the morning.</p><p>Weight 60g × 6 · 30 days if frozen (example)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>128 reviews · ★ 4.7</h4><p class="r-rv">“The layers are distinct and the butter aroma is great.” — K*yeon</p><p class="r-rv">“I bought it as a gift and the packaging was neat.” — L*ho (example)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>5 product questions</h4><p class="r-rv">Q. Does it contain allergens? → It contains wheat, milk, and eggs.</p><p class="r-rv">Q. Is same-day delivery available? → Orders before 2 p.m. ship the same day. (example)</p></div><div class="d-tabpanel" role="tabpanel" hidden><h4>Shipping · Exchange information</h4><p>Free shipping over KRW 30,000; remote islands and mountain areas add KRW 3,000.</p><p>Because of the nature of food, exchanges for a change of mind are not possible. (example)</p></div><p class="d-hint">Press a tab, or select one and press the left and right arrow keys.</p>`
@@ -6864,19 +6927,33 @@ demo:`<div class="d-ctl"><label for="acc-one"><input id="acc-one" type="checkbox
 REAL['modal-dialog']={
 demo:`<div class="r-resv"><div class="r-resv-i">🍽️</div><div><b>Momo Restaurant · 2 people</b><span>Saturday, October 31, 7:00 p.m. (example)</span></div><button class="d-btn d-btn-primary" type="button">Cancel booking</button></div><span class="d-readout">Result: -</span><p class="d-hint">It also closes when you press the dark area outside or press Esc.</p><dialog class="d-dialog" aria-labelledby="dlg-t"><div class="d-dialog-in"><h3 id="dlg-t">Cancel the booking?</h3><p>The Momo Restaurant booking for 2 on Saturday, October 31 at 7 p.m. will be canceled and cannot be undone. There is no fee. (example)</p><form method="dialog"><button class="d-btn" value="Keep">Keep booking</button><button class="d-btn d-danger" value="Canceled">Cancel booking</button></form></div></dialog>`,
 css:`
+/* The look of the <dialog> box: a border, rounded corners, and no padding. width:min(360px, 100vw - 32px) never exceeds 360px, and on a narrow screen leaves 16px on each side. */
 .d-dialog{border:1px solid var(--line);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(360px,calc(100vw - 32px));box-shadow:0 24px 60px -20px rgba(0,0,0,.55)}
+/* ::backdrop is the dark layer behind the dialog. The browser creates it automatically when showModal() is used. */
 .d-dialog::backdrop{background:rgba(8,16,24,.55);backdrop-filter:blur(2px)}
+/* An open dialog (the open attribute) plays the d-pop animation below for 0.22 seconds. */
 .d-dialog[open]{animation:d-pop .22s ease-out}
+/* The d-pop animation: starts transparent, slightly lower and smaller, and rises into place (with only from, the end is the normal look). */
 @keyframes d-pop{from{opacity:0;transform:translateY(10px) scale(.97)}}
+/* The inner padding of the dialog. */
 .d-dialog-in{padding:20px}
+/* The dialog title. */
 .d-dialog h3{margin:0 0 6px;font:600 16px var(--display)}
+/* The dialog description text. */
 .d-dialog p{margin:0 0 16px;font-size:13px;color:var(--ink-2)}
+/* Gathers the buttons at the right end (justify-content:flex-end). */
 .d-dialog form{display:flex;justify-content:flex-end;gap:8px}
+/* A button for a dangerous action such as delete: a red background with white text. */
 .d-danger{background:var(--rose);color:#fff;border-color:transparent}
+/* Slightly brighter on hover. */
 .d-danger:hover{background:var(--rose);filter:brightness(1.08)}
+/* A reservation card: the picture, text, and button side by side. */
 .r-resv{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:8px}
+/* The emoji size in the reservation card. */
 .r-resv-i{font-size:28px}
+/* The reservation name takes its own line (display:block), and the description below is small and light. */
 .r-resv b{display:block;font-size:14px}.r-resv span{font-size:12.5px;color:var(--ink-2)}
+/* The button is pushed to the right end with margin-left:auto, and flex:none keeps it from shrinking. */
 .r-resv .d-btn{margin-left:auto;flex:none}
 `
 };
@@ -6884,16 +6961,27 @@ css:`
 REAL['drawer']={
 demo:`<div class="d-dr"><h4>Autumn new arrivals · 128 items</h4><p style="margin-bottom:8px">The list changes when you choose conditions. (example)</p><button class="d-btn d-open" type="button">Filter (2)</button><div class="r-dr-grid"><span>🧥</span><span>🧣</span><span>👟</span><span>👜</span></div><div class="d-scrim"></div><aside class="d-drawer" aria-label="Filter"><h4>Filter <button class="d-btn d-close" type="button" aria-label="Close">Close</button></h4><b style="font-size:12px">Price</b><label><input type="radio" name="dr-p" checked> All</label><label><input type="radio" name="dr-p"> Under KRW 30,000</label><label><input type="radio" name="dr-p"> KRW 30,000–100,000</label><b style="font-size:12px">Shipping</b><label><input type="checkbox" checked> Free shipping</label><label><input type="checkbox"> Ships today</label><button class="d-btn d-btn-primary" type="button">See 128 results</button></aside></div>`,
 css:`
+/* The screen box that holds the drawer. position:relative makes the drawer and scrim inside be placed relative to this box, and overflow:hidden hides the drawer waiting outside. */
 .d-dr{position:relative;min-height:250px;overflow:hidden;padding:16px}
+/* The body heading. */
 .d-dr h4{margin:0 0 6px;font:600 14px var(--display)}
+/* The body description text. */
 .d-dr p{margin:0 0 12px;font-size:13px;color:var(--ink-2)}
+/* The dark layer behind the drawer. inset:0 covers the whole box, it starts transparent (opacity:0), and pointer-events:none lets clicks pass through. */
 .d-scrim{position:absolute;inset:0;background:rgba(8,16,24,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+/* When the drawer is open, the scrim is visible and receives clicks (clicking it closes the drawer). */
 .d-dr.open .d-scrim{opacity:1;pointer-events:auto}
+/* The drawer itself. It sticks to the right (top, right, bottom:0) and is pushed out to the right by its own width with transform:translateX(100%). cubic-bezier is the acceleration curve of the motion, and visibility:hidden keeps the Tab key from reaching it while closed. */
 .d-drawer{position:absolute;top:0;right:0;bottom:0;width:min(240px,86%);background:var(--surface);border-left:1px solid var(--line);padding:14px;display:grid;align-content:start;gap:8px;font-size:13px;transform:translateX(100%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s}
+/* When open, transform:none brings it into place and visibility:visible shows it. */
 .d-dr.open .d-drawer{transform:none;visibility:visible;transition-delay:0s}
+/* A checkbox row in the drawer: the box and text side by side. */
 .d-drawer label{display:flex;gap:8px;align-items:center}
+/* The drawer title row: the title on the left and the close button at the right end. */
 .d-drawer h4{display:flex;justify-content:space-between;align-items:center;margin:0}
+/* The picture grid in the body: 4 columns of equal width. */
 .r-dr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+/* A grid cell: a pale box with the emoji centered. */
 .r-dr-grid span{display:grid;place-items:center;height:54px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:26px}
 `
 };
@@ -6901,17 +6989,29 @@ css:`
 REAL['dropdown']={
 demo:`<div class="r-dd-bar"><span>128 products</span><div class="d-dd"><button class="d-btn d-dd-btn" type="button" aria-haspopup="menu" aria-expanded="false">Sort: Most popular</button><ul class="d-dd-menu" role="menu" hidden><li role="none"><button role="menuitemradio" aria-checked="true">Most popular</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Newest</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Price: low to high</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Price: high to low</button></li><li role="none"><button role="menuitemradio" aria-checked="false">Most reviews</button></li></ul></div></div><div class="r-dd-list"><div>🧥 Wool coat · KRW 89,000</div><div>🧣 Cashmere scarf · KRW 39,000</div><div>👟 Running shoes · KRW 64,000</div></div>`,
 css:`
+/* The whole dropdown box: position:relative makes the menu be placed relative to this button, and inline-block makes it take only the size of the button. */
 .d-dd{position:relative;display:inline-block}
+/* Place the text and the arrow side by side inside the button (inline-flex). */
 .d-dd-btn{display:inline-flex;align-items:center;gap:8px}
+/* A down arrow drawn with CSS (two lines rotated 45 degrees). */
 .d-dd-btn::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+/* When the menu is open (aria-expanded="true"), the arrow flips. */
 .d-dd-btn[aria-expanded="true"]::after{transform:rotate(-135deg)}
+/* The menu list. position:absolute with top:calc(100% + 6px) floats it 6px below the button, and z-index lifts it above other elements. transform-origin is the point from which the animation spreads. */
 .d-dd-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:3;min-width:160px;margin:0;padding:6px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 16px 30px -16px rgba(0,0,0,.5);transform-origin:top right;animation:d-menu .15s ease-out}
+/* The animation when the menu appears: from transparent, slightly higher, and smaller to its place. */
 @keyframes d-menu{from{opacity:0;transform:translateY(-4px) scale(.97)}}
+/* A menu item button: takes a whole row (display:block, width:100%) with the default button look removed. */
 .d-dd-menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;font:13px var(--sans);color:var(--ink);cursor:pointer}
+/* On hover or keyboard selection, the item gets a light accent background. */
 .d-dd-menu button:hover,.d-dd-menu button:focus-visible{background:var(--accent-soft)}
+/* The currently chosen item (aria-checked="true") is shown in the accent color and bold text. */
 .d-dd-menu button[aria-checked="true"]{color:var(--accent);font-weight:600}
+/* The bar above the list: the title on the left and the sort dropdown at the right end. */
 .r-dd-bar{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:8px}
+/* The list: rows stacked one by one with a minimum height so the screen does not jump when the menu opens. */
 .r-dd-list{display:grid;gap:6px;min-height:150px;align-content:start}
+/* The card look of one list row. */
 .r-dd-list div{padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px}
 `
 };
