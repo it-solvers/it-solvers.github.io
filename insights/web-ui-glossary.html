@@ -3049,19 +3049,29 @@ cheat:[
 terms:[['Intl.NumberFormat','인틀 넘버포맷, 숫자를 나라별 형식으로 보여 주는 브라우저 기능'],['tabular-nums','탭귤러 넘스, 숫자 폭을 똑같이 맞추는 글꼴 설정'],['eased','이즈드, 곡선을 적용한 진행 값']],
 note:'화면에 보이는 숫자는 예시입니다. 실제 수치를 쓸 때는 출처와 기준 시점을 함께 적어야 신뢰를 줍니다. 낭독기를 위해 최종 값을 aria-label로 제공합니다.',
 css:`
+/* 숫자 카드들을 격자로 놓습니다. repeat(auto-fit, minmax(110px,1fr))은 공간에 맞춰 열 수가 바뀝니다. */
 .d-cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+/* 숫자 카드 하나의 모양. */
 .d-cu>div{padding:14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+/* 큰 숫자: clamp 로 상자 너비에 맞춰 크기가 변하고, tabular-nums 는 모든 숫자를 같은 폭으로 만들어 숫자가 올라가는 동안 글자가 흔들리지 않게 합니다. */
 .d-cu b{display:block;font:700 clamp(20px,6cqi,28px) var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
+/* 숫자 아래 이름 글자. */
 .d-cu span{font-size:12px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">다시 세기</button></div><div class="d-cu"><div><b data-to="1284500" aria-label="1,284,500">0</b><span>월 매출 (원, 예시)</span></div><div><b data-to="12480" aria-label="12,480">0</b><span>방문자 (명, 예시)</span></div><div><b data-to="986" data-dec="1" data-suffix="%" aria-label="98.6%">0</b><span>만족도 (예시)</span></div></div>`,
 init(r){
+  // 숫자를 보여 줄 요소들(data-to 속성이 있는 <b>)을 찾고, raf(애니메이션 예약 번호)를 준비합니다. data-to 는 목표 숫자입니다.
   const els=[...r.querySelectorAll('b[data-to]')];let raf=0;
+  // run(): 숫자 올리기를 시작합니다. 이미 도는 것이 있으면 멈추고(cancelAnimationFrame), 시작 시각(t0)과 전체 시간(D=1600ms)을 정합니다.
   const run=()=>{cancelAnimationFrame(raf);const t0=performance.now(),D=1600;
+    // tick(지금 시각): 한 프레임을 그립니다. p 는 진행률(0~1), e 는 "처음엔 빠르고 끝에서 느려지는" 값(1-(1-p)³, ease-out)입니다.
     const tick=now=>{const p=Math.min((now-t0)/D,1),e=1-Math.pow(1-p,3);
+      // 숫자마다 목표(to), 소수 자릿수(dec)를 읽어 현재 값 v = 목표 × e 를 계산합니다. Intl.NumberFormat 은 천 단위 쉼표를 넣어 주고, 끝에 단위(suffix)를 붙입니다.
       els.forEach(el=>{const to=+el.dataset.to,dec=+(el.dataset.dec||0),v=Math.round(to*e)/Math.pow(10,dec);
         el.textContent=new Intl.NumberFormat('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(v)+(el.dataset.suffix||'')});
+      // 아직 끝나지 않았으면(p<1) 다음 프레임에 tick 을 다시 실행합니다.
       if(p<1)raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)};
+  // 다시 실행 버튼을 연결하고, 처음에도 한 번 실행합니다.
   r.querySelector('.d-btn-primary').addEventListener('click',run);run();
 },
 code:`function countUp(el,to,duration=1600){
@@ -3101,16 +3111,27 @@ cheat:[
 terms:[['SVG','Scalable Vector Graphics, 확대해도 깨지지 않는 벡터 그림 형식'],['path','패스, 곡선과 직선을 이어 그린 경로'],['dashoffset','대시오프셋, 점선이 시작되는 위치의 이동량']],
 note:'getTotalLength()로 길이를 구하는 방법도 있지만 pathLength="1"을 쓰면 길이를 몰라도 됩니다. 채움(fill)이 있는 도형은 선이 그려진 뒤에 색을 서서히 채우면 자연스럽습니다.',
 css:`
+/* SVG 그림: 폭 100%(최대 320px), display:block 과 margin:0 auto 로 가운데 놓습니다. */
 .d-ld{width:100%;max-width:320px;display:block;margin:0 auto}
+/* 선으로 그린 도형 공통 모양: fill:none 은 안을 비우고, stroke 는 선 색·굵기·끝 모양입니다. stroke-dasharray:1 은 선을 "길이 1만큼 그리고 길이 1만큼 비우는" 점선으로 만들고, stroke-dashoffset 은 점선의 시작 위치입니다(0이면 완전히 그려진 상태). */
 .d-ld path,.d-ld circle{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+/* 서명 선은 주황색. */
 .d-ld .sig{stroke:var(--warm)}
+/* draw 클래스가 붙으면 선이 그려지는 애니메이션을 재생합니다(1.6초). */
 .d-ld.draw path,.d-ld.draw circle{animation:d-draw 1.6s cubic-bezier(.4,0,.2,1) backwards}
+/* 체크 표시는 0.9초 늦게 시작해 짧게(0.6초) 그립니다. */
 .d-ld.draw .chk{animation-delay:.9s;animation-duration:.6s}
+/* 서명은 0.3초 늦게 시작해 길게(2초) 그립니다. */
 .d-ld.draw .sig{animation-delay:.3s;animation-duration:2s}
+/* 처음에는 선이 1만큼 밀려(dashoffset:1) 안 보이다가 원래 위치(0)로 오면서 그려집니다. */
 @keyframes d-draw{from{stroke-dashoffset:1}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">다시 그리기</button></div><svg class="d-ld draw" viewBox="0 0 320 130" role="img" aria-label="체크 표시와 서명 곡선"><circle cx="46" cy="46" r="30" pathLength="1"/><path class="chk" d="M31 47 L42 58 L62 35" pathLength="1"/><path class="sig" d="M100 96 C120 20 150 20 156 70 S190 120 214 62 S262 30 300 80" pathLength="1"/></svg>`,
-init(r){const s=r.querySelector('.d-ld');r.querySelector('button').addEventListener('click',()=>{s.classList.remove('draw');void s.getBoundingClientRect();s.classList.add('draw')})},
+init(r){
+  // SVG 그림(s)을 찾습니다.
+  const s=r.querySelector('.d-ld');
+  // 버튼을 누르면 draw 클래스를 뗐다가 다시 붙여 그리기를 처음부터 재생합니다. getBoundingClientRect() 는 브라우저가 뗀 상태를 한 번 계산하게 하는 요령입니다.
+  r.querySelector('button').addEventListener('click',()=>{s.classList.remove('draw');void s.getBoundingClientRect();s.classList.add('draw')})},
 code:`<svg viewBox="0 0 320 130">
   <path d="M100 96 C120 20 150 20 156 70 S190 120 214 62 S262 30 300 80"
         pathLength="1"/>
@@ -3209,16 +3230,24 @@ cheat:[
 terms:[['marquee','마키, 글자가 가로로 흘러가는 전광판 형태'],['ticker','티커, 정보가 연속으로 흐르는 띠'],['mask-image','마스크 이미지, 요소의 일부를 가리는 CSS 속성']],
 note:'계속 움직이는 글자는 읽기 어렵고 접근성에 불리합니다. 마우스를 올리면 멈추게 하고, 움직임 줄이기 설정에서는 정지시킵니다. 옛 HTML marquee 태그는 사용하지 않는 것이 좋습니다.',
 css:`
+/* 흐르는 띠의 바깥 상자: overflow:hidden 으로 밖은 가리고, mask-image 의 그라데이션은 양쪽 끝(8%)을 서서히 투명하게 만들어 글자가 부드럽게 나타나고 사라지게 합니다. */
 .d-mq{overflow:hidden;border-radius:10px;border:1px solid var(--line);background:var(--surface);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+/* 글자 띠: width:max-content 는 내용 폭만큼 길게 늘립니다. animation 의 시간(--dur)과 방향(--dir)은 CSS 변수라서 자바스크립트가 바꿉니다. linear 는 일정한 속도, infinite 는 무한 반복입니다. */
 .d-mq-track{display:flex;width:max-content;animation:d-mq var(--dur,16s) linear infinite var(--dir,normal)}
+/* 마우스를 올리면 띠를 멈춰(animation-play-state:paused) 읽을 수 있게 합니다. */
 .d-mq:hover .d-mq-track{animation-play-state:paused}
+/* 글자 조각 하나: 줄어들지 않게(flex:none) 하고 줄바꿈을 막습니다. */
 .d-mq-track span{flex:none;padding:14px 22px;font:600 14px var(--display);white-space:nowrap}
+/* 조각 뒤에 점(•)을 붙여 구분합니다. */
 .d-mq-track span::after{content:"•";margin-left:44px;color:var(--accent)}
+/* 띠를 왼쪽으로 자기 폭의 절반(-50%)만큼 움직입니다. 내용을 두 번 이어 붙여 두었기 때문에 절반 지점이 처음과 똑같아 끊김 없이 반복됩니다. */
 @keyframes d-mq{to{transform:translateX(-50%)}}
 `,
 demo:`<div class="d-ctl"><label for="mq-dur">속도 <input id="mq-dur" type="range" min="6" max="40" value="16"></label><label for="mq-dir"><input id="mq-dir" type="checkbox"> 반대로</label></div><div class="d-mq" aria-label="예시 문구"><div class="d-mq-track"><span>예약</span><span>결제</span><span>알림</span><span>통계</span><span>고객 관리</span><span>매출 정리</span><span>예약</span><span>결제</span><span>알림</span><span>통계</span><span>고객 관리</span><span>매출 정리</span></div></div><p class="d-hint">마우스를 올리면 멈춥니다. 막대는 시간(초)이라 오른쪽일수록 느립니다.</p>`,
 init(r){
+  // 띠 상자(m), 속도 슬라이더(du), 방향 체크박스(di)를 찾습니다.
   const m=r.querySelector('.d-mq'),du=r.querySelector('#mq-dur'),di=r.querySelector('#mq-dir');
+  // 슬라이더를 움직이면 --dur 변수(애니메이션 한 바퀴 시간)를, 체크박스를 바꾸면 --dir 변수(방향)를 바꿉니다.
   du.addEventListener('input',()=>m.style.setProperty('--dur',du.value+'s'));di.addEventListener('change',()=>m.style.setProperty('--dir',di.checked?'reverse':'normal'));
 },
 code:`<div class="marquee">
@@ -3261,7 +3290,11 @@ css:`
 @keyframes d-mp{from{offset-distance:0%}to{offset-distance:100%}}
 `,
 demo:`<div class="d-ctl"><label for="mp-rot">회전 <select id="mp-rot"><option value="auto">auto (방향 따라 회전)</option><option value="0deg">0deg (고정)</option></select></label></div><div class="d-mp"><svg viewBox="0 0 260 150" aria-hidden="true"><path d="M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36"/></svg><div class="d-mp-dot" role="img" aria-label="경로를 따라 움직이는 화살표"></div></div>`,
-init(r){const d=r.querySelector('.d-mp-dot');r.querySelector('select').addEventListener('change',e=>d.style.setProperty('--rot',e.target.value))},
+init(r){
+  // 움직이는 화살표(d)를 찾습니다.
+  const d=r.querySelector('.d-mp-dot');
+  // 선택 칸의 값(auto, 고정 등)을 --rot 변수에 넣어 화살표가 진행 방향으로 돌지 여부를 바꿉니다.
+  r.querySelector('select').addEventListener('change',e=>d.style.setProperty('--rot',e.target.value))},
 code:`.dot{
   position:absolute;left:0;top:0;
   width:22px;height:16px;background:#d9602a;
@@ -3296,23 +3329,35 @@ cheat:[
 terms:[['View Transitions API','뷰 트랜지션 API, 화면 변경 전후를 이어 주는 브라우저 기능'],['SPA','Single Page Application, 한 페이지 안에서 화면을 바꿔 보여 주는 방식'],['router','라우터, 주소에 따라 보여 줄 화면을 정하는 장치']],
 note:'전환이 길면 사용자가 기다리게 됩니다. 나가는 효과는 짧게, 들어오는 효과는 조금 더 길게 둡니다(Material Design 1은 나가는 요소 195ms, 들어오는 요소 225ms로 안내). 지원하지 않는 브라우저에서는 효과 없이 즉시 바뀌도록 대비합니다.',
 css:`
+/* 페이지 이동 버튼 줄. */
 .d-pt-nav{display:flex;gap:6px;margin-bottom:10px}
+/* 이동 버튼 모양: 알약 모양 테두리 버튼. */
 .d-pt-nav button{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:7px 14px;border-radius:999px;font:600 12.5px var(--sans);cursor:pointer}
+/* 지금 보고 있는 페이지의 버튼(aria-current="page")은 진한 바탕으로 표시합니다. */
 .d-pt-nav button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* 페이지 내용 상자 모양. */
 .d-pt-pg{padding:18px;border-radius:12px;background:var(--surface);border:1px solid var(--line);min-height:130px}
+/* 페이지 제목 글자. */
 .d-pt-pg h4{margin:0 0 6px;font:700 17px var(--display)}
+/* 페이지 설명 글. */
 .d-pt-pg p{margin:0;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="pt-kind">효과 <select id="pt-kind"><option value="fade">페이드</option><option value="slide">슬라이드</option><option value="scale">스케일</option></select></label></div><nav class="d-pt-nav" aria-label="예시 화면 이동"><button type="button" aria-current="page">홈</button><button type="button">소개</button><button type="button">문의</button></nav><div class="d-pt-view"><section class="d-pt-pg"><h4>홈</h4><p>가장 먼저 보이는 화면입니다.</p></section><section class="d-pt-pg" hidden><h4>소개</h4><p>가게와 서비스를 소개하는 화면입니다.</p></section><section class="d-pt-pg" hidden><h4>문의</h4><p>궁금한 점을 남기는 화면입니다.</p></section></div>`,
 init(r){
+  // 이동 버튼들(btns), 페이지들(pages), 효과 선택 칸(kind)을 찾고, cur(지금 페이지 번호)와 busy(전환 중인지)를 준비합니다.
   const btns=[...r.querySelectorAll('.d-pt-nav button')],pages=[...r.querySelectorAll('.d-pt-pg')],kind=r.querySelector('select');let cur=0,busy=false;
+  // FX(효과, 방향): 효과별 [나가는 모양 키프레임, 들어오는 모양 키프레임] 모음입니다. fade 는 투명도, slide 는 좌우 이동(d 가 방향), scale 은 크기 변화를 씁니다.
   const FX=(k,d)=>({fade:[[{opacity:1},{opacity:0}],[{opacity:0},{opacity:1}]],
     slide:[[{transform:'none',opacity:1},{transform:'translateX('+(-36*d)+'px)',opacity:0}],[{transform:'translateX('+(36*d)+'px)',opacity:0},{transform:'none',opacity:1}]],
     scale:[[{transform:'none',opacity:1},{transform:'scale(.94)',opacity:0}],[{transform:'scale(1.04)',opacity:0},{transform:'none',opacity:1}]]}[k]);
+  // 버튼을 누르면: 같은 페이지이거나 전환 중이면 무시하고, 아니면 busy 로 표시한 뒤 나가는 페이지(old), 들어올 페이지(nw), 효과(fx)를 정합니다. 번호가 커지는 쪽이면 방향을 +1, 아니면 -1 로 줍니다.
   btns.forEach((b,i)=>b.addEventListener('click',()=>{
     if(i===cur||busy)return;busy=true;const old=pages[cur],nw=pages[i],fx=FX(kind.value,i>cur?1:-1);
+    // 눌린 버튼에만 aria-current="page" 를 붙이고 나머지는 뗍니다.
     btns.forEach((x,j)=>j===i?x.setAttribute('aria-current','page'):x.removeAttribute('aria-current'));cur=i;
+    // 먼저 나가는 페이지를 0.18초 동안 사라지게 합니다. .finished 는 애니메이션이 끝나면 실행되는 약속(Promise)입니다.
     old.animate(fx[0],{duration:180,easing:'ease-in',fill:'forwards'}).finished.then(()=>{old.getAnimations().forEach(a=>a.cancel());old.hidden=true;nw.hidden=false;
+      // 이어서 들어오는 페이지를 0.3초 동안 나타나게 하고, 끝나면 busy 를 풀어 다시 누를 수 있게 합니다.
       nw.animate(fx[1],{duration:300,easing:'cubic-bezier(.2,.8,.2,1)'}).finished.then(()=>{busy=false},()=>{busy=false})},()=>{busy=false});
   }));
 },
@@ -7670,24 +7715,38 @@ demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">다�
 
 REAL['morphing']={
 css:`
+/* 예시 바깥 상자: 막대와 안내 글을 세로로 쌓습니다. */
 .r-mo{display:grid;gap:12px}
+/* 앱 상단 막대 모양: 아이콘과 제목을 가로로 나란히. */
 .r-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+/* 막대 제목 글자. */
 .r-bar b{font:700 15px var(--display)}
+/* 아이콘 버튼: 42px 네모에 기본 버튼 모양을 지우고 아이콘을 가운데에 놓습니다. */
 .r-bar .d-ic{width:42px;height:42px;border:0;border-radius:10px;background:var(--accent-soft);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+/* 아이콘(SVG) 선 모양: stroke:currentColor 는 선을 글자색으로 칠하고, stroke-linecap:round 는 선 끝을 둥글게 합니다. */
 .r-bar svg{width:26px;height:26px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;fill:none}
+/* 현재 모양 이름을 보여 주는 안내 상자. */
 .r-sheet{padding:10px 12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--ink-2);min-height:44px}
 `,
 demo:`<div class="r-mo"><div class="r-bar"><button class="d-ic" type="button" aria-label="메뉴 열기"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button><b>예시마켓</b></div><div class="r-sheet" aria-live="polite">상태: 메뉴 모양 (눌러서 변환)</div><div class="d-row"><button class="d-btn" type="button" data-s="menu">☰ 메뉴</button><button class="d-btn" type="button" data-s="close">✕ 닫기</button><button class="d-btn" type="button" data-s="back">← 뒤로</button></div></div><p class="d-hint">세 줄이 ✕나 ← 로 부드럽게 바뀌는 앱 상단바 아이콘입니다.</p>`,
 init(r){
+  // 아이콘 속 선 세 개(L), 아이콘 버튼(btn), 안내 상자(sheet)를 찾습니다.
   const L=[...r.querySelectorAll('line')],btn=r.querySelector('.d-ic'),sheet=r.querySelector('.r-sheet');
+  // S: 모양별 선 세 개의 좌표 모음입니다. 선 하나는 [x1, y1, x2, y2, 투명도]입니다. 같은 개수의 선이라서 한 모양에서 다른 모양으로 숫자만 조금씩 바꾸면 자연스럽게 변신합니다.
   const S={menu:[[4,7,20,7,1],[4,12,20,12,1],[4,17,20,17,1]],close:[[5,5,19,19,1],[12,12,12,12,0],[5,19,19,5,1]],back:[[4,12,11,5,1],[4,12,20,12,1],[4,12,11,19,1]]};
+  // 모양 이름(안내 글에 쓸 글자) 모음.
   const NAME={menu:'메뉴 모양',close:'닫기 모양',back:'뒤로 가기 모양'};
+  // cur: 지금 그려진 좌표(복사본), raf: 애니메이션 예약 번호, key: 지금 모양 이름.
   let cur=S.menu.map(a=>a.slice()),raf=0,key='menu';
+  // draw(): cur 의 좌표를 선 요소의 속성(x1, y1, x2, y2)과 투명도에 적용해 화면에 그립니다.
   const draw=()=>L.forEach((l,i)=>{const a=cur[i];l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',a[2]);l.setAttribute('y2',a[3]);l.style.opacity=a[4]});
+  // to(모양): 지금 모양에서 목표 모양까지 380ms 동안 좌표를 조금씩 바꿉니다. 진행률 p 를 ease-in-out 곡선(e)으로 바꿔 부드럽게 하고, 좌표마다 "시작 + (목표 - 시작) × e"를 계산해 draw() 합니다. 안내 글과 버튼의 aria-label 도 바꿉니다.
   const to=k=>{key=k;cancelAnimationFrame(raf);const from=cur.map(a=>a.slice()),dest=S[k],t0=performance.now(),D=380;
     const tick=now=>{const p=Math.min((now-t0)/D,1),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;cur=from.map((a,i)=>a.map((v,j)=>v+(dest[i][j]-v)*e));draw();if(p<1)raf=requestAnimationFrame(tick)};
     raf=requestAnimationFrame(tick);sheet.textContent='상태: '+NAME[k];btn.setAttribute('aria-label',k==='menu'?'메뉴 열기':k==='close'?'닫기':'뒤로 가기')};
+  // 모양 버튼을 누르면 그 모양으로 변신합니다.
   r.querySelectorAll('button[data-s]').forEach(b=>b.addEventListener('click',()=>to(b.dataset.s)));
+  // 아이콘 버튼을 누르면 메뉴 ↔ 닫기를 번갈아 바꿉니다.
   btn.addEventListener('click',()=>to(key==='menu'?'close':'menu'));
   draw();
 }
@@ -7695,13 +7754,21 @@ init(r){
 
 REAL['motion-path']={
 css:`
+/* 경로 위를 움직이는 예시 상자: position:relative 로 안쪽 요소의 기준점을 만듭니다. */
 .d-mp{position:relative;width:260px;height:150px;max-width:100%;margin:6px auto 8px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+/* 경로를 그리는 SVG가 상자를 가득 채웁니다. overflow:visible 은 선이 상자 밖으로 나가도 보이게 합니다. */
 .d-mp svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* 경로 선: stroke-dasharray:1 7 은 짧은 점과 긴 빈칸이 반복되는 점선입니다. */
 .d-mp path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;opacity:.7}
+/* 경로를 따라 움직일 화살표입니다. clip-path:polygon 으로 화살표 모양을 만들고, offset-path:path("...")는 움직일 길(SVG 경로 값)을 정하며, offset-rotate 는 진행 방향으로 돌릴지(--rot) 정합니다. animation 으로 5초 동안 무한 반복합니다. */
 .d-mp-dot{position:absolute;left:0;top:0;width:22px;height:22px;background:var(--rose);clip-path:polygon(50% 0,100% 100%,50% 78%,0 100%);transform-origin:center;offset-path:path("M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36");offset-rotate:calc(var(--rot,auto) + 90deg);animation:d-mp 5s linear infinite}
+/* offset-distance 를 0%(경로의 시작)에서 100%(경로의 끝)까지 바꿔 화살표가 경로를 따라 가게 합니다. */
 @keyframes d-mp{from{offset-distance:0%}to{offset-distance:100%}}
+/* 출발지(a)와 도착지(b) 아이콘을 position:absolute 로 자유롭게 놓습니다. */
 .r-mp-a,.r-mp-b{position:absolute;font-size:20px;line-height:1}
+/* 출발지와 도착지의 위치. */
 .r-mp-a{left:4px;bottom:20px}.r-mp-b{right:0;top:12px}
+/* 상자 안 왼쪽 위의 작은 이름표. */
 .r-mp-lbl{position:absolute;left:8px;top:8px;font-size:11.5px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="mp-rot"><span>방향 </span><select id="mp-rot"><option value="auto">auto (경로 방향으로 회전)</option><option value="0deg">0deg (고정)</option></select></label></div><div class="d-mp"><span class="r-mp-lbl">배달 기사 위치 (예시)</span><svg viewBox="0 0 260 150" aria-hidden="true"><path d="M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36" pathLength="1"/></svg><span class="r-mp-a" aria-hidden="true">🏪</span><span class="r-mp-b" aria-hidden="true">🏠</span><div class="d-mp-dot" role="img" aria-label="경로를 따라 이동하는 배달 위치"></div></div>`
@@ -7714,33 +7781,53 @@ demo:`<div class="d-ctl"><label for="pt-kind">효과 <select id="pt-kind"><optio
 
 REAL['shared-element']={
 css:`
+/* 예시 바깥 상자: position:relative 로 상세 화면이 이 상자를 기준으로 겹쳐 놓이게 합니다. */
 .d-se{position:relative;min-height:240px;padding:14px}
+/* 썸네일을 3열 격자로 놓습니다. */
 .d-se-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+/* 썸네일 하나: 눌러 볼 수 있는 큰 버튼 모양이고, 색은 변수 --c 를 섞어 만듭니다. */
 .d-se-th{height:104px;border:0;border-radius:10px;cursor:pointer;color:var(--ink);font:600 12.5px var(--sans);background:color-mix(in srgb,var(--c) 40%,var(--surface));display:grid;align-content:space-between;justify-items:start;padding:10px;text-align:left}
+/* 마우스를 올리면 살짝 밝아집니다. */
 .d-se-th:hover{filter:brightness(1.05)}
+/* 썸네일 속 큰 이모지. */
 .d-se-th em{font-style:normal;font-size:32px;line-height:1}
+/* 썸네일 속 작은 설명 글. */
 .d-se-th small{display:block;font:400 11.5px var(--sans);color:var(--ink-2)}
+/* hidden 속성이 붙은 상세 화면은 숨깁니다(아래 display 설정이 hidden 을 덮어쓰지 않게). */
 .d-se-detail[hidden]{display:none}
+/* 상세 화면: position:absolute 와 inset:10px 로 상자 위에 겹쳐 덮습니다. transform-origin:top left 는 크기 변화의 기준점을 왼쪽 위로 합니다. */
 .d-se-detail{position:absolute;inset:10px;z-index:2;border-radius:14px;padding:16px;background:color-mix(in srgb,var(--c) 40%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 60%,transparent);display:grid;align-content:start;gap:6px;transform-origin:top left}
+/* 상세 화면의 큰 이모지. */
 .d-se-detail .em{font-size:44px;line-height:1}
+/* 상세 화면 제목 글자. */
 .d-se-detail h4{margin:0;font:700 18px var(--display)}
+/* 상세 화면 설명 글. */
 .d-se-detail p{margin:0;font-size:13px;color:var(--ink)}
+/* 상세 화면의 버튼 줄에 위 여백. */
 .d-se-detail .d-row{margin-top:6px}
 `,
 demo:`<div class="d-se"><div class="d-se-grid"><button class="d-se-th" type="button" style="--c:var(--warm)" data-t="크루아상 6개입" data-e="🥐" data-p="12,000원"><em>🥐</em><span>크루아상<small>12,000원</small></span></button><button class="d-se-th" type="button" style="--c:var(--rose)" data-t="딸기 타르트" data-e="🍓" data-p="5,850원"><em>🍓</em><span>딸기 타르트<small>5,850원</small></span></button><button class="d-se-th" type="button" style="--c:var(--leaf)" data-t="말차 쿠키 10개입" data-e="🍵" data-p="9,800원"><em>🍵</em><span>말차 쿠키<small>9,800원</small></span></button></div><div class="d-se-detail" hidden><div class="d-se-body"><div class="em"></div><h4></h4><p class="pr"></p><p>썸네일이 그대로 커지며 상세 화면이 됩니다. (예시)</p><div class="d-row"><button class="d-btn d-btn-primary" type="button">장바구니 담기</button><button class="d-btn d-se-close" type="button">닫기</button></div></div></div></div>`,
 init(r){
+  // 상세 화면(det), 내용 부분(body), 제목(h)을 찾고, from(눌린 썸네일)을 준비합니다.
   const det=r.querySelector('.d-se-detail'),body=r.querySelector('.d-se-body'),h=det.querySelector('h4');let from=null;
+  // inv(a, b): 상자 b 를 상자 a 의 위치와 크기로 보이게 하는 transform 값(translate + scale)을 만듭니다. "처음 모양"을 계산하는 FLIP 기법의 핵심입니다.
   const inv=(a,b)=>'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale('+(a.width/b.width)+','+(a.height/b.height)+')';
+  // 썸네일을 누르면: 상세 화면에 눌린 항목의 제목·이모지·값을 채우고 보이게(hidden 해제) 합니다.
   r.querySelectorAll('.d-se-th').forEach(th=>th.addEventListener('click',()=>{
     from=th;h.textContent=th.dataset.t;det.querySelector('.em').textContent=th.dataset.e;det.querySelector('.pr').textContent=th.dataset.p;det.style.setProperty('--c',th.style.getPropertyValue('--c'));det.hidden=false;
+    // f(썸네일 위치·크기)와 l(상세 화면 위치·크기)을 읽습니다. getBoundingClientRect() 는 화면에서 요소의 위치와 크기를 알려 줍니다.
     const f=th.getBoundingClientRect(),l=det.getBoundingClientRect();
+    // 상세 화면을 썸네일 위치·크기에서 시작(inv)해 제 위치(none)로 커지게 합니다. 썸네일이 그대로 펼쳐지는 것처럼 보입니다.
     det.animate([{transform:inv(f,l),borderRadius:'10px'},{transform:'none',borderRadius:'14px'}],{duration:440,easing:'cubic-bezier(.2,.8,.2,1)'});
+    // 내용은 0.24초 뒤에 서서히 나타납니다(delay). fill:backwards 는 시작 전에도 처음 모양(투명)을 유지합니다. 열리면 닫기 버튼으로 포커스를 옮깁니다.
     body.animate([{opacity:0},{opacity:1}],{duration:200,delay:240,fill:'backwards'});r.querySelector('.d-se-close').focus();
   }));
+  // 닫기 버튼을 누르면: 내용을 먼저 흐리게 하고, 상세 화면을 눌렀던 썸네일 위치·크기로 줄여 돌려보냅니다.
   r.querySelector('.d-se-close').addEventListener('click',()=>{
     const f=from.getBoundingClientRect(),l=det.getBoundingClientRect();
     body.animate([{opacity:1},{opacity:0}],{duration:120,fill:'forwards'});
     const a=det.animate([{transform:'none'},{transform:inv(f,l)}],{duration:340,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    // 줄어드는 애니메이션이 끝나면 상세 화면을 숨기고, 남은 애니메이션을 취소하고, 눌렀던 썸네일로 포커스를 돌려줍니다(키보드 사용자를 위해).
     a.finished.then(()=>{det.hidden=true;a.cancel();body.getAnimations().forEach(x=>x.cancel());from.focus()});
   });
 }

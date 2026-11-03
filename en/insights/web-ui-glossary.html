@@ -2938,19 +2938,29 @@ cheat:[
 terms:[['Intl.NumberFormat','Intl.NumberFormat, a browser feature that shows numbers in country-specific formats'],['tabular-nums','Tabular nums, a font setting that makes digit widths identical'],['eased','Eased, a progress value with the curve applied']],
 note:'The numbers shown on screen are examples. When using real figures, state the source and reference date to build trust. The final value is provided as an aria-label for screen readers.',
 css:`
+/* Lays the number cards in a grid. repeat(auto-fit, minmax(110px,1fr)) changes the number of columns to fit the space. */
 .d-cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+/* The look of one number card. */
 .d-cu>div{padding:14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+/* The big number: clamp makes the size follow the box width, and tabular-nums gives all digits the same width so the text does not wobble while the number climbs. */
 .d-cu b{display:block;font:700 clamp(20px,6cqi,28px) var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
+/* The label text under the number. */
 .d-cu span{font-size:12px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">Count again</button></div><div class="d-cu"><div><b data-to="1284500" aria-label="1,284,500">0</b><span>Monthly sales (KRW, example)</span></div><div><b data-to="12480" aria-label="12,480">0</b><span>Visitors (people, example)</span></div><div><b data-to="986" data-dec="1" data-suffix="%" aria-label="98.6%">0</b><span>Satisfaction (example)</span></div></div>`,
 init(r){
+  // Find the elements that show numbers (the <b> tags with a data-to attribute) and prepare raf (the animation frame id). data-to is the target number.
   const els=[...r.querySelectorAll('b[data-to]')];let raf=0;
+  // run(): start counting up. If one is already running, stop it (cancelAnimationFrame), and set the start time (t0) and the total time (D=1600ms).
   const run=()=>{cancelAnimationFrame(raf);const t0=performance.now(),D=1600;
+    // tick(now): draw one frame. p is the progress (0 to 1), and e is a value that is "fast at first and slow at the end" (1-(1-p)³, ease-out).
     const tick=now=>{const p=Math.min((now-t0)/D,1),e=1-Math.pow(1-p,3);
+      // For each number, read the target (to) and decimal places (dec) and calculate the current value v = target × e. Intl.NumberFormat adds thousands separators, and the unit (suffix) is added at the end.
       els.forEach(el=>{const to=+el.dataset.to,dec=+(el.dataset.dec||0),v=Math.round(to*e)/Math.pow(10,dec);
         el.textContent=new Intl.NumberFormat('ko-KR',{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(v)+(el.dataset.suffix||'')});
+      // If it is not finished yet (p<1), run tick again on the next frame.
       if(p<1)raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)};
+  // Connect the replay button and run once at the start.
   r.querySelector('.d-btn-primary').addEventListener('click',run);run();
 },
 code:`function countUp(el,to,duration=1600){
@@ -2990,16 +3000,27 @@ cheat:[
 terms:[['SVG','Scalable Vector Graphics, a vector image format that stays sharp when enlarged'],['path','Path, a route drawn by joining curves and straight lines'],['dashoffset','Dash offset, the amount the dash start position is shifted']],
 note:'You can also get the length with getTotalLength(), but with pathLength="1"you do not need to know the length. For shapes with a fill, it looks natural to fade in the color after the line is drawn.',
 css:`
+/* The SVG picture: 100% wide (max 320px), centered with display:block and margin:0 auto. */
 .d-ld{width:100%;max-width:320px;display:block;margin:0 auto}
+/* The common look of line-drawn shapes: fill:none leaves the inside empty, and stroke sets the line color, width, and end shape. stroke-dasharray:1 makes the line dashed as "draw length 1, then skip length 1", and stroke-dashoffset is where the dashes start (0 means fully drawn). */
 .d-ld path,.d-ld circle{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+/* The signature line is orange. */
 .d-ld .sig{stroke:var(--warm)}
+/* With the draw class, the line-drawing animation plays (1.6 seconds). */
 .d-ld.draw path,.d-ld.draw circle{animation:d-draw 1.6s cubic-bezier(.4,0,.2,1) backwards}
+/* The check mark starts 0.9 seconds later and draws briefly (0.6 seconds). */
 .d-ld.draw .chk{animation-delay:.9s;animation-duration:.6s}
+/* The signature starts 0.3 seconds later and draws for longer (2 seconds). */
 .d-ld.draw .sig{animation-delay:.3s;animation-duration:2s}
+/* At first the line is pushed by 1 (dashoffset:1) and hidden, then it is drawn as it returns to the original position (0). */
 @keyframes d-draw{from{stroke-dashoffset:1}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">Draw again</button></div><svg class="d-ld draw" viewBox="0 0 320 130" role="img" aria-label="A checkmark and a signature curve"><circle cx="46" cy="46" r="30" pathLength="1"/><path class="chk" d="M31 47 L42 58 L62 35" pathLength="1"/><path class="sig" d="M100 96 C120 20 150 20 156 70 S190 120 214 62 S262 30 300 80" pathLength="1"/></svg>`,
-init(r){const s=r.querySelector('.d-ld');r.querySelector('button').addEventListener('click',()=>{s.classList.remove('draw');void s.getBoundingClientRect();s.classList.add('draw')})},
+init(r){
+  // Find the SVG picture (s).
+  const s=r.querySelector('.d-ld');
+  // Pressing the button removes the draw class and adds it again to replay the drawing from the start. getBoundingClientRect() is a trick that makes the browser calculate the removed state once.
+  r.querySelector('button').addEventListener('click',()=>{s.classList.remove('draw');void s.getBoundingClientRect();s.classList.add('draw')})},
 code:`<svg viewBox="0 0 320 130">
   <path d="M100 96 C120 20 150 20 156 70 S190 120 214 62 S262 30 300 80"
         pathLength="1"/>
@@ -3098,16 +3119,24 @@ cheat:[
 terms:[['marquee','Marquee, a ticker-board style where text flows horizontally'],['ticker','Ticker, a strip where information flows continuously'],['mask-image','Mask image, a CSS property that hides part of an element']],
 note:'Constantly moving text is hard to read and bad for accessibility. Pause it on hover and stop it with the reduced motion setting. Avoid the old HTML marquee tag.',
 css:`
+/* The outer box of the scrolling strip: overflow:hidden hides what is outside, and the gradient in mask-image makes both ends (8%) fade out gradually so text appears and disappears softly. */
 .d-mq{overflow:hidden;border-radius:10px;border:1px solid var(--line);background:var(--surface);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+/* The text strip: width:max-content stretches it as long as its content. The animation time (--dur) and direction (--dir) are CSS variables, so JavaScript changes them. linear is a constant speed and infinite repeats forever. */
 .d-mq-track{display:flex;width:max-content;animation:d-mq var(--dur,16s) linear infinite var(--dir,normal)}
+/* On hover, the strip pauses (animation-play-state:paused) so it can be read. */
 .d-mq:hover .d-mq-track{animation-play-state:paused}
+/* One text piece: kept from shrinking (flex:none) and from wrapping. */
 .d-mq-track span{flex:none;padding:14px 22px;font:600 14px var(--display);white-space:nowrap}
+/* Adds a dot (•) after each piece to separate them. */
 .d-mq-track span::after{content:"•";margin-left:44px;color:var(--accent)}
+/* Moves the strip left by half of its width (-50%). Because the content is repeated twice, the halfway point looks exactly like the start, so it loops seamlessly. */
 @keyframes d-mq{to{transform:translateX(-50%)}}
 `,
 demo:`<div class="d-ctl"><label for="mq-dur">Speed <input id="mq-dur" type="range" min="6" max="40" value="16"></label><label for="mq-dir"><input id="mq-dir" type="checkbox"> Reverse</label></div><div class="d-mq" aria-label="Sample text"><div class="d-mq-track"><span>Bookings</span><span>Payments</span><span>Notifications</span><span>Statistics</span><span>Customer management</span><span>Sales summary</span><span>Bookings</span><span>Payments</span><span>Notifications</span><span>Statistics</span><span>Customer management</span><span>Sales summary</span></div></div><p class="d-hint">It pauses on hover. The bar is time in seconds, so further right is slower.</p>`,
 init(r){
+  // Find the strip box (m), the speed slider (du), and the direction checkbox (di).
   const m=r.querySelector('.d-mq'),du=r.querySelector('#mq-dur'),di=r.querySelector('#mq-dir');
+  // Moving the slider changes the --dur variable (the time of one loop), and changing the checkbox changes the --dir variable (the direction).
   du.addEventListener('input',()=>m.style.setProperty('--dur',du.value+'s'));di.addEventListener('change',()=>m.style.setProperty('--dir',di.checked?'reverse':'normal'));
 },
 code:`<div class="marquee">
@@ -3150,7 +3179,11 @@ css:`
 @keyframes d-mp{from{offset-distance:0%}to{offset-distance:100%}}
 `,
 demo:`<div class="d-ctl"><label for="mp-rot">Rotation <select id="mp-rot"><option value="auto">auto (rotate with direction)</option><option value="0deg">0deg (fixed)</option></select></label></div><div class="d-mp"><svg viewBox="0 0 260 150" aria-hidden="true"><path d="M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36"/></svg><div class="d-mp-dot" role="img" aria-label="An arrow moving along the path"></div></div>`,
-init(r){const d=r.querySelector('.d-mp-dot');r.querySelector('select').addEventListener('change',e=>d.style.setProperty('--rot',e.target.value))},
+init(r){
+  // Find the moving arrow (d).
+  const d=r.querySelector('.d-mp-dot');
+  // Put the selector value (auto, fixed, and so on) into the --rot variable to change whether the arrow turns toward its direction of travel.
+  r.querySelector('select').addEventListener('change',e=>d.style.setProperty('--rot',e.target.value))},
 code:`.dot{
   position:absolute;left:0;top:0;
   width:22px;height:16px;background:#d9602a;
@@ -3185,23 +3218,35 @@ cheat:[
 terms:[['View Transitions API','View Transitions API, a browser feature that connects the before and after of a screen change'],['SPA','Single Page Application, a way of changing screens within one page'],['router','Router, a mechanism that decides which screen to show based on the address']],
 note:'Long transitions make users wait. Keep the exit effect short and the entrance a bit longer (Material Design 1 suggests 195 ms for exiting elements and 225 ms for entering elements). Prepare for browsers that do not support it by letting the screen change instantly without an effect.',
 css:`
+/* The row of page navigation buttons. */
 .d-pt-nav{display:flex;gap:6px;margin-bottom:10px}
+/* The look of the navigation buttons: pill-shaped bordered buttons. */
 .d-pt-nav button{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:7px 14px;border-radius:999px;font:600 12.5px var(--sans);cursor:pointer}
+/* The button of the page being viewed (aria-current="page") is shown with a dark background. */
 .d-pt-nav button[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* The look of the page content box. */
 .d-pt-pg{padding:18px;border-radius:12px;background:var(--surface);border:1px solid var(--line);min-height:130px}
+/* The page title. */
 .d-pt-pg h4{margin:0 0 6px;font:700 17px var(--display)}
+/* The page description. */
 .d-pt-pg p{margin:0;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="pt-kind">Effect <select id="pt-kind"><option value="fade">Fade</option><option value="slide">Slide</option><option value="scale">Scale</option></select></label></div><nav class="d-pt-nav" aria-label="Example screen navigation"><button type="button" aria-current="page">Home</button><button type="button">About</button><button type="button">Questions</button></nav><div class="d-pt-view"><section class="d-pt-pg"><h4>Home</h4><p>This is the first screen people see.</p></section><section class="d-pt-pg" hidden><h4>About</h4><p>This screen introduces the shop and its services.</p></section><section class="d-pt-pg" hidden><h4>Questions</h4><p>This screen is where you leave your questions.</p></section></div>`,
 init(r){
+  // Find the navigation buttons (btns), the pages, and the effect selector (kind), and prepare cur (the current page number) and busy (whether a transition is running).
   const btns=[...r.querySelectorAll('.d-pt-nav button')],pages=[...r.querySelectorAll('.d-pt-pg')],kind=r.querySelector('select');let cur=0,busy=false;
+  // FX(effect, direction): a collection of [leaving keyframes, entering keyframes] per effect. fade uses transparency, slide uses sideways movement (d is the direction), and scale uses a size change.
   const FX=(k,d)=>({fade:[[{opacity:1},{opacity:0}],[{opacity:0},{opacity:1}]],
     slide:[[{transform:'none',opacity:1},{transform:'translateX('+(-36*d)+'px)',opacity:0}],[{transform:'translateX('+(36*d)+'px)',opacity:0},{transform:'none',opacity:1}]],
     scale:[[{transform:'none',opacity:1},{transform:'scale(.94)',opacity:0}],[{transform:'scale(1.04)',opacity:0},{transform:'none',opacity:1}]]}[k]);
+  // When a button is pressed: ignore it if it is the same page or a transition is running; otherwise mark busy and choose the leaving page (old), the entering page (nw), and the effect (fx). The direction is +1 when the number grows and -1 otherwise.
   btns.forEach((b,i)=>b.addEventListener('click',()=>{
     if(i===cur||busy)return;busy=true;const old=pages[cur],nw=pages[i],fx=FX(kind.value,i>cur?1:-1);
+    // Set aria-current="page" on only the pressed button and remove it from the rest.
     btns.forEach((x,j)=>j===i?x.setAttribute('aria-current','page'):x.removeAttribute('aria-current'));cur=i;
+    // First fade the leaving page out for 0.18 seconds. .finished is a promise that is fulfilled when the animation ends.
     old.animate(fx[0],{duration:180,easing:'ease-in',fill:'forwards'}).finished.then(()=>{old.getAnimations().forEach(a=>a.cancel());old.hidden=true;nw.hidden=false;
+      // Then show the entering page for 0.3 seconds, and when it ends, release busy so it can be pressed again.
       nw.animate(fx[1],{duration:300,easing:'cubic-bezier(.2,.8,.2,1)'}).finished.then(()=>{busy=false},()=>{busy=false})},()=>{busy=false});
   }));
 },
@@ -7559,24 +7604,38 @@ demo:`<div class="d-ctl"><button class="d-btn d-btn-primary" type="button">Draw 
 
 REAL['morphing']={
 css:`
+/* The outer box of the example: the bar and the message stacked vertically. */
 .r-mo{display:grid;gap:12px}
+/* The look of the app top bar: an icon and a title side by side. */
 .r-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+/* The bar title text. */
 .r-bar b{font:700 15px var(--display)}
+/* The icon button: a 42px square with the default button look removed and the icon centered. */
 .r-bar .d-ic{width:42px;height:42px;border:0;border-radius:10px;background:var(--accent-soft);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+/* The icon (SVG) line style: stroke:currentColor paints the lines in the text color, and stroke-linecap:round rounds the line ends. */
 .r-bar svg{width:26px;height:26px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;fill:none}
+/* The message box that shows the name of the current shape. */
 .r-sheet{padding:10px 12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--ink-2);min-height:44px}
 `,
 demo:`<div class="r-mo"><div class="r-bar"><button class="d-ic" type="button" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button><b>Example Market</b></div><div class="r-sheet" aria-live="polite">Status: menu shape (press to transform)</div><div class="d-row"><button class="d-btn" type="button" data-s="menu">☰ Menu</button><button class="d-btn" type="button" data-s="close">✕ Close</button><button class="d-btn" type="button" data-s="back">← Back</button></div></div><p class="d-hint">An app top-bar icon where three lines smoothly turn into ✕ or ←.</p>`,
 init(r){
+  // Find the three lines inside the icon (L), the icon button (btn), and the message box (sheet).
   const L=[...r.querySelectorAll('line')],btn=r.querySelector('.d-ic'),sheet=r.querySelector('.r-sheet');
+  // S: a collection of the coordinates of the three lines for each shape. One line is [x1, y1, x2, y2, opacity]. Since the number of lines is the same, gradually changing only the numbers morphs one shape into another.
   const S={menu:[[4,7,20,7,1],[4,12,20,12,1],[4,17,20,17,1]],close:[[5,5,19,19,1],[12,12,12,12,0],[5,19,19,5,1]],back:[[4,12,11,5,1],[4,12,20,12,1],[4,12,11,19,1]]};
+  // A collection of shape names (text used in the message).
   const NAME={menu:'Menu shape',close:'Close shape',back:'Back shape'};
+  // cur: the coordinates drawn now (a copy), raf: the animation frame id, key: the current shape name.
   let cur=S.menu.map(a=>a.slice()),raf=0,key='menu';
+  // draw(): apply the coordinates in cur to the line element attributes (x1, y1, x2, y2) and opacity to draw them on the screen.
   const draw=()=>L.forEach((l,i)=>{const a=cur[i];l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',a[2]);l.setAttribute('y2',a[3]);l.style.opacity=a[4]});
+  // to(shape): gradually change the coordinates from the current shape to the target shape over 380ms. The progress p is turned into an ease-in-out curve (e) to make it smooth, and for each coordinate "start + (target - start) × e" is calculated and drawn with draw(). The message and the button aria-label change too.
   const to=k=>{key=k;cancelAnimationFrame(raf);const from=cur.map(a=>a.slice()),dest=S[k],t0=performance.now(),D=380;
     const tick=now=>{const p=Math.min((now-t0)/D,1),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;cur=from.map((a,i)=>a.map((v,j)=>v+(dest[i][j]-v)*e));draw();if(p<1)raf=requestAnimationFrame(tick)};
     raf=requestAnimationFrame(tick);sheet.textContent='Status: '+NAME[k];btn.setAttribute('aria-label',k==='menu'?'Open menu':k==='close'?'Close':'Go back')};
+  // Pressing a shape button morphs into that shape.
   r.querySelectorAll('button[data-s]').forEach(b=>b.addEventListener('click',()=>to(b.dataset.s)));
+  // Pressing the icon button toggles between menu and close.
   btn.addEventListener('click',()=>to(key==='menu'?'close':'menu'));
   draw();
 }
@@ -7584,13 +7643,21 @@ init(r){
 
 REAL['motion-path']={
 css:`
+/* The example box for movement along a path: position:relative makes the reference point for the items inside. */
 .d-mp{position:relative;width:260px;height:150px;max-width:100%;margin:6px auto 8px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+/* The SVG that draws the path fills the box. overflow:visible shows the line even if it goes outside the box. */
 .d-mp svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* The path line: stroke-dasharray:1 7 is a dotted line with a short dash and a long gap repeating. */
 .d-mp path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7;opacity:.7}
+/* The arrow that moves along the path. clip-path:polygon makes the arrow shape, offset-path:path("...") sets the road to travel (an SVG path value), and offset-rotate decides whether to turn it toward the direction of travel (--rot). animation repeats it forever over 5 seconds. */
 .d-mp-dot{position:absolute;left:0;top:0;width:22px;height:22px;background:var(--rose);clip-path:polygon(50% 0,100% 100%,50% 78%,0 100%);transform-origin:center;offset-path:path("M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36");offset-rotate:calc(var(--rot,auto) + 90deg);animation:d-mp 5s linear infinite}
+/* Changes offset-distance from 0% (the start of the path) to 100% (the end) so the arrow travels along the path. */
 @keyframes d-mp{from{offset-distance:0%}to{offset-distance:100%}}
+/* The start (a) and end (b) icons are placed freely with position:absolute. */
 .r-mp-a,.r-mp-b{position:absolute;font-size:20px;line-height:1}
+/* The positions of the start and end. */
 .r-mp-a{left:4px;bottom:20px}.r-mp-b{right:0;top:12px}
+/* The small label at the top left inside the box. */
 .r-mp-lbl{position:absolute;left:8px;top:8px;font-size:11.5px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="mp-rot"><span>Direction </span><select id="mp-rot"><option value="auto">auto (rotate along the path)</option><option value="0deg">0deg (fixed)</option></select></label></div><div class="d-mp"><span class="r-mp-lbl">Delivery driver location (example)</span><svg viewBox="0 0 260 150" aria-hidden="true"><path d="M16 120 C 50 10, 120 10, 140 70 S 210 140, 244 36" pathLength="1"/></svg><span class="r-mp-a" aria-hidden="true">🏪</span><span class="r-mp-b" aria-hidden="true">🏠</span><div class="d-mp-dot" role="img" aria-label="Delivery position moving along the route"></div></div>`
@@ -7603,33 +7670,53 @@ demo:`<div class="d-ctl"><label for="pt-kind">Effect <select id="pt-kind"><optio
 
 REAL['shared-element']={
 css:`
+/* The outer box of the example: position:relative makes the detail view be layered relative to this box. */
 .d-se{position:relative;min-height:240px;padding:14px}
+/* Lays the thumbnails in a 3-column grid. */
 .d-se-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+/* One thumbnail: a big pressable button whose color is mixed from the variable --c. */
 .d-se-th{height:104px;border:0;border-radius:10px;cursor:pointer;color:var(--ink);font:600 12.5px var(--sans);background:color-mix(in srgb,var(--c) 40%,var(--surface));display:grid;align-content:space-between;justify-items:start;padding:10px;text-align:left}
+/* Slightly brighter on hover. */
 .d-se-th:hover{filter:brightness(1.05)}
+/* The big emoji inside the thumbnail. */
 .d-se-th em{font-style:normal;font-size:32px;line-height:1}
+/* Small description text inside the thumbnail. */
 .d-se-th small{display:block;font:400 11.5px var(--sans);color:var(--ink-2)}
+/* The detail view with the hidden attribute is hidden (so the display setting below does not override hidden). */
 .d-se-detail[hidden]{display:none}
+/* The detail view: position:absolute with inset:10px covers the box. transform-origin:top left sets the reference point of size changes to the top left. */
 .d-se-detail{position:absolute;inset:10px;z-index:2;border-radius:14px;padding:16px;background:color-mix(in srgb,var(--c) 40%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 60%,transparent);display:grid;align-content:start;gap:6px;transform-origin:top left}
+/* The big emoji in the detail view. */
 .d-se-detail .em{font-size:44px;line-height:1}
+/* The detail view title. */
 .d-se-detail h4{margin:0;font:700 18px var(--display)}
+/* The detail view description. */
 .d-se-detail p{margin:0;font-size:13px;color:var(--ink)}
+/* A top margin for the button row in the detail view. */
 .d-se-detail .d-row{margin-top:6px}
 `,
 demo:`<div class="d-se"><div class="d-se-grid"><button class="d-se-th" type="button" style="--c:var(--warm)" data-t="Croissant 6-pack" data-e="🥐" data-p="KRW 12,000"><em>🥐</em><span>Croissant<small>KRW 12,000</small></span></button><button class="d-se-th" type="button" style="--c:var(--rose)" data-t="Strawberry tart" data-e="🍓" data-p="KRW 5,850"><em>🍓</em><span>Strawberry tart<small>KRW 5,850</small></span></button><button class="d-se-th" type="button" style="--c:var(--leaf)" data-t="Matcha cookies 10-pack" data-e="🍵" data-p="KRW 9,800"><em>🍵</em><span>Matcha cookie<small>KRW 9,800</small></span></button></div><div class="d-se-detail" hidden><div class="d-se-body"><div class="em"></div><h4></h4><p class="pr"></p><p>The thumbnail grows as it is and becomes the detail screen. (example)</p><div class="d-row"><button class="d-btn d-btn-primary" type="button">Add to cart</button><button class="d-btn d-se-close" type="button">Close</button></div></div></div></div>`,
 init(r){
+  // Find the detail view (det), the content part (body), and the title (h), and prepare from (the pressed thumbnail).
   const det=r.querySelector('.d-se-detail'),body=r.querySelector('.d-se-body'),h=det.querySelector('h4');let from=null;
+  // inv(a, b): build a transform value (translate + scale) that makes box b look like box a in position and size. It is the key of the FLIP technique, which calculates the "starting look".
   const inv=(a,b)=>'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale('+(a.width/b.width)+','+(a.height/b.height)+')';
+  // When a thumbnail is pressed: fill the detail view with the title, emoji, and values of the pressed item and show it (remove hidden).
   r.querySelectorAll('.d-se-th').forEach(th=>th.addEventListener('click',()=>{
     from=th;h.textContent=th.dataset.t;det.querySelector('.em').textContent=th.dataset.e;det.querySelector('.pr').textContent=th.dataset.p;det.style.setProperty('--c',th.style.getPropertyValue('--c'));det.hidden=false;
+    // Read f (the thumbnail position and size) and l (the detail view position and size). getBoundingClientRect() tells an element position and size on the screen.
     const f=th.getBoundingClientRect(),l=det.getBoundingClientRect();
+    // Animate the detail view from the thumbnail position and size (inv) to its own place (none). It looks as if the thumbnail itself unfolds.
     det.animate([{transform:inv(f,l),borderRadius:'10px'},{transform:'none',borderRadius:'14px'}],{duration:440,easing:'cubic-bezier(.2,.8,.2,1)'});
+    // The content fades in after 0.24 seconds (delay). fill:backwards keeps the starting look (transparent) even before it starts. When opened, the focus moves to the close button.
     body.animate([{opacity:0},{opacity:1}],{duration:200,delay:240,fill:'backwards'});r.querySelector('.d-se-close').focus();
   }));
+  // When the close button is pressed: fade the content first, then shrink the detail view back to the position and size of the thumbnail that was pressed.
   r.querySelector('.d-se-close').addEventListener('click',()=>{
     const f=from.getBoundingClientRect(),l=det.getBoundingClientRect();
     body.animate([{opacity:1},{opacity:0}],{duration:120,fill:'forwards'});
     const a=det.animate([{transform:'none'},{transform:inv(f,l)}],{duration:340,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    // When the shrinking animation ends, hide the detail view, cancel the leftover animations, and return the focus to the thumbnail that was pressed (for keyboard users).
     a.finished.then(()=>{det.hidden=true;a.cancel();body.getAnimations().forEach(x=>x.cancel());from.focus()});
   });
 }
