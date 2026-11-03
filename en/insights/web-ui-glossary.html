@@ -4213,17 +4213,26 @@ cheat:[
 terms:[['reset','Reset, erase the default styles and start from scratch'],['normalize','Normalize, even out the differences between browsers'],['box-sizing','Box sizing, a property that decides whether width includes padding and border']],
 note:'With a reset, list bullets and heading sizes disappear, so you must specify them again for body text. Rather than erasing everything yourself, many people start with a few lines of a short modern reset.',
 css:`
+/* The outer box for comparing the reset effect. */
 .x-rs{display:grid;gap:10px;font-size:13px}
+/* The box that shows size calculation: width 180px with inner padding (12px) and a thick border (6px). In the default state (content-box), these are added to the width, so the real width becomes larger than 180px. */
 .x-rs .box{width:180px;padding:12px;border:6px solid var(--accent);background:var(--accent-soft)}
+/* With the reset on (the on class), box-sizing:border-box includes padding and border inside the 180px width, so the real width is exactly 180px. */
 .x-rs.on .box,.x-rs.on .box *{box-sizing:border-box}
+/* A sample box to see the look before and after the reset. */
 .x-rs .sample{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface)}
+/* With the reset on, the browser default outer margins (margin) of the heading, paragraph, and list are removed to 0. */
 .x-rs.on .sample h4,.x-rs.on .sample p,.x-rs.on .sample ul{margin:0}
+/* The default indent (padding) and bullets (list-style) of the list are removed too. */
 .x-rs.on .sample ul{padding:0;list-style:none}
+/* Gives list items only a small top and bottom padding. */
 .x-rs.on .sample li{padding:2px 0}
 `,
 demo:`<div class="d-ctl"><label for="x-rs-on"><input id="x-rs-on" type="checkbox"> reset applied</label><span class="d-readout"></span></div><div class="x-rs"><div class="box">A width:180px box</div><div class="sample"><h4>Today’s menu</h4><p>Freshly baked bread.</p><ul><li>Croissant</li><li>Loaf bread</li></ul></div></div><p class="d-hint">Before the reset, the box becomes larger than 180px because of padding and border, and the heading and list get the browser’s default margins.</p>`,
 init(r){
+  // Find the example box (w), the reset checkbox (cb), the description text (ro), and the box to measure (b).
   const w=r.querySelector('.x-rs'),cb=r.querySelector('#x-rs-on'),ro=r.querySelector('.d-readout'),b=r.querySelector('.box');
+  // u(): add or remove the on class according to the checkbox, and read the real width (px) of the box with getBoundingClientRect() to show it. Runs when the checkbox changes and at the start.
   const u=()=>{w.classList.toggle('on',cb.checked);ro.textContent='Actual box width '+Math.round(b.getBoundingClientRect().width)+'px'};cb.addEventListener('change',u);u();
 },
 code:`/* A short modern reset */
@@ -4257,29 +4266,48 @@ cheat:[
 terms:[['breadcrumb','Breadcrumb, a path display that leaves a trail like breadcrumbs'],['hierarchy','Hierarchy, levels connected from higher to lower'],['aria-current','aria-current, an attribute that tells assistive devices the current location']],
 note:'Breadcrumbs show location, not back-navigation history. They must show the site structure (hierarchy). Leave the current page as plain text, not a link.',
 css:`
+/* The outer box of the breadcrumb example. */
 .x-bc{display:grid;gap:10px}
+/* The path list (ol): removes the bullets and default spacing and lays items out horizontally with flex. flex-wrap lets a long path wrap. */
 .x-bc ol{list-style:none;margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;font-size:12.5px}
+/* One step of the path. */
 .x-bc li{display:inline-flex;align-items:center}
+/* From the second step on, a separator (/) is added before it. li+li means "an li that has an li right before it". */
 .x-bc li+li::before{content:"/";margin:0 7px;color:var(--ink-2)}
+/* The look of path links (a or button): accent color, no underline, default button look removed (font:inherit makes the font the same as its surroundings). */
 .x-bc a,.x-bc button.l{color:var(--accent);text-decoration:none;cursor:pointer;background:none;border:0;padding:0;font:inherit}
+/* On hover, an underline appears. */
 .x-bc a:hover,.x-bc button.l:hover{text-decoration:underline}
+/* The current location (aria-current) is shown as bold text, not as a link. */
 .x-bc [aria-current]{font-weight:700;color:var(--ink)}
+/* The "…" button that shortens the middle of the path: a small bordered box. */
 .x-bc .dots{border:1px solid var(--line);border-radius:6px;padding:0 6px;background:var(--surface-2);cursor:pointer;color:var(--ink)}
+/* Lays out the buttons for switching pages horizontally. */
 .x-bc-tree{display:flex;flex-wrap:wrap;gap:6px}
+/* The "current screen" message box. */
 .x-bc-page{padding:12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px}
 `,
 demo:`<div class="x-bc"><nav aria-label="breadcrumb"><ol></ol></nav><div class="d-ctl"><span>Try navigating</span><div class="x-bc-tree"></div></div><div class="x-bc-page" aria-live="polite"></div></div>`,
 init(r){
+  // T: a list of example product paths (category, subcategory, product).
   const T=[['Food','Bakery','Croissant'],['Food','Drinks','Cold brew'],['Living','Kitchen','Storage containers'],['Beauty','Skincare','Sunscreen']];
+  // Find the path list (ol), the button area (tree), and the current screen text (pg), and prepare path (the current path) and open (whether the middle of the path is expanded).
   const ol=r.querySelector('ol'),tree=r.querySelector('.x-bc-tree'),pg=r.querySelector('.x-bc-page');let path=T[0],open=false;
+  // draw(): redraw the path list. Build the full path (full) with "Home" added at the front.
   const draw=()=>{ol.textContent='';const full=['Home'].concat(path);
+    // If the path is longer than 3 steps and not expanded yet, show it shortened to [Home, …, the last two steps].
     const items=(!open&&full.length>3)?[full[0],'…',full[full.length-2],full[full.length-1]]:full;
+    // Create an <li> for each step. The "…" step is a button (named with aria-label) that expands the whole path when pressed.
     items.forEach((t,i)=>{const li=document.createElement('li');
       if(t==='…'){const b=document.createElement('button');b.type='button';b.className='dots';b.textContent='…';b.setAttribute('aria-label','Expand the middle path');b.addEventListener('click',()=>{open=true;draw()});li.appendChild(b)}
+      // The last step is the current location, so it is made as plain text (span) with aria-current="page", not as a link.
       else if(i===items.length-1){const s=document.createElement('span');s.textContent=t;s.setAttribute('aria-current','page');li.appendChild(s)}
+      // The other steps are buttons that go back to the path up to that step when pressed (the path is cut with slice).
       else{const b=document.createElement('button');b.type='button';b.className='l';b.textContent=t;b.addEventListener('click',()=>{const k=full.indexOf(t);path=full.slice(1,k+1);if(!path.length)path=[];open=true;draw()});li.appendChild(b)}
       ol.appendChild(li)});
+    // Show the full path joined with > in the "current screen" message.
     pg.textContent='Current screen: '+full.join(' > ')+(full.length===1?' (Home)':'')};
+  // Create a button for each path in T that switches to that path and redraws it collapsed. At the end, draw the first screen.
   T.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent=p[p.length-1];b.addEventListener('click',()=>{path=p;open=false;draw()});tree.appendChild(b)});
   draw();
 },
@@ -4314,28 +4342,48 @@ cheat:[
 terms:[['pagination','Pagination, a method of splitting a list into pages'],['offset','Offset, the number of rows to skip'],['cursor','Cursor, a method that queries the next items based on the last item seen']],
 note:'For lists with a huge number of pages or constantly arriving new posts, the OFFSET method is slow and can cause duplicates or omissions, so a cursor method is used. Make the number buttons large (with enough touch area).',
 css:`
+/* The outer box of the pagination example. */
 .x-pg{display:grid;gap:10px}
+/* The post list box: bullets removed, with a border and rounded corners. */
 .x-pg-list{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+/* One post row: the title on the left and the date at the right end (space-between). */
 .x-pg-list li{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* The last row has no bottom line. */
 .x-pg-list li:last-child{border-bottom:0}
+/* The date text: a light color and kept from shrinking (flex:none). */
 .x-pg-list small{color:var(--ink-2);flex:none}
+/* The page number button row: centered, and wrapping when narrow. */
 .x-pg-nav{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+/* The look of one number button (at least 34px). */
 .x-pg-nav button{min-width:34px;height:34px;padding:0 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px var(--sans);cursor:pointer}
+/* The current page is shown in the accent color. */
 .x-pg-nav button[aria-current="page"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* Disabled buttons (Previous on the first page, Next on the last page) are dimmed. */
 .x-pg-nav button:disabled{opacity:.4;cursor:default}
+/* The "…" marker for skipped ranges. */
 .x-pg-nav span{display:grid;place-items:center;min-width:20px;color:var(--ink-2)}
 `,
 demo:`<div class="x-pg"><div class="d-ctl"><label for="x-pg-n">Per page <select id="x-pg-n"><option>5</option><option selected>8</option><option>12</option></select> items</label><span class="d-readout"></span></div><ul class="x-pg-list"></ul><nav class="x-pg-nav" aria-label="Go to page"></nav></div>`,
 init(r){
+  // TOT: the total number of posts (87) and the screen elements (the list, the number row nav, the rows-per-page selector sel, and the description ro), with p (the current page).
   const TOT=87,list=r.querySelector('.x-pg-list'),nav=r.querySelector('.x-pg-nav'),sel=r.querySelector('select'),ro=r.querySelector('.d-readout');let p=1;
+  // A collection of example titles that are reused for the posts.
   const titles=['Question about shipping','Croissant review','Refund request','Are group orders possible?','Check packaging condition','How to use a coupon','Out-of-stock restock inquiry','Color exchange request'];
+  // draw(): get the total number of pages (pages) by rounding up with the rows per page (sz), clamp the current page so it does not overflow, and empty the list.
   const draw=()=>{const sz=+sel.value,pages=Math.ceil(TOT/sz);p=Math.min(p,pages);list.textContent='';
+    // Create only the posts in the index range of the current page ((p-1)×sz up to before p×sz) and add them to the list. Numbers are TOT-i so the newest post has the largest number.
     for(let i=(p-1)*sz;i<Math.min(TOT,p*sz);i++){const li=document.createElement('li');li.innerHTML='<span>'+(TOT-i)+'. '+titles[i%titles.length]+'</span><small>10.'+String(1+(i%28)).padStart(2,'0')+'</small>';list.appendChild(li)}
+    // Empty the number row and define add(), a helper that creates one button. It takes options for disabled (dis), current (cur), and a name for screen readers (label), and goes to that page and redraws when pressed.
     nav.textContent='';const add=(t,pg,opt)=>{const b=document.createElement('button');b.type='button';b.textContent=t;if(opt&&opt.dis)b.disabled=true;if(opt&&opt.cur)b.setAttribute('aria-current','page');if(opt&&opt.label)b.setAttribute('aria-label',opt.label);b.addEventListener('click',()=>{p=pg;draw()});nav.appendChild(b)};
+    // The previous button (disabled on the first page).
     add('‹',p-1,{dis:p===1,label:'Previous page'});
+    // The numbers to show: the first, the last, the current, and its neighbors (Set removes duplicates). A "…" is added where numbers are skipped.
     const set=new Set([1,pages,p-1,p,p+1]);let last=0;[...set].filter(n=>n>=1&&n<=pages).sort((a,b)=>a-b).forEach(n=>{if(n-last>1){const s=document.createElement('span');s.textContent='…';nav.appendChild(s)}add(String(n),n,{cur:n===p});last=n});
+    // The next button (disabled on the last page).
     add('›',p+1,{dis:p===pages,label:'Next page'});
+    // The description: the total count, the current page, and the OFFSET to send to a server (rows to skip = (page-1) × rows per page).
     ro.textContent='Total '+TOT+' items · '+p+' / '+pages+' pages · OFFSET '+(p-1)*sz};
+  // Changing the rows per page returns to page 1 and redraws. It also draws once at the start.
   sel.addEventListener('change',()=>{p=1;draw()});draw();
 },
 code:`<nav aria-label="Go to page">
@@ -4372,27 +4420,43 @@ cheat:[
 terms:[['infinite scroll','Infinite scroll, scrolling that keeps loading as if there were no end'],['sentinel','Sentinel, an empty watcher element that signals the end point'],['load more','Load more, the button-based method']],
 note:'When the Back button is pressed, you must restore the scroll position and the loaded list. If there are important links in the footer, they become unreachable, so the load-more button approach can be safer.',
 css:`
+/* The infinite-scroll box: 230px tall with overflow:auto to scroll inside. */
 .x-is-box{height:230px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+/* One list item row: an icon and text side by side. */
 .x-is-it{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* The item icon spot: a 40px rounded square with the emoji centered. */
 .x-is-it i{font-style:normal;font-size:24px;width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:var(--accent-soft)}
+/* The item description: a light color. */
 .x-is-it small{display:block;color:var(--ink-2)}
+/* The status row under the list ("Load more", "Loading", and so on). */
 .x-is-st{padding:12px;text-align:center;font-size:12.5px;color:var(--ink-2)}
+/* A small spinning loading indicator: a round border with only the top in the accent color. */
 .x-is-sp{display:inline-block;width:16px;height:16px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-is-spin .8s linear infinite;vertical-align:-3px;margin-right:6px}
+/* Turns once around (360 degrees). */
 @keyframes x-is-spin{to{transform:rotate(360deg)}}
 `,
 demo:`<div class="d-ctl"><label for="x-is-m">Mode <select id="x-is-m"><option value="auto">Automatic (infinite scroll)</option><option value="btn">Load more button</option></select></label><span class="d-readout"></span></div><div class="x-is-box" role="feed" aria-busy="false"><div class="x-is-list"></div><div class="x-is-st"></div></div>`,
 init(r){
+  // Find the scroll box (box), the list, the status row (st), the description (ro), and the mode selector (mode).
   const box=r.querySelector('.x-is-box'),list=r.querySelector('.x-is-list'),st=r.querySelector('.x-is-st'),ro=r.querySelector('.d-readout'),mode=r.querySelector('#x-is-m');
+  // EM: emojis reused for the items, MAX: the maximum number of items (40). n: the number loaded so far, busy: whether loading is in progress.
   const EM=['🥐','🍞','🥗','🍓','🧀','☕','🍰','🥪'],MAX=40;let n=0,busy=false,io;
+  // add(): create items 8 at a time (never beyond MAX) and append them to the end of the list.
   const add=()=>{for(let k=0;k<8&&n<MAX;k++,n++){const d=document.createElement('div');d.className='x-is-it';d.innerHTML='<i>'+EM[n%EM.length]+'</i><span>Today’s news '+(n+1)+'<small>New neighborhood shop post (example)</small></span>';list.appendChild(d)}};
+  // stat(): update the status row and the description. If everything is loaded, show only a message; in "Load more" mode show a button; in auto mode show a hint.
   const stat=()=>{ro.textContent=n+' / '+MAX+' items loaded';st.textContent='';
     if(n>=MAX){st.textContent='All loaded.';return}
     if(mode.value==='btn'){const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent='Load more';b.addEventListener('click',load);st.appendChild(b)}
     else{st.innerHTML='<span class="x-is-sp"></span>Keep scrolling to load more'}};
+  // load(): ignore it if already loading or finished; otherwise mark "loading" with busy and aria-busy, then after 0.6 seconds (imitating a server) add items and update the status.
   const load=()=>{if(busy||n>=MAX)return;busy=true;box.setAttribute('aria-busy','true');st.innerHTML='<span class="x-is-sp"></span>Loading...';setTimeout(()=>{add();busy=false;box.setAttribute('aria-busy','false');stat();check()},600)};
+  // check(): in auto mode, when the scroll gets within 200px of the bottom (total height - scroll position - visible height < 200), load the next batch.
   const check=()=>{if(mode.value==='auto'&&!busy&&n<MAX&&box.scrollHeight-box.scrollTop-box.clientHeight<200)load()};
+  // Run check() on every scroll (passive:true promises not to block scrolling).
   box.addEventListener('scroll',check,{passive:true});
+  // Changing the mode redraws the status row.
   mode.addEventListener('change',stat);
+  // At the start, fill two batches (16 items) so a scrollbar appears, and show the status.
   add();add();stat();
 },
 code:`<div id="feed"></div>
@@ -4429,32 +4493,55 @@ cheat:[
 terms:[['bottom sheet','Bottom sheet, a window that rises from below'],['modal sheet','Modal sheet, a sheet that blocks the screen behind it'],['snap point','Snap point, a height at which the sheet stops'],['scrim','Scrim, a layer that darkens what is behind']],
 note:'Make dragging work only from the handle area so scrolling the list in the sheet does not conflict with dragging the sheet down. For keyboard users, support a close button and Esc too.',
 css:`
+/* The fake phone screen where the bottom sheet opens: position:relative makes it the reference point for items inside, and overflow:hidden hides the sheet while it is off the screen. */
 .x-bs{position:relative;height:300px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#cfe8d5,#b7d3e8);border:1px solid var(--line)}
+/* The map screen spot behind. */
 .x-bs-map{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:#243845}
+/* The search hint box on the map. */
 .x-bs-map b{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.85);color:#13202c;font-size:12.5px}
+/* The pin (location marker) on the map. */
 .x-bs-pin{position:absolute;left:46%;top:38%;font-size:30px}
+/* The button that opens the sheet: placed over the top right. */
 .x-bs-open{position:absolute;right:12px;top:12px}
+/* The dark layer behind the sheet: transparent at first and lets clicks pass through. */
 .x-bs-sc{position:absolute;inset:0;background:rgba(8,16,24,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+/* When the sheet is open, the layer is visible and receives clicks (pressing it closes the sheet). */
 .x-bs.open .x-bs-sc{opacity:1;pointer-events:auto}
+/* The sheet itself. It sticks to the bottom, and its height is the variable --sh (170px by default). transform:translateY(100% + --dy) pushes it down by its own height to hide it, and --dy is the movement while dragging. touch-action:none keeps the page from scrolling during dragging. */
 .x-bs-sh{position:absolute;left:0;right:0;bottom:0;height:var(--sh,170px);background:var(--surface);color:var(--ink);border-radius:16px 16px 0 0;box-shadow:0 -14px 30px -12px rgba(0,0,0,.45);transform:translateY(calc(100% + var(--dy,0px)));visibility:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s,height .25s;padding:6px 14px 12px;display:grid;grid-template-rows:auto auto 1fr;gap:6px;touch-action:none}
+/* When open, it rises into place (where it was dragged by --dy) and becomes visible. */
 .x-bs.open .x-bs-sh{transform:translateY(var(--dy,0px));visibility:visible;transition-delay:0s}
+/* While dragging (the drag class), transition is turned off so the sheet follows the finger right away. */
 .x-bs.drag .x-bs-sh{transition:none}
+/* The grab area at the top of the sheet (the handle area): cursor:grab is the hand shape meaning it can be grabbed. */
 .x-bs-hd{height:22px;display:grid;place-items:center;cursor:grab}
+/* The handle bar: a thin rounded line. */
 .x-bs-hd i{width:40px;height:5px;border-radius:3px;background:var(--line)}
+/* The sheet title. */
 .x-bs-sh h4{margin:0;font:700 14px var(--display)}
+/* The sheet content: scrolls inside when it overflows. touch-action:pan-y allows only vertical scrolling. */
 .x-bs-body{overflow:auto;font-size:12.5px;color:var(--ink-2);display:grid;gap:6px;align-content:start;touch-action:pan-y}
+/* The card look of one cell of the sheet content. */
 .x-bs-body div{padding:8px 10px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line)}
 `,
 demo:`<div class="x-bs"><div class="x-bs-map"><b>📍 Nearby bakeries</b><span class="x-bs-pin">📍</span>Map screen (example)</div><button class="d-btn d-btn-primary x-bs-open" type="button">Place information</button><div class="x-bs-sc"></div><section class="x-bs-sh" role="dialog" aria-label="Place information"><div class="x-bs-hd" aria-hidden="true"><i></i></div><h4>Momo Bakery · Open now</h4><div class="x-bs-body"><div>📍 12 Example-ro, Yeonsu-gu, Incheon (example address)</div><div>🕗 8 a.m. to 8 p.m.</div><div>📞 032-000-0000 (example)</div><div>⭐ 4.7 · 326 reviews (example)</div><div class="d-row"><button class="d-btn d-close x-bs-x" type="button">Close</button></div></div></section></div><p class="d-hint">Drag the handle down to close it, or up to open it larger. Esc and touching the backdrop also close it.</p>`,
 init(r){
+  // Find the screen (w), the sheet (sh), the grab area (hd), and the open button (op), and prepare sy (the starting height of the drag), dragging (whether dragging), and tall (whether enlarged).
   const w=r.querySelector('.x-bs'),sh=r.querySelector('.x-bs-sh'),hd=r.querySelector('.x-bs-hd'),op=r.querySelector('.x-bs-open');let sy=0,dragging=false,tall=false;
+  // open(true/false): add or remove the open class to open or close the sheet. When opening, the height is reset to the initial size (170px).
   const open=v=>{w.classList.toggle('open',v);if(v){tall=false;sh.style.setProperty('--sh','170px');sh.focus&&0}else{w.style.removeProperty('--x')}};
+  // The open button, the close button, and the dark layer open or close the sheet when pressed.
   op.addEventListener('click',()=>open(true));r.querySelector('.x-bs-x').addEventListener('click',()=>open(false));r.querySelector('.x-bs-sc').addEventListener('click',()=>open(false));
+  // Pressing the Esc key closes it.
   w.addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
+  // Pressing the handle starts a drag. It remembers the start position (sy), setPointerCapture keeps tracking even if the finger leaves, and the drag class turns off transition.
   hd.addEventListener('pointerdown',e=>{dragging=true;sy=e.clientY;hd.setPointerCapture(e.pointerId);w.classList.add('drag')});
+  // While moving, the sheet follows the distance the finger moved (dy), up to 40px upward.
   hd.addEventListener('pointermove',e=>{if(!dragging)return;const dy=e.clientY-sy;sh.style.setProperty('--dy',Math.max(-40,dy)+'px')});
+  // end(): when released, finish the drag and restore the position. If dragged down more than 70px, close the sheet; if dragged up more than 40px, enlarge the sheet (260px).
   const end=e=>{if(!dragging)return;dragging=false;w.classList.remove('drag');const dy=e.clientY-sy;sh.style.setProperty('--dy','0px');
     if(dy>70)open(false);else if(dy<-40){tall=true;sh.style.setProperty('--sh','260px')}};
+  // Run end when released or interrupted (pointercancel).
   hd.addEventListener('pointerup',end);hd.addEventListener('pointercancel',end);
 },
 code:`<div class="scrim" hidden></div>
@@ -4499,33 +4586,53 @@ cheat:[
 terms:[['mega menu','Mega menu, a panel that opens submenus in a large area'],['hover intent','Hover intent, a way of judging the intent of hovering by time'],['disclosure','Disclosure, a pattern where pressing reveals content']],
 note:'If you rely on hover alone, touch devices and keyboards cannot open it. On mobile it is usually changed to an accordion or full-screen menu. With too many items, it actually becomes harder to find things.',
 css:`
+/* The outer box of the mega menu: position:relative makes it the reference point for the dropdown panel. */
 .x-mm{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-height:270px;overflow:hidden}
+/* The top menu bar: lays the logo and menu buttons out horizontally. */
 .x-mm-bar{display:flex;align-items:center;gap:4px;padding:6px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+/* The logo text. */
 .x-mm-bar b{font:800 14px var(--display);color:var(--accent);margin-right:8px}
+/* A menu button: a text button with the default look removed. */
 .x-mm-bar button{border:0;background:none;padding:8px 10px;border-radius:8px;font:600 13px var(--sans);color:var(--ink);cursor:pointer}
+/* A menu with the mouse over it or in the expanded state (aria-expanded="true") is shown with a light accent background. */
 .x-mm-bar button:hover,.x-mm-bar button[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent)}
+/* The dropdown panel: position:absolute with left/right:0 floats it across the full width below the bar. repeat(auto-fit, minmax(110px,1fr)) fits the number of columns to the width, and an animation makes it appear sliding down slightly. */
 .x-mm-p{position:absolute;left:0;right:0;top:48px;z-index:2;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 18px 30px -18px rgba(0,0,0,.45);padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;animation:x-mm-in .18s ease-out}
+/* An animation that comes down into place from transparent and 6px higher. */
 @keyframes x-mm-in{from{opacity:0;transform:translateY(-6px)}}
+/* The category title text in the panel. */
 .x-mm-p h5{margin:0 0 6px;font:700 12px var(--display);color:var(--ink-2)}
+/* A link row in the panel: takes a whole row with no underline. */
 .x-mm-p a{display:block;padding:4px 0;font-size:13px;color:var(--ink);text-decoration:none;cursor:pointer}
+/* On hover, the accent color and an underline. */
 .x-mm-p a:hover{color:var(--accent);text-decoration:underline}
+/* The promotion cell of the panel: a light accent background. */
 .x-mm-promo{padding:10px;border-radius:10px;background:var(--accent-soft);font-size:12.5px}
+/* The promotion title takes its own line. */
 .x-mm-promo b{display:block;margin-bottom:2px}
+/* The body area below the menu. */
 .x-mm-body{padding:16px;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="x-mm"><div class="x-mm-bar" role="navigation" aria-label="Top category (example)"><b>Example Market</b><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="0">Food</button><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="1">Living</button><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="2">Beauty</button></div><div class="x-mm-p" id="x-mm-p1" hidden></div><div class="x-mm-body">Hover or press to open, and close with Esc. The menu items are examples.</div></div>`,
 init(r){
+  // D: the data gathering what to unfold for each menu button (category names with link lists, and a promotion cell at the end).
   const D=[[['Bakery',['Loaf bread','Croissant','Bagels']],['Fresh food',['Fruit','Vegetables','Eggs']],['Drinks',['Coffee','Tea','Juice']],['Recommended','<b>Autumn special</b>Up to 40% off (example)']],
            [['Kitchen',['Storage containers','Knives and cutting boards','Cups']],['Cleaning',['Detergent','Towels','Cleaning tools']],['Furniture',['Cabinets','Chairs','Lighting']],['Recommended','<b>Moving prep</b>Household goods collection (example)']],
            [['Skincare',['Toner','Cream','Sunscreen']],['Makeup',['Lips','Base','Brushes']],['Body',['Lotion','Hand cream','Shampoo']],['Recommended','<b>New arrivals</b>First-purchase coupon (example)']]];
+  // Find the dropdown panel (p) and the menu buttons (bs), and prepare cur (the number of the open menu, -1 means none) and tm (the timer id).
   const p=r.querySelector('.x-mm-p'),bs=[...r.querySelectorAll('.x-mm-bar button')];let cur=-1,tm;
+  // show(index): mark only that menu with aria-expanded and fill and show the panel. -1 hides the panel. It builds a title and links for each category, and a promotion cell for the recommendation.
   const show=i=>{cur=i;bs.forEach((b,j)=>b.setAttribute('aria-expanded',i===j));if(i<0){p.hidden=true;return}
     p.hidden=false;p.textContent='';D[i].forEach(c=>{const d=document.createElement('div');
       if(c[0]==='Recommended'){d.className='x-mm-promo';d.innerHTML=c[1]}else{d.innerHTML='<h5>'+c[0]+'</h5>'+c[1].map(t=>'<a tabindex="0">'+t+'</a>').join('')}p.appendChild(d)})};
+  // Pressing a menu button opens it (or closes it if it is already open).
   bs.forEach((b,i)=>{b.addEventListener('click',()=>show(cur===i?-1:i));
+    // On hover (only on devices with a mouse), wait 0.15 seconds before opening. This delay keeps it from flickering when the mouse just passes by. Leaving cancels the wait.
     b.addEventListener('mouseenter',()=>{if(!matchMedia('(hover:hover)').matches)return;clearTimeout(tm);tm=setTimeout(()=>show(i),150)});
     b.addEventListener('mouseleave',()=>clearTimeout(tm))});
+  // When the mouse leaves the whole menu, close the panel.
   r.querySelector('.x-mm').addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(tm);show(-1)}});
+  // Pressing the Esc key closes the panel and returns the focus to that menu button.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur>=0){const b=bs[cur];show(-1);b.focus()}});
 },
 code:`<nav aria-label="Top category">
@@ -4565,18 +4672,28 @@ cheat:[
 terms:[['scroll','Scroll, moving the screen up and down'],['smooth scrolling','Smooth scrolling, scrolling that moves smoothly'],['floating button','Floating button, a button that floats above the content']],
 note:'Adjust the position so the button does not overlap other fixed elements (chat widgets, bottom tab bars). It is also good to know that the Home key goes to the top as well.',
 css:`
+/* The box where the back-to-top button sits: position:relative makes the reference point for the button inside. */
 .x-bt{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+/* The scrolling text area: 240px tall with overflow:auto. */
 .x-bt-sc{height:240px;overflow:auto;padding:0 14px 14px;background:var(--surface);scroll-behavior:auto}
+/* A title row stuck at the top while scrolling with position:sticky. Negative margins stretch it to both edges. */
 .x-bt-sc h4{position:sticky;top:0;margin:0 -14px 10px;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--line);font:700 14px var(--display)}
+/* Body paragraphs: a line height of 1.6. */
 .x-bt-sc p{margin:0 0 12px;font-size:13px;color:var(--ink-2);line-height:1.6}
+/* The back-to-top button: a round button fixed at the bottom right. Normally transparent (opacity:0) and lets clicks pass through. */
 .x-bt-b{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:18px;cursor:pointer;box-shadow:0 8px 18px -8px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s}
+/* With the show class, it becomes visible (opacity:1), rises into place, and receives clicks. */
 .x-bt-b.show{opacity:1;transform:none;pointer-events:auto}
 `,
 demo:`<div class="d-ctl"><label for="x-bt-t">Show after <select id="x-bt-t"><option value="60">Scrolling 60px</option><option value="200" selected>Scrolling 200px</option></select></label></div><div class="x-bt"><div class="x-bt-sc"><h4>Product review collection (example)</h4><p>1. The packaging was careful, so it was great as a gift.</p><p>2. My child loved it, so I bought it again.</p><p>3. Delivery was a day late, but the condition was good.</p><p>4. There was more than I expected, so I freeze it and eat it later.</p><p>5. The butter aroma is rich and the layers are distinct.</p><p>6. They were kind about our group order too.</p><p>7. Next time I want to try other flavors.</p><p>8. Applying the coupon was easy.</p><p>9. The packing box is sturdy.</p><p>10. You have reached the end.</p></div><button class="x-bt-b" type="button" aria-label="Go to top">↑</button></div>`,
 init(r){
+  // Find the scroll area (sc), the button (b), and the selector for the scroll distance at which it starts showing (t).
   const sc=r.querySelector('.x-bt-sc'),b=r.querySelector('.x-bt-b'),t=r.querySelector('#x-bt-t');
+  // u(): add the show class if the scrolled distance (scrollTop) is greater than the chosen value, and remove it otherwise.
   const u=()=>b.classList.toggle('show',sc.scrollTop>+t.value);
+  // Run u() whenever it scrolls or the threshold changes.
   sc.addEventListener('scroll',u,{passive:true});t.addEventListener('change',u);
+  // Pressing the button scrolls to the top (top:0). For people with "reduce motion" on, it jumps right away (auto) instead of scrolling smoothly (accessibility).
   b.addEventListener('click',()=>{sc.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});sc.focus&&0});
 },
 code:`<button id="top" class="to-top" aria-label="Go to top" hidden>↑</button>
@@ -4613,32 +4730,53 @@ cheat:[
 terms:[['empty state','Empty state, the screen when there is no data'],['zero state','Zero state, the state of having no data yet because it is the first use'],['CTA','CTA, Call To Action, a button that prompts an action']],
 note:'"No data"alone leaves users stuck. Offer the reason and the next action together. To avoid a brief empty screen while loading, you must tell loading and empty states apart.',
 css:`
+/* The outer box of the empty state example. */
 .x-es{display:grid;gap:10px}
+/* The "search / cart" switch group: a rounded bar of joined buttons. */
 .x-es-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;justify-self:start}
+/* The look of one switch button. */
 .x-es-seg button{border:0;background:var(--surface);color:var(--ink-2);padding:7px 14px;font:600 12.5px var(--sans);cursor:pointer}
+/* The selected button (aria-pressed="true") is shown in the accent color. */
 .x-es-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+/* The look of the search input. */
 .x-es-q{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* The list box: bullets removed and a border added. min-height keeps the height from changing abruptly when the list is empty. */
 .x-es-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;min-height:130px}
+/* One list row: the name on the left and the button at the right end. */
 .x-es-l li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* The last row has no bottom line. */
 .x-es-l li:last-child{border-bottom:0}
+/* The delete button: the default look removed, with red text. */
 .x-es-l button{border:0;background:none;color:var(--rose);font:600 12px var(--sans);cursor:pointer}
+/* Gathers the empty state message (icon, title, description, button) in the center. */
 .x-es-e{display:grid;gap:4px;justify-items:center;text-align:center;padding:22px 12px}
+/* The big emoji icon. */
 .x-es-e i{font-style:normal;font-size:40px}
+/* The empty state title. */
 .x-es-e b{font-size:14px}
+/* The empty state description: small and light. */
 .x-es-e span{font-size:12.5px;color:var(--ink-2)}
 `,
 demo:`<div class="x-es"><div class="x-es-seg" role="group" aria-label="Choose screen"><button type="button" aria-pressed="true" data-m="s">No search results</button><button type="button" aria-pressed="false" data-m="c">Empty cart</button></div><div class="x-es-sbox"><label class="sr" for="x-es-q">Menu search</label><input class="x-es-q" id="x-es-q" type="search" placeholder="Menu search (e.g., bread, latte, cookie)"></div><ul class="x-es-l" role="status" aria-live="polite"></ul></div>`,
 init(r){
+  // Find the list (L), the search input (q), the search area (sb), and the switch buttons (bs).
   const L=r.querySelector('.x-es-l'),q=r.querySelector('#x-es-q'),sb=r.querySelector('.x-es-sbox'),bs=[...r.querySelectorAll('.x-es-seg button')];
+  // mode: the current screen (s = search, otherwise cart), menu: the menu list, cart: the cart list data.
   let mode='s',menu=['Loaf bread','Croissant','Americano','Caffè latte','Strawberry cookie','Cheesecake'],cart=['Loaf bread · KRW 4,500','Caffè latte · KRW 4,000'];
+  // empty(icon, title, description, button text, action): draw the empty state message. A good empty state shows what is empty (title), why (description), and what to do next (button) together.
   const empty=(i,t,s,b,fn)=>{L.innerHTML='<li style="display:block;border:0"><div class="x-es-e"><i>'+i+'</i><b>'+t+'</b><span>'+s+'</span></div></li>';const bt=document.createElement('button');bt.type='button';bt.className='d-btn d-btn-primary';bt.textContent=b;bt.addEventListener('click',fn);L.querySelector('.x-es-e').appendChild(bt)};
+  // draw(): redraw the list for the current mode. The search area is shown only in search mode.
   const draw=()=>{L.textContent='';sb.hidden=mode!=='s';
+    // Search mode: show only the menus that include the typed text (k) (filter). If there are no results, show the "no matching menu" empty state with a "clear search" button.
     if(mode==='s'){const k=q.value.trim(),res=menu.filter(m=>m.includes(k));
       if(!res.length)return empty('🔍','"'+k+'" matches no menu items','Check the spelling or try a different search term.','Clear search',()=>{q.value='';draw();q.focus()});
       res.forEach(m=>{const li=document.createElement('li');li.textContent=m;L.appendChild(li)})}
+    // Cart mode: if empty, show a "it is empty" message with a "go to the menu" button; otherwise create a delete button for each item (aria-label tells which item).
     else{if(!cart.length)return empty('🛒','Your cart is empty','Add the menu items you like.','Browse the menu',()=>{cart=['Loaf bread · KRW 4,500','Caffè latte · KRW 4,000'];draw()});
       cart.forEach((c,i)=>{const li=document.createElement('li');li.innerHTML='<span>'+c+'</span>';const b=document.createElement('button');b.type='button';b.textContent='Delete';b.setAttribute('aria-label',c+' Delete');b.addEventListener('click',()=>{cart.splice(i,1);draw()});li.appendChild(b);L.appendChild(li)})}};
+  // Redraw on every keystroke and every switch button press. Switching changes the selected mark with aria-pressed.
   q.addEventListener('input',draw);bs.forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.m;bs.forEach(x=>x.setAttribute('aria-pressed',x===b));draw()}));draw();
+  // To show the "no results" state from the start, a search text with no match is entered on purpose.
   q.value='Macaron';draw();
 },
 code:`<ul role="status" aria-live="polite">

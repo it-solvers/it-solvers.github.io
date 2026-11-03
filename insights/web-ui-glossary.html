@@ -4324,17 +4324,26 @@ cheat:[
 terms:[['reset','리셋, 기본 스타일을 지우고 처음부터 시작'],['normalize','노멀라이즈, 브라우저 간 차이를 맞춤'],['box-sizing','박스 사이징, width가 padding과 border를 포함할지 정하는 속성']],
 note:'리셋을 쓰면 목록 점과 제목 크기가 사라지므로 글 본문에는 다시 지정해야 합니다. 직접 모두 지우기보다 짧은 현대적 리셋 몇 줄로 시작하는 경우가 많습니다.',
 css:`
+/* 리셋 효과를 비교할 바깥 상자. */
 .x-rs{display:grid;gap:10px;font-size:13px}
+/* 크기 계산을 보여 줄 상자: width 180px에 안쪽 여백(padding 12px)과 두꺼운 테두리(6px)가 있습니다. 기본 상태(content-box)에서는 이 값들이 폭에 더해져 실제 폭이 180px보다 커집니다. */
 .x-rs .box{width:180px;padding:12px;border:6px solid var(--accent);background:var(--accent-soft)}
+/* 리셋을 켜면(on 클래스) box-sizing:border-box 로 padding 과 border 를 폭 180px 안에 포함시켜 실제 폭이 정확히 180px이 됩니다. */
 .x-rs.on .box,.x-rs.on .box *{box-sizing:border-box}
+/* 리셋 전후의 모양을 볼 샘플 상자. */
 .x-rs .sample{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface)}
+/* 리셋을 켜면 제목, 문단, 목록의 브라우저 기본 바깥 여백(margin)을 0으로 지웁니다. */
 .x-rs.on .sample h4,.x-rs.on .sample p,.x-rs.on .sample ul{margin:0}
+/* 목록의 기본 들여쓰기(padding)와 점(list-style)도 지웁니다. */
 .x-rs.on .sample ul{padding:0;list-style:none}
+/* 목록 항목 위아래에 작은 여백만 줍니다. */
 .x-rs.on .sample li{padding:2px 0}
 `,
 demo:`<div class="d-ctl"><label for="x-rs-on"><input id="x-rs-on" type="checkbox"> 리셋 적용</label><span class="d-readout"></span></div><div class="x-rs"><div class="box">width:180px 상자</div><div class="sample"><h4>오늘의 메뉴</h4><p>갓 구운 빵입니다.</p><ul><li>크루아상</li><li>식빵</li></ul></div></div><p class="d-hint">리셋 전에는 상자가 padding과 border 때문에 180px보다 커지고, 제목과 목록에 브라우저 기본 여백이 붙습니다.</p>`,
 init(r){
+  // 예시 상자(w), 리셋 체크(cb), 설명 글(ro), 크기를 잴 상자(b)를 찾습니다.
   const w=r.querySelector('.x-rs'),cb=r.querySelector('#x-rs-on'),ro=r.querySelector('.d-readout'),b=r.querySelector('.box');
+  // u(): 체크 상태에 맞춰 on 클래스를 붙이거나 떼고, getBoundingClientRect() 로 상자의 실제 폭(px)을 읽어 보여 줍니다. 체크가 바뀔 때와 처음에 실행합니다.
   const u=()=>{w.classList.toggle('on',cb.checked);ro.textContent='상자 실제 폭 '+Math.round(b.getBoundingClientRect().width)+'px'};cb.addEventListener('change',u);u();
 },
 code:`/* 짧은 현대적 리셋 */
@@ -4368,29 +4377,48 @@ cheat:[
 terms:[['breadcrumb','브레드크럼, 빵 부스러기처럼 지나온 길을 남기는 경로 표시'],['hierarchy','하이어라키, 상위와 하위로 이어지는 계층'],['aria-current','에이리어 커런트, 현재 위치를 보조 기기에 알리는 속성']],
 note:'브레드크럼은 위치 표시이지 뒤로 가기 기록이 아닙니다. 사이트 구조(계층)를 보여 줘야 합니다. 현재 페이지는 링크가 아니라 글자로 둡니다.',
 css:`
+/* 브레드크럼 예시 바깥 상자. */
 .x-bc{display:grid;gap:10px}
+/* 경로 목록(ol): 점과 기본 여백을 지우고, flex 로 가로로 나열합니다. flex-wrap 은 경로가 길면 줄바꿈하게 합니다. */
 .x-bc ol{list-style:none;margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;font-size:12.5px}
+/* 경로 한 칸. */
 .x-bc li{display:inline-flex;align-items:center}
+/* 두 번째 칸부터 앞에 구분 기호(/)를 붙입니다. li+li 는 "바로 앞에 li 가 있는 li"를 뜻합니다. */
 .x-bc li+li::before{content:"/";margin:0 7px;color:var(--ink-2)}
+/* 경로 링크(a 또는 버튼)의 모양: 강조색, 밑줄 없음, 버튼 기본 모양 제거(font:inherit 은 글꼴을 주변과 같게 합니다). */
 .x-bc a,.x-bc button.l{color:var(--accent);text-decoration:none;cursor:pointer;background:none;border:0;padding:0;font:inherit}
+/* 마우스를 올리면 밑줄이 생깁니다. */
 .x-bc a:hover,.x-bc button.l:hover{text-decoration:underline}
+/* 현재 위치(aria-current)는 링크가 아니라 굵은 글자로 보여 줍니다. */
 .x-bc [aria-current]{font-weight:700;color:var(--ink)}
+/* 가운데 경로를 줄인 "…" 버튼: 작은 테두리 상자 모양입니다. */
 .x-bc .dots{border:1px solid var(--line);border-radius:6px;padding:0 6px;background:var(--surface-2);cursor:pointer;color:var(--ink)}
+/* 페이지를 바꿔 볼 버튼들을 가로로 나열합니다. */
 .x-bc-tree{display:flex;flex-wrap:wrap;gap:6px}
+/* "현재 화면" 안내 상자. */
 .x-bc-page{padding:12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px}
 `,
 demo:`<div class="x-bc"><nav aria-label="breadcrumb"><ol></ol></nav><div class="d-ctl"><span>이동해 보기</span><div class="x-bc-tree"></div></div><div class="x-bc-page" aria-live="polite"></div></div>`,
 init(r){
+  // T: 상품 경로 예시 목록입니다(대분류, 중분류, 상품).
   const T=[['식품','베이커리','크루아상'],['식품','음료','콜드브루'],['생활','주방','보관 용기'],['뷰티','스킨케어','선크림']];
+  // 경로 목록(ol), 버튼 자리(tree), 현재 화면 글(pg)을 찾고, path(지금 경로)와 open(가운데 경로를 펼쳤는지)을 준비합니다.
   const ol=r.querySelector('ol'),tree=r.querySelector('.x-bc-tree'),pg=r.querySelector('.x-bc-page');let path=T[0],open=false;
+  // draw(): 경로 목록을 다시 그립니다. 맨 앞에 "홈"을 붙인 전체 경로(full)를 만듭니다.
   const draw=()=>{ol.textContent='';const full=['홈'].concat(path);
+    // 경로가 3단계보다 길고 아직 펼치지 않았으면 [홈, …, 마지막 두 칸]으로 줄여 보여 줍니다.
     const items=(!open&&full.length>3)?[full[0],'…',full[full.length-2],full[full.length-1]]:full;
+    // 칸마다 <li>를 만듭니다. "…" 칸은 누르면 전체를 펼치는 버튼(aria-label 로 이름을 붙임)입니다.
     items.forEach((t,i)=>{const li=document.createElement('li');
       if(t==='…'){const b=document.createElement('button');b.type='button';b.className='dots';b.textContent='…';b.setAttribute('aria-label','중간 경로 펼치기');b.addEventListener('click',()=>{open=true;draw()});li.appendChild(b)}
+      // 마지막 칸은 현재 위치라서 링크가 아닌 글자(span)로 만들고 aria-current="page" 를 붙입니다.
       else if(i===items.length-1){const s=document.createElement('span');s.textContent=t;s.setAttribute('aria-current','page');li.appendChild(s)}
+      // 나머지 칸은 누르면 그 단계까지의 경로로 돌아가는 버튼입니다(slice 로 경로를 잘라 냄).
       else{const b=document.createElement('button');b.type='button';b.className='l';b.textContent=t;b.addEventListener('click',()=>{const k=full.indexOf(t);path=full.slice(1,k+1);if(!path.length)path=[];open=true;draw()});li.appendChild(b)}
       ol.appendChild(li)});
+    // "현재 화면" 안내 글에 전체 경로를 > 로 이어 보여 줍니다.
     pg.textContent='현재 화면: '+full.join(' > ')+(full.length===1?' (홈)':'')};
+  // T 의 경로마다 이동 버튼을 만들고, 누르면 그 경로로 바꿔 경로를 접은 상태로 다시 그립니다. 마지막에 처음 화면을 그립니다.
   T.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent=p[p.length-1];b.addEventListener('click',()=>{path=p;open=false;draw()});tree.appendChild(b)});
   draw();
 },
@@ -4425,28 +4453,48 @@ cheat:[
 terms:[['pagination','페이지네이션, 목록을 페이지로 나누는 방식'],['offset','오프셋, 건너뛸 건수'],['cursor','커서, 마지막으로 본 항목을 기준으로 다음을 조회하는 방식']],
 note:'페이지가 매우 많거나 새 글이 계속 들어오는 목록은 OFFSET 방식이 느리고 중복·누락이 생길 수 있어 커서 방식을 씁니다. 번호 버튼은 크게(터치 영역 충분히) 만드세요.',
 css:`
+/* 페이지 나누기 예시 바깥 상자. */
 .x-pg{display:grid;gap:10px}
+/* 게시글 목록 상자: 점을 없애고 테두리와 둥근 모서리를 줍니다. */
 .x-pg-list{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+/* 게시글 한 줄: 제목은 왼쪽, 날짜는 오른쪽 끝(space-between). */
 .x-pg-list li{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* 마지막 줄은 아래 선을 없앱니다. */
 .x-pg-list li:last-child{border-bottom:0}
+/* 날짜 글자: 연한 색, 줄어들지 않게(flex:none). */
 .x-pg-list small{color:var(--ink-2);flex:none}
+/* 페이지 번호 버튼 줄: 가운데 정렬, 좁으면 줄바꿈. */
 .x-pg-nav{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+/* 번호 버튼 하나의 모양(최소 34px). */
 .x-pg-nav button{min-width:34px;height:34px;padding:0 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px var(--sans);cursor:pointer}
+/* 현재 페이지는 강조색으로 표시합니다. */
 .x-pg-nav button[aria-current="page"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* 비활성 버튼(첫 페이지의 이전, 마지막 페이지의 다음)은 흐리게. */
 .x-pg-nav button:disabled{opacity:.4;cursor:default}
+/* 건너뛴 구간의 "…" 표시. */
 .x-pg-nav span{display:grid;place-items:center;min-width:20px;color:var(--ink-2)}
 `,
 demo:`<div class="x-pg"><div class="d-ctl"><label for="x-pg-n">한 페이지 <select id="x-pg-n"><option>5</option><option selected>8</option><option>12</option></select>개</label><span class="d-readout"></span></div><ul class="x-pg-list"></ul><nav class="x-pg-nav" aria-label="페이지 이동"></nav></div>`,
 init(r){
+  // TOT: 전체 게시글 수(87건)와 화면 요소들(목록 list, 번호 줄 nav, 줄 수 선택 sel, 설명 글 ro), p(현재 페이지)를 준비합니다.
   const TOT=87,list=r.querySelector('.x-pg-list'),nav=r.querySelector('.x-pg-nav'),sel=r.querySelector('select'),ro=r.querySelector('.d-readout');let p=1;
+  // 게시글 제목으로 돌려 쓸 예시 글 모음.
   const titles=['배송 문의드립니다','크루아상 후기','환불 요청','단체 주문 가능한가요?','포장 상태 확인','쿠폰 사용 방법','품절 재입고 문의','색상 교환 요청'];
+  // draw(): 한 페이지에 보일 줄 수(sz)로 전체 페이지 수(pages)를 올림해서 구하고, 현재 페이지가 넘치지 않게 맞춘 뒤 목록을 비웁니다.
   const draw=()=>{const sz=+sel.value,pages=Math.ceil(TOT/sz);p=Math.min(p,pages);list.textContent='';
+    // 현재 페이지에 해당하는 번호 범위((p-1)×sz 부터 p×sz 앞까지)의 게시글만 만들어 목록에 넣습니다. 번호는 최신 글이 큰 수가 되게 TOT-i 로 매깁니다.
     for(let i=(p-1)*sz;i<Math.min(TOT,p*sz);i++){const li=document.createElement('li');li.innerHTML='<span>'+(TOT-i)+'. '+titles[i%titles.length]+'</span><small>10.'+String(1+(i%28)).padStart(2,'0')+'</small>';list.appendChild(li)}
+    // 번호 줄을 비우고, add(): 버튼 하나를 만드는 도우미를 정의합니다. 비활성(dis), 현재(cur), 낭독기용 이름(label) 옵션을 받고, 누르면 그 페이지로 이동해 다시 그립니다.
     nav.textContent='';const add=(t,pg,opt)=>{const b=document.createElement('button');b.type='button';b.textContent=t;if(opt&&opt.dis)b.disabled=true;if(opt&&opt.cur)b.setAttribute('aria-current','page');if(opt&&opt.label)b.setAttribute('aria-label',opt.label);b.addEventListener('click',()=>{p=pg;draw()});nav.appendChild(b)};
+    // 이전 버튼(첫 페이지에서는 비활성).
     add('‹',p-1,{dis:p===1,label:'이전 페이지'});
+    // 보여 줄 번호: 처음, 끝, 현재, 앞뒤(Set 으로 중복 제거). 번호 사이가 건너뛰면 "…"를 넣습니다.
     const set=new Set([1,pages,p-1,p,p+1]);let last=0;[...set].filter(n=>n>=1&&n<=pages).sort((a,b)=>a-b).forEach(n=>{if(n-last>1){const s=document.createElement('span');s.textContent='…';nav.appendChild(s)}add(String(n),n,{cur:n===p});last=n});
+    // 다음 버튼(마지막 페이지에서는 비활성).
     add('›',p+1,{dis:p===pages,label:'다음 페이지'});
+    // 설명 글: 전체 건수, 현재 페이지, 그리고 서버에 보낼 OFFSET(건너뛸 줄 수 = (페이지-1)×줄 수)을 보여 줍니다.
     ro.textContent='전체 '+TOT+'건 · '+p+' / '+pages+' 페이지 · OFFSET '+(p-1)*sz};
+  // 줄 수를 바꾸면 1페이지로 돌아가 다시 그립니다. 처음에도 한 번 그립니다.
   sel.addEventListener('change',()=>{p=1;draw()});draw();
 },
 code:`<nav aria-label="페이지 이동">
@@ -4483,27 +4531,43 @@ cheat:[
 terms:[['infinite scroll','인피니트 스크롤, 끝이 없는 것처럼 계속 불러오는 스크롤'],['sentinel','센티널, 끝 지점을 알려 주는 감시용 빈 요소'],['load more','로드 모어, 더 보기 버튼 방식']],
 note:'뒤로 가기를 눌렀을 때 스크롤 위치와 불러온 목록을 복원해야 합니다. 푸터에 중요한 링크가 있으면 닿을 수 없게 되니 더 보기 버튼 방식이 안전할 수 있습니다.',
 css:`
+/* 무한 스크롤 상자: 높이 230px에 overflow:auto 로 안에서 스크롤합니다. */
 .x-is-box{height:230px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+/* 목록 항목 한 줄: 아이콘과 글자를 가로로 나란히. */
 .x-is-it{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* 항목 아이콘 자리: 40px 둥근 네모에 이모지를 가운데. */
 .x-is-it i{font-style:normal;font-size:24px;width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:var(--accent-soft)}
+/* 항목 설명 글: 연한 색. */
 .x-is-it small{display:block;color:var(--ink-2)}
+/* 목록 아래 상태 줄("더 보기", "불러오는 중" 등). */
 .x-is-st{padding:12px;text-align:center;font-size:12.5px;color:var(--ink-2)}
+/* 빙글빙글 도는 작은 로딩 표시: 둥근 테두리 윗부분만 강조색. */
 .x-is-sp{display:inline-block;width:16px;height:16px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-is-spin .8s linear infinite;vertical-align:-3px;margin-right:6px}
+/* 한 바퀴(360도) 돌립니다. */
 @keyframes x-is-spin{to{transform:rotate(360deg)}}
 `,
 demo:`<div class="d-ctl"><label for="x-is-m">방식 <select id="x-is-m"><option value="auto">자동 (무한 스크롤)</option><option value="btn">더 보기 버튼</option></select></label><span class="d-readout"></span></div><div class="x-is-box" role="feed" aria-busy="false"><div class="x-is-list"></div><div class="x-is-st"></div></div>`,
 init(r){
+  // 스크롤 상자(box), 목록(list), 상태 줄(st), 설명 글(ro), 방식 선택(mode)을 찾습니다.
   const box=r.querySelector('.x-is-box'),list=r.querySelector('.x-is-list'),st=r.querySelector('.x-is-st'),ro=r.querySelector('.d-readout'),mode=r.querySelector('#x-is-m');
+  // EM: 항목에 돌려 쓸 이모지, MAX: 최대 항목 수(40). n: 지금까지 불러온 수, busy: 불러오는 중인지.
   const EM=['🥐','🍞','🥗','🍓','🧀','☕','🍰','🥪'],MAX=40;let n=0,busy=false,io;
+  // add(): 한 번에 8개씩(MAX 를 넘지 않게) 항목을 만들어 목록 끝에 붙입니다.
   const add=()=>{for(let k=0;k<8&&n<MAX;k++,n++){const d=document.createElement('div');d.className='x-is-it';d.innerHTML='<i>'+EM[n%EM.length]+'</i><span>오늘의 소식 '+(n+1)+'<small>동네 가게 새 글 (예시)</small></span>';list.appendChild(d)}};
+  // stat(): 상태 줄과 설명 글을 갱신합니다. 다 불러왔으면 안내만, "더 보기" 방식이면 버튼을, 자동 방식이면 안내 글을 보여 줍니다.
   const stat=()=>{ro.textContent=n+' / '+MAX+'개 불러옴';st.textContent='';
     if(n>=MAX){st.textContent='모두 불러왔습니다.';return}
     if(mode.value==='btn'){const b=document.createElement('button');b.type='button';b.className='d-btn';b.textContent='더 보기';b.addEventListener('click',load);st.appendChild(b)}
     else{st.innerHTML='<span class="x-is-sp"></span>스크롤하면 이어서 불러옵니다'}};
+  // load(): 이미 불러오는 중이거나 끝났으면 무시하고, 아니면 busy 와 aria-busy 로 "불러오는 중"을 표시한 뒤 0.6초 뒤(서버 응답 흉내) 항목을 추가하고 상태를 갱신합니다.
   const load=()=>{if(busy||n>=MAX)return;busy=true;box.setAttribute('aria-busy','true');st.innerHTML='<span class="x-is-sp"></span>불러오는 중...';setTimeout(()=>{add();busy=false;box.setAttribute('aria-busy','false');stat();check()},600)};
+  // check(): 자동 방식에서 스크롤이 바닥에서 200px 안쪽으로 가까워지면(전체 높이 - 스크롤 위치 - 보이는 높이 < 200) 다음 묶음을 불러옵니다.
   const check=()=>{if(mode.value==='auto'&&!busy&&n<MAX&&box.scrollHeight-box.scrollTop-box.clientHeight<200)load()};
+  // 스크롤할 때마다 check() 를 실행합니다(passive:true 는 스크롤을 막지 않겠다는 약속).
   box.addEventListener('scroll',check,{passive:true});
+  // 방식을 바꾸면 상태 줄을 다시 그립니다.
   mode.addEventListener('change',stat);
+  // 처음에 항목 두 묶음(16개)을 채워 스크롤이 생기게 하고 상태를 보여 줍니다.
   add();add();stat();
 },
 code:`<div id="feed"></div>
@@ -4540,32 +4604,55 @@ cheat:[
 terms:[['bottom sheet','바텀 시트, 아래서 올라오는 창'],['modal sheet','모달 시트, 뒤 화면을 막고 보여 주는 시트'],['snap point','스냅 포인트, 시트가 멈추는 높이 지점'],['scrim','스크림, 뒤쪽을 어둡게 덮는 막']],
 note:'시트 안 목록을 스크롤하는 동작과 시트를 끌어 내리는 동작이 부딪히지 않게 손잡이 영역에서만 끌게 합니다. 키보드 사용자를 위해 닫기 버튼과 Esc도 지원합니다.',
 css:`
+/* 바텀시트가 열릴 가짜 휴대폰 화면: position:relative 로 안쪽 요소의 기준점이 되고 overflow:hidden 으로 시트가 화면 밖에 있을 때 가립니다. */
 .x-bs{position:relative;height:300px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#cfe8d5,#b7d3e8);border:1px solid var(--line)}
+/* 뒤에 깔린 지도 화면 자리. */
 .x-bs-map{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:#243845}
+/* 지도 위의 검색 안내 상자. */
 .x-bs-map b{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.85);color:#13202c;font-size:12.5px}
+/* 지도의 핀(위치 표시). */
 .x-bs-pin{position:absolute;left:46%;top:38%;font-size:30px}
+/* 시트를 여는 버튼: 오른쪽 위에 겹쳐 놓습니다. */
 .x-bs-open{position:absolute;right:12px;top:12px}
+/* 시트 뒤의 어두운 막: 처음에는 투명하고 클릭을 통과시킵니다. */
 .x-bs-sc{position:absolute;inset:0;background:rgba(8,16,24,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+/* 시트가 열리면(open) 막이 보이고 클릭을 받습니다(누르면 닫기). */
 .x-bs.open .x-bs-sc{opacity:1;pointer-events:auto}
+/* 시트 본체입니다. 아래에 붙어 있고, 높이는 변수 --sh(기본 170px)입니다. transform:translateY(100% + --dy)로 자기 높이만큼 아래로 밀어 숨기고, --dy 는 끌 때의 이동값입니다. touch-action:none 은 끌 때 화면이 스크롤되지 않게 합니다. */
 .x-bs-sh{position:absolute;left:0;right:0;bottom:0;height:var(--sh,170px);background:var(--surface);color:var(--ink);border-radius:16px 16px 0 0;box-shadow:0 -14px 30px -12px rgba(0,0,0,.45);transform:translateY(calc(100% + var(--dy,0px)));visibility:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s,height .25s;padding:6px 14px 12px;display:grid;grid-template-rows:auto auto 1fr;gap:6px;touch-action:none}
+/* 열리면 제자리(--dy 만큼 끈 위치)로 올라오고 보입니다. */
 .x-bs.open .x-bs-sh{transform:translateY(var(--dy,0px));visibility:visible;transition-delay:0s}
+/* 끄는 중(drag 클래스)에는 transition 을 꺼서 손가락을 바로 따라오게 합니다. */
 .x-bs.drag .x-bs-sh{transition:none}
+/* 시트 위쪽의 잡는 곳(손잡이 영역): cursor:grab 은 잡을 수 있다는 손 모양입니다. */
 .x-bs-hd{height:22px;display:grid;place-items:center;cursor:grab}
+/* 손잡이 막대: 가는 둥근 선. */
 .x-bs-hd i{width:40px;height:5px;border-radius:3px;background:var(--line)}
+/* 시트 제목 글자. */
 .x-bs-sh h4{margin:0;font:700 14px var(--display)}
+/* 시트 내용: 넘치면 안에서 스크롤합니다. touch-action:pan-y 는 세로 스크롤만 허용합니다. */
 .x-bs-body{overflow:auto;font-size:12.5px;color:var(--ink-2);display:grid;gap:6px;align-content:start;touch-action:pan-y}
+/* 시트 내용 한 칸의 카드 모양. */
 .x-bs-body div{padding:8px 10px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line)}
 `,
 demo:`<div class="x-bs"><div class="x-bs-map"><b>📍 근처 빵집</b><span class="x-bs-pin">📍</span>지도 화면 (예시)</div><button class="d-btn d-btn-primary x-bs-open" type="button">장소 정보</button><div class="x-bs-sc"></div><section class="x-bs-sh" role="dialog" aria-label="장소 정보"><div class="x-bs-hd" aria-hidden="true"><i></i></div><h4>모모 베이커리 · 영업 중</h4><div class="x-bs-body"><div>📍 인천 연수구 예시로 12 (예시 주소)</div><div>🕗 오전 8시 ~ 오후 8시</div><div>📞 032-000-0000 (예시)</div><div>⭐ 4.7 · 리뷰 326개 (예시)</div><div class="d-row"><button class="d-btn d-close x-bs-x" type="button">닫기</button></div></div></section></div><p class="d-hint">손잡이를 아래로 끌어 닫거나, 위로 끌어 크게 열어 보세요. Esc와 배경 터치로도 닫힙니다.</p>`,
 init(r){
+  // 화면(w), 시트(sh), 잡는 곳(hd), 여는 버튼(op)을 찾고, sy(끌기 시작 높이), dragging(끄는 중), tall(크게 늘렸는지)을 준비합니다.
   const w=r.querySelector('.x-bs'),sh=r.querySelector('.x-bs-sh'),hd=r.querySelector('.x-bs-hd'),op=r.querySelector('.x-bs-open');let sy=0,dragging=false,tall=false;
+  // open(true/false): open 클래스를 붙이거나 떼어 시트를 열고 닫습니다. 열 때는 높이를 처음 크기(170px)로 되돌립니다.
   const open=v=>{w.classList.toggle('open',v);if(v){tall=false;sh.style.setProperty('--sh','170px');sh.focus&&0}else{w.style.removeProperty('--x')}};
+  // 열기 버튼, 닫기 버튼, 어두운 막을 누르면 각각 열거나 닫습니다.
   op.addEventListener('click',()=>open(true));r.querySelector('.x-bs-x').addEventListener('click',()=>open(false));r.querySelector('.x-bs-sc').addEventListener('click',()=>open(false));
+  // Esc 키를 누르면 닫습니다.
   w.addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
+  // 손잡이를 누르면 끌기를 시작합니다. 시작 위치(sy)를 기억하고, setPointerCapture 로 손가락이 밖으로 나가도 계속 추적하며, drag 클래스로 transition 을 끕니다.
   hd.addEventListener('pointerdown',e=>{dragging=true;sy=e.clientY;hd.setPointerCapture(e.pointerId);w.classList.add('drag')});
+  // 움직이는 동안 손가락이 이동한 거리(dy)만큼 시트를 따라 움직입니다(위로는 최대 40px까지).
   hd.addEventListener('pointermove',e=>{if(!dragging)return;const dy=e.clientY-sy;sh.style.setProperty('--dy',Math.max(-40,dy)+'px')});
+  // end(): 손을 떼면 끌기를 끝내고 위치를 원래대로 돌립니다. 아래로 70px 넘게 끌었으면 닫고, 위로 40px 넘게 끌었으면 시트를 더 크게(260px) 늘립니다.
   const end=e=>{if(!dragging)return;dragging=false;w.classList.remove('drag');const dy=e.clientY-sy;sh.style.setProperty('--dy','0px');
     if(dy>70)open(false);else if(dy<-40){tall=true;sh.style.setProperty('--sh','260px')}};
+  // 손을 떼거나 중단(pointercancel)될 때 end 를 실행합니다.
   hd.addEventListener('pointerup',end);hd.addEventListener('pointercancel',end);
 },
 code:`<div class="scrim" hidden></div>
@@ -4610,33 +4697,53 @@ cheat:[
 terms:[['mega menu','메가 메뉴, 하위 메뉴를 크게 펼치는 패널'],['hover intent','호버 인텐트, 마우스를 올린 의도를 시간으로 판단하는 방식'],['disclosure','디스클로저, 누르면 내용이 펼쳐지는 패턴']],
 note:'호버에만 의존하면 터치 기기와 키보드에서 열 수 없습니다. 모바일에서는 보통 아코디언이나 전체 화면 메뉴로 바꿉니다. 항목이 너무 많으면 오히려 찾기 어려워집니다.',
 css:`
+/* 메가 메뉴 바깥 상자: position:relative 로 펼침 패널의 기준점이 됩니다. */
 .x-mm{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-height:270px;overflow:hidden}
+/* 상단 메뉴 막대: 로고와 메뉴 버튼을 가로로 나열합니다. */
 .x-mm-bar{display:flex;align-items:center;gap:4px;padding:6px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+/* 로고 글자. */
 .x-mm-bar b{font:800 14px var(--display);color:var(--accent);margin-right:8px}
+/* 메뉴 버튼: 기본 모양을 지운 글자 버튼. */
 .x-mm-bar button{border:0;background:none;padding:8px 10px;border-radius:8px;font:600 13px var(--sans);color:var(--ink);cursor:pointer}
+/* 마우스를 올리거나 펼쳐진 상태(aria-expanded="true")의 메뉴는 연한 강조 배경으로 표시합니다. */
 .x-mm-bar button:hover,.x-mm-bar button[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent)}
+/* 펼침 패널: position:absolute 와 left/right:0 으로 막대 아래에 가로 전체를 덮어 띄웁니다. repeat(auto-fit, minmax(110px,1fr))은 칸 수를 폭에 맞춰 정하고, animation 으로 살짝 아래로 내려오며 나타납니다. */
 .x-mm-p{position:absolute;left:0;right:0;top:48px;z-index:2;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 18px 30px -18px rgba(0,0,0,.45);padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;animation:x-mm-in .18s ease-out}
+/* 투명하고 6px 위에서 제자리로 내려오는 애니메이션. */
 @keyframes x-mm-in{from{opacity:0;transform:translateY(-6px)}}
+/* 패널 안 분류 제목 글자. */
 .x-mm-p h5{margin:0 0 6px;font:700 12px var(--display);color:var(--ink-2)}
+/* 패널 안 링크 한 줄: 한 줄을 차지하고 밑줄 없음. */
 .x-mm-p a{display:block;padding:4px 0;font-size:13px;color:var(--ink);text-decoration:none;cursor:pointer}
+/* 마우스를 올리면 강조색과 밑줄. */
 .x-mm-p a:hover{color:var(--accent);text-decoration:underline}
+/* 패널의 추천(프로모션) 칸: 연한 강조 배경. */
 .x-mm-promo{padding:10px;border-radius:10px;background:var(--accent-soft);font-size:12.5px}
+/* 추천 제목은 한 줄을 차지하게. */
 .x-mm-promo b{display:block;margin-bottom:2px}
+/* 메뉴 아래 본문 영역. */
 .x-mm-body{padding:16px;font-size:13px;color:var(--ink-2)}
 `,
 demo:`<div class="x-mm"><div class="x-mm-bar" role="navigation" aria-label="대분류 (예시)"><b>예시마켓</b><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="0">식품</button><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="1">생활</button><button type="button" aria-expanded="false" aria-controls="x-mm-p1" data-p="2">뷰티</button></div><div class="x-mm-p" id="x-mm-p1" hidden></div><div class="x-mm-body">마우스를 올리거나 눌러서 열고, Esc로 닫습니다. 메뉴 항목은 예시입니다.</div></div>`,
 init(r){
+  // D: 메뉴 버튼마다 펼칠 내용(분류 이름과 링크 목록, 마지막은 추천 칸)을 모은 데이터입니다.
   const D=[[['베이커리',['식빵','크루아상','베이글']],['신선식품',['과일','채소','계란']],['음료',['커피','차','주스']],['추천','<b>가을 특가</b>최대 40% 할인 (예시)']],
            [['주방',['보관 용기','칼·도마','컵']],['청소',['세제','수건','청소 도구']],['가구',['수납장','의자','조명']],['추천','<b>이사 준비</b>생활용품 모음 (예시)']],
            [['스킨케어',['토너','크림','선크림']],['메이크업',['립','베이스','브러시']],['바디',['로션','핸드크림','샴푸']],['추천','<b>신규 입점</b>첫 구매 쿠폰 (예시)']]];
+  // 펼침 패널(p), 메뉴 버튼들(bs)을 찾고, cur(지금 펼친 번호, -1은 없음)와 tm(타이머 번호)을 준비합니다.
   const p=r.querySelector('.x-mm-p'),bs=[...r.querySelectorAll('.x-mm-bar button')];let cur=-1,tm;
+  // show(번호): 해당 메뉴만 aria-expanded 로 표시하고 패널을 채워 보여 줍니다. -1 이면 패널을 숨깁니다. 분류마다 제목과 링크를, "추천"은 프로모션 칸을 만듭니다.
   const show=i=>{cur=i;bs.forEach((b,j)=>b.setAttribute('aria-expanded',i===j));if(i<0){p.hidden=true;return}
     p.hidden=false;p.textContent='';D[i].forEach(c=>{const d=document.createElement('div');
       if(c[0]==='추천'){d.className='x-mm-promo';d.innerHTML=c[1]}else{d.innerHTML='<h5>'+c[0]+'</h5>'+c[1].map(t=>'<a tabindex="0">'+t+'</a>').join('')}p.appendChild(d)})};
+  // 메뉴 버튼을 누르면 열거나(이미 열려 있으면 닫기) 합니다.
   bs.forEach((b,i)=>{b.addEventListener('click',()=>show(cur===i?-1:i));
+    // 마우스를 올리면(마우스가 있는 기기에서만) 0.15초 기다렸다가 펼칩니다. 잠깐 스치고 지나갈 때 깜박이지 않게 하는 지연입니다. 벗어나면 대기를 취소합니다.
     b.addEventListener('mouseenter',()=>{if(!matchMedia('(hover:hover)').matches)return;clearTimeout(tm);tm=setTimeout(()=>show(i),150)});
     b.addEventListener('mouseleave',()=>clearTimeout(tm))});
+  // 마우스가 메뉴 전체를 벗어나면 패널을 닫습니다.
   r.querySelector('.x-mm').addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(tm);show(-1)}});
+  // Esc 키를 누르면 패널을 닫고 포커스를 해당 메뉴 버튼으로 돌려줍니다.
   r.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur>=0){const b=bs[cur];show(-1);b.focus()}});
 },
 code:`<nav aria-label="대분류">
@@ -4676,18 +4783,28 @@ cheat:[
 terms:[['scroll','스크롤, 화면을 위아래로 움직임'],['smooth scrolling','스무스 스크롤링, 부드럽게 이동하는 스크롤'],['floating button','플로팅 버튼, 내용 위에 떠 있는 버튼']],
 note:'버튼이 다른 고정 요소(채팅 위젯, 하단 탭바)와 겹치지 않게 위치를 조정하세요. Home 키로도 맨 위로 갈 수 있다는 점을 알아 두면 좋습니다.',
 css:`
+/* 맨 위로 버튼이 놓일 상자: position:relative 로 안쪽 버튼의 기준점. */
 .x-bt{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+/* 스크롤되는 글 영역: 높이 240px에 overflow:auto. */
 .x-bt-sc{height:240px;overflow:auto;padding:0 14px 14px;background:var(--surface);scroll-behavior:auto}
+/* position:sticky 로 스크롤해도 맨 위에 붙어 있는 제목 줄입니다. 음수 margin 으로 좌우 끝까지 늘립니다. */
 .x-bt-sc h4{position:sticky;top:0;margin:0 -14px 10px;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--line);font:700 14px var(--display)}
+/* 본문 문단: 줄 간격 1.6. */
 .x-bt-sc p{margin:0 0 12px;font-size:13px;color:var(--ink-2);line-height:1.6}
+/* 맨 위로 버튼: 오른쪽 아래에 고정된 동그란 버튼입니다. 평소에는 투명(opacity:0)이고 클릭도 통과시킵니다. */
 .x-bt-b{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:18px;cursor:pointer;box-shadow:0 8px 18px -8px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s}
+/* show 클래스가 붙으면 보이고(opacity:1) 제자리로 올라오며 클릭도 받습니다. */
 .x-bt-b.show{opacity:1;transform:none;pointer-events:auto}
 `,
 demo:`<div class="d-ctl"><label for="x-bt-t">표시 기준 <select id="x-bt-t"><option value="60">60px 내려가면</option><option value="200" selected>200px 내려가면</option></select></label></div><div class="x-bt"><div class="x-bt-sc"><h4>상품 후기 모음 (예시)</h4><p>1. 포장이 꼼꼼해서 선물하기 좋았어요.</p><p>2. 아이가 좋아해서 재구매했습니다.</p><p>3. 배송이 하루 늦었지만 상태는 좋았어요.</p><p>4. 생각보다 양이 많아서 냉동해 두고 먹어요.</p><p>5. 버터 향이 진하고 겹이 살아 있습니다.</p><p>6. 단체 주문도 친절하게 응대해 주셨어요.</p><p>7. 다음엔 다른 맛도 먹어 보려고요.</p><p>8. 쿠폰 적용이 편했습니다.</p><p>9. 포장 박스가 튼튼해요.</p><p>10. 끝까지 내려오셨습니다.</p></div><button class="x-bt-b" type="button" aria-label="맨 위로 이동">↑</button></div>`,
 init(r){
+  // 스크롤 영역(sc), 버튼(b), 보이기 시작할 스크롤 거리 선택(t)을 찾습니다.
   const sc=r.querySelector('.x-bt-sc'),b=r.querySelector('.x-bt-b'),t=r.querySelector('#x-bt-t');
+  // u(): 스크롤한 거리(scrollTop)가 선택한 값보다 크면 show 클래스를 붙이고 아니면 뗍니다.
   const u=()=>b.classList.toggle('show',sc.scrollTop>+t.value);
+  // 스크롤하거나 기준 값을 바꿀 때마다 u()를 실행합니다.
   sc.addEventListener('scroll',u,{passive:true});t.addEventListener('change',u);
+  // 버튼을 누르면 맨 위(top:0)로 스크롤합니다. "동작 줄이기"를 켠 사람에게는 부드러운 이동(smooth) 대신 바로(auto) 이동합니다(접근성).
   b.addEventListener('click',()=>{sc.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});sc.focus&&0});
 },
 code:`<button id="top" class="to-top" aria-label="맨 위로 이동" hidden>↑</button>
@@ -4724,32 +4841,53 @@ cheat:[
 terms:[['empty state','엠프티 스테이트, 데이터가 없는 상태의 화면'],['zero state','제로 스테이트, 처음 사용해서 아직 데이터가 없는 상태'],['CTA','시티에이, Call To Action(콜 투 액션), 행동을 유도하는 버튼']],
 note:'"데이터가 없습니다"만 쓰면 사용자가 막힙니다. 이유와 다음 행동을 함께 제안하세요. 로딩 중에 잠깐 빈 화면이 보이지 않게, 로딩과 빈 상태를 구분해야 합니다.',
 css:`
+/* 빈 상태 예시 바깥 상자. */
 .x-es{display:grid;gap:10px}
+/* "검색 / 장바구니" 전환 버튼 묶음: 붙어 있는 둥근 막대 모양. */
 .x-es-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;justify-self:start}
+/* 전환 버튼 하나의 모양. */
 .x-es-seg button{border:0;background:var(--surface);color:var(--ink-2);padding:7px 14px;font:600 12.5px var(--sans);cursor:pointer}
+/* 선택된 버튼(aria-pressed="true")은 강조색으로 표시합니다. */
 .x-es-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+/* 검색 입력 칸 모양. */
 .x-es-q{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* 목록 상자: 점을 없애고 테두리를 줍니다. min-height 로 목록이 비어도 높이가 급하게 변하지 않게 합니다. */
 .x-es-l{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden;min-height:130px}
+/* 목록 한 줄: 이름은 왼쪽, 버튼은 오른쪽 끝. */
 .x-es-l li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+/* 마지막 줄은 아래 선을 없앱니다. */
 .x-es-l li:last-child{border-bottom:0}
+/* 삭제 버튼: 기본 모양을 지우고 빨간 글자로. */
 .x-es-l button{border:0;background:none;color:var(--rose);font:600 12px var(--sans);cursor:pointer}
+/* 빈 상태 안내(아이콘, 제목, 설명, 버튼)를 가운데로 모읍니다. */
 .x-es-e{display:grid;gap:4px;justify-items:center;text-align:center;padding:22px 12px}
+/* 큰 이모지 아이콘. */
 .x-es-e i{font-style:normal;font-size:40px}
+/* 빈 상태 제목 글자. */
 .x-es-e b{font-size:14px}
+/* 빈 상태 설명 글: 작고 연한 색. */
 .x-es-e span{font-size:12.5px;color:var(--ink-2)}
 `,
 demo:`<div class="x-es"><div class="x-es-seg" role="group" aria-label="화면 선택"><button type="button" aria-pressed="true" data-m="s">검색 결과 없음</button><button type="button" aria-pressed="false" data-m="c">빈 장바구니</button></div><div class="x-es-sbox"><label class="sr" for="x-es-q">메뉴 검색</label><input class="x-es-q" id="x-es-q" type="search" placeholder="메뉴 검색 (예: 식빵, 라떼, 쿠키)"></div><ul class="x-es-l" role="status" aria-live="polite"></ul></div>`,
 init(r){
+  // 목록(L), 검색 입력(q), 검색 영역(sb), 전환 버튼들(bs)을 찾습니다.
   const L=r.querySelector('.x-es-l'),q=r.querySelector('#x-es-q'),sb=r.querySelector('.x-es-sbox'),bs=[...r.querySelectorAll('.x-es-seg button')];
+  // mode: 지금 화면(s=검색, 아니면 장바구니), menu: 메뉴 목록, cart: 장바구니 목록 데이터.
   let mode='s',menu=['식빵','크루아상','아메리카노','카페라떼','딸기 쿠키','치즈 케이크'],cart=['식빵 · 4,500원','카페라떼 · 4,000원'];
+  // empty(아이콘, 제목, 설명, 버튼 글자, 동작): 빈 상태 안내를 그립니다. 무엇이 비었는지(제목), 왜(설명), 다음에 할 일(버튼)을 함께 보여 주는 것이 좋은 빈 상태입니다.
   const empty=(i,t,s,b,fn)=>{L.innerHTML='<li style="display:block;border:0"><div class="x-es-e"><i>'+i+'</i><b>'+t+'</b><span>'+s+'</span></div></li>';const bt=document.createElement('button');bt.type='button';bt.className='d-btn d-btn-primary';bt.textContent=b;bt.addEventListener('click',fn);L.querySelector('.x-es-e').appendChild(bt)};
+  // draw(): 지금 모드에 맞게 목록을 다시 그립니다. 검색 모드에서만 검색 영역을 보입니다.
   const draw=()=>{L.textContent='';sb.hidden=mode!=='s';
+    // 검색 모드: 입력한 글자(k)가 들어 있는 메뉴만 골라(filter) 보여 줍니다. 결과가 없으면 "맞는 메뉴가 없어요" 빈 상태와 "검색어 지우기" 버튼을 보입니다.
     if(mode==='s'){const k=q.value.trim(),res=menu.filter(m=>m.includes(k));
       if(!res.length)return empty('🔍','"'+k+'"에 맞는 메뉴가 없어요','철자를 확인하거나 다른 검색어를 입력해 보세요.','검색어 지우기',()=>{q.value='';draw();q.focus()});
       res.forEach(m=>{const li=document.createElement('li');li.textContent=m;L.appendChild(li)})}
+    // 장바구니 모드: 비었으면 "비어 있어요" 안내와 "메뉴 보러 가기" 버튼을 보이고, 있으면 항목마다 삭제 버튼(aria-label 로 어느 항목인지 알림)을 만듭니다.
     else{if(!cart.length)return empty('🛒','장바구니가 비어 있어요','마음에 드는 메뉴를 담아 보세요.','메뉴 보러 가기',()=>{cart=['식빵 · 4,500원','카페라떼 · 4,000원'];draw()});
       cart.forEach((c,i)=>{const li=document.createElement('li');li.innerHTML='<span>'+c+'</span>';const b=document.createElement('button');b.type='button';b.textContent='삭제';b.setAttribute('aria-label',c+' 삭제');b.addEventListener('click',()=>{cart.splice(i,1);draw()});li.appendChild(b);L.appendChild(li)})}};
+  // 입력할 때마다, 전환 버튼을 누를 때마다 다시 그립니다. 전환하면 aria-pressed 로 선택 표시를 바꿉니다.
   q.addEventListener('input',draw);bs.forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.m;bs.forEach(x=>x.setAttribute('aria-pressed',x===b));draw()}));draw();
+  // 처음부터 "결과 없음" 상태를 보여 주려고 일부러 맞는 것이 없는 검색어를 넣어 둡니다.
   q.value='마카롱';draw();
 },
 code:`<ul role="status" aria-live="polite">
