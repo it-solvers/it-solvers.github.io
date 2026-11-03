@@ -796,7 +796,7 @@
     {
      "@type": "DefinedTerm",
      "name": "Inputs Inside Cells",
-     "description": "Put combo boxes, radio buttons, and checkboxes inside the cells of a table so that each row can have its own value. Store the value in the data, not on the screen, so it survives sorting or redrawing.",
+     "description": "Put combo boxes, radio buttons, date inputs, and checkboxes inside the cells of a table so each row can have its own values, and select rows with the checkbox at the start of each row. The checkbox at the top handles select all and clear all. Store the values and the selection in the data, not on the screen, so they survive sorting or redrawing.",
      "url": "https://itsolvers.co.kr/en/insights/web-ui-glossary.html#grid-cell-input",
      "inDefinedTermSet": "https://itsolvers.co.kr/en/insights/web-ui-glossary.html"
     },
@@ -8944,57 +8944,88 @@ init(r){
 },
 {
 id:'grid-cell-input',cat:'grid',en:'Inputs Inside Cells',ko:'Inputs Inside Cells',
-kw:'cell input combo box combobox select radio checkbox grid edit event delegation row business screen',
-desc:'Put combo boxes, radio buttons, and checkboxes inside the cells of a table so that each row can have its own value. Store the value in the data, not on the screen, so it survives sorting or redrawing.',
-use:'Business screens that change status, set priority, or mark rows one by one',
+kw:'cell input combo box combobox select radio date checkbox row selection select all indeterminate bulk action grid edit event delegation row business screen',
+desc:'Put combo boxes, radio buttons, date inputs, and checkboxes inside the cells of a table so each row can have its own values, and select rows with the checkbox at the start of each row. The checkbox at the top handles select all and clear all. Store the values and the selection in the data, not on the screen, so they survive sorting or redrawing.',
+use:'Business screens that change status, set priority and delivery dates, or pick several rows and process them at once',
 cheat:[
 ['<select data-f="st">','Choose a status with a combo box (drop-down)'],
 ['<input type="radio" name="pr1">','Use a different name for each row so only one is chosen within that row'],
-['<input type="checkbox">','Mark a row as checked or selected'],
+['<input type="date" min max>','A date input. min and max limit the range you can pick, and the value is always text like "2026-11-10"'],
+['<input type="checkbox" class="dg-sel">','Select a row with the checkbox at its start'],
+['all.indeterminate = true','Show the top checkbox as "—" (the in-between state) when only some rows are selected'],
 ['change event + event delegation','Attach one listener to the tbody to receive changes from every cell'],
-['aria-label="Hanbit Trading status"','Give each input in a cell a name that tells which row it belongs to']],
-terms:[['combobox','An input where you choose a value from a list (select in HTML)'],['radio button','A round choice where only one of several can be chosen'],['event delegation','A way for one parent to receive the events of its children']],
-note:'If every row uses the same radio name, only one radio in the whole table can be chosen. Use a different name for each row. Redrawing the whole table on every change loses focus, so apply only the changed value to the data.',
+['aria-label="Select Hanbit Trading"','Give each input in a cell a name that tells which row it belongs to']],
+terms:[['combobox','An input where you choose a value from a list (select in HTML)'],['radio button','A round choice where only one of several can be chosen'],['indeterminate','The in-between state, a checkbox look meaning "only some are selected" (neither checked nor cleared)'],['bulk action','Doing the same thing to several selected rows at once']],
+note:'If every row uses the same radio name, only one radio in the whole table can be chosen. Use a different name for each row. Redrawing the whole table on every change loses focus, so apply only the changed value to the data. A date input looks different depending on the browser and language settings, but its value is always "year-month-day" text. In a table with pages, make clear whether select all means "this page only" or "all pages".',
 css:`
+/* Lays out the radio buttons in one row horizontally. */
 .dg-radios{display:flex;gap:10px}
+/* Gives a hand cursor so clicking the label text also selects the radio. */
 .dg-radios label{display:inline-flex;gap:4px;align-items:center;cursor:pointer}
+/* Makes the combo box (select) inside a cell match the other inputs. */
 .dg td select{font:12.5px var(--sans);padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+/* The look of the date input in a cell: the same border and rounded corners as the combo box. */
+.dg td input[type=date]{font:12.5px var(--sans);padding:3px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+/* accent-color changes the check color of radios and checkboxes to the accent color. */
 .dg input[type=radio],.dg input[type=checkbox]{accent-color:var(--accent)}
+/* The row selection column (the first column) is narrow, with the checkbox centered. */
+.dg .dg-chk{width:34px;text-align:center}
+/* A selected row (the sel class) is shown with a background mixed with the accent color. It is a bit stronger than the hover color so they can be told apart. */
+.dg tbody tr.sel td{background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
 `,
-demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">Sort by customer name</button><button class="d-btn dg-resetbtn" type="button">Reset values</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col">Customer</th><th scope="col">Status (combo box)</th><th scope="col">Priority (radio)</th><th scope="col">Checked (checkbox)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">Change some values, then press the sort button. Your changes follow the rows.</p>`,
+demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">Sort by customer name</button><button class="d-btn dg-bulkbtn" type="button" disabled>Mark selected as Done</button><button class="d-btn dg-resetbtn" type="button">Reset values</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col" class="dg-chk"><input type="checkbox" class="dg-all" aria-label="Select all"></th><th scope="col">Customer</th><th scope="col">Status (combo box)</th><th scope="col">Priority (radio)</th><th scope="col">Delivery date (date)</th><th scope="col">Checked (checkbox)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">Select rows with the checkbox at the start of each row, and use the top checkbox to select or clear all. When only some are selected, the top checkbox shows "—". After changing values, press the sort button: the values and the selection follow the rows.</p>`,
 init(r){
   // Customer names (N), the status list (S), and the priority list (P)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],P=['Low','Normal','High'];
-  // mk(): make 6 rows; the values (st, pr, ok) live in this data, not on the screen
-  const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,ok:i%2===0}));
+  // mk(): make 6 rows. The values (st, pr, dt, ok) and the selection (sel) live in this data, not on the screen. The delivery date (dt) starts at November 10 and grows by 3 days, as "year-month-day" text
+  const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,dt:new Date(Date.UTC(2026,10,10+i*3)).toISOString().slice(0,10),ok:i%2===0,sel:false}));
   // rows: the current values; base: the starting values for comparison; sorted: whether we are viewing by name
   let rows=mk(),sorted=false;const base=mk();
-  const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),resetBtn=r.querySelector('.dg-resetbtn');
-  // count(): count the rows that differ from the starting values and show it in the info text
+  // Find the table body (body), the info text (info), the buttons (sortBtn, bulkBtn, resetBtn), and the "select all" checkbox at the top (all)
+  const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),bulkBtn=r.querySelector('.dg-bulkbtn'),resetBtn=r.querySelector('.dg-resetbtn'),all=r.querySelector('.dg-all');
+  // count(): count the rows that differ from the starting values (n) and the selected rows (m), and show them in the info text
   function count(){
-    const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.ok!==base[i].ok).length;
-    info.textContent='Rows changed: '+n+'';
+    const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.dt!==base[i].dt||x.ok!==base[i].ok).length,m=rows.filter(x=>x.sel).length;
+    info.textContent='Rows changed: '+n+''+' · Rows selected: '+m+'';
   }
-  // draw(): redraw the table from the data (rows); selected values are read from the data, so they are kept
+  // sync(): make the screen match the selection in the data (sel). For each row, match the sel class (highlight) and the checkmark; the top checkbox is checked only when all rows are selected and set to indeterminate (the in-between "—" state) when only some are. If no row is selected, the bulk button is disabled
+  function sync(){
+    const m=rows.filter(x=>x.sel).length;
+    body.querySelectorAll('tr').forEach(tr=>{const on=rows.find(x=>x.id===+tr.dataset.id).sel;tr.classList.toggle('sel',on);tr.querySelector('.dg-sel').checked=on});
+    all.checked=m===rows.length;
+    all.indeterminate=m>0&&m<rows.length;
+    bulkBtn.disabled=m===0;
+    count();
+  }
+  // draw(): redraw the table from the data (rows). Values and the selection are read from the data, so they are kept
   function draw(){
     const list=sorted?rows.slice().sort((a,b)=>a.name.localeCompare(b.name,'en-US')):rows;
-    // Each row gets a combo box (select), radios, and a checkbox; radios need a different name per row so only one is chosen within that row
-    body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td>'+x.name+'</td>'
+    // For each row, create the selection checkbox, a combo box (select), radios, a date input, and the checked checkbox. Radios need a different name per row so only one is chosen within that row. The date uses min and max to limit the range you can pick
+    body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td class="dg-chk"><input type="checkbox" class="dg-sel" aria-label="'+x.name+' Select"></td><td>'+x.name+'</td>'
       +'<td><select class="dg-in" data-f="st" aria-label="'+x.name+' status">'+S.map((s,j)=>'<option value="'+j+'"'+(j===x.st?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'
       +'<td><div class="dg-radios" role="radiogroup" aria-label="'+x.name+' priority">'+P.map((p,j)=>'<label><input type="radio" class="dg-in" data-f="pr" name="pr'+x.id+'" value="'+j+'"'+(j===x.pr?' checked':'')+'> '+p+'</label>').join('')+'</div></td>'
+      +'<td><input type="date" class="dg-in" data-f="dt" value="'+x.dt+'" min="2026-11-01" max="2026-12-31" aria-label="'+x.name+' delivery date"></td>'
       +'<td><input type="checkbox" class="dg-in" data-f="ok" aria-label="'+x.name+' checked"'+(x.ok?' checked':'')+'></td></tr>').join('');
     sortBtn.textContent=sorted?'Original order':'Sort by customer name';
-    count();
+    sync();
   }
   // One listener on the table body receives changes from every cell (event delegation)
   body.addEventListener('change',e=>{
-    const el=e.target.closest('.dg-in');if(!el)return;
-    // Find which row (data-id) and which field (data-f) changed and save it to the data; the table is not redrawn, so focus stays
-    const row=rows.find(x=>x.id===+el.closest('tr').dataset.id),f=el.dataset.f;
-    row[f]=f==='ok'?el.checked:+el.value;
+    const el=e.target.closest('.dg-in,.dg-sel');if(!el)return;
+    // Find which row (data-id) the changed cell belongs to
+    const row=rows.find(x=>x.id===+el.closest('tr').dataset.id);
+    // If it is the row selection checkbox, change only the selection (sel) and match the screen (sync)
+    if(el.classList.contains('dg-sel')){row.sel=el.checked;sync();return}
+    // For other cells, look at which field (data-f) it is and save it to the data: a checkbox as checked, a date as text, and a combo box or radio as a number. The table is not redrawn, so focus stays
+    const f=el.dataset.f;
+    row[f]=f==='ok'?el.checked:f==='dt'?el.value:+el.value;
     count();
   });
-  // Toggle the name sort and reset the values
+  // The top checkbox: set the selection of every row to its state (checked) and match the screen. Pressing it in the in-between state selects all
+  all.addEventListener('change',()=>{rows.forEach(x=>{x.sel=all.checked});sync()});
+  // The bulk button: change the status of every selected row to "Done" (2), then redraw the table so the combo boxes show it. The selection stays in the data, so it is kept
+  bulkBtn.addEventListener('click',()=>{rows.forEach(x=>{if(x.sel)x.st=2});draw()});
+  // Toggle the name sort and reset the values (the selection is cleared too)
   sortBtn.addEventListener('click',()=>{sorted=!sorted;draw()});
   resetBtn.addEventListener('click',()=>{rows=mk();draw()});
   draw();
@@ -9264,6 +9295,7 @@ records.forEach(r=>spy.observe(r.art));
 
 /* Revision history: newest at the top. Add one line each time the page is changed (date as YYYY-MM-DD) */
 const HISTORY=[
+  ['2026-11-03','Added a date input, row selection (a checkbox at the start of each row), select all (the top checkbox, with an in-between state when only some are chosen), and a bulk action on selected rows to the Inputs Inside Cells card'],
   ['2026-11-03','Added beginner-friendly comments: an intro at the top of every saved file, explanations of the CSS, HTML, and JavaScript sections, explanations of the shared CSS (:root, :focus-visible, .sr, and others), and script comments for the 6 Data Grid cards. beginner-friendly line-by-line comments are now complete for the CSS rules and JavaScript code of all existing 99 cards and the 6 new Data Grid cards (included in saved files and the code view)'],
   ['2026-11-03','Added a new Data Grid category with 6 cards (Data Grid, Column Sorting, Pagination, Loading/Empty/Error States, Inputs Inside Cells, Search and Filter); now 105 terms in 13 categories'],
   ['2026-11-03','Changed every example to be the source of its "Save the code" file, generated automatically (99 cards); the first screen now shows only the layout cards; applied the site theme; added this revision history; added automatic light/dark switching by sunrise and sunset (☀ ☾ button); added the English version'],

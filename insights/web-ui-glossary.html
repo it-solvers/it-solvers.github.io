@@ -900,8 +900,8 @@
     {
      "@type": "DefinedTerm",
      "name": "Inputs Inside Cells",
-     "alternateName": "셀 안의 입력 (콤보박스·라디오·체크박스)",
-     "description": "표의 칸 안에 콤보박스, 라디오 버튼, 체크박스를 넣어 줄마다 값을 고르게 합니다. 값은 화면이 아니라 데이터에 저장해야 정렬하거나 다시 그려도 사라지지 않습니다.",
+     "alternateName": "셀 안의 입력 (콤보박스·라디오·날짜·체크박스·행 선택)",
+     "description": "표의 칸 안에 콤보박스, 라디오 버튼, 날짜 입력, 체크박스를 넣어 줄마다 값을 고르게 하고, 줄 앞의 체크박스로 줄을 선택합니다. 맨 위 체크박스는 전체 선택과 해제를 맡습니다. 값과 선택 여부는 화면이 아니라 데이터에 저장해야 정렬하거나 다시 그려도 사라지지 않습니다.",
      "url": "https://itsolvers.co.kr/insights/web-ui-glossary.html#grid-cell-input",
      "inDefinedTermSet": "https://itsolvers.co.kr/insights/web-ui-glossary.html"
     },
@@ -9055,58 +9055,89 @@ init(r){
 },
 },
 {
-id:'grid-cell-input',cat:'grid',en:'Inputs Inside Cells',ko:'셀 안의 입력 (콤보박스·라디오·체크박스)',
-kw:'셀 입력 콤보박스 combobox select 라디오 radio 체크박스 checkbox 그리드 편집 이벤트 위임 줄 단위 업무 화면',
-desc:'표의 칸 안에 콤보박스, 라디오 버튼, 체크박스를 넣어 줄마다 값을 고르게 합니다. 값은 화면이 아니라 데이터에 저장해야 정렬하거나 다시 그려도 사라지지 않습니다.',
-use:'상태 변경, 우선순위 지정, 선택 처리를 줄 단위로 하는 업무 화면',
+id:'grid-cell-input',cat:'grid',en:'Inputs Inside Cells',ko:'셀 안의 입력 (콤보박스·라디오·날짜·체크박스·행 선택)',
+kw:'셀 입력 콤보박스 combobox select 라디오 radio 날짜 date 체크박스 checkbox 행 선택 전체 선택 select all indeterminate 일괄 처리 그리드 편집 이벤트 위임 줄 단위 업무 화면',
+desc:'표의 칸 안에 콤보박스, 라디오 버튼, 날짜 입력, 체크박스를 넣어 줄마다 값을 고르게 하고, 줄 앞의 체크박스로 줄을 선택합니다. 맨 위 체크박스는 전체 선택과 해제를 맡습니다. 값과 선택 여부는 화면이 아니라 데이터에 저장해야 정렬하거나 다시 그려도 사라지지 않습니다.',
+use:'상태 변경, 우선순위·납품일 지정, 여러 줄을 골라 한꺼번에 처리하는 업무 화면',
 cheat:[
 ['<select data-f="st">','콤보박스(드롭다운)로 상태를 고름'],
 ['<input type="radio" name="pr1">','줄마다 name을 다르게 해서 그 줄 안에서만 하나를 고름'],
-['<input type="checkbox">','줄별로 확인이나 선택 표시'],
+['<input type="date" min max>','날짜 입력 칸. min, max 로 고를 수 있는 범위를 제한하고, 값은 항상 "2026-11-10" 형식의 글자'],
+['<input type="checkbox" class="dg-sel">','줄 앞의 체크박스로 그 줄을 선택'],
+['all.indeterminate = true','일부만 골랐을 때 맨 위 체크박스를 "—" 모양(중간 상태)으로 표시'],
 ['change 이벤트 + 이벤트 위임','tbody 하나에만 리스너를 달아 모든 칸의 변경을 받음'],
-['aria-label="한빛상사 상태"','칸 안의 입력에는 어느 줄인지 알 수 있는 이름을 붙임']],
-terms:[['combobox','콤보박스, 목록에서 값을 고르는 입력 칸 (HTML에서는 select)'],['radio button','라디오 버튼, 여럿 중 하나만 고르는 동그란 선택'],['event delegation','이벤트 위임, 부모 하나가 자식들의 이벤트를 대신 받는 방식']],
-note:'라디오 버튼의 name이 줄마다 같으면 표 전체에서 하나만 선택됩니다. 줄마다 다른 name을 쓰세요. 값을 바꿀 때마다 표를 통째로 다시 그리면 포커스가 사라지니, 바뀐 값만 데이터에 반영하세요.',
+['aria-label="한빛상사 선택"','칸 안의 입력에는 어느 줄인지 알 수 있는 이름을 붙임']],
+terms:[['combobox','콤보박스, 목록에서 값을 고르는 입력 칸 (HTML에서는 select)'],['radio button','라디오 버튼, 여럿 중 하나만 고르는 동그란 선택'],['indeterminate','중간 상태, 체크도 해제도 아닌 "일부만 선택"을 나타내는 체크박스 모양'],['bulk action','일괄 작업, 선택한 여러 줄에 같은 일을 한 번에 하는 것']],
+note:'라디오 버튼의 name이 줄마다 같으면 표 전체에서 하나만 선택됩니다. 줄마다 다른 name을 쓰세요. 값을 바꿀 때마다 표를 통째로 다시 그리면 포커스가 사라지니, 바뀐 값만 데이터에 반영하세요. 날짜 입력은 화면에 보이는 모양이 브라우저와 언어 설정마다 다르지만 값은 항상 "년-월-일" 글자입니다. 페이지를 나누는 표에서는 전체 선택이 "이 페이지만"인지 "모든 페이지"인지 분명히 알려 주세요.',
 css:`
+/* 한 줄 안의 라디오 버튼들을 가로로 나열합니다. */
 .dg-radios{display:flex;gap:10px}
+/* 라벨(글자)을 눌러도 라디오가 선택되도록 손 모양 커서를 줍니다. */
 .dg-radios label{display:inline-flex;gap:4px;align-items:center;cursor:pointer}
+/* 칸 안의 콤보박스(select) 모양을 다른 입력 칸과 맞춥니다. */
 .dg td select{font:12.5px var(--sans);padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+/* 칸 안의 날짜 입력 모양: 테두리와 둥근 모서리를 콤보박스와 같게 맞춥니다. */
+.dg td input[type=date]{font:12.5px var(--sans);padding:3px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+/* accent-color 는 라디오·체크박스의 체크 색을 강조색으로 바꿉니다. */
 .dg input[type=radio],.dg input[type=checkbox]{accent-color:var(--accent)}
+/* 줄 선택 칸(맨 앞 열)은 좁게, 체크박스는 가운데에 둡니다. */
+.dg .dg-chk{width:34px;text-align:center}
+/* 선택한 줄(sel 클래스)은 강조색을 섞은 배경으로 표시합니다. 마우스 올림 색과 구분되게 조금 더 진합니다. */
+.dg tbody tr.sel td{background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
 `,
-demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">고객사 이름순 보기</button><button class="d-btn dg-resetbtn" type="button">값 되돌리기</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">고객사</th><th scope="col">상태 (콤보박스)</th><th scope="col">우선순위 (라디오)</th><th scope="col">확인 (체크박스)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">값을 바꾼 뒤 이름순 보기를 눌러 보세요. 바꾼 값이 줄을 따라갑니다.</p>`,
+demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">고객사 이름순 보기</button><button class="d-btn dg-bulkbtn" type="button" disabled>선택한 줄 완료 처리</button><button class="d-btn dg-resetbtn" type="button">값 되돌리기</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col" class="dg-chk"><input type="checkbox" class="dg-all" aria-label="전체 선택"></th><th scope="col">고객사</th><th scope="col">상태 (콤보박스)</th><th scope="col">우선순위 (라디오)</th><th scope="col">납품일 (날짜)</th><th scope="col">확인 (체크박스)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">줄 앞의 체크박스로 줄을 고르고, 맨 위 체크박스로 전체를 고르거나 해제해 보세요. 일부만 고르면 맨 위 체크박스가 "—" 모양이 됩니다. 값을 바꾼 뒤 이름순 보기를 눌러도 값과 선택이 줄을 따라갑니다.</p>`,
 init(r){
   // 고객사 이름(N), 상태 목록(S), 우선순위 목록(P)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],P=['낮음','보통','높음'];
-  // mk(): 줄 6개를 만든다. 값(st, pr, ok)은 화면이 아니라 이 데이터에 저장된다
-  const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,ok:i%2===0}));
+  // mk(): 줄 6개를 만든다. 값(st, pr, dt, ok)과 선택 여부(sel)는 화면이 아니라 이 데이터에 저장된다. 납품일(dt)은 11월 10일부터 3일씩 늘려 "년-월-일" 글자로 만든다
+  const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,dt:new Date(Date.UTC(2026,10,10+i*3)).toISOString().slice(0,10),ok:i%2===0,sel:false}));
   // rows: 지금 값, base: 처음 값(비교용), sorted: 이름순으로 보는 중인지
   let rows=mk(),sorted=false;const base=mk();
-  const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),resetBtn=r.querySelector('.dg-resetbtn');
-  // count(): 처음 값과 다른 줄이 몇 개인지 세어 안내 글에 보여 준다
+  // 표 본문(body), 안내 글(info), 버튼들(sortBtn, bulkBtn, resetBtn), 맨 위 "전체 선택" 체크박스(all)를 찾는다
+  const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),bulkBtn=r.querySelector('.dg-bulkbtn'),resetBtn=r.querySelector('.dg-resetbtn'),all=r.querySelector('.dg-all');
+  // count(): 처음 값과 다른 줄 수(n)와 선택한 줄 수(m)를 세어 안내 글에 보여 준다
   function count(){
-    const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.ok!==base[i].ok).length;
-    info.textContent='변경한 줄: '+n+'건';
+    const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.dt!==base[i].dt||x.ok!==base[i].ok).length,m=rows.filter(x=>x.sel).length;
+    info.textContent='변경한 줄: '+n+'건'+' · 선택한 줄: '+m+'건';
   }
-  // draw(): 데이터(rows)를 보고 표를 처음부터 다시 그린다. 선택된 값은 데이터에서 읽어 오므로 그대로 유지된다
+  // sync(): 데이터의 선택 상태(sel)를 화면에 맞춘다. 줄마다 sel 클래스(강조 배경)와 체크 표시를 맞추고, 맨 위 체크박스는 전부 골랐을 때만 체크, 일부만 골랐을 때는 indeterminate(중간 상태 "—")로 둔다. 선택한 줄이 없으면 일괄 처리 버튼을 막는다
+  function sync(){
+    const m=rows.filter(x=>x.sel).length;
+    body.querySelectorAll('tr').forEach(tr=>{const on=rows.find(x=>x.id===+tr.dataset.id).sel;tr.classList.toggle('sel',on);tr.querySelector('.dg-sel').checked=on});
+    all.checked=m===rows.length;
+    all.indeterminate=m>0&&m<rows.length;
+    bulkBtn.disabled=m===0;
+    count();
+  }
+  // draw(): 데이터(rows)를 보고 표를 처음부터 다시 그린다. 값과 선택 여부는 데이터에서 읽어 오므로 그대로 유지된다
   function draw(){
     const list=sorted?rows.slice().sort((a,b)=>a.name.localeCompare(b.name,'ko-KR')):rows;
-    // 줄마다 콤보박스(select), 라디오(radio), 체크박스(checkbox)를 만든다. 라디오는 줄마다 name을 다르게 해야 줄 안에서만 하나 선택된다
-    body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td>'+x.name+'</td>'
+    // 줄마다 선택 체크박스, 콤보박스(select), 라디오(radio), 날짜(date), 확인 체크박스(checkbox)를 만든다. 라디오는 줄마다 name을 다르게 해야 줄 안에서만 하나 선택된다. 날짜는 min, max 로 고를 수 있는 범위를 제한한다
+    body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td class="dg-chk"><input type="checkbox" class="dg-sel" aria-label="'+x.name+' 선택"></td><td>'+x.name+'</td>'
       +'<td><select class="dg-in" data-f="st" aria-label="'+x.name+' 상태">'+S.map((s,j)=>'<option value="'+j+'"'+(j===x.st?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'
       +'<td><div class="dg-radios" role="radiogroup" aria-label="'+x.name+' 우선순위">'+P.map((p,j)=>'<label><input type="radio" class="dg-in" data-f="pr" name="pr'+x.id+'" value="'+j+'"'+(j===x.pr?' checked':'')+'> '+p+'</label>').join('')+'</div></td>'
+      +'<td><input type="date" class="dg-in" data-f="dt" value="'+x.dt+'" min="2026-11-01" max="2026-12-31" aria-label="'+x.name+' 납품일"></td>'
       +'<td><input type="checkbox" class="dg-in" data-f="ok" aria-label="'+x.name+' 확인"'+(x.ok?' checked':'')+'></td></tr>').join('');
     sortBtn.textContent=sorted?'원래 순서로':'고객사 이름순 보기';
-    count();
+    sync();
   }
   // 표 본문에 리스너 하나만 달아 모든 칸의 변경을 받는다 (이벤트 위임)
   body.addEventListener('change',e=>{
-    const el=e.target.closest('.dg-in');if(!el)return;
-    // 바뀐 칸이 어느 줄(data-id)의 어느 항목(data-f)인지 찾아 데이터에 반영한다. 표를 다시 그리지 않으니 포커스도 유지된다
-    const row=rows.find(x=>x.id===+el.closest('tr').dataset.id),f=el.dataset.f;
-    row[f]=f==='ok'?el.checked:+el.value;
+    const el=e.target.closest('.dg-in,.dg-sel');if(!el)return;
+    // 바뀐 칸이 어느 줄(data-id)의 것인지 찾는다
+    const row=rows.find(x=>x.id===+el.closest('tr').dataset.id);
+    // 줄 선택 체크박스면 선택 여부(sel)만 바꾸고 화면을 맞춘다(sync)
+    if(el.classList.contains('dg-sel')){row.sel=el.checked;sync();return}
+    // 그 밖의 칸은 어떤 항목(data-f)인지 보고 데이터에 반영한다: 체크박스는 checked, 날짜는 글자 그대로, 콤보박스와 라디오는 숫자로. 표를 다시 그리지 않으니 포커스도 유지된다
+    const f=el.dataset.f;
+    row[f]=f==='ok'?el.checked:f==='dt'?el.value:+el.value;
     count();
   });
-  // 이름순 보기 / 원래 순서 전환, 값 되돌리기
+  // 맨 위 체크박스: 누른 상태(checked)대로 모든 줄의 선택 여부를 바꾸고 화면을 맞춘다. 줄 일부만 골라 중간 상태일 때 누르면 전체 선택이 된다
+  all.addEventListener('change',()=>{rows.forEach(x=>{x.sel=all.checked});sync()});
+  // 일괄 처리 버튼: 선택한 줄의 상태를 모두 "완료"(2)로 바꾼 뒤 표를 다시 그려 콤보박스에 반영한다. 선택은 데이터에 남아 있어 그대로 유지된다
+  bulkBtn.addEventListener('click',()=>{rows.forEach(x=>{if(x.sel)x.st=2});draw()});
+  // 이름순 보기 / 원래 순서 전환, 값 되돌리기(선택도 함께 풀림)
   sortBtn.addEventListener('click',()=>{sorted=!sorted;draw()});
   resetBtn.addEventListener('click',()=>{rows=mk();draw()});
   draw();
@@ -9376,6 +9407,7 @@ records.forEach(r=>spy.observe(r.art));
 
 /* 수정 이력: 맨 위가 최신. 새로 고칠 때마다 한 줄 추가 (날짜는 YYYY-MM-DD) */
 const HISTORY=[
+  ['2026-11-03','셀 안의 입력 카드에 날짜 입력과 행 선택(줄 앞 체크박스), 전체 선택(맨 위 체크박스, 일부만 고르면 중간 상태), 선택한 줄 일괄 처리 예시를 추가'],
   ['2026-11-03','초보자를 위한 주석 추가: “파일로 저장”으로 만든 파일 맨 위 안내와 CSS·HTML·JavaScript 구역 설명, 공통 CSS(:root, :focus-visible, .sr 등) 설명, 데이터 그리드 카드 6장의 스크립트 주석. 기존 99개 카드 전체와 새 데이터 그리드 6장의 CSS 규칙과 JavaScript 코드에 초보자용 줄 단위 주석 완료(저장 파일과 코드 보기에 그대로 들어감)'],
   ['2026-11-03','데이터 그리드(표) 카테고리를 새로 만들고 카드 6개 추가(데이터 그리드, 열 정렬, 페이지 나누기, 조회 중·결과 없음·오류 표시, 셀 안의 입력, 검색·필터). 모두 105개 용어, 13개 카테고리'],
   ['2026-11-03','모든 예시를 원본으로 삼아 “코드 저장하기” 파일을 자동으로 만들도록 변경(99개), 첫 화면은 레이아웃만 먼저 표시, 사이트 테마 적용, 수정 이력 추가, 일출·일몰에 맞춘 자동 밝기 전환(☀ ☾ 버튼) 추가, 영문판 추가'],
