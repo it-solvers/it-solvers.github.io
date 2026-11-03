@@ -975,6 +975,8 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+.purpose{margin:0 0 14px;max-width:64ch;padding:9px 12px;border-radius:8px;background:var(--surface-2);font-size:13px;color:var(--ink-2)}
+.purpose b{color:var(--ink)}
 .hist-box{margin-bottom:8px}
 .hist{margin:0;padding:0 0 12px;list-style:none;display:grid;gap:8px;font-size:13px}
 .hist li{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px}
@@ -1015,6 +1017,7 @@ html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
     <p class="eyebrow" id="meta"></p>
     <h1>Web UI Glossary</h1>
     <p class="lead">Each term gets one card with a key-syntax table, a live example you can click, and code you can copy. Use the search box above whenever you need to find something, in Korean or English.</p>
+    <p class="purpose"><b>This page is a glossary for reference while developing.</b> The small examples are for understanding the names, looks, and working principles of screen elements. Adjust them to your needs, and run accessibility checks and device testing before using them in a real service.</p>
     <details class="gloss hist-box">
       <summary>Revision history</summary>
       <ol class="hist" id="hist"></ol>
@@ -9295,6 +9298,7 @@ records.forEach(r=>spy.observe(r.art));
 
 /* Revision history: newest at the top. Add one line each time the page is changed (date as YYYY-MM-DD) */
 const HISTORY=[
+  ['2026-11-03','Added a notice at the top: “This page is a glossary for reference while developing”'],
   ['2026-11-03','Added a date input, row selection (a checkbox at the start of each row), select all (the top checkbox, with an in-between state when only some are chosen), and a bulk action on selected rows to the Inputs Inside Cells card'],
   ['2026-11-03','Added beginner-friendly comments: an intro at the top of every saved file, explanations of the CSS, HTML, and JavaScript sections, explanations of the shared CSS (:root, :focus-visible, .sr, and others), and script comments for the 6 Data Grid cards. beginner-friendly line-by-line comments are now complete for the CSS rules and JavaScript code of all existing 99 cards and the 6 new Data Grid cards (included in saved files and the code view)'],
   ['2026-11-03','Added a new Data Grid category with 6 cards (Data Grid, Column Sorting, Pagination, Loading/Empty/Error States, Inputs Inside Cells, Search and Filter); now 105 terms in 13 categories'],
