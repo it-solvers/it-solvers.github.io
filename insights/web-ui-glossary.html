@@ -7371,12 +7371,20 @@ css:`
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary dg-load" type="button">조회</button><span class="d-readout dg-info" aria-live="polite">아직 조회하지 않았습니다</span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">번호</th><th scope="col">고객사</th><th scope="col" class="num">금액(원)</th><th scope="col">상태</th></tr></thead><tbody><tr class="dg-empty"><td colspan="4">조회 버튼을 누르면 목록이 나타납니다</td></tr></tbody></table></div>`,
 init(r){
+  // r은 이 예시가 들어 있는 상자(stage)이다. 아래에서 r 안의 요소를 찾아 쓴다
+  // 샘플 데이터: 고객사 이름(N), 상태(S), 상태별 색 이름(B)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],B=['wait','run','ok'];
+  // mk(개수, 간격): 가짜 주문 줄을 개수만큼 만든다 (번호, 고객사, 금액, 상태)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(줄): 데이터 한 줄을 표의 <tr> HTML 글자로 바꾼다. 금액은 쉼표(천 단위)를 넣는다
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 버튼, 안내 글, 표 본문(tbody), 그리고 보여 줄 8줄의 데이터를 준비한다
   const btn=r.querySelector('.dg-load'),info=r.querySelector('.dg-info'),body=r.querySelector('tbody'),rows=mk(8,3);
+  // 조회 버튼을 누르면
   btn.addEventListener('click',()=>{
+    // 데이터 8줄을 HTML로 바꿔 표 본문에 한꺼번에 넣는다
     body.innerHTML=rows.map(tr).join('');
+    // 몇 건인지 안내 글을 바꾸고, 버튼 글자를 "다시 조회"로 바꾼다
     info.textContent=rows.length+'건 조회됨';
     btn.textContent='다시 조회';
   });
@@ -7405,25 +7413,40 @@ th[aria-sort="none"] .dg-ar::after{content:"↕"}
 `,
 demo:`<div class="d-ctl"><span class="d-readout dg-info" aria-live="polite">정렬 없음 (원래 순서)</span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col" aria-sort="none" data-k="no" data-l="번호"><button type="button" class="dg-sort">번호<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none" data-k="name" data-l="고객사"><button type="button" class="dg-sort">고객사<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none" data-k="amt" data-l="금액(원)"><button type="button" class="dg-sort">금액(원)<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none" data-k="st" data-l="상태"><button type="button" class="dg-sort">상태<span class="dg-ar" aria-hidden="true"></span></button></th></tr></thead><tbody></tbody></table></div>`,
 init(r){
+  // 샘플 데이터: 고객사 이름(N), 상태(S), 상태별 색 이름(B)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],B=['wait','run','ok'];
+  // mk(개수, 간격): 가짜 주문 줄을 개수만큼 만든다 (번호, 고객사, 금액, 상태)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(줄): 데이터 한 줄을 표의 <tr> HTML 글자로 바꾼다. 금액은 쉼표(천 단위)를 넣는다
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 데이터 10줄, 표 본문, 안내 글, 그리고 data-k 속성이 있는 열 제목(th)들을 준비한다
   const rows=mk(10,3),body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),ths=[...r.querySelectorAll('th[data-k]')];
-  const col=new Intl.Collator('ko-KR');let key='',dir=0;
+  // 문자를 언어 규칙에 맞게 비교하는 도구(가나다순 등)
+  const col=new Intl.Collator('ko-KR');
+  // key: 지금 정렬 기준 열 이름, dir: 방향 (1=오름차순, -1=내림차순, 0=정렬 안 함)
+  let key='',dir=0;
+  // 두 줄을 비교한다. 숫자는 빼기로, 문자는 Collator로 비교
   const cmp=(a,b)=>typeof a[key]==='number'?a[key]-b[key]:col.compare(a[key],b[key]);
+  // draw(): 지금 상태(key, dir)에 맞게 표를 다시 그린다
   function draw(){
+    // 원본 rows는 그대로 두고 복사본(slice)만 정렬한다. 그래야 "원래 순서"로 돌아갈 수 있다
     const list=rows.slice();
     if(dir)list.sort((a,b)=>dir*cmp(a,b));
     body.innerHTML=list.map(tr).join('');
+    // 열 제목마다 aria-sort 값을 맞춘다. 화면 낭독기가 정렬 상태를 읽고, CSS가 화살표를 그린다
     ths.forEach(th=>th.setAttribute('aria-sort',th.dataset.k===key&&dir?(dir>0?'ascending':'descending'):'none'));
     const cur=ths.find(th=>th.dataset.k===key);
     info.textContent=dir?'정렬 기준: '+cur.dataset.l+(dir>0?' ▲':' ▼'):'정렬 없음 (원래 순서)';
   }
+  // 제목 줄(thead) 어디를 눌러도 이 함수가 받는다 (이벤트 위임)
   r.querySelector('thead').addEventListener('click',e=>{
+    // 눌린 곳에서 가장 가까운 열 제목을 찾는다. 없으면 아무것도 안 한다
     const th=e.target.closest('th[data-k]');if(!th)return;
+    // 다른 열을 눌렀으면 오름차순부터, 같은 열이면 오름 → 내림 → 정렬 안 함 순서로 바꾼다
     if(th.dataset.k!==key){key=th.dataset.k;dir=1}else dir=dir===1?-1:dir===-1?0:1;
     draw();
   });
+  // 처음 화면을 그린다
   draw();
 },
 },
@@ -7450,27 +7473,40 @@ css:`
 `,
 demo:`<div class="d-ctl"><label>한 페이지에 <select class="dg-size"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select> 줄</label><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">번호</th><th scope="col">고객사</th><th scope="col" class="num">금액(원)</th><th scope="col">상태</th></tr></thead><tbody></tbody></table></div><nav class="dg-pager" aria-label="페이지 이동"><button type="button" class="dg-pg dg-prev">이전</button><span class="dg-pages"></span><button type="button" class="dg-pg dg-next">다음</button></nav>`,
 init(r){
+  // 샘플 데이터: 고객사 이름(N), 상태(S), 상태별 색 이름(B)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],B=['wait','run','ok'];
+  // mk(개수, 간격): 가짜 주문 줄을 개수만큼 만든다 (번호, 고객사, 금액, 상태)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(줄): 데이터 한 줄을 표의 <tr> HTML 글자로 바꾼다. 금액은 쉼표(천 단위)를 넣는다
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 전체 47줄과 화면 요소들을 준비한다
   const rows=mk(47,7),body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),pg=r.querySelector('.dg-pages');
   const prev=r.querySelector('.dg-prev'),next=r.querySelector('.dg-next'),size=r.querySelector('.dg-size');
+  // page: 지금 보는 페이지 번호, per: 한 페이지에 보일 줄 수
   let page=1,per=+size.value;
+  // nums(last): 화면에 그릴 페이지 번호 목록. 처음, 끝, 현재와 앞뒤만 보이고 건너뛴 곳은 0(…)으로 표시
   function nums(last){
     const a=[...new Set([1,last,page-1,page,page+1])].filter(n=>n>=1&&n<=last).sort((x,y)=>x-y);
     const out=[];a.forEach((n,i)=>{if(i&&n-a[i-1]>1)out.push(0);out.push(n)});return out;
   }
+  // draw(): 현재 페이지에 맞게 표, 번호 버튼, 안내 글을 다시 그린다
   function draw(){
+    // 전체 페이지 수 = 전체 줄 수 ÷ 한 페이지 줄 수 (올림). 줄 수를 바꿔 페이지가 넘치면 마지막 페이지로 맞춘다
     const last=Math.max(1,Math.ceil(rows.length/per));page=Math.min(page,last);
+    // slice(시작, 끝): 현재 페이지에 해당하는 줄만 잘라 낸다
     const from=(page-1)*per,part=rows.slice(from,from+per);
     body.innerHTML=part.map(tr).join('');
+    // 번호 버튼을 만든다. 현재 페이지에는 aria-current="page"를 붙인다
     pg.innerHTML=nums(last).map(n=>n?'<button type="button" class="dg-pg" data-p="'+n+'"'+(n===page?' aria-current="page"':'')+'>'+n+'</button>':'<span aria-hidden="true">…</span>').join('');
+    // 첫 페이지에서는 "이전", 마지막 페이지에서는 "다음"을 못 누르게 한다
     prev.disabled=page===1;next.disabled=page===last;
     info.textContent=(from+1)+'–'+(from+part.length)+' / '+rows.length+'건';
   }
+  // 번호 버튼 묶음에 리스너 하나만 달고, 눌린 버튼의 data-p(페이지 번호)로 이동한다
   pg.addEventListener('click',e=>{const b=e.target.closest('.dg-pg');if(b){page=+b.dataset.p;draw()}});
   prev.addEventListener('click',()=>{page--;draw()});
   next.addEventListener('click',()=>{page++;draw()});
+  // 줄 수를 바꾸면 1페이지로 돌아간다
   size.addEventListener('change',()=>{per=+size.value;page=1;draw()});
   draw();
 },
@@ -7498,23 +7534,36 @@ css:`
 `,
 demo:`<div class="d-ctl"><label>조회 결과 <select class="dg-res"><option value="ok">결과 있음</option><option value="empty">결과 없음</option><option value="err">오류 발생</option></select></label><button class="d-btn d-btn-primary dg-run" type="button">조회</button><span class="d-readout dg-info" aria-live="polite">조회 전</span></div><div class="dg-prog" role="progressbar" aria-label="조회 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="dg-prog-bar"></span></div><div class="dg-wrap"><table class="dg" aria-busy="false"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">번호</th><th scope="col">고객사</th><th scope="col" class="num">금액(원)</th><th scope="col">상태</th></tr></thead><tbody><tr class="dg-empty"><td colspan="4">조회 버튼을 누르면 목록이 나타납니다</td></tr></tbody></table></div>`,
 init(r){
+  // 샘플 데이터: 고객사 이름(N), 상태(S), 상태별 색 이름(B)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],B=['wait','run','ok'];
+  // mk(개수, 간격): 가짜 주문 줄을 개수만큼 만든다 (번호, 고객사, 금액, 상태)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(줄): 데이터 한 줄을 표의 <tr> HTML 글자로 바꾼다. 금액은 쉼표(천 단위)를 넣는다
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 결과 선택 칸, 조회 버튼, 진행 막대, 표 등 화면 요소와 보여 줄 6줄을 준비한다
   const sel=r.querySelector('.dg-res'),btn=r.querySelector('.dg-run'),bar=r.querySelector('.dg-prog'),fill=r.querySelector('.dg-prog-bar');
   const body=r.querySelector('tbody'),table=r.querySelector('table'),info=r.querySelector('.dg-info'),rows=mk(6,3);
+  // t: 타이머 번호, busy: 지금 조회 중인지
   let t=0,busy=false;
+  // msg(): 표 안에 한 줄짜리 안내(결과 없음, 오류 등)를 보여 준다. 오류는 role="alert"로 바로 읽어 준다
   const msg=(text,cls,alert)=>{body.innerHTML='<tr class="dg-empty'+(cls?' '+cls:'')+'"><td colspan="4"'+(alert?' role="alert"':'')+'>'+text+'</td></tr>'};
+  // setPct(): 진행 막대의 길이와 aria-valuenow(보조 기술용 숫자)를 함께 바꾼다
   const setPct=p=>{fill.style.width=p+'%';bar.setAttribute('aria-valuenow',Math.round(p))};
+  // stop(): 타이머를 멈추고, 진행 막대를 숨기고, 버튼을 원래 모양으로 되돌린다
   function stop(){clearInterval(t);busy=false;table.setAttribute('aria-busy','false');bar.hidden=true;btn.textContent='조회'}
   btn.addEventListener('click',()=>{
+    // 조회 중에 누르면 취소다
     if(busy){stop();msg('조회를 취소했습니다.');info.textContent='조회 전';return}
+    // 조회를 시작한다: 진행률 0%, 진행 막대 보이기, 표에 aria-busy="true"
     busy=true;let p=0;setPct(0);bar.hidden=false;table.setAttribute('aria-busy','true');btn.textContent='취소';
+    // 기다리는 동안 회색 뼈대 줄 4개를 보여 준다
     body.innerHTML=Array.from({length:4},()=>'<tr><td colspan="4"><span class="dg-sk"></span></td></tr>').join('');
     info.textContent='조회 중 0%';
+    // 0.12초마다 진행률을 조금씩 올린다. 실제로는 서버 응답이 올 때까지의 시간을 흉내 낸 것이다
     t=setInterval(()=>{
       p=Math.min(100,p+6+Math.random()*10);setPct(p);info.textContent='조회 중 '+Math.round(p)+'%';
       if(p<100)return;
+      // 100%가 되면 멈추고, 고른 결과(있음, 없음, 오류)에 맞게 표를 채운다
       stop();const v=sel.value;
       if(v==='ok'){body.innerHTML=rows.map(tr).join('');info.textContent='조회 완료: '+rows.length+'건'}
       else if(v==='empty'){msg('조건에 맞는 데이터가 없습니다. 조건을 바꿔 다시 조회해 보세요.');info.textContent='조회 완료: 0건'}
@@ -7544,16 +7593,22 @@ css:`
 `,
 demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">고객사 이름순 보기</button><button class="d-btn dg-resetbtn" type="button">값 되돌리기</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">고객사</th><th scope="col">상태 (콤보박스)</th><th scope="col">우선순위 (라디오)</th><th scope="col">확인 (체크박스)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">값을 바꾼 뒤 이름순 보기를 눌러 보세요. 바꾼 값이 줄을 따라갑니다.</p>`,
 init(r){
+  // 고객사 이름(N), 상태 목록(S), 우선순위 목록(P)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],P=['낮음','보통','높음'];
+  // mk(): 줄 6개를 만든다. 값(st, pr, ok)은 화면이 아니라 이 데이터에 저장된다
   const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,ok:i%2===0}));
+  // rows: 지금 값, base: 처음 값(비교용), sorted: 이름순으로 보는 중인지
   let rows=mk(),sorted=false;const base=mk();
   const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),resetBtn=r.querySelector('.dg-resetbtn');
+  // count(): 처음 값과 다른 줄이 몇 개인지 세어 안내 글에 보여 준다
   function count(){
     const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.ok!==base[i].ok).length;
     info.textContent='변경한 줄: '+n+'건';
   }
+  // draw(): 데이터(rows)를 보고 표를 처음부터 다시 그린다. 선택된 값은 데이터에서 읽어 오므로 그대로 유지된다
   function draw(){
     const list=sorted?rows.slice().sort((a,b)=>a.name.localeCompare(b.name,'ko-KR')):rows;
+    // 줄마다 콤보박스(select), 라디오(radio), 체크박스(checkbox)를 만든다. 라디오는 줄마다 name을 다르게 해야 줄 안에서만 하나 선택된다
     body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td>'+x.name+'</td>'
       +'<td><select class="dg-in" data-f="st" aria-label="'+x.name+' 상태">'+S.map((s,j)=>'<option value="'+j+'"'+(j===x.st?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'
       +'<td><div class="dg-radios" role="radiogroup" aria-label="'+x.name+' 우선순위">'+P.map((p,j)=>'<label><input type="radio" class="dg-in" data-f="pr" name="pr'+x.id+'" value="'+j+'"'+(j===x.pr?' checked':'')+'> '+p+'</label>').join('')+'</div></td>'
@@ -7561,12 +7616,15 @@ init(r){
     sortBtn.textContent=sorted?'원래 순서로':'고객사 이름순 보기';
     count();
   }
+  // 표 본문에 리스너 하나만 달아 모든 칸의 변경을 받는다 (이벤트 위임)
   body.addEventListener('change',e=>{
     const el=e.target.closest('.dg-in');if(!el)return;
+    // 바뀐 칸이 어느 줄(data-id)의 어느 항목(data-f)인지 찾아 데이터에 반영한다. 표를 다시 그리지 않으니 포커스도 유지된다
     const row=rows.find(x=>x.id===+el.closest('tr').dataset.id),f=el.dataset.f;
     row[f]=f==='ok'?el.checked:+el.value;
     count();
   });
+  // 이름순 보기 / 원래 순서 전환, 값 되돌리기
   sortBtn.addEventListener('click',()=>{sorted=!sorted;draw()});
   resetBtn.addEventListener('click',()=>{rows=mk();draw()});
   draw();
@@ -7592,20 +7650,33 @@ css:`
 `,
 demo:`<div class="d-ctl"><label class="sr" for="dgq">고객사 또는 번호 검색</label><input id="dgq" class="dg-q" type="search" placeholder="예: 한빛, 1005" autocomplete="off"><select class="dg-st" aria-label="상태"><option value="">상태: 전체</option></select><button class="d-btn dg-reset" type="button">조건 지우기</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">주문 목록</caption><thead><tr><th scope="col">번호</th><th scope="col">고객사</th><th scope="col" class="num">금액(원)</th><th scope="col">상태</th></tr></thead><tbody></tbody></table></div>`,
 init(r){
+  // 샘플 데이터: 고객사 이름(N), 상태(S), 상태별 색 이름(B)
   const N=['한빛상사','대성물산','미래전자','동양제지','서진건설','태영식품','우리물류','새한정밀','청솔유통','가온소프트'],S=['접수','처리중','완료'],B=['wait','run','ok'];
+  // mk(개수, 간격): 가짜 주문 줄을 개수만큼 만든다 (번호, 고객사, 금액, 상태)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(줄): 데이터 한 줄을 표의 <tr> HTML 글자로 바꾼다. 금액은 쉼표(천 단위)를 넣는다
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 데이터 24줄, 표 본문, 안내 글, 검색 입력 칸, 상태 선택 칸, 지우기 버튼
   const rows=mk(24,7),body=r.querySelector('tbody'),info=r.querySelector('.dg-info');
   const qi=r.querySelector('.dg-q'),sel=r.querySelector('.dg-st'),reset=r.querySelector('.dg-reset');
+  // 상태 선택 칸에 접수/처리중/완료 항목을 채운다
   S.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=s;sel.appendChild(o)});
+  // esc(): <, >, & 같은 글자를 안전한 글자로 바꾼다. 입력한 글자가 HTML로 실행되는 것을 막는다
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  // hl(): 글자(s) 안에서 검색어(q)와 일치하는 부분을 <mark>로 감싸 강조한다
   const hl=(s,q)=>{const i=q?s.toLowerCase().indexOf(q):-1;return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))};
+  // draw(): 검색어와 상태 조건에 맞는 줄만 골라 표를 다시 그린다
   function draw(){
+    // 검색어는 앞뒤 공백을 지우고 소문자로 바꿔 대소문자를 구분하지 않게 한다
     const q=qi.value.trim().toLowerCase(),st=sel.value;
+    // filter(): 조건이 참인 줄만 남긴다. 검색어는 이름이나 번호에 들어 있으면 통과, 상태는 선택했을 때만 비교한다
     const list=rows.filter(x=>(!q||x.name.toLowerCase().includes(q)||String(x.no).includes(q))&&(st===''||String(S.indexOf(x.st))===st));
+    // 남은 줄이 없으면 안내 문구를 보여 준다
     body.innerHTML=list.length?list.map(x=>'<tr><td>'+hl(String(x.no),q)+'</td><td>'+hl(x.name,q)+'</td><td class="num">'+x.amt.toLocaleString('ko-KR')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>').join(''):'<tr class="dg-empty"><td colspan="4">조건에 맞는 줄이 없습니다. 조건 지우기를 눌러 보세요.</td></tr>';
+    // "남은 줄 / 전체 줄" 건수를 보여 준다
     info.textContent=list.length+' / '+rows.length+'건';
   }
+  // 글자를 입력하거나 상태를 고를 때마다 다시 그린다. 지우기 버튼은 조건을 비우고 입력 칸으로 포커스를 옮긴다
   qi.addEventListener('input',draw);sel.addEventListener('change',draw);
   reset.addEventListener('click',()=>{qi.value='';sel.value='';draw();qi.focus()});
   draw();

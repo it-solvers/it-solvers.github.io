@@ -7259,12 +7259,20 @@ css:`
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary dg-load" type="button">Load</button><span class="d-readout dg-info" aria-live="polite">Not loaded yet</span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col">No.</th><th scope="col">Customer</th><th scope="col" class="num">Amount (KRW)</th><th scope="col">Status</th></tr></thead><tbody><tr class="dg-empty"><td colspan="4">Press the Load button to show the list</td></tr></tbody></table></div>`,
 init(r){
+  // r is the box (stage) holding this example; below we look up elements inside it
+  // Sample data: customer names (N), statuses (S), and a color class for each status (B)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],B=['wait','run','ok'];
+  // mk(count, step): makes that many fake order rows (number, customer, amount, status)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(row): turns one data row into the HTML text of a table row; the amount gets thousands separators
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // Get the button, the info text, the table body (tbody), and prepare 8 rows of data to show
   const btn=r.querySelector('.dg-load'),info=r.querySelector('.dg-info'),body=r.querySelector('tbody'),rows=mk(8,3);
+  // When the Load button is pressed
   btn.addEventListener('click',()=>{
+    // turn the 8 rows into HTML and put them into the table body at once
     body.innerHTML=rows.map(tr).join('');
+    // update the info text with the row count and change the button text to "Load again"
     info.textContent=rows.length+' rows loaded';
     btn.textContent='Load again';
   });
@@ -7293,25 +7301,40 @@ th[aria-sort="none"] .dg-ar::after{content:"↕"}
 `,
 demo:`<div class="d-ctl"><span class="d-readout dg-info" aria-live="polite">Not sorted (original order)</span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col" aria-sort="none" data-k="no" data-l="No."><button type="button" class="dg-sort">No.<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none" data-k="name" data-l="Customer"><button type="button" class="dg-sort">Customer<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" class="num" aria-sort="none" data-k="amt" data-l="Amount (KRW)"><button type="button" class="dg-sort">Amount (KRW)<span class="dg-ar" aria-hidden="true"></span></button></th><th scope="col" aria-sort="none" data-k="st" data-l="Status"><button type="button" class="dg-sort">Status<span class="dg-ar" aria-hidden="true"></span></button></th></tr></thead><tbody></tbody></table></div>`,
 init(r){
+  // Sample data: customer names (N), statuses (S), and a color class for each status (B)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],B=['wait','run','ok'];
+  // mk(count, step): makes that many fake order rows (number, customer, amount, status)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(row): turns one data row into the HTML text of a table row; the amount gets thousands separators
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // Prepare 10 rows, the table body, the info text, and the column titles (th) that have a data-k attribute
   const rows=mk(10,3),body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),ths=[...r.querySelectorAll('th[data-k]')];
-  const col=new Intl.Collator('en-US');let key='',dir=0;
+  // A tool that compares text by language rules (alphabetical order, etc.)
+  const col=new Intl.Collator('en-US');
+  // key: the column being sorted; dir: direction (1 = ascending, -1 = descending, 0 = not sorted)
+  let key='',dir=0;
+  // Compare two rows: numbers by subtraction, text with the collator
   const cmp=(a,b)=>typeof a[key]==='number'?a[key]-b[key]:col.compare(a[key],b[key]);
+  // draw(): redraw the table to match the current state (key, dir)
   function draw(){
+    // Sort only a copy (slice) and keep the original rows, so we can return to the original order
     const list=rows.slice();
     if(dir)list.sort((a,b)=>dir*cmp(a,b));
     body.innerHTML=list.map(tr).join('');
+    // Set aria-sort on each column title; screen readers announce it and the CSS draws the arrow
     ths.forEach(th=>th.setAttribute('aria-sort',th.dataset.k===key&&dir?(dir>0?'ascending':'descending'):'none'));
     const cur=ths.find(th=>th.dataset.k===key);
     info.textContent=dir?'Sorted by: '+cur.dataset.l+(dir>0?' ▲':' ▼'):'Not sorted (original order)';
   }
+  // One listener on the header row (thead) receives clicks on any title (event delegation)
   r.querySelector('thead').addEventListener('click',e=>{
+    // Find the closest column title to the click; do nothing if there is none
     const th=e.target.closest('th[data-k]');if(!th)return;
+    // A different column starts at ascending; the same column cycles ascending → descending → not sorted
     if(th.dataset.k!==key){key=th.dataset.k;dir=1}else dir=dir===1?-1:dir===-1?0:1;
     draw();
   });
+  // Draw the first screen
   draw();
 },
 },
@@ -7338,27 +7361,40 @@ css:`
 `,
 demo:`<div class="d-ctl"><label>Rows per page <select class="dg-size"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select> </label><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col">No.</th><th scope="col">Customer</th><th scope="col" class="num">Amount (KRW)</th><th scope="col">Status</th></tr></thead><tbody></tbody></table></div><nav class="dg-pager" aria-label="Page navigation"><button type="button" class="dg-pg dg-prev">Previous</button><span class="dg-pages"></span><button type="button" class="dg-pg dg-next">Next</button></nav>`,
 init(r){
+  // Sample data: customer names (N), statuses (S), and a color class for each status (B)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],B=['wait','run','ok'];
+  // mk(count, step): makes that many fake order rows (number, customer, amount, status)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(row): turns one data row into the HTML text of a table row; the amount gets thousands separators
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // Prepare all 47 rows and the screen elements
   const rows=mk(47,7),body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),pg=r.querySelector('.dg-pages');
   const prev=r.querySelector('.dg-prev'),next=r.querySelector('.dg-next'),size=r.querySelector('.dg-size');
+  // page: the page being viewed; per: rows per page
   let page=1,per=+size.value;
+  // nums(last): the page numbers to draw; only the first, last, current, and its neighbors, with 0 (…) marking skipped gaps
   function nums(last){
     const a=[...new Set([1,last,page-1,page,page+1])].filter(n=>n>=1&&n<=last).sort((x,y)=>x-y);
     const out=[];a.forEach((n,i)=>{if(i&&n-a[i-1]>1)out.push(0);out.push(n)});return out;
   }
+  // draw(): redraw the table, the number buttons, and the info text for the current page
   function draw(){
+    // Total pages = total rows ÷ rows per page (rounded up); if the page is now too large, clamp it to the last page
     const last=Math.max(1,Math.ceil(rows.length/per));page=Math.min(page,last);
+    // slice(start, end): cut out only the rows that belong to the current page
     const from=(page-1)*per,part=rows.slice(from,from+per);
     body.innerHTML=part.map(tr).join('');
+    // Build the number buttons; the current page gets aria-current="page"
     pg.innerHTML=nums(last).map(n=>n?'<button type="button" class="dg-pg" data-p="'+n+'"'+(n===page?' aria-current="page"':'')+'>'+n+'</button>':'<span aria-hidden="true">…</span>').join('');
+    // Disable "Previous" on the first page and "Next" on the last page
     prev.disabled=page===1;next.disabled=page===last;
     info.textContent=(from+1)+'–'+(from+part.length)+' / '+rows.length+' rows';
   }
+  // One listener on the number group; go to the page stored in the pressed button's data-p
   pg.addEventListener('click',e=>{const b=e.target.closest('.dg-pg');if(b){page=+b.dataset.p;draw()}});
   prev.addEventListener('click',()=>{page--;draw()});
   next.addEventListener('click',()=>{page++;draw()});
+  // Changing rows per page goes back to page 1
   size.addEventListener('change',()=>{per=+size.value;page=1;draw()});
   draw();
 },
@@ -7386,23 +7422,36 @@ css:`
 `,
 demo:`<div class="d-ctl"><label>Result <select class="dg-res"><option value="ok">Has results</option><option value="empty">No results</option><option value="err">Error</option></select></label><button class="d-btn d-btn-primary dg-run" type="button">Load</button><span class="d-readout dg-info" aria-live="polite">Not loaded yet</span></div><div class="dg-prog" role="progressbar" aria-label="Loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="dg-prog-bar"></span></div><div class="dg-wrap"><table class="dg" aria-busy="false"><caption class="sr">Order list</caption><thead><tr><th scope="col">No.</th><th scope="col">Customer</th><th scope="col" class="num">Amount (KRW)</th><th scope="col">Status</th></tr></thead><tbody><tr class="dg-empty"><td colspan="4">Press the Load button to show the list</td></tr></tbody></table></div>`,
 init(r){
+  // Sample data: customer names (N), statuses (S), and a color class for each status (B)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],B=['wait','run','ok'];
+  // mk(count, step): makes that many fake order rows (number, customer, amount, status)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(row): turns one data row into the HTML text of a table row; the amount gets thousands separators
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // Prepare the result selector, the Load button, the progress bar, the table, and 6 rows to show
   const sel=r.querySelector('.dg-res'),btn=r.querySelector('.dg-run'),bar=r.querySelector('.dg-prog'),fill=r.querySelector('.dg-prog-bar');
   const body=r.querySelector('tbody'),table=r.querySelector('table'),info=r.querySelector('.dg-info'),rows=mk(6,3);
+  // t: the timer id; busy: whether a query is running now
   let t=0,busy=false;
+  // msg(): show a one-line message in the table (no results, errors, etc.); errors use role="alert" so they are read immediately
   const msg=(text,cls,alert)=>{body.innerHTML='<tr class="dg-empty'+(cls?' '+cls:'')+'"><td colspan="4"'+(alert?' role="alert"':'')+'>'+text+'</td></tr>'};
+  // setPct(): change the bar length and aria-valuenow (the number for assistive technology) together
   const setPct=p=>{fill.style.width=p+'%';bar.setAttribute('aria-valuenow',Math.round(p))};
+  // stop(): stop the timer, hide the progress bar, and restore the button
   function stop(){clearInterval(t);busy=false;table.setAttribute('aria-busy','false');bar.hidden=true;btn.textContent='Load'}
   btn.addEventListener('click',()=>{
+    // Pressing the button while loading means cancel
     if(busy){stop();msg('Loading was canceled.');info.textContent='Not loaded yet';return}
+    // Start loading: progress 0%, show the bar, set aria-busy="true" on the table
     busy=true;let p=0;setPct(0);bar.hidden=false;table.setAttribute('aria-busy','true');btn.textContent='Cancel';
+    // While waiting, show 4 gray skeleton rows
     body.innerHTML=Array.from({length:4},()=>'<tr><td colspan="4"><span class="dg-sk"></span></td></tr>').join('');
     info.textContent='Loading 0%';
+    // Raise the progress a little every 0.12 s; this imitates the time until a real server answers
     t=setInterval(()=>{
       p=Math.min(100,p+6+Math.random()*10);setPct(p);info.textContent='Loading '+Math.round(p)+'%';
       if(p<100)return;
+      // At 100%, stop and fill the table for the chosen outcome (results, none, error)
       stop();const v=sel.value;
       if(v==='ok'){body.innerHTML=rows.map(tr).join('');info.textContent='Loaded: '+rows.length+' rows'}
       else if(v==='empty'){msg('No data matches your conditions. Change them and try again.');info.textContent='Loaded: 0 rows'}
@@ -7432,16 +7481,22 @@ css:`
 `,
 demo:`<div class="d-ctl"><button class="d-btn dg-sortbtn" type="button">Sort by customer name</button><button class="d-btn dg-resetbtn" type="button">Reset values</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col">Customer</th><th scope="col">Status (combo box)</th><th scope="col">Priority (radio)</th><th scope="col">Checked (checkbox)</th></tr></thead><tbody></tbody></table></div><p class="d-hint">Change some values, then press the sort button. Your changes follow the rows.</p>`,
 init(r){
+  // Customer names (N), the status list (S), and the priority list (P)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],P=['Low','Normal','High'];
+  // mk(): make 6 rows; the values (st, pr, ok) live in this data, not on the screen
   const mk=()=>Array.from({length:6},(_,i)=>({id:i+1,name:N[(i*3)%N.length],st:i%3,pr:(i*2)%3,ok:i%2===0}));
+  // rows: the current values; base: the starting values for comparison; sorted: whether we are viewing by name
   let rows=mk(),sorted=false;const base=mk();
   const body=r.querySelector('tbody'),info=r.querySelector('.dg-info'),sortBtn=r.querySelector('.dg-sortbtn'),resetBtn=r.querySelector('.dg-resetbtn');
+  // count(): count the rows that differ from the starting values and show it in the info text
   function count(){
     const n=rows.filter((x,i)=>x.st!==base[i].st||x.pr!==base[i].pr||x.ok!==base[i].ok).length;
     info.textContent='Rows changed: '+n+'';
   }
+  // draw(): redraw the table from the data (rows); selected values are read from the data, so they are kept
   function draw(){
     const list=sorted?rows.slice().sort((a,b)=>a.name.localeCompare(b.name,'en-US')):rows;
+    // Each row gets a combo box (select), radios, and a checkbox; radios need a different name per row so only one is chosen within that row
     body.innerHTML=list.map(x=>'<tr data-id="'+x.id+'"><td>'+x.name+'</td>'
       +'<td><select class="dg-in" data-f="st" aria-label="'+x.name+' status">'+S.map((s,j)=>'<option value="'+j+'"'+(j===x.st?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'
       +'<td><div class="dg-radios" role="radiogroup" aria-label="'+x.name+' priority">'+P.map((p,j)=>'<label><input type="radio" class="dg-in" data-f="pr" name="pr'+x.id+'" value="'+j+'"'+(j===x.pr?' checked':'')+'> '+p+'</label>').join('')+'</div></td>'
@@ -7449,12 +7504,15 @@ init(r){
     sortBtn.textContent=sorted?'Original order':'Sort by customer name';
     count();
   }
+  // One listener on the table body receives changes from every cell (event delegation)
   body.addEventListener('change',e=>{
     const el=e.target.closest('.dg-in');if(!el)return;
+    // Find which row (data-id) and which field (data-f) changed and save it to the data; the table is not redrawn, so focus stays
     const row=rows.find(x=>x.id===+el.closest('tr').dataset.id),f=el.dataset.f;
     row[f]=f==='ok'?el.checked:+el.value;
     count();
   });
+  // Toggle the name sort and reset the values
   sortBtn.addEventListener('click',()=>{sorted=!sorted;draw()});
   resetBtn.addEventListener('click',()=>{rows=mk();draw()});
   draw();
@@ -7480,20 +7538,33 @@ css:`
 `,
 demo:`<div class="d-ctl"><label class="sr" for="dgq">Search customer or number</label><input id="dgq" class="dg-q" type="search" placeholder="e.g. Hanbit, 1005" autocomplete="off"><select class="dg-st" aria-label="Status"><option value="">Status: all</option></select><button class="d-btn dg-reset" type="button">Clear filters</button><span class="d-readout dg-info" aria-live="polite"></span></div><div class="dg-wrap"><table class="dg"><caption class="sr">Order list</caption><thead><tr><th scope="col">No.</th><th scope="col">Customer</th><th scope="col" class="num">Amount (KRW)</th><th scope="col">Status</th></tr></thead><tbody></tbody></table></div>`,
 init(r){
+  // Sample data: customer names (N), statuses (S), and a color class for each status (B)
   const N=['Hanbit Trading','Daesung Goods','Mirae Electronics','Dongyang Paper','Seojin Construction','Taeyoung Foods','Woori Logistics','Saehan Precision','Cheongsol Distribution','Gaon Software'],S=['Received','In progress','Done'],B=['wait','run','ok'];
+  // mk(count, step): makes that many fake order rows (number, customer, amount, status)
   const mk=(len,step)=>Array.from({length:len},(_,i)=>({no:1001+i,name:N[(i*step)%N.length],amt:((i*37)%90+10)*10000,st:S[(i*5)%3]}));
+  // tr(row): turns one data row into the HTML text of a table row; the amount gets thousands separators
   const tr=x=>'<tr><td>'+x.no+'</td><td>'+x.name+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>';
+  // 24 rows, the table body, the info text, the search input, the status selector, and the clear button
   const rows=mk(24,7),body=r.querySelector('tbody'),info=r.querySelector('.dg-info');
   const qi=r.querySelector('.dg-q'),sel=r.querySelector('.dg-st'),reset=r.querySelector('.dg-reset');
+  // Fill the status selector with the three statuses
   S.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=s;sel.appendChild(o)});
+  // esc(): replace characters such as <, >, & with safe ones, so typed text is never run as HTML
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  // hl(): wrap the part of the text (s) that matches the search (q) in <mark> to highlight it
   const hl=(s,q)=>{const i=q?s.toLowerCase().indexOf(q):-1;return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length))};
+  // draw(): keep only the rows that match the search and the status, and redraw the table
   function draw(){
+    // Trim the search text and lowercase it so uppercase and lowercase do not matter
     const q=qi.value.trim().toLowerCase(),st=sel.value;
+    // filter(): keep only the rows where the condition is true; the search passes if it is in the name or number, and the status is compared only when one is selected
     const list=rows.filter(x=>(!q||x.name.toLowerCase().includes(q)||String(x.no).includes(q))&&(st===''||String(S.indexOf(x.st))===st));
+    // If no rows remain, show a message
     body.innerHTML=list.length?list.map(x=>'<tr><td>'+hl(String(x.no),q)+'</td><td>'+hl(x.name,q)+'</td><td class="num">'+x.amt.toLocaleString('en-US')+'</td><td><span class="dg-badge '+B[S.indexOf(x.st)]+'">'+x.st+'</span></td></tr>').join(''):'<tr class="dg-empty"><td colspan="4">No rows match. Try Clear filters.</td></tr>';
+    // Show the "remaining / total" row count
     info.textContent=list.length+' / '+rows.length+' rows';
   }
+  // Redraw on every keystroke or status change; the clear button empties the conditions and moves focus to the input
   qi.addEventListener('input',draw);sel.addEventListener('change',draw);
   reset.addEventListener('click',()=>{qi.value='';sel.value='';draw();qi.focus()});
   draw();
