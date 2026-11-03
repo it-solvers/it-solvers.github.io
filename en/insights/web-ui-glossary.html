@@ -3748,17 +3748,26 @@ cheat:[
 terms:[['container','Container, an outer box that sets the maximum content width'],['wrapper','Wrapper, a box that wraps content. Usually used to mean the same as container'],['full-bleed','Full bleed, a layout where a background or image reaches the screen edge']],
 note:'A body line that is too long is hard to read. For text-centered screens, a narrow width limit is better. 100vw includes the vertical scrollbar width, so it can cause horizontal scrolling.',
 css:`
+/* A virtual screen whose width you can shrink: a dashed border, centered with margin-inline:auto, with overflow:hidden. */
 .x-cw-view{border:1.5px dashed var(--ink-2);border-radius:10px;overflow:hidden;margin-inline:auto;background:var(--surface-2)}
+/* The header (an area using the full screen width): an accent background with --accent-ink text to keep it clear. */
 .x-cw-hd{background:var(--accent);color:var(--accent-ink);padding:8px 12px;font:700 13px var(--display)}
+/* The container (wrapper): centered with margin-inline:auto, and max-width:var(--mw) sets the maximum content width. padding-inline is the left and right padding that keeps text from touching the edges on a narrow screen. */
 .x-cw-wrap{margin-inline:auto;padding-inline:12px;max-width:var(--mw,none)}
+/* The body area: a dashed outline makes the width the content actually takes visible. */
 .x-cw-body{background:color-mix(in srgb,var(--accent) 14%,var(--surface));padding-block:10px;font-size:12.5px;outline:1px dashed var(--accent)}
+/* The bottom margin of the body paragraph. */
 .x-cw-body p{margin:0 0 6px}
+/* The body heading. */
 .x-cw-body b{font-size:13.5px}
 `,
 demo:`<div class="d-ctl"><label for="x-cw-w">Screen width <input id="x-cw-w" type="range" min="50" max="100" value="100"></label><label for="x-cw-mw">Container max width <select id="x-cw-mw"><option value="">No limit</option><option value="240px">240px</option><option value="340px" selected>340px</option><option value="480px">480px</option></select></label></div><div class="x-cw-view"><div class="x-cw-hd">Neighborhood bakery news (background goes to the edge)</div><div class="x-cw-wrap"><div class="x-cw-body"><b>Autumn new menu announcement</b><p>The text gathers inside the container, and the dotted line is the container’s actual width. Widening the screen does not lengthen a line.</p><p>This is sample text.</p></div></div></div><span class="d-readout"></span>`,
 init(r){
+  // Find the virtual screen (v), the screen width slider (w), the maximum width selector (m), the body (b), and the description text (ro).
   const v=r.querySelector('.x-cw-view'),w=r.querySelector('#x-cw-w'),m=r.querySelector('#x-cw-mw'),b=r.querySelector('.x-cw-body'),ro=r.querySelector('.d-readout');
+  // u(): set the width (%) of the virtual screen from the slider and the CSS variable --mw (maximum width) from the selected value. Then, with requestAnimationFrame, read and show the real body width (px) after the screen has updated.
   const u=()=>{v.style.width=w.value+'%';v.querySelector('.x-cw-wrap').style.setProperty('--mw',m.value||'none');requestAnimationFrame(()=>{ro.textContent='Content width '+Math.round(b.getBoundingClientRect().width)+'px'})};
+  // Run u() when the slider or selection changes and when the virtual screen size changes (ResizeObserver), and once at the start.
   w.addEventListener('input',u);m.addEventListener('change',u);new ResizeObserver(u).observe(v);u();
 },
 code:`<header class="site-header">Full-width background</header>
@@ -3797,17 +3806,26 @@ cheat:[
 terms:[['flexbox','Flexbox, a one-direction layout method'],['grid','Grid, a two-dimensional layout method divided into rows and columns'],['gap','Gap, the spacing between cells'],['main axis','Main axis, the direction items are lined up in']],
 note:'To remember: for a single row use Flexbox, for a cell frame use Grid. You use them together: Grid for the outer frame and Flexbox for alignment inside cards.',
 css:`
+/* The Flexbox example (a one-row menu): display:flex lines items up in one direction, align-items:center centers vertically, and justify-content is how they are distributed horizontally (changed with the --j variable). */
 .x-gf-nav{display:flex;align-items:center;justify-content:var(--j,space-between);gap:8px;padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12.5px}
+/* The logo text. */
 .x-gf-nav b{font:800 14px var(--display);color:var(--accent)}
+/* The menu items side by side. */
 .x-gf-nav .mn{display:flex;gap:10px}
+/* The Grid example (a photo grid): repeat(var(--c), 1fr) takes the number of columns from a variable and makes cells of equal width. gap is also a variable (--g). */
 .x-gf-gal{display:grid;grid-template-columns:repeat(var(--c,3),1fr);gap:var(--g,8px);margin-top:10px}
+/* One grid cell: the emoji is centered (place-items:center) and the background mixes the color of the variable --k. */
 .x-gf-gal div{display:grid;place-items:center;min-height:50px;border-radius:10px;font-size:26px;background:color-mix(in srgb,var(--k) 30%,var(--surface))}
+/* The big cell: takes 2 columns and 2 rows (span 2). This kind of 2-dimensional layout is hard with Flexbox. */
 .x-gf-gal .big{grid-column:span 2;grid-row:span 2}
+/* The example label: small monospaced text. */
 .x-gf-h{font:600 11px var(--mono);color:var(--ink-2);margin:10px 0 4px}
 `,
 demo:`<div class="x-gf-h">Flexbox · Top bar (single-row alignment)</div><div class="d-ctl"><label for="x-gf-j">justify-content <select id="x-gf-j"><option>space-between</option><option>flex-start</option><option>center</option><option>flex-end</option></select></label></div><div class="x-gf-nav"><b>Example Market</b><span class="mn"><span>Food</span><span>Living</span><span>Sale</span></span><button class="d-btn d-btn-primary" type="button">Log in</button></div><div class="x-gf-h">Grid · Photo gallery (dividing into cells)</div><div class="d-ctl"><label for="x-gf-c">Columns <select id="x-gf-c"><option>2</option><option selected>3</option><option>4</option></select></label><label for="x-gf-g">Interval <input id="x-gf-g" type="range" min="0" max="20" value="8"></label></div><div class="x-gf-gal"><div class="big" style="--k:var(--warm)">🥐</div><div style="--k:var(--sky)">🍞</div><div style="--k:var(--leaf)">🥗</div><div style="--k:var(--rose)">🍓</div><div style="--k:var(--sun)">🧀</div><div style="--k:var(--accent)">☕</div></div>`,
 init(r){
+  // Find the menu (nav) and the photo grid (g).
   const nav=r.querySelector('.x-gf-nav'),g=r.querySelector('.x-gf-gal');
+  // When a selector changes, its value goes into a CSS variable (--j, --c, --g) to change the alignment, the number of columns, and the gap. Keeping CSS values in variables means JavaScript only has to change the value.
   r.querySelector('#x-gf-j').addEventListener('change',e=>nav.style.setProperty('--j',e.target.value));
   r.querySelector('#x-gf-c').addEventListener('change',e=>g.style.setProperty('--c',e.target.value));
   r.querySelector('#x-gf-g').addEventListener('input',e=>g.style.setProperty('--g',e.target.value+'px'));
@@ -3848,21 +3866,32 @@ cheat:[
 terms:[['stacking context','Stacking context, an independent group in which z-index is compared'],['layer','Layer, one level of overlap'],['top layer','Top layer, the browser’s topmost level that dialog and popover go into']],
 note:'A huge number like z-index: 99999 is not a solution. The cause is mostly the stacking context. Decide layer numbers as variables. For modals, using dialog or popover puts them in the top layer and avoids this problem.',
 css:`
+/* The stage showing stacking order: position:relative makes it the reference for the boxes inside. */
 .x-z{position:relative;height:180px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;font-size:12px}
+/* The common look of the boxes to overlap: freely overlapped with position:absolute. */
 .x-z>div{position:absolute;padding:8px 10px;border-radius:8px;font-weight:700;color:#fff;box-shadow:0 8px 16px -10px rgba(0,0,0,.5)}
+/* The header box: its z-index is the variable --zh (10 by default). A larger z-index shows on top. */
 .x-z .h{left:8px;right:8px;top:8px;height:34px;background:var(--accent);z-index:var(--zh,10)}
+/* The dropdown box: its z-index is --zm (20 by default). */
 .x-z .m{left:30px;top:34px;width:150px;height:96px;background:var(--warm);z-index:var(--zm,20)}
+/* The modal box: its z-index is --zd (30 by default). */
 .x-z .d{left:110px;top:70px;width:170px;height:96px;background:var(--rose);z-index:var(--zd,30)}
+/* If position is changed to static, z-index is ignored and boxes are placed in HTML order. (z-index works only when position is not static.) */
 .x-z.stat>div{position:static;margin:4px;display:inline-block}
+/* One slider row: the name, the slider, and the value in 3 cells. */
 .x-zr{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-size:12.5px;margin:2px 0}
 `,
 demo:`<div class="d-ctl"><label for="x-z-pos"><input id="x-z-pos" type="checkbox" checked> position: absolute (turn off for static)</label></div><div class="x-zr"><span>Header</span><input id="x-z-h" type="range" min="0" max="50" value="10"><b data-v="h">10</b></div><div class="x-zr"><span>Dropdown</span><input id="x-z-m" type="range" min="0" max="50" value="20"><b data-v="m">20</b></div><div class="x-zr"><span>Modal</span><input id="x-z-d" type="range" min="0" max="50" value="30"><b data-v="d">30</b></div><div class="x-z"><div class="h">Site header</div><div class="m">Dropdown menu</div><div class="d">Modal window</div></div><p class="d-hint x-z-ro"></p>`,
 init(r){
+  // Find the stage (box) and the description text (ro).
   const box=r.querySelector('.x-z'),ro=r.querySelector('.x-z-ro');
+  // Pairs of box keys (h, m, d) and the names to show on screen.
   const names={h:'Header',m:'Dropdown',d:'Modal'};
+  // u(): switch the stat class according to the "turn on position" checkbox, read the three slider values and put them into the CSS variables (--zh, --zm, --zd). Then the description shows the order from the largest value (top first).
   const u=()=>{const on=r.querySelector('#x-z-pos').checked;box.classList.toggle('stat',!on);
     const v={};['h','m','d'].forEach(k=>{v[k]=+r.querySelector('#x-z-'+k).value;box.style.setProperty('--z'+k,v[k]);r.querySelector('[data-v='+k+']').textContent=v[k]});
     ro.textContent=on?'From the top: '+Object.keys(v).sort((a,b)=>v[b]-v[a]).map(k=>names[k]).join(' > ')+' (with equal values, the later element is on top)':'Because position is static, z-index is ignored and elements are placed in HTML order.'};
+  // Run u() whenever any slider or checkbox changes, and once at the start.
   r.querySelectorAll('input').forEach(i=>i.addEventListener('input',u));u();
 },
 code:`/* Manage layer numbers in one place */
@@ -3898,19 +3927,29 @@ cheat:[
 terms:[['aspect ratio','Aspect ratio, the proportion of width to height'],['layout shift','Layout shift, the phenomenon of elements suddenly moving while loading (measured by CLS, Cumulative Layout Shift)'],['object-fit','Object fit, how an image fits into a box']],
 note:'Specifying the ratio on images makes the screen shake less even on slow networks. If the content is larger than the ratio, the box can grow, so image areas are often used with overflow:hidden.',
 css:`
+/* The outer look of the image card. */
 .x-ar-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);max-width:340px}
+/* The image spot: aspect-ratio sets the width:height ratio (the variable --r, 16/9 by default). The spot is reserved even before the image arrives, so the screen does not jump. */
 .x-ar-th{width:100%;aspect-ratio:var(--r,16/9);background:var(--surface-2);display:grid;place-items:center;font-size:44px;overflow:hidden}
+/* The state with the ratio off (the free class): aspect-ratio:auto takes only as much as the content (no reserved space). */
 .x-ar-th.free{aspect-ratio:auto;min-height:0}
+/* With no ratio and no content, the height is 0. :empty selects an element with nothing inside. */
 .x-ar-th.free:empty{height:0}
+/* The state where the image has "arrived" (the ld class): an orange gradient background. */
 .x-ar-th.ld{background:linear-gradient(135deg,#f4b183,#c55a11)}
+/* The inner padding of the card text area. */
 .x-ar-tx{padding:10px 12px;font-size:13px}
+/* The card title takes its own line (display:block), and the description is small and light. */
 .x-ar-tx b{display:block;font-size:14px}.x-ar-tx span{color:var(--ink-2);font-size:12px}
 `,
 demo:`<div class="d-ctl"><label for="x-ar-r">Ratio <select id="x-ar-r"><option value="16/9">16:9 (video)</option><option value="4/3">4:3</option><option value="1/1">1:1 (profile)</option><option value="3/4">3:4 (portrait photo)</option><option value="21/9">21:9 (banner)</option></select></label><label for="x-ar-on"><input id="x-ar-on" type="checkbox" checked> use aspect-ratio</label><button class="d-btn d-btn-primary" type="button">Load image</button></div><div class="x-ar-card"><div class="x-ar-th"></div><div class="x-ar-tx"><b>Baking Basics Class, Lesson 1</b><span>12K views · 3 days ago (example)</span></div></div><p class="d-hint x-ar-ro"></p>`,
 init(r){
+  // Find the image spot (th), the ratio selector (sel), the ratio checkbox (on), and the description text (ro), and prepare t (the timer id).
   const th=r.querySelector('.x-ar-th'),sel=r.querySelector('#x-ar-r'),on=r.querySelector('#x-ar-on'),ro=r.querySelector('.x-ar-ro');let t;
+  // u(): put the chosen ratio into the CSS variable --r, and add the free class if the checkbox is off.
   const u=()=>{th.style.setProperty('--r',sel.value);th.classList.toggle('free',!on.checked)};
   sel.addEventListener('change',u);on.addEventListener('change',u);u();
+  // The "load image" button: clear the previous timer and empty the spot, then after 1.4 seconds fill in an emoji as if the image arrived. With the ratio on, the title stays in place; with it off, the message shows that the title is pushed down the moment the image arrives.
   r.querySelector('.d-btn-primary').addEventListener('click',()=>{clearTimeout(t);th.textContent='';th.classList.remove('ld');
     ro.textContent='Waiting for the image... Watch the heading position below.';
     t=setTimeout(()=>{th.textContent='🥖';th.classList.add('ld');th.style.minHeight=on.checked?'':'170px';ro.textContent=on.checked?'The space is reserved in advance, so the heading does not move.':'Without a ratio, the heading is pushed down the moment the image arrives.'},1400)});
@@ -3950,14 +3989,23 @@ cheat:[
 terms:[['overflow','Overflow, the state of content spilling out of its box'],['ellipsis','Ellipsis, the three-dot mark (…)'],['scroll container','Scroll container, a box that gets scrolling']],
 note:'Using overflow:hidden on a parent can break position:sticky or clip shadows and dropdowns. A vertical scroll area needs a height (height, max-height).',
 css:`
+/* The box that shows overflow: its height is fixed so content overflows. The overflow value is changed with the variable --ov (visible, hidden, scroll, auto). */
 .x-ov-box{height:var(--h,86px);width:100%;padding:8px 10px;border:1.5px solid var(--accent);border-radius:10px;background:var(--surface);font-size:12.5px;overflow:var(--ov,visible)}
+/* Space below the box where overflowing content will be visible. */
 .x-ov-wrap{padding:6px 0 30px}
+/* One-line ellipsis: white-space:nowrap prevents wrapping, overflow:hidden hides the overflow, and text-overflow:ellipsis adds …. All three are needed for it to work. */
 .x-ov-1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:13px;font-weight:600}
+/* Two-line ellipsis: -webkit-line-clamp:2 shows only two lines and shortens the rest with …. It needs display:-webkit-box and -webkit-box-orient:vertical together. */
 .x-ov-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:13px}
+/* The example label: small monospaced text. */
 .x-ov-h{font:600 11px var(--mono);color:var(--ink-2);margin:10px 0 4px}
 `,
 demo:`<div class="d-ctl"><label for="x-ov-s">overflow <select id="x-ov-s"><option>visible</option><option>hidden</option><option>auto</option><option>scroll</option><option>clip</option></select></label></div><div class="x-ov-wrap"><div class="x-ov-box"><b>Today’s notice</b><br>Deliveries in the first week of November may be delayed by one day each due to the courier. For urgent orders, please contact customer service. Remote islands and mountain areas take one more day. We apologize for the inconvenience. (example notice)</div></div><div class="x-ov-h">One-line ellipsis (product name)</div><div class="x-ov-1">[Free shipping] Natural-sourdough whole wheat loaf made with domestic wheat, 800g large-size set</div><div class="x-ov-h">Up to two lines (card description)</div><div class="x-ov-2">A croissant baked in layers with plenty of French butter. We pack it at dawn and send it with the aroma of fresh baking intact.</div>`,
-init(r){const b=r.querySelector('.x-ov-box');r.querySelector('select').addEventListener('change',e=>b.style.setProperty('--ov',e.target.value))},
+init(r){
+  // Find the box that shows overflow (b).
+  const b=r.querySelector('.x-ov-box');
+  // Put the selector value (visible, hidden, scroll, auto) into the CSS variable --ov to change overflow.
+  r.querySelector('select').addEventListener('change',e=>b.style.setProperty('--ov',e.target.value))},
 code:`/* An area that scrolls, like a chat window */
 .chat{height:320px;overflow-y:auto;overscroll-behavior:contain}
 
@@ -3996,17 +4044,26 @@ cheat:[
 terms:[['placeholder','Placeholder, guidance text shown when empty'],['label','Label, the name tag of an input field'],['placeholder-shown',':placeholder-shown, a pseudo-class (CSS selector) that points to the state where the placeholder is showing']],
 note:'With only a placeholder and no label, after you start typing you cannot tell what you were writing, and screen readers have problems too. A pale text color can have low contrast and be hard to read.',
 css:`
+/* The outer box of the form: stacked vertically with a maximum width of 340px. */
 .x-ph{display:grid;gap:10px;max-width:340px}
+/* The label text above an input. */
 .x-ph label{font-size:12.5px;font-weight:600}
+/* The input look: 100% wide, with a border and rounded corners. */
 .x-ph input{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:13px var(--sans)}
+/* ::placeholder is the hint text (the placeholder) shown when the input is empty. A light color separates it from typed text. */
 .x-ph input::placeholder{color:var(--ink-2);opacity:.8}
+/* While the placeholder is shown (nothing typed yet), the border becomes dashed. */
 .x-ph input:placeholder-shown{border-style:dashed}
+/* The "bad example" marker: a small red label. */
 .x-ph .bad{background:var(--rose);color:#fff;border-radius:6px;padding:4px 8px;font-size:12px;justify-self:start}
+/* The spot before an image arrives (a placeholder image): a gray gradient background. */
 .x-ph-img{height:70px;border-radius:10px;background:linear-gradient(90deg,var(--line),var(--surface-2),var(--line));display:grid;place-items:center;font-size:12px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="x-ph-l"><input id="x-ph-l" type="checkbox" checked> Use with a label (name tag)</label></div><form class="x-ph" onsubmit="return false"><div><label for="x-ph-e">Email</label><input id="x-ph-e" type="email" placeholder="Example: hello@company.com"></div><div><label for="x-ph-p">Mobile phone number</label><input id="x-ph-p" type="tel" placeholder="Example: 010-1234-5678"></div><span class="bad" hidden>Without a label, after typing you cannot tell what the field is for</span><div class="x-ph-img">Where an image goes (placeholder)</div></form><p class="d-hint">The dashed border is the empty state (:placeholder-shown). Try typing some text.</p>`,
 init(r){
+  // Find the "show labels" checkbox (cb), the labels (ls), and the bad example marker (bad).
   const cb=r.querySelector('#x-ph-l'),ls=r.querySelectorAll('.x-ph label'),bad=r.querySelector('.bad');
+  // Changing the checkbox shows or hides the labels (display), and the "bad example" marker appears only when labels are hidden. Inputs without a visible label get a name with aria-label so screen readers can read it (a placeholder cannot replace a label).
   cb.addEventListener('change',()=>{ls.forEach(l=>l.style.display=cb.checked?'':'none');bad.hidden=cb.checked;
     r.querySelector('#x-ph-e').setAttribute('aria-label','Email');r.querySelector('#x-ph-p').setAttribute('aria-label','Mobile phone number')});
 },
@@ -4042,23 +4099,38 @@ cheat:[
 terms:[['breakpoint','Breakpoint, the width at which the layout changes'],['mobile first','Mobile first, building for small screens first and adding for large ones'],['media query','Media query, a rule that applies CSS depending on screen conditions']],
 note:'Set values where the content starts to look awkward, not by device names. The numbers in the table above are just commonly used values, not standards. Keeping the number of breakpoints small makes them easier to manage.',
 css:`
+/* The virtual screen whose size you can change: container-type:inline-size and container-name:bp turn on container queries based on the width of this box. */
 .x-bp-v{max-width:100%;box-sizing:border-box;container-type:inline-size;container-name:bp;border:1.5px dashed var(--ink-2);border-radius:10px;overflow:hidden;background:var(--surface-2);margin-inline:auto}
+/* The whole app grid: by default (a small screen) it is 1 column with the top, main, and bottom tab areas from top to bottom. grid-template-areas is a syntax for writing the layout with area names. */
 .x-bp-app{display:grid;grid-template-columns:1fr;grid-template-areas:"top" "main" "tab";min-height:210px}
+/* The top bar: grid-area:top places it in the top area. */
 .x-bp-top{grid-area:top;display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border-bottom:1px solid var(--line);font-size:12.5px}
+/* The logo text. */
 .x-bp-top b{font:800 14px var(--display);color:var(--accent)}
+/* The horizontal menu: hidden on a small screen (display:none). */
 .x-bp-top .mn{display:none;gap:12px;margin-left:auto}
+/* The hamburger icon (☰): placed at the right end and shown only on small screens. */
 .x-bp-top .hb{margin-left:auto;font-size:18px}
+/* The side menu (sidebar): hidden on small screens. */
 .x-bp-side{grid-area:side;display:none;background:var(--surface);border-right:1px solid var(--line);padding:10px;font-size:12.5px;line-height:2}
+/* The body: a 1-column card list by default. */
 .x-bp-main{grid-area:main;padding:10px;display:grid;grid-template-columns:1fr;gap:8px;align-content:start}
+/* The look of one body card. */
 .x-bp-main div{padding:14px 8px;border-radius:8px;background:color-mix(in srgb,var(--accent) 18%,var(--surface));text-align:center;font-size:12px}
+/* The bottom tab bar: a bottom navigation menu used on small screens. */
 .x-bp-tab{grid-area:tab;display:flex;justify-content:space-around;padding:8px;background:var(--surface);border-top:1px solid var(--line);font-size:18px}
+/* A medium screen (box width 420px or more): the body is 2 columns, the horizontal menu appears at the top, and the hamburger disappears. */
 @container bp (min-width:420px){.x-bp-main{grid-template-columns:1fr 1fr}.x-bp-top .mn{display:flex}.x-bp-top .hb{display:none}}
+/* A large screen (620px or more): it becomes a 150px sidebar on the left plus the body, the bottom tab disappears, and the body becomes 3 columns. This is how the layout changes at width thresholds (breakpoints). */
 @container bp (min-width:620px){.x-bp-app{grid-template-columns:150px 1fr;grid-template-areas:"top top" "side main"}.x-bp-side{display:block}.x-bp-tab{display:none}.x-bp-main{grid-template-columns:repeat(3,1fr)}}
 `,
 demo:`<div class="d-ctl"><label for="x-bp-w">Screen width <input id="x-bp-w" type="range" min="260" max="760" value="500"></label><span class="d-readout"></span></div><div class="x-bp-v"><div class="x-bp-app"><div class="x-bp-top"><b>Example Market</b><span class="mn"><span>Food</span><span>Living</span><span>Sale</span></span><span class="hb">☰</span></div><nav class="x-bp-side" aria-label="Example sidebar"><div>🏠 Home</div><div>📦 Orders</div><div>⭐ Favorites</div><div>⚙️ Settings</div></nav><div class="x-bp-main"><div>🥐 Product 1</div><div>🍞 Product 2</div><div>🥗 Product 3</div><div>🍓 Product 4</div></div><div class="x-bp-tab"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div></div></div><p class="d-hint">Drag the slider. The layout changes at 420px and 620px. (The breakpoints in this demo are examples)</p>`,
 init(r){
+  // Find the virtual screen (v), the width slider (w), and the description text (ro).
   const v=r.querySelector('.x-bp-v'),w=r.querySelector('#x-bp-w'),ro=r.querySelector('.d-readout');
+  // u(): set the virtual screen width from the slider but never beyond the parent width, and show in the description which range (large, medium, or small) the current width falls in.
   const u=()=>{const px=+w.value;v.style.width=Math.min(px,v.parentElement.clientWidth)+'px';ro.textContent=Math.round(v.clientWidth)+'px → '+(v.clientWidth>=620?'Large screen (sidebar)':v.clientWidth>=420?'Medium screen (top menu)':'Small screen (hamburger, bottom tabs)')};
+  // Run u() when the slider changes or the parent size changes (ResizeObserver), and once at the start.
   w.addEventListener('input',u);new ResizeObserver(u).observe(v.parentElement);u();
 },
 code:`/* Mobile first: default is a small screen, add as it widens */
@@ -4095,15 +4167,22 @@ cheat:[
 terms:[['clamp()','clamp, a CSS function that bounds a value between a minimum and a maximum'],['viewport','Viewport, the area visible on the screen'],['rem','rem, a length unit based on the root font size']],
 note:'Using only vw ignores zoom and font-size settings, which hurts accessibility. Always use clamp() mixed with rem. Keep the range for body text narrow so it does not change too much.',
 css:`
+/* The virtual screen whose width you can change: container-type:inline-size makes the width of this box the reference (cqi). */
 .x-ft-v{max-width:100%;box-sizing:border-box;container-type:inline-size;margin-inline:auto;padding:12px;border-radius:10px;border:1.5px dashed var(--ink-2);background:var(--surface)}
+/* A fixed font size (32px): the size stays the same on a narrow screen, so lines may overflow. */
 .x-ft-fix{margin:0;font:800 32px/1.25 var(--display)}
+/* Fluid font size: in clamp(min, preferred, max), the preferred value .9rem + 5cqi means "base size + 5% of the box width", so it changes automatically between the minimum (1.25rem) and maximum (2.25rem) with the box width. */
 .x-ft-fl{margin:0;font:800 clamp(1.25rem,.9rem + 5cqi,2.25rem)/1.25 var(--display);text-wrap:balance}
+/* The example label: small monospaced text. */
 .x-ft-v small{display:block;margin:10px 0 2px;font:600 11px var(--mono);color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="x-ft-w">Container width <input id="x-ft-w" type="range" min="200" max="700" value="500"></label><span class="d-readout"></span></div><div class="x-ft-v"><small>Fixed 32px</small><p class="x-ft-fix">Eat today’s bread, baked today</p><small>Fluid clamp(20px, ..., 36px)</small><p class="x-ft-fl">Eat today’s bread, baked today</p></div>`,
 init(r){
+  // Find the virtual screen (v), the width slider (w), the fluid text (f), and the description text (ro).
   const v=r.querySelector('.x-ft-v'),w=r.querySelector('#x-ft-w'),f=r.querySelector('.x-ft-fl'),ro=r.querySelector('.d-readout');
+  // u(): set the virtual screen width from the slider (up to the parent width), and after the screen updates, read the real size (px) of the fluid text with getComputedStyle and show it.
   const u=()=>{v.style.width=Math.min(+w.value,v.parentElement.clientWidth)+'px';requestAnimationFrame(()=>{ro.textContent='Width '+Math.round(v.clientWidth)+'px · fluid font '+parseFloat(getComputedStyle(f).fontSize).toFixed(1)+'px'})};
+  // Run u() when the slider or the parent size changes, and once at the start.
   w.addEventListener('input',u);new ResizeObserver(u).observe(v.parentElement);u();
 },
 code:`/* Heading: changes between 20px and 40px with the screen width */
