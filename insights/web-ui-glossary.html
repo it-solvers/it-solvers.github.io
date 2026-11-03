@@ -6537,13 +6537,21 @@ const SVG_ATTR='viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="c
 
 REAL['responsive-layout']={
 css:`
+/* 크기를 바꿔 볼 상자입니다. container-type:inline-size 는 이 상자의 너비를 기준으로 하는 컨테이너 쿼리를 켜고, container-name 은 이름(rsp)을 붙입니다. margin-inline:auto 는 가로 가운데 정렬입니다. */
 .r-resp-wrap{container-type:inline-size;container-name:rsp;border:1.5px dashed var(--ink-2);border-radius:10px;padding:8px;margin-inline:auto;background:var(--surface)}
+/* 기본은 한 줄에 한 칸(1fr)짜리 격자입니다. */
 .r-resp-grid{display:grid;gap:8px;grid-template-columns:1fr}
+/* 상품 칸: 안쪽 요소를 세로로 쌓고(grid), 연한 바탕과 테두리, 둥근 모서리를 줍니다. */
 .r-resp-grid .p{display:grid;gap:2px;padding:8px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);font-size:12.5px}
+/* 색 견본 막대입니다. 높이 30px, 색은 변수 --c 에서 가져옵니다. */
 .r-resp-grid .p i{display:block;height:30px;border-radius:6px;background:var(--c);margin-bottom:4px}
+/* 상품 이름 글자. */
 .r-resp-grid .p b{font-size:13px}
+/* 가격 같은 보조 글자: 연한 색. */
 .r-resp-grid .p span{color:var(--ink-2)}
+/* 상자 너비가 300px 이상이면 2열로 바뀝니다. repeat(2,1fr)은 같은 폭의 칸 2개입니다. */
 @container rsp (min-width:300px){.r-resp-grid{grid-template-columns:repeat(2,1fr)}}
+/* 상자 너비가 480px 이상이면 4열로 바뀝니다. */
 @container rsp (min-width:480px){.r-resp-grid{grid-template-columns:repeat(4,1fr)}}
 `,
 demo:`<div class="d-ctl"><label for="rs-range">화면 너비 <input id="rs-range" type="range" min="40" max="100" value="100"></label><span class="d-readout"></span></div><div class="r-resp-wrap"><div class="r-resp-grid"><div class="p"><i style="--c:var(--warm)"></i><b>아메리카노</b><span>3,500원</span></div><div class="p"><i style="--c:var(--sun)"></i><b>카페라떼</b><span>4,000원</span></div><div class="p"><i style="--c:var(--sky)"></i><b>콜드브루</b><span>4,500원</span></div><div class="p"><i style="--c:var(--leaf)"></i><b>말차라떼</b><span>5,000원</span></div><div class="p"><i style="--c:var(--rose)"></i><b>딸기 케이크</b><span>6,500원</span></div><div class="p"><i style="--c:var(--accent)"></i><b>버터 쿠키</b><span>2,500원</span></div><div class="p"><i style="--c:var(--warm)"></i><b>샌드위치</b><span>6,000원</span></div><div class="p"><i style="--c:var(--sky)"></i><b>오늘의 차</b><span>4,000원</span></div></div></div><p class="d-hint">막대를 줄이면 휴대폰, 늘리면 PC 화면처럼 메뉴판이 1열, 2열, 4열로 바뀝니다.</p>`
@@ -6692,23 +6700,37 @@ demo:`<div class="d-ctl"><label for="mq-dur">시간 <input id="mq-dur" type="ran
 
 /* ───────── 레이아웃 7종 ───────── */
 REAL['responsive-layout'].init=function(r){
+  // 슬라이더(rg), 크기를 바꿀 상자(wrap), 현재 너비를 보여 줄 글(out)을 찾습니다.
   const wrap=r.querySelector('.r-resp-wrap'),rg=r.querySelector('input'),out=r.querySelector('.d-readout');
+  // 슬라이더를 움직이면 상자의 너비를 그 퍼센트로 바꿉니다.
   rg.addEventListener('input',()=>{wrap.style.width=rg.value+'%'});
+  // ResizeObserver 는 요소의 크기가 바뀔 때마다 알려 주는 브라우저 기능입니다. 바뀐 너비(px)를 읽어 몇 열이 되는지 글로 보여 줍니다(CSS의 480px, 300px 기준과 같은 값입니다).
   new ResizeObserver(es=>{const w=Math.round(es[0].contentRect.width);out.textContent=w+'px → '+(w>=480?4:w>=300?2:1)+'열'}).observe(wrap);
 };
 
 REAL['hero-section']={
 css:`
+/* 히어로 영역의 바깥 상자입니다. display:grid 는 격자 배치, grid-template-columns:1.2fr .8fr 은 글 영역과 그림 영역을 1.2 : 0.8 비율로 나눕니다(fr = 남는 공간의 몫). gap 은 칸 사이 간격, align-items:center 는 세로 가운데 맞춤, linear-gradient 는 두 색이 이어지는 배경입니다. */
 .r-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center;padding:26px 22px;min-height:240px;background:linear-gradient(120deg,var(--accent-soft),var(--surface-2) 75%)}
+/* 제목 위의 작은 글자(키커)는 display:inline-block 으로 내용 크기만큼만 차지합니다. */
 .r-hero .d-kicker{display:inline-block}
+/* 제목입니다. clamp(최솟값, 가운데값, 최댓값)은 화면 너비에 맞춰 글자 크기가 그 범위 안에서 변하게 합니다. text-wrap:balance 는 줄바꿈 길이를 고르게 맞춥니다. */
 .r-hero h3{margin:8px 0;font:700 clamp(1.15rem,3.4cqi + .4rem,1.7rem)/1.28 var(--display);text-wrap:balance}
+/* 설명 글: 위 여백 0, 아래 여백 14px, 연한 글자색. */
 .r-hero p{margin:0 0 14px;color:var(--ink-2);font-size:13px}
+/* 신뢰 문구(별점, 고객 수 등): 위 여백과 작은 글자. */
 .r-hero-trust{margin-top:12px;font-size:12px;color:var(--ink-2)}
+/* 신뢰 문구 안의 강조 글자는 기본 글자색으로 또렷하게. */
 .r-hero-trust b{color:var(--ink)}
+/* 오른쪽 그림 영역입니다. grid 와 justify-items:center, align-content:center 로 내용물을 가운데로 모읍니다. */
 .r-hero-art{display:grid;gap:10px;justify-items:center;align-content:center}
+/* 동그란 그림입니다. 가로·세로가 같고 border-radius:50% 라서 원이 됩니다. radial-gradient 는 가운데에서 퍼지는 색, box-shadow 는 그림자입니다. */
 .r-hero-art .bq{width:112px;height:112px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--rose),var(--warm));display:grid;place-items:center;font-size:54px;box-shadow:0 18px 30px -16px rgba(0,0,0,.45)}
+/* 가격 안내 말풍선: 흰 바탕, 테두리, 둥근 모서리, 그림자가 있는 작은 상자. */
 .r-hero-art .tag{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 9px;font-size:12px;box-shadow:0 8px 16px -10px rgba(0,0,0,.4)}
+/* 말풍선의 첫 줄은 한 줄을 통째로 차지하게(display:block) 합니다. */
 .r-hero-art .tag b{display:block;font-size:13px}
+/* 컨테이너 쿼리: 예시 상자의 너비가 430px 이하로 좁아지면 글과 그림을 한 줄로 쌓고(1fr) 그림은 숨깁니다(display:none). */
 @container (max-width:430px){.r-hero{grid-template-columns:1fr}.r-hero-art{display:none}}
 `,
 demo:`<div class="r-hero"><div><span class="d-kicker">꽃 정기배송</span><h3>월요일 아침, 책상 위에 생화 한 다발</h3><p>매주 농장에서 직접 골라 다음 날 아침까지 보내 드려요.</p><div class="d-row"><button class="d-btn d-btn-primary" type="button">첫 주 무료로 시작</button><button class="d-btn" type="button">이번 주 꽃 보기</button></div><div class="r-hero-trust"><b>★ 4.8</b> · 이용 고객 3,200명 (예시 수치)</div></div><div class="r-hero-art" aria-hidden="true"><div class="bq">💐</div><div class="tag"><b>주 1회 · 월 19,900원</b>언제든 건너뛰기 (예시)</div></div></div>`
@@ -6716,18 +6738,31 @@ demo:`<div class="r-hero"><div><span class="d-kicker">꽃 정기배송</span><h3
 
 REAL['card-layout']={
 css:`
+/* 카드 격자입니다. repeat(auto-fill, minmax(132px,1fr))은 "최소 132px 폭의 칸을 가능한 만큼 채우고 남는 공간은 나눠 갖는다"는 뜻이라, 화면 너비에 따라 열 수가 저절로 바뀝니다. */
 .r-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+/* 카드 하나입니다. position:relative 는 안쪽 배지를 이 카드 기준으로 놓이게 하고, overflow:hidden 은 둥근 모서리 밖으로 나가는 내용을 잘라 냅니다. flex 와 column 은 안쪽을 세로로 쌓고, transition 은 마우스를 올릴 때의 변화를 부드럽게 합니다. */
 .r-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+/* 마우스를 올리면 3px 위로 떠오르고(translateY) 그림자가 생깁니다. */
 .r-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(10,30,50,.45)}
+/* 카드 위쪽 그림 자리입니다. 색은 변수 --c 를 섞어(color-mix) 연한 바탕으로 만듭니다. */
 .r-card .th{height:72px;display:grid;place-items:center;font-size:34px;background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+/* "할인" 같은 배지입니다. position:absolute 로 그림 위 왼쪽 위 구석에 겹쳐 놓습니다. */
 .r-card .bd{position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:999px;background:var(--rose);color:#fff;font:700 11px var(--sans)}
+/* 카드 글 영역입니다. flex:1 은 남는 높이를 차지해서 버튼이 카드 맨 아래로 내려가게 합니다. */
 .r-card .tx{padding:9px 10px;display:grid;gap:2px;font-size:12.5px;flex:1}
+/* 상품 이름 글자. */
 .r-card .tx b{font-size:13px}
+/* <s>는 취소선(줄 긋기) 태그입니다. 원래 가격을 연한 색으로 보여 줍니다. */
 .r-card .tx s{color:var(--ink-2);font-size:11.5px}
+/* 지금 가격 글자는 조금 크게. */
 .r-card .tx strong{font-size:14px}
+/* 할인율 글자: 기울임을 없애고(font-style:normal) 빨간색으로 강조합니다. */
 .r-card .tx strong em{font-style:normal;color:var(--rose);margin-right:4px}
+/* 작은 보조 글자: 연한 색. */
 .r-card .tx small{color:var(--ink-2)}
+/* 카드 아래 버튼입니다. margin 으로 카드 가장자리에서 띄우고, 연한 바탕에 테두리, 마우스를 올리면 손 모양입니다. */
 .r-card button{margin:0 10px 10px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px;font:600 12px var(--sans);color:var(--ink);cursor:pointer}
+/* 마우스를 올리면 강조색 바탕에 글자는 --accent-ink 로 바뀝니다(글자 대비 확보). */
 .r-card button:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 `,
 demo:`<div class="r-cards"><article class="r-card"><div class="th" style="--c:var(--warm)">🥐</div><span class="bd">20%</span><div class="tx"><b>크루아상 6개입</b><s>15,000원</s><strong><em>20%</em>12,000원</strong><small>★ 4.7 (326)</small></div><button type="button">장바구니 담기</button></article><article class="r-card"><div class="th" style="--c:var(--sun)">🧀</div><div class="tx"><b>치즈 케이크 1호</b><strong>26,000원</strong><small>★ 4.9 (189)</small></div><button type="button">장바구니 담기</button></article><article class="r-card"><div class="th" style="--c:var(--leaf)">🍵</div><span class="bd">신상</span><div class="tx"><b>말차 쿠키 10개입</b><strong>9,800원</strong><small>★ 4.6 (57)</small></div><button type="button">장바구니 담기</button></article><article class="r-card"><div class="th" style="--c:var(--rose)">🍓</div><div class="tx"><b>딸기 타르트</b><s>6,500원</s><strong><em>10%</em>5,850원</strong><small>★ 4.8 (412)</small></div><button type="button">장바구니 담기</button></article></div>`
@@ -6735,15 +6770,24 @@ demo:`<div class="r-cards"><article class="r-card"><div class="th" style="--c:va
 
 REAL['bento-grid']={
 css:`
+/* 벤토 격자입니다. 같은 폭의 4열이고, grid-auto-rows:66px 는 모든 줄의 높이를 66px로 맞춥니다. */
 .r-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:66px;gap:8px}
+/* 칸 모양입니다. flex 로 세로 배치하고 justify-content:space-between 으로 위·아래로 벌립니다. color-mix 는 두 색을 섞어 --c 색의 연한 배경과 테두리를 만듭니다. */
 .r-bento>div{border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;font:600 12px/1.3 var(--sans);background:color-mix(in srgb,var(--c) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+/* 큰 숫자 글자입니다. clamp 안의 cqi 는 "컨테이너 너비의 1%"라서 상자 크기에 맞춰 글자 크기가 변합니다. */
 .r-bento b{font:700 clamp(14px,3.6cqi,20px)/1.2 var(--display)}
+/* 칸 안의 이모지 아이콘 크기. */
 .r-bento .ic{font-size:20px}
+/* 1번 칸은 가로 2칸, 세로 2칸(span 2)을 차지합니다. --c 로 이 칸의 색을 정합니다. */
 .r-bento .t1{grid-column:span 2;grid-row:span 2;--c:var(--accent)}
+/* 2번 칸은 가로 2칸을 차지합니다. */
 .r-bento .t2{grid-column:span 2;--c:var(--warm)}
+/* 나머지 칸은 1칸이고 색만 다릅니다. */
 .r-bento .t3{--c:var(--sun)}.r-bento .t4{--c:var(--sky)}
+/* 5번 칸은 가로 2칸을 차지합니다. */
 .r-bento .t5{grid-column:span 2;--c:var(--leaf)}
 .r-bento .t6{--c:var(--rose)}.r-bento .t7{--c:var(--accent)}
+/* 상자가 340px 이하로 좁아지면 2열로 줄이고, 1번 큰 칸은 가로 전체를 차지하게 합니다. */
 @container (max-width:340px){.r-bento{grid-template-columns:repeat(2,1fr)}.r-bento .t1{grid-column:span 2}}
 `,
 demo:`<div class="r-bento"><div class="t1"><span class="ic">🧾</span><span>가계부 앱 · 핵심 기능</span><b>영수증을 찍으면 가계부가 자동으로 채워집니다</b></div><div class="t2"><span class="ic">🔔</span><b>예산을 넘기 전에 알려 드려요</b></div><div class="t3"><span>카드 연동</span><b>12곳</b></div><div class="t4"><span>고객 지원</span><b>평일 9–18시</b></div><div class="t5"><span class="ic">📊</span><b>월말 정산 리포트 한 장으로</b></div><div class="t6"><span>보안</span><b>암호화</b></div><div class="t7"><span>백업</span><b>자동</b></div></div><p class="d-hint">기능 소개 페이지에서 쓰는 칸 나누기입니다. 수치는 예시입니다.</p>`
@@ -6751,88 +6795,155 @@ demo:`<div class="r-bento"><div class="t1"><span class="ic">🧾</span><span>가
 
 REAL['layout-sidebar']={
 css:`
+/* 사이드바 레이아웃입니다. 왼쪽 메뉴는 140px, 오른쪽 본문은 남는 공간 전부(minmax(0,1fr))입니다. transition 은 폭이 바뀔 때 부드럽게 움직이게 합니다. */
 .r-side{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:230px;transition:grid-template-columns .3s ease}
+/* 접힌 상태(collapsed 클래스가 붙었을 때)에서는 메뉴 폭을 50px로 줄입니다. */
 .r-side.collapsed{grid-template-columns:50px minmax(0,1fr)}
+/* 메뉴 영역입니다. overflow:hidden 은 폭이 좁아질 때 넘치는 글자를 가리고, grid 와 align-content:start 는 메뉴 항목을 위에서부터 쌓습니다. */
 .r-side nav{background:var(--surface);border-right:1px solid var(--line);padding:10px 8px;overflow:hidden;display:grid;align-content:start;gap:2px}
+/* 메뉴 항목입니다. 아이콘과 글자를 가로로 나란히(flex) 놓고, white-space:nowrap 으로 줄바꿈을 막습니다. */
 .r-side nav a{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;color:var(--ink);font-size:13px;white-space:nowrap;cursor:pointer}
+/* 마우스를 올리면 연한 강조색 배경이 됩니다. */
 .r-side nav a:hover{background:var(--accent-soft)}
+/* 지금 선택된 메뉴(on 클래스)는 강조색과 굵은 글씨로 표시합니다. */
 .r-side nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+/* 메뉴 아이콘입니다. flex:none 은 메뉴가 좁아져도 아이콘 크기가 줄어들지 않게 합니다. */
 .r-side nav a i{flex:none;width:18px;text-align:center;font-style:normal}
+/* 메뉴 글자입니다. 접힐 때 서서히 사라지도록 opacity 에 transition 을 줍니다. */
 .r-side .lbl{transition:opacity .2s}
+/* 접힌 상태에서는 글자를 투명하게(opacity:0) 만듭니다. */
 .r-side.collapsed .lbl{opacity:0}
+/* 본문 영역입니다. 안쪽 여백을 주고 내용을 위에서부터 세로로 쌓습니다. */
 .r-side main{padding:12px;font-size:13px;display:grid;gap:10px;align-content:start}
+/* 본문 맨 위 줄: 제목은 왼쪽, 버튼은 오른쪽 끝(justify-content:space-between). */
 .r-side-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* 본문 제목 글자. */
 .r-side-top h4{margin:0;font:700 14px var(--display)}
+/* 핵심 지표(KPI) 카드 줄입니다. repeat(auto-fit, minmax(86px,1fr))은 "최소 86px 폭의 칸을 알아서 맞춰 채운다"는 뜻입니다. */
 .r-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
+/* 지표 카드 하나: 흰 바탕, 테두리, 둥근 모서리, 작은 연한 글자. */
 .r-kpi div{padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2)}
+/* 지표 숫자는 한 줄을 차지하고(display:block) 크고 굵게 보여 줍니다. */
 .r-kpi b{display:block;font:700 16px var(--display);color:var(--ink)}
+/* 목록(ul)의 기본 점과 여백을 지우고 grid 로 줄 사이 간격을 줍니다. */
 .r-ls{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+/* 목록 한 줄: 이름은 왼쪽, 상태는 오른쪽 끝(space-between)에 놓는 카드 모양입니다. */
 .r-ls li{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px}
+/* 오른쪽 상태 글자: 연한 색, 줄바꿈 없음. */
 .r-ls li span{color:var(--ink-2);white-space:nowrap}
 `,
 demo:`<div class="r-side"><nav aria-label="예시 메뉴"><a class="on" role="button" tabindex="0"><i>🏠</i><span class="lbl">대시보드</span></a><a role="button" tabindex="0"><i>📦</i><span class="lbl">주문</span></a><a role="button" tabindex="0"><i>🛍️</i><span class="lbl">상품</span></a><a role="button" tabindex="0"><i>👥</i><span class="lbl">고객</span></a><a role="button" tabindex="0"><i>💳</i><span class="lbl">정산</span></a><a role="button" tabindex="0"><i>⚙️</i><span class="lbl">설정</span></a></nav><main><div class="r-side-top"><h4 class="r-pt">대시보드</h4><button class="d-btn" type="button">메뉴 접기/펼치기</button></div><div class="r-pb" aria-live="polite"></div><p style="margin:0;color:var(--ink-2)">왼쪽 메뉴를 눌러 보세요. 메뉴는 그대로이고 오른쪽 내용만 바뀝니다. (수치는 예시)</p></main></div>`,
-init(r){const s=r.querySelector('.r-side'),pt=r.querySelector('.r-pt'),pb=r.querySelector('.r-pb'),links=[...r.querySelectorAll('nav a')];
+init(r){
+  // 필요한 요소를 찾습니다: 사이드바 상자(s), 제목(pt), 본문(pb), 메뉴 링크들(links).
+  const s=r.querySelector('.r-side'),pt=r.querySelector('.r-pt'),pb=r.querySelector('.r-pb'),links=[...r.querySelectorAll('nav a')];
+  // ls(목록): [제목, 설명] 쌍의 배열을 <ul> 목록 HTML 글자로 바꿉니다.
   const ls=a=>'<ul class="r-ls">'+a.map(x=>'<li><b>'+x[0]+'</b><span>'+x[1]+'</span></li>').join('')+'</ul>';
+  // P: 메뉴 이름마다 본문에 넣을 HTML을 모아 둔 사전(객체)입니다. 이름(키)으로 내용을 찾아 씁니다.
   const P={'대시보드':'<div class="r-kpi"><div>오늘 주문<b>128건</b></div><div>매출<b>284만원</b></div><div>배송 대기<b>9건</b></div></div>',
    '주문':ls([['#1024 크루아상 6개입','결제 완료'],['#1023 식빵 2개','배송 중'],['#1022 케이크 1개','배송 완료']]),
    '상품':ls([['크루아상 6개입','재고 42'],['통밀 식빵','재고 18'],['딸기 케이크','재고 5']]),
    '고객':ls([['김지우','VIP'],['박서준','신규'],['이하은','일반']]),
    '정산':'<div class="r-kpi"><div>이번 달 정산<b>1,920만원</b></div><div>정산 예정<b>11월 10일</b></div></div>',
    '설정':ls([['알림','켜짐'],['배송 안내 문구','수정'],['관리자 계정','2명']])};
+  // go(메뉴): 눌린 메뉴를 선택 상태(on 클래스)로 바꾸고, 제목과 본문을 그 메뉴의 내용으로 교체하고, 포커스를 옮깁니다.
   const go=a=>{links.forEach(l=>l.classList.toggle('on',l===a));const n=a.querySelector('.lbl').textContent;pt.textContent=n;pb.innerHTML=P[n];a.focus()};
+  // 메뉴마다 클릭하거나 Enter·Space 키를 누르면 go()를 실행합니다(키보드로도 쓸 수 있게). Space 의 기본 동작(화면 스크롤)은 막습니다.
   links.forEach(a=>{a.addEventListener('click',()=>go(a));a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(a)}})});
+  // 처음에는 첫 메뉴의 내용을 보여 줍니다.
   pb.innerHTML=P['대시보드'];
+  // 접기 버튼: 누를 때마다 collapsed 클래스를 붙였다 뗍니다(CSS가 폭을 바꿉니다).
   r.querySelector('button').addEventListener('click',()=>s.classList.toggle('collapsed'))}
 };
 
 REAL['sticky-header']={
 css:`
+/* 스크롤되는 상자입니다. 높이를 240px로 고정하고, overflow:auto 로 내용이 넘치면 스크롤이 생깁니다. */
 .d-scroll{height:240px;overflow:auto;background:var(--surface)}
+/* 고정 머리글입니다. position:sticky 와 top:0 은 스크롤해도 상자 맨 위에 붙어 있게 합니다. z-index 는 겹칠 때 위로 올라오는 순서, backdrop-filter:blur 는 뒤 내용이 흐리게 비치는 유리 효과입니다. */
 .r-sh{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+/* 스크롤하면(shrunk 클래스가 붙으면) 그림자가 생겨 본문과 구분됩니다. */
 .r-sh.shrunk{box-shadow:0 8px 14px -12px rgba(0,0,0,.5)}
+/* 첫 줄(로고, 검색, 장바구니): 가로로 나란히(flex) 놓고, padding 이 바뀔 때 transition 으로 부드럽게 줄어듭니다. */
 .r-sh .top{display:flex;align-items:center;gap:10px;padding:14px 12px;transition:padding .2s}
+/* 스크롤하면 첫 줄의 위·아래 여백을 줄여 머리글을 작게 만듭니다. */
 .r-sh.shrunk .top{padding:6px 12px}
+/* 로고 글자: 매우 굵게(800), 강조색. */
 .r-sh .logo{font:800 15px var(--display);color:var(--accent)}
+/* 검색창 모양입니다. flex:1 은 남는 폭을 모두 차지하고, min-width:0 은 줄어들 수 있게 하며, text-overflow:ellipsis 는 넘치는 글자를 …으로 줄입니다. */
 .r-sh .sch{flex:1;min-width:0;padding:7px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 장바구니 아이콘 자리: position:relative 로 안쪽 배지의 기준점이 됩니다. */
 .r-sh .cart{position:relative;font-size:18px}
+/* 장바구니 개수 배지: 아이콘 오른쪽 위에 absolute 로 겹쳐 놓은 빨간 동그라미입니다. */
 .r-sh .cart em{position:absolute;top:-6px;right:-8px;min-width:16px;height:16px;border-radius:8px;background:var(--rose);color:#fff;font:700 10px/16px var(--sans);text-align:center;font-style:normal}
+/* 메뉴 줄입니다. max-height 로 높이를 정해 두고 transition 으로 접고 펼 때 부드럽게 움직이게 합니다. */
 .r-sh nav{display:flex;gap:14px;padding:0 12px 8px;font-size:12.5px;overflow:hidden;white-space:nowrap;transition:max-height .2s,padding .2s,opacity .2s;max-height:34px}
+/* 스크롤하면 메뉴 줄은 높이 0과 투명(opacity:0)으로 접혀 사라집니다. */
 .r-sh.shrunk nav{max-height:0;padding-bottom:0;opacity:0}
+/* 첫 번째 메뉴(현재 위치)는 굵고 강조색으로 표시합니다. */
 .r-sh nav span:first-child{font-weight:700;color:var(--accent)}
+/* 상품 목록 영역: grid 로 한 줄씩 쌓습니다. */
 .r-list{display:grid;gap:0}
+/* 목록 한 줄: 그림과 글자를 가로로 나란히 놓고 아래 구분선을 줍니다. */
 .r-list div{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--line);font-size:13px}
+/* 목록 앞의 이모지 그림 크기. */
 .r-list i{font-style:normal;font-size:26px}
+/* 작은 보조 글자를 새 줄에 연한 색으로. */
 .r-list small{display:block;color:var(--ink-2)}
 `,
 demo:`<div class="d-scroll"><header class="r-sh"><div class="top"><span class="logo">예시마켓</span><span class="sch">상품명, 브랜드 검색</span><span class="cart" aria-label="장바구니 2개">🛒<em>2</em></span></div><nav aria-label="예시 카테고리"><span>베스트</span><span>신상</span><span>식품</span><span>생활</span><span>할인</span></nav></header><div class="r-list"><div><i>🥑</i><span>아보카도 4입<small>7,900원 · 내일 도착</small></span></div><div><i>🍞</i><span>통밀 식빵<small>4,500원 · 내일 도착</small></span></div><div><i>🥛</i><span>무항생제 우유 1L<small>3,200원 · 오늘 도착</small></span></div><div><i>🍳</i><span>목초란 15구<small>6,900원 · 내일 도착</small></span></div><div><i>🍅</i><span>완숙 토마토 1kg<small>8,500원 · 내일 도착</small></span></div><div><i>🧴</i><span>주방세제 리필<small>5,400원 · 모레 도착</small></span></div><div><i>🧻</i><span>키친타월 6롤<small>9,900원 · 내일 도착</small></span></div></div></div>`,
-init(r){const s=r.querySelector('.d-scroll'),h=r.querySelector('.r-sh');s.addEventListener('scroll',()=>h.classList.toggle('shrunk',s.scrollTop>16),{passive:true})}
+init(r){
+  // 스크롤 상자(s)와 머리글(h)을 찾습니다.
+  const s=r.querySelector('.d-scroll'),h=r.querySelector('.r-sh');
+  // 스크롤할 때마다 위로 16px보다 많이 내려갔는지 보고, 그러면 shrunk 클래스를 붙이고 아니면 뗍니다. passive:true 는 스크롤을 막지 않겠다는 약속이라 더 부드럽습니다.
+  s.addEventListener('scroll',()=>h.classList.toggle('shrunk',s.scrollTop>16),{passive:true})}
 };
 
 REAL['split-layout']={
 css:`
+/* 분할 레이아웃입니다. 왼쪽 칸 폭은 변수 --split(기본 42%), 가운데 10px은 끌 수 있는 손잡이, 오른쪽은 나머지입니다. 자바스크립트가 --split 값을 바꿔 비율을 조절합니다. */
 .d-split{display:grid;grid-template-columns:var(--split,42%) 10px minmax(0,1fr);min-height:230px}
+/* 양쪽 내용 칸입니다. overflow:auto 는 넘치면 스크롤, min-width:0 은 격자 안에서 칸이 내용 때문에 억지로 늘어나지 않게 합니다. */
 .d-pane{padding:0;overflow:auto;font-size:13px;min-width:0;background:var(--surface)}
+/* 가운데 손잡이입니다. cursor:col-resize 는 좌우 크기 조절 커서, touch-action:none 은 손가락으로 끌 때 화면이 같이 스크롤되지 않게 합니다. */
 .d-handle{position:relative;background:var(--line);cursor:col-resize;touch-action:none}
+/* 손잡이 가운데의 점선 두 줄 장식입니다. ::after 는 요소 뒤에 가상의 내용을 덧붙이는 방법입니다. */
 .d-handle::after{content:"";position:absolute;inset:calc(50% - 14px) 3px;border-left:2px dotted var(--ink-2);border-right:2px dotted var(--ink-2)}
+/* 마우스를 올렸을 때, 키보드로 선택했을 때, 끄는 중(drag 클래스)일 때는 강조색으로 보여 줍니다. */
 .d-handle:hover,.d-handle:focus-visible,.d-handle.drag{background:var(--accent)}
+/* 현재 비율을 보여 주는 작은 표시입니다. 오른쪽 아래에 겹쳐 놓습니다. */
 .d-split-ro{position:absolute;right:8px;bottom:6px;z-index:2;background:var(--surface);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+/* 메일 목록 한 줄: grid 로 제목과 미리보기를 위아래로 쌓고 아래 구분선을 줍니다. */
 .r-mail{display:grid;padding:9px 12px;border-bottom:1px solid var(--line);gap:1px;font-size:12.5px}
+/* 메일 제목: 줄바꿈 없이 한 줄로 두고, 넘치면 …으로 줄입니다(overflow:hidden 과 text-overflow:ellipsis). */
 .r-mail b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 미리보기 글: 연한 색에 한 줄로 줄입니다. */
 .r-mail span{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 지금 보고 있는 메일(on 클래스): 연한 강조 배경과 왼쪽에 굵은 강조선(inset 그림자)을 줍니다. */
 .r-mail.on{background:var(--accent-soft);box-shadow:inset 3px 0 var(--accent)}
+/* 읽지 않은 메일은 제목 앞에 ● 표시를 붙입니다(::before 로 앞에 가상 글자를 추가). */
 .r-mail.unread b::before{content:"● ";color:var(--accent)}
+/* 오른쪽 본문 보기 영역: 안쪽 여백과 위에서부터 쌓는 세로 배치. */
 .r-view{padding:14px;display:grid;gap:8px;align-content:start}
+/* 메일 제목 글자. */
 .r-view h4{margin:0;font:700 14px var(--display)}
+/* 보낸 사람·시간 같은 작은 연한 글자. */
 .r-view small{color:var(--ink-2)}
+/* 본문 문단: 기본 바깥 여백을 지웁니다. */
 .r-view p{margin:0}
 `,
 demo:`<div class="d-split"><div class="d-pane" role="list" aria-label="받은 편지함 예시"><div class="r-mail on unread" role="listitem"><b>김민수 · 견적서 확인 요청</b><span>첨부한 견적서를 확인해 주세요</span></div><div class="r-mail unread" role="listitem"><b>총무팀 · 10월 회의 일정</b><span>목요일 오후 3시로 변경됩니다</span></div><div class="r-mail" role="listitem"><b>배송 알림 · 주문이 출발했습니다</b><span>오늘 중 도착 예정입니다</span></div><div class="r-mail" role="listitem"><b>월간 보고 · 9월 실적</b><span>요약본 첨부</span></div></div><div class="d-handle" role="separator" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="80" aria-valuenow="42" tabindex="0" aria-label="영역 비율 조절"></div><div class="d-pane r-view"><h4>견적서 확인 요청</h4><small>김민수 · 오늘 오전 10:12 (예시)</small><p>안녕하세요. 첨부한 견적서를 확인하시고 수정할 부분이 있으면 알려 주세요.</p><p>금액은 부가세 별도입니다.</p></div></div><span class="d-readout d-split-ro">42 : 58</span>`,
 init(r){
+  // 분할 상자(box), 손잡이(h), 비율 표시 글(ro)을 찾고, pct(왼쪽 칸 비율 %)를 42로 시작합니다.
   const box=r.querySelector('.d-split'),h=r.querySelector('.d-handle'),ro=r.querySelector('.d-split-ro');let pct=42;
+  // set(v): 비율을 20~80% 안으로 제한하고, CSS 변수 --split 을 바꿔 화면에 반영하며, 접근성용 값(aria-valuenow)과 표시 글도 함께 갱신합니다.
   const set=v=>{pct=Math.max(20,Math.min(80,v));box.style.setProperty('--split',pct+'%');h.setAttribute('aria-valuenow',Math.round(pct));ro.textContent=Math.round(pct)+' : '+Math.round(100-pct)};
+  // 손잡이를 누르면 setPointerCapture 로 마우스·손가락이 손잡이 밖으로 나가도 계속 따라가게 하고, 끄는 중 표시(drag 클래스)를 붙입니다.
   h.addEventListener('pointerdown',e=>{h.setPointerCapture(e.pointerId);h.classList.add('drag')});
+  // 움직이는 동안 마우스의 가로 위치를 상자 안의 퍼센트로 바꿔 set()에 넘깁니다.
   h.addEventListener('pointermove',e=>{if(!h.hasPointerCapture(e.pointerId))return;const b=box.getBoundingClientRect();set((e.clientX-b.left)/b.width*100)});
+  // 손을 떼면 끄는 중 표시를 뗍니다.
   h.addEventListener('pointerup',()=>h.classList.remove('drag'));
+  // 키보드 접근성: 왼쪽·오른쪽 화살표 키로 5%씩 조절합니다.
   h.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')set(pct-5);if(e.key==='ArrowRight')set(pct+5)});
 }
 };
@@ -7741,29 +7852,42 @@ ITEMS.forEach((it,idx)=>{
 /* ───────── 예시 → 저장용 .html 만들기 (예시가 원본) ───────── */
 function getCode(it){if(!it._code)it._code=buildFile(it);return it._code}
 /* 페이지의 <style> 원문을 규칙 단위로 나눈다 (작성한 글자 그대로 쓰기 위해) */
+const CMS=[];
+/* 규칙 사이(바깥)의 주석만 남기고(표시를 달아 둠) 규칙 안쪽 주석은 지운다 */
+function keepTopComments(t){
+  let o='',d=0,i=0;
+  while(i<t.length){
+    if(t[i]==='/'&&t[i+1]==='*'){const e=t.indexOf('*/',i+2),end=e<0?t.length:e+2;if(d===0){CMS.push(t.slice(i+2,e<0?t.length:e).trim());o+='\u0001'+(CMS.length-1)+'\u0002'}i=end;continue}
+    if(t[i]==='{')d++;else if(t[i]==='}')d--;
+    o+=t[i++];
+  }
+  return o;
+}
 function parseCSS(t){
-  t=t.replace(/\/\*[\s\S]*?\*\//g,'');
+  t=keepTopComments(t);
   const out=[];let i=0;const n=t.length;
   while(i<n){
     let j=i,d=0,q='';
     for(;j<n;j++){const c=t[j];if(q){if(c===q)q='';continue}if(c==='"'||c==="'"){q=c;continue}if(c==='(')d++;else if(c===')')d--;else if(d===0&&(c==='{'||c===';'))break}
     if(j>=n)break;
-    const pre=t.slice(i,j).trim();
+    let pre=t.slice(i,j).trim();const cms=[];
+    pre=pre.replace(/\u0001(\d+)\u0002/g,(m,x)=>{cms.push(CMS[x]);return ''}).trim();
     if(t[j]===';'){i=j+1;continue}
     let k=j+1,dd=1;q='';
     for(;k<n&&dd>0;k++){const c=t[k];if(q){if(c===q)q='';continue}if(c==='"'||c==="'"){q=c;continue}if(c==='{')dd++;else if(c==='}')dd--}
     const body=t.slice(j+1,k-1);i=k;
     if(!pre)continue;
     if(pre[0]==='@'){
-      if(/^@(media|supports|container|layer)/.test(pre))out.push({at:pre,kids:parseCSS(body)});
-      else out.push({at:pre,raw:body});
-    }else out.push({sel:pre,raw:body});
+      if(/^@(media|supports|container|layer)/.test(pre))out.push({at:pre,kids:parseCSS(body),cm:cms.join('\n')});
+      else out.push({at:pre,raw:body,cm:cms.join('\n')});
+    }else out.push({sel:pre,raw:body,cm:cms.join('\n')});
   }
   return out;
 }
 /* 저장 파일의 CSS·HTML·JS에 붙는 친절한 주석 모음 (키: 선택자 또는 #이름, c: 설명, d: 속성별 설명) */
 const CSSNOTE={"#intro": "이 파일은 \"코드 저장하기\"로 만든 예시입니다. 브라우저로 열면 예시가 그대로 보입니다.\n위에서부터 모양(CSS) → 화면 구조(HTML) → 동작(JavaScript) 순서입니다.","#style": "모양을 정하는 CSS: 색, 크기, 여백, 배치를 여기서 정합니다.","#html": "화면 구조(HTML): 예시에 보이는 버튼, 표, 글자가 여기에 있습니다.","#script": "동작을 넣는 JavaScript: 버튼을 눌렀을 때 일어나는 일을 여기서 정합니다.","#js1": "(function(){ ... })() 는 만들자마자 한 번 실행하는 함수입니다. 안에서 만든 변수가 바깥으로 새지 않게 합니다.","#js2": "예시가 들어 있는 상자(.stage)를 찾습니다.","#js3": "아래 init 함수에 상자를 넘겨 실행합니다. try/catch는 오류가 나도 페이지가 멈추지 않고 콘솔에 오류만 남기게 합니다.","*": {"c": "모든 요소에 적용합니다. box-sizing:border-box 는 width, height 에 안쪽 여백(padding)과 테두리(border)를 포함시켜\n크기 계산을 쉽게 만듭니다."},"body": {"c": "페이지 전체(body)의 기본값입니다. 바깥 여백은 없애고(margin:0) 안쪽 여백 16px,\n배경색·글자색·글꼴은 아래 :root 의 변수(var(--이름))에서 가져옵니다."},":root": {"c": ":root 는 문서의 맨 위(html) 요소입니다. 여기에 CSS 변수(--이름)로 색과 글꼴의 \"이름표\"를 모아 두면,\n아래 어디서나 var(--이름)으로 가져다 쓸 수 있고, 이곳 한 군데만 고쳐도 전체 색이 바뀝니다.","d": {"--bg": "바탕색","--surface": "카드·입력 칸 바탕색","--surface-2": "한 단계 진한 바탕색","--ink": "기본 글자색","--ink-2": "보조(연한) 글자색","--line": "테두리와 구분선 색","--accent": "강조색(주요 버튼 등)","--accent-ink": "강조색 바탕 위에 올리는 글자색","--accent-soft": "연한 강조색(마우스를 올린 줄 등)","--warm": "주황 계열 색","--sun": "노랑 계열 색","--sky": "파랑 계열 색","--leaf": "초록 계열 색","--rose": "빨강 계열 색","--code-bg": "코드 상자 바탕색","--code-ink": "코드 글자색","--code-dim": "코드 주석 같은 흐린 글자색","--sans": "본문 글꼴(시스템 기본 산세리프)","--mono": "고정폭 글꼴(숫자·코드용)","--display": "제목 글꼴","--serif": "세리프 글꼴 자리(여기서는 산세리프와 같음)"}},":focus-visible": {"c": "키보드(Tab 키)로 선택한 요소에만 나타나는 윤곽선(포커스 표시)입니다. 마우스로 눌렀을 때는 나타나지 않습니다.\n키보드 사용자가 지금 어디에 있는지 알 수 있어야 하므로 지우지 마세요.","d": {"outline": "2px 굵기 실선, 강조색","outline-offset": "요소에서 2px 띄움"}},".sr": {"c": "sr = screen reader only. 눈에는 보이지 않지만 화면 낭독기는 읽어 줍니다.\ndisplay:none 은 낭독기도 읽지 못하니, 대신 1px 크기로 줄여 가립니다.","d": {"position": "원래 자리에서 빼냄(공간 차지 안 함)","width": "1픽셀로 줄임","height": "1픽셀로 줄임","overflow": "밖으로 나간 부분 숨김","clip": "보이는 영역을 0으로 잘라 냄","white-space": "줄바꿈 방지(낭독기가 문장을 이어 읽음)"}},".stage": {"c": "예시가 들어가는 상자(무대)입니다. container-type:inline-size 는 \"상자의 너비\"를 기준으로\n모양을 바꾸는 컨테이너 쿼리(@container)를 켭니다.","d": {"position": "안쪽 요소의 absolute 위치 기준점","container-type": "컨테이너 쿼리 켜기","overflow": "상자 밖으로 나간 내용 숨김","min-height": "최소 높이"}},".stage.flush": {"c": ".stage 에 flush 가 함께 붙으면 안쪽 여백을 없앱니다(화면을 꽉 채우는 예시용)."},".d-btn": {"c": "예시용 기본 버튼입니다. 연한 바탕, 테두리, 둥근 모서리, 마우스를 올리면 손 모양(cursor:pointer).","d": {"cursor": "마우스를 올리면 손 모양","transition": "바뀔 때 부드럽게 이어지게"}},".d-btn:hover": {"c": "마우스를 올렸을 때: 연한 강조색 바탕."},".d-btn:active": {"c": "누르는 순간: 살짝 작아져서 눌린 느낌을 줍니다."},".d-btn-primary": {"c": "주요 동작 버튼입니다. 강조색 바탕에 글자는 --accent-ink 를 써서 글자가 또렷하게 보이게 합니다."},".d-btn-primary:hover": {"c": "마우스를 올리면 살짝 밝아집니다(brightness)."},".d-ctl": {"c": "예시 위쪽의 조작 줄입니다. display:flex 로 가로 배치, flex-wrap 으로 좁으면 줄바꿈, align-items 로 세로 가운데 맞춤.","d": {"gap": "칸 사이 간격(세로 6px, 가로 14px)","flex-wrap": "공간이 모자라면 다음 줄로"}},".d-readout": {"c": "지금 상태를 알려 주는 작은 안내 글입니다(고정폭 글꼴)."},".d-hint": {"c": "예시 아래의 작은 힌트 글입니다."},".d-row": {"c": "요소를 가로로 나열하고, 좁으면 줄바꿈합니다."},"@media (prefers-reduced-motion:reduce)": {"c": "사용자가 운영체제에서 \"동작 줄이기\"를 켰다면 애니메이션과 전환을 거의 0초로 만들어 어지러움을 막습니다(접근성)."},"@container": {"c": "컨테이너 쿼리: 화면 전체가 아니라 .stage 상자의 너비가 기준입니다."},"@keyframes": {"c": "애니메이션의 단계(처음 → 끝)를 정의합니다. animation 속성에서 이 이름을 불러 씁니다."},".dg-wrap": {"c": "표를 감싸는 상자입니다. 표가 상자보다 넓으면 상자 안에서 가로로 스크롤됩니다.","d": {"overflow": "넘치면 스크롤바 표시"}},".dg": {"c": "표 자체입니다. 가로를 꽉 채우고, 칸 사이의 선을 하나로 합칩니다(border-collapse).","d": {"border-collapse": "칸 테두리를 하나로 합침"}},".dg th, .dg td": {"c": "모든 칸(제목 th, 본문 td) 공통: 안쪽 여백, 왼쪽 정렬, 줄바꿈 없음(nowrap), 아래 구분선.","d": {"white-space": "줄바꿈 안 함(한 줄로 유지)"}},".dg thead th": {"c": "제목 줄(머리글)은 굵게, 살짝 진한 바탕을 줍니다."},".dg tbody tr:last-child td": {"c": "마지막 줄은 아래 선을 없앱니다(바깥 테두리와 겹치지 않게)."},".dg tbody tr:hover td": {"c": "마우스를 올린 줄을 연한 강조색으로 표시합니다."},".dg .num": {"c": "숫자 칸: 오른쪽 정렬하고, tabular-nums 로 숫자의 폭을 같게 해서 자릿수가 세로로 맞게 합니다.","d": {"text-align": "오른쪽 정렬","font-variant-numeric": "모든 숫자를 같은 폭으로"}},".dg-empty td": {"c": "\"결과 없음\" 같은 한 줄 안내: 가운데 정렬, 연한 글자색."},".dg-badge": {"c": "상태 배지: 둥근 알약 모양의 작은 표시입니다."},".dg-badge.wait": {"c": "접수: 노랑 계열 배경. color-mix()는 두 색을 섞습니다. 색만으로 구분하지 않도록 글자도 함께 보여 줍니다."},".dg-badge.run": {"c": "처리중: 파랑 계열 배경."},".dg-badge.ok": {"c": "완료: 초록 계열 배경."},".dg-sort": {"c": "열 제목 안의 정렬 버튼: 버튼의 기본 모양을 지우고 제목 글자처럼 보이게 합니다. 키보드(Tab, Enter)로도 누를 수 있습니다."},".dg-sort:focus-visible": {"c": "키보드로 이 버튼을 선택했을 때 윤곽선을 보여 줍니다."},".dg-ar": {"c": "정렬 방향 화살표를 넣을 자리입니다. min-width 로 화살표가 없을 때도 자리를 비워 둬 제목이 흔들리지 않습니다."},"th[aria-sort=\"ascending\"] .dg-ar::after": {"c": "오름차순일 때 ▲ 표시(aria-sort 값에 따라 CSS가 화살표를 바꿉니다)."},"th[aria-sort=\"descending\"] .dg-ar::after": {"c": "내림차순일 때 ▼ 표시."},"th[aria-sort=\"none\"] .dg-ar::after": {"c": "정렬 안 함일 때 ↕ 표시."},".dg-pager": {"c": "페이지 이동 줄: 이전 버튼, 번호, 다음 버튼을 가로로 놓습니다."},".dg-pages": {"c": "페이지 번호 버튼들을 가로로 묶습니다."},".dg-pg": {"c": "페이지 이동 버튼 공통 모양입니다."},".dg-pg:hover:not(:disabled)": {"c": "누를 수 있는 버튼에만 마우스 올림 효과를 줍니다(:not(:disabled)는 \"비활성이 아닌 것\")."},".dg-pg[aria-current=\"page\"]": {"c": "지금 보고 있는 페이지는 강조색으로 표시합니다. aria-current=\"page\"는 화면 낭독기도 현재 페이지로 알려 줍니다."},".dg-pg:disabled": {"c": "비활성 버튼(첫 페이지의 이전, 마지막 페이지의 다음)은 흐리게 하고 금지 커서를 보여 줍니다."},".dg-prog": {"c": "진행 막대의 바깥 길(트랙): 둥근 가는 막대입니다. 안쪽 채움이 넘치지 않게 overflow:hidden."},".dg-prog-bar": {"c": "진행 막대의 채움 부분입니다. 자바스크립트가 width 를 0%~100%로 바꾸고, transition 으로 부드럽게 늘어납니다."},".dg-sk": {"c": "뼈대(스켈레톤) 줄: 기다리는 동안 회색 막대가 깜빡입니다. animation 으로 dg-pulse 를 반복(infinite)합니다."},".dg-err td": {"c": "오류 안내 줄은 빨강 계열 글자로 보여 줍니다."},".dg-radios": {"c": "한 줄 안의 라디오 버튼들을 가로로 나열합니다."},".dg-radios label": {"c": "라벨(글자)을 눌러도 라디오가 선택되도록 손 모양 커서를 줍니다."},".dg td select": {"c": "칸 안의 콤보박스(select) 모양을 다른 입력 칸과 맞춥니다."},".dg input[type=radio], .dg input[type=checkbox]": {"c": "accent-color 는 라디오·체크박스의 체크 색을 강조색으로 바꿉니다."},".dg-q": {"c": "검색 입력 칸 모양입니다. 좁은 화면에서도 넘치지 않게 width:100% 와 max-width 를 함께 씁니다."},".dg-q:focus-visible": {"c": "입력 칸에 키보드 초점이 있을 때 윤곽선을 보여 줍니다."},".dg mark": {"c": "검색어와 일치한 글자를 노랑 계열 배경으로 강조합니다(<mark> 태그)."}};
 const cm=(k,ind)=>{const n=CSSNOTE[k]||(/^@container/.test(k)?CSSNOTE['@container']:/^@keyframes/.test(k)?CSSNOTE['@keyframes']:null);return n&&n.c?ind+'/* '+n.c.split('\n').join('\n'+ind+'   ')+' */\n':''};
+const cmx=(n,k,ind)=>n.cm?ind+'/* '+n.cm.split('\n').join('\n'+ind+'   ')+' */\n':cm(k,ind);
 const pn=(k,d)=>{const n=CSSNOTE[k],p=d.split(':')[0].trim();return n&&n.d&&n.d[p]?'  /* '+n.d[p]+' */':''};
 const hn=k=>CSSNOTE[k]||'';
 function buildFile(it){
@@ -7788,8 +7912,8 @@ function buildFile(it){
   document.querySelectorAll('style').forEach(s=>{tree=tree.concat(parseCSS(s.textContent))});
   /* 필요한 규칙만 고르기 */
   const pick=nodes=>{const out=[];for(const n of nodes){
-    if(n.kids){const k=pick(n.kids);if(k.length)out.push({at:n.at,kids:k})}
-    else if(n.sel){const parts=splitTop(n.sel,',').map(x=>x.trim()).filter(partOK);if(parts.length)out.push({sel:parts,raw:n.raw})}
+    if(n.kids){const k=pick(n.kids);if(k.length)out.push({at:n.at,kids:k,cm:n.cm})}
+    else if(n.sel){const parts=splitTop(n.sel,',').map(x=>x.trim()).filter(partOK);if(parts.length)out.push({sel:parts,raw:n.raw,cm:n.cm})}
     else if(/^@(keyframes|property)/.test(n.at))out.push(n);
   }return out};
   const picked=pick(tree);
@@ -7802,20 +7926,20 @@ function buildFile(it){
   let prev=-1;
   while(used.size!==prev){prev=used.size;flat(picked,n=>{if(n.sel&&n.sel.every(x=>/^:root/.test(x)))decls(n.raw).forEach(d=>{const m=d.match(/^(--[\w-]+)\s*:/);if(m&&used.has(m[1]))scan(d)})})}
   const render=(nodes,ind)=>nodes.map(n=>{
-    if(n.kids){const inner=render(n.kids,ind+'  ');return inner?cm(n.at,ind)+ind+n.at+' {\n'+inner+'\n'+ind+'}':''}
+    if(n.kids){const inner=render(n.kids,ind+'  ');return inner?cmx(n,n.at,ind)+ind+n.at+' {\n'+inner+'\n'+ind+'}':''}
     if(n.sel){
       const isRoot=n.sel.every(x=>/^:root/.test(x));
       let ds=decls(n.raw);
       if(isRoot)ds=ds.filter(d=>{const m=d.match(/^(--[\w-]+)\s*:/);return !m||used.has(m[1])});
       if(!ds.length)return '';
-      const key=n.sel.join(', ');return cm(key,ind)+ind+n.sel.join(',\n'+ind)+' {\n'+ds.map(d=>ind+'  '+(/[{}]/.test(d)?d:d+';')+pn(key,d)).join('\n')+'\n'+ind+'}';
+      const key=n.sel.join(', ');return cmx(n,key,ind)+ind+n.sel.join(',\n'+ind)+' {\n'+ds.map(d=>ind+'  '+(/[{}]/.test(d)?d:d+';')+pn(key,d)).join('\n')+'\n'+ind+'}';
     }
     return '';
   }).filter(Boolean).join('\n');
   let css=render(picked,'');
   const extra=[];
   flat(picked,n=>{
-    if(n.at&&/^@keyframes/.test(n.at)){const nm=n.at.replace(/^@keyframes\s+/,'').trim();if(new RegExp('(^|[^\\w-])'+nm.replace(/-/g,'\\-')+'([^\\w-]|$)').test(css+initSrc+it.demo))extra.push(cm(n.at,'')+n.at+' {'+n.raw.replace(/\s+/g,' ').replace(/\}\s*/g,'}\n  ').replace(/^\s*/,'\n  ').replace(/\n\s*$/,'')+'\n}')}
+    if(n.at&&/^@keyframes/.test(n.at)){const nm=n.at.replace(/^@keyframes\s+/,'').trim();if(new RegExp('(^|[^\\w-])'+nm.replace(/-/g,'\\-')+'([^\\w-]|$)').test(css+initSrc+it.demo))extra.push(cmx(n,n.at,'')+n.at+' {'+n.raw.replace(/\s+/g,' ').replace(/\}\s*/g,'}\n  ').replace(/^\s*/,'\n  ').replace(/\n\s*$/,'')+'\n}')}
     else if(n.at&&/^@property/.test(n.at)){const nm=n.at.replace(/^@property\s+/,'').trim();if(css.includes(nm))extra.push(n.at+' {\n  '+decls(n.raw).join(';\n  ')+';\n}')}
   });
   css=[css].concat(extra).filter(Boolean).join('\n');

@@ -6426,13 +6426,21 @@ const SVG_ATTR='viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="c
 
 REAL['responsive-layout']={
 css:`
+/* The box whose size you can change. container-type:inline-size turns on container queries based on this box width, and container-name gives it a name (rsp). margin-inline:auto centers it horizontally. */
 .r-resp-wrap{container-type:inline-size;container-name:rsp;border:1.5px dashed var(--ink-2);border-radius:10px;padding:8px;margin-inline:auto;background:var(--surface)}
+/* By default, a grid with one cell (1fr) per row. */
 .r-resp-grid{display:grid;gap:8px;grid-template-columns:1fr}
+/* A product cell: the inner items are stacked vertically (grid) with a pale background, a border, and rounded corners. */
 .r-resp-grid .p{display:grid;gap:2px;padding:8px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);font-size:12.5px}
+/* The color swatch bar. 30px tall, with its color taken from the variable --c. */
 .r-resp-grid .p i{display:block;height:30px;border-radius:6px;background:var(--c);margin-bottom:4px}
+/* The product name text. */
 .r-resp-grid .p b{font-size:13px}
+/* Secondary text such as the price: a lighter color. */
 .r-resp-grid .p span{color:var(--ink-2)}
+/* When the box is at least 300px wide, it becomes 2 columns. repeat(2,1fr) means 2 cells of equal width. */
 @container rsp (min-width:300px){.r-resp-grid{grid-template-columns:repeat(2,1fr)}}
+/* When the box is at least 480px wide, it becomes 4 columns. */
 @container rsp (min-width:480px){.r-resp-grid{grid-template-columns:repeat(4,1fr)}}
 `,
 demo:`<div class="d-ctl"><label for="rs-range">Screen width <input id="rs-range" type="range" min="40" max="100" value="100"></label><span class="d-readout"></span></div><div class="r-resp-wrap"><div class="r-resp-grid"><div class="p"><i style="--c:var(--warm)"></i><b>Americano</b><span>KRW 3,500</span></div><div class="p"><i style="--c:var(--sun)"></i><b>Caffè latte</b><span>KRW 4,000</span></div><div class="p"><i style="--c:var(--sky)"></i><b>Cold brew</b><span>KRW 4,500</span></div><div class="p"><i style="--c:var(--leaf)"></i><b>Matcha latte</b><span>KRW 5,000</span></div><div class="p"><i style="--c:var(--rose)"></i><b>Strawberry cake</b><span>KRW 6,500</span></div><div class="p"><i style="--c:var(--accent)"></i><b>Butter cookie</b><span>KRW 2,500</span></div><div class="p"><i style="--c:var(--warm)"></i><b>Sandwich</b><span>KRW 6,000</span></div><div class="p"><i style="--c:var(--sky)"></i><b>Tea of the day</b><span>KRW 4,000</span></div></div></div><p class="d-hint">Shrink the bar for a phone and widen it for a PC: the menu board changes to 1, 2, or 4 columns.</p>`
@@ -6581,23 +6589,37 @@ demo:`<div class="d-ctl"><label for="mq-dur">Time <input id="mq-dur" type="range
 
 /* ───────── 7 layouts ───────── */
 REAL['responsive-layout'].init=function(r){
+  // Find the slider (rg), the box to resize (wrap), and the text that shows the current width (out).
   const wrap=r.querySelector('.r-resp-wrap'),rg=r.querySelector('input'),out=r.querySelector('.d-readout');
+  // When the slider moves, set the box width to that percentage.
   rg.addEventListener('input',()=>{wrap.style.width=rg.value+'%'});
+  // ResizeObserver is a browser feature that tells you whenever an element changes size. It reads the new width (px) and shows how many columns result (using the same 480px and 300px limits as the CSS).
   new ResizeObserver(es=>{const w=Math.round(es[0].contentRect.width);out.textContent=w+'px → '+(w>=480?4:w>=300?2:1)+' columns'}).observe(wrap);
 };
 
 REAL['hero-section']={
 css:`
+/* The outer box of the hero area. display:grid makes a grid, and grid-template-columns:1.2fr .8fr splits the text area and the art area 1.2 : 0.8 (fr = a share of the leftover space). gap is the space between cells, align-items:center centers vertically, and linear-gradient is a background that blends two colors. */
 .r-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center;padding:26px 22px;min-height:240px;background:linear-gradient(120deg,var(--accent-soft),var(--surface-2) 75%)}
+/* The small text above the title (the kicker) takes only as much space as its content with display:inline-block. */
 .r-hero .d-kicker{display:inline-block}
+/* The title. clamp(min, preferred, max) lets the font size change with the screen width within that range. text-wrap:balance evens out the line lengths. */
 .r-hero h3{margin:8px 0;font:700 clamp(1.15rem,3.4cqi + .4rem,1.7rem)/1.28 var(--display);text-wrap:balance}
+/* The description: no top margin, a 14px bottom margin, and a lighter text color. */
 .r-hero p{margin:0 0 14px;color:var(--ink-2);font-size:13px}
+/* The trust line (rating, number of customers, and so on): a top margin and small text. */
 .r-hero-trust{margin-top:12px;font-size:12px;color:var(--ink-2)}
+/* Emphasized text in the trust line uses the main text color to stand out. */
 .r-hero-trust b{color:var(--ink)}
+/* The art area on the right. grid with justify-items:center and align-content:center gathers its contents in the middle. */
 .r-hero-art{display:grid;gap:10px;justify-items:center;align-content:center}
+/* The round picture. Equal width and height with border-radius:50% make a circle. radial-gradient is a color that spreads from the center, and box-shadow is the shadow. */
 .r-hero-art .bq{width:112px;height:112px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--rose),var(--warm));display:grid;place-items:center;font-size:54px;box-shadow:0 18px 30px -16px rgba(0,0,0,.45)}
+/* The price bubble: a small box with a white background, a border, rounded corners, and a shadow. */
 .r-hero-art .tag{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 9px;font-size:12px;box-shadow:0 8px 16px -10px rgba(0,0,0,.4)}
+/* The first line of the bubble takes a whole line (display:block). */
 .r-hero-art .tag b{display:block;font-size:13px}
+/* Container query: when the example box gets narrower than 430px, the text and art are stacked in one column (1fr) and the art is hidden (display:none). */
 @container (max-width:430px){.r-hero{grid-template-columns:1fr}.r-hero-art{display:none}}
 `,
 demo:`<div class="r-hero"><div><span class="d-kicker">Flower subscription</span><h3>On Monday morning, a bunch of fresh flowers on your desk</h3><p>We pick them at the farm every week and deliver by the next morning.</p><div class="d-row"><button class="d-btn d-btn-primary" type="button">Start the first week free</button><button class="d-btn" type="button">See this week’s flowers</button></div><div class="r-hero-trust"><b>★ 4.8</b> · 3,200 customers (example figure)</div></div><div class="r-hero-art" aria-hidden="true"><div class="bq">💐</div><div class="tag"><b>Once a week · KRW 19,900 per month</b>Skip anytime (example)</div></div></div>`
@@ -6605,18 +6627,31 @@ demo:`<div class="r-hero"><div><span class="d-kicker">Flower subscription</span>
 
 REAL['card-layout']={
 css:`
+/* The card grid. repeat(auto-fill, minmax(132px,1fr)) means "fit as many cells of at least 132px as possible and share the leftover space", so the number of columns changes by itself with the screen width. */
 .r-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+/* One card. position:relative makes the badge inside be placed relative to this card, and overflow:hidden cuts off content that sticks out of the rounded corners. flex with column stacks the contents vertically, and transition smooths the change when the mouse hovers. */
 .r-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+/* On hover, the card lifts 3px (translateY) and gets a shadow. */
 .r-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(10,30,50,.45)}
+/* The picture area at the top of the card. Its background is a pale mix (color-mix) of the variable --c. */
 .r-card .th{height:72px;display:grid;place-items:center;font-size:34px;background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+/* A badge such as "Sale". position:absolute lays it over the top left corner of the picture. */
 .r-card .bd{position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:999px;background:var(--rose);color:#fff;font:700 11px var(--sans)}
+/* The card text area. flex:1 takes the leftover height so the button goes down to the bottom of the card. */
 .r-card .tx{padding:9px 10px;display:grid;gap:2px;font-size:12.5px;flex:1}
+/* The product name text. */
 .r-card .tx b{font-size:13px}
+/* <s> is the strikethrough tag. It shows the original price in a lighter color. */
 .r-card .tx s{color:var(--ink-2);font-size:11.5px}
+/* The current price is a little larger. */
 .r-card .tx strong{font-size:14px}
+/* The discount rate: italics removed (font-style:normal) and emphasized in red. */
 .r-card .tx strong em{font-style:normal;color:var(--rose);margin-right:4px}
+/* Small secondary text: a lighter color. */
 .r-card .tx small{color:var(--ink-2)}
+/* The button at the bottom of the card. margin keeps it away from the card edge, with a pale background, a border, and a hand cursor on hover. */
 .r-card button{margin:0 10px 10px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px;font:600 12px var(--sans);color:var(--ink);cursor:pointer}
+/* On hover, it switches to the accent color with --accent-ink text (keeping the text readable). */
 .r-card button:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 `,
 demo:`<div class="r-cards"><article class="r-card"><div class="th" style="--c:var(--warm)">🥐</div><span class="bd">20%</span><div class="tx"><b>Croissant 6-pack</b><s>KRW 15,000</s><strong><em>20%</em>KRW 12,000</strong><small>★ 4.7 (326)</small></div><button type="button">Add to cart</button></article><article class="r-card"><div class="th" style="--c:var(--sun)">🧀</div><div class="tx"><b>Cheesecake No. 1</b><strong>KRW 26,000</strong><small>★ 4.9 (189)</small></div><button type="button">Add to cart</button></article><article class="r-card"><div class="th" style="--c:var(--leaf)">🍵</div><span class="bd">New</span><div class="tx"><b>Matcha cookies 10-pack</b><strong>KRW 9,800</strong><small>★ 4.6 (57)</small></div><button type="button">Add to cart</button></article><article class="r-card"><div class="th" style="--c:var(--rose)">🍓</div><div class="tx"><b>Strawberry tart</b><s>KRW 6,500</s><strong><em>10%</em>KRW 5,850</strong><small>★ 4.8 (412)</small></div><button type="button">Add to cart</button></article></div>`
@@ -6624,15 +6659,24 @@ demo:`<div class="r-cards"><article class="r-card"><div class="th" style="--c:va
 
 REAL['bento-grid']={
 css:`
+/* The bento grid: 4 equal columns, and grid-auto-rows:66px sets every row to 66px tall. */
 .r-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:66px;gap:8px}
+/* The look of each cell. flex stacks the content vertically and justify-content:space-between pushes it to the top and bottom. color-mix blends two colors to make a pale background and border from the --c color. */
 .r-bento>div{border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;font:600 12px/1.3 var(--sans);background:color-mix(in srgb,var(--c) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+/* The big number. cqi inside clamp means "1% of the container width", so the font size follows the box size. */
 .r-bento b{font:700 clamp(14px,3.6cqi,20px)/1.2 var(--display)}
+/* The size of the emoji icon in a cell. */
 .r-bento .ic{font-size:20px}
+/* Cell 1 takes 2 columns and 2 rows (span 2). --c sets the color of this cell. */
 .r-bento .t1{grid-column:span 2;grid-row:span 2;--c:var(--accent)}
+/* Cell 2 takes 2 columns. */
 .r-bento .t2{grid-column:span 2;--c:var(--warm)}
+/* The remaining cells take 1 cell each and differ only in color. */
 .r-bento .t3{--c:var(--sun)}.r-bento .t4{--c:var(--sky)}
+/* Cell 5 takes 2 columns. */
 .r-bento .t5{grid-column:span 2;--c:var(--leaf)}
 .r-bento .t6{--c:var(--rose)}.r-bento .t7{--c:var(--accent)}
+/* When the box is 340px or narrower, switch to 2 columns and let the big cell 1 span the full width. */
 @container (max-width:340px){.r-bento{grid-template-columns:repeat(2,1fr)}.r-bento .t1{grid-column:span 2}}
 `,
 demo:`<div class="r-bento"><div class="t1"><span class="ic">🧾</span><span>Budget app · key features</span><b>Snap a receipt and your ledger fills in automatically</b></div><div class="t2"><span class="ic">🔔</span><b>We alert you before you go over budget</b></div><div class="t3"><span>Card integration</span><b>12 cards</b></div><div class="t4"><span>Customer support</span><b>Weekdays 9–18</b></div><div class="t5"><span class="ic">📊</span><b>Month-end settlement report on one page</b></div><div class="t6"><span>Security</span><b>Encryption</b></div><div class="t7"><span>Backup</span><b>Automatic</b></div></div><p class="d-hint">This is the cell layout used on feature introduction pages. The figures are examples.</p>`
@@ -6640,88 +6684,155 @@ demo:`<div class="r-bento"><div class="t1"><span class="ic">🧾</span><span>Bud
 
 REAL['layout-sidebar']={
 css:`
+/* The sidebar layout: a 140px menu on the left and a body that takes all the remaining space (minmax(0,1fr)) on the right. transition makes the width change move smoothly. */
 .r-side{display:grid;grid-template-columns:140px minmax(0,1fr);min-height:230px;transition:grid-template-columns .3s ease}
+/* In the collapsed state (when the collapsed class is added), the menu width shrinks to 50px. */
 .r-side.collapsed{grid-template-columns:50px minmax(0,1fr)}
+/* The menu area. overflow:hidden hides text that overflows when the width shrinks, and grid with align-content:start stacks the menu items from the top. */
 .r-side nav{background:var(--surface);border-right:1px solid var(--line);padding:10px 8px;overflow:hidden;display:grid;align-content:start;gap:2px}
+/* A menu item. The icon and text sit side by side (flex), and white-space:nowrap prevents line breaks. */
 .r-side nav a{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;color:var(--ink);font-size:13px;white-space:nowrap;cursor:pointer}
+/* On hover, the item gets a light accent background. */
 .r-side nav a:hover{background:var(--accent-soft)}
+/* The currently selected menu (the on class) is shown in the accent color and bold text. */
 .r-side nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+/* The menu icon. flex:none keeps the icon from shrinking when the menu gets narrow. */
 .r-side nav a i{flex:none;width:18px;text-align:center;font-style:normal}
+/* The menu text. transition on opacity makes it fade out gradually when collapsing. */
 .r-side .lbl{transition:opacity .2s}
+/* In the collapsed state, the text becomes transparent (opacity:0). */
 .r-side.collapsed .lbl{opacity:0}
+/* The body area: inner padding, with the content stacked vertically from the top. */
 .r-side main{padding:12px;font-size:13px;display:grid;gap:10px;align-content:start}
+/* The top row of the body: the title on the left and the button at the right end (justify-content:space-between). */
 .r-side-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* The body heading. */
 .r-side-top h4{margin:0;font:700 14px var(--display)}
+/* The row of key-metric (KPI) cards. repeat(auto-fit, minmax(86px,1fr)) means "fit cells of at least 86px automatically". */
 .r-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
+/* One metric card: a white background, a border, rounded corners, and small light text. */
 .r-kpi div{padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2)}
+/* The metric number takes its own line (display:block) and is large and bold. */
 .r-kpi b{display:block;font:700 16px var(--display);color:var(--ink)}
+/* Removes the default bullets and spacing of the list (ul) and spaces the rows with grid. */
 .r-ls{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+/* One list row: a card with the name on the left and the status at the right end (space-between). */
 .r-ls li{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px}
+/* The status text on the right: a lighter color and no line breaks. */
 .r-ls li span{color:var(--ink-2);white-space:nowrap}
 `,
 demo:`<div class="r-side"><nav aria-label="Example menu"><a class="on" role="button" tabindex="0"><i>🏠</i><span class="lbl">Dashboard</span></a><a role="button" tabindex="0"><i>📦</i><span class="lbl">Orders</span></a><a role="button" tabindex="0"><i>🛍️</i><span class="lbl">Products</span></a><a role="button" tabindex="0"><i>👥</i><span class="lbl">Customers</span></a><a role="button" tabindex="0"><i>💳</i><span class="lbl">Settlement</span></a><a role="button" tabindex="0"><i>⚙️</i><span class="lbl">Settings</span></a></nav><main><div class="r-side-top"><h4 class="r-pt">Dashboard</h4><button class="d-btn" type="button">Collapse/expand menu</button></div><div class="r-pb" aria-live="polite"></div><p style="margin:0;color:var(--ink-2)">Press the left menu. The menu stays and only the right content changes. (figures are examples)</p></main></div>`,
-init(r){const s=r.querySelector('.r-side'),pt=r.querySelector('.r-pt'),pb=r.querySelector('.r-pb'),links=[...r.querySelectorAll('nav a')];
+init(r){
+  // Find the needed elements: the sidebar box (s), the title (pt), the body (pb), and the menu links (links).
+  const s=r.querySelector('.r-side'),pt=r.querySelector('.r-pt'),pb=r.querySelector('.r-pb'),links=[...r.querySelectorAll('nav a')];
+  // ls(list): turn an array of [title, description] pairs into the HTML text of a <ul> list.
   const ls=a=>'<ul class="r-ls">'+a.map(x=>'<li><b>'+x[0]+'</b><span>'+x[1]+'</span></li>').join('')+'</ul>';
+  // P: a dictionary (object) that gathers the HTML to put in the body for each menu name. You look up the content by the name (key).
   const P={'Dashboard':'<div class="r-kpi"><div>Orders today<b>128</b></div><div>Sales<b>KRW 2.84 million</b></div><div>Awaiting delivery<b>9</b></div></div>',
    'Orders':ls([['#1024 Croissant 6-pack','Payment complete'],['#1023 Loaf bread x2','In transit'],['#1022 Cake x1','Delivered']]),
    'Products':ls([['Croissant 6-pack','Stock 42'],['Whole wheat bread','Stock 18'],['Strawberry cake','Stock 5']]),
    'Customers':ls([['Kim Jiwoo','VIP'],['Park Seojun','New'],['Lee Haeun','Regular']]),
    'Settlement':'<div class="r-kpi"><div>This month’s settlement<b>KRW 19.2 million</b></div><div>Settlement due<b>November 10</b></div></div>',
    'Settings':ls([['Notifications','On'],['Delivery notice text','Edit'],['Admin accounts','2']])};
+  // go(menu): mark the pressed menu as selected (the on class), replace the title and body with that menu content, and move the focus.
   const go=a=>{links.forEach(l=>l.classList.toggle('on',l===a));const n=a.querySelector('.lbl').textContent;pt.textContent=n;pb.innerHTML=P[n];a.focus()};
+  // For each menu, clicking or pressing Enter or Space runs go() (so it works with the keyboard too). Space default behavior (scrolling the page) is prevented.
   links.forEach(a=>{a.addEventListener('click',()=>go(a));a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(a)}})});
+  // At first, show the content of the first menu.
   pb.innerHTML=P['Dashboard'];
+  // The collapse button: each press adds or removes the collapsed class (the CSS changes the width).
   r.querySelector('button').addEventListener('click',()=>s.classList.toggle('collapsed'))}
 };
 
 REAL['sticky-header']={
 css:`
+/* The scrolling box. Its height is fixed at 240px, and overflow:auto adds a scrollbar when content overflows. */
 .d-scroll{height:240px;overflow:auto;background:var(--surface)}
+/* The sticky header. position:sticky with top:0 keeps it stuck to the top of the box while scrolling. z-index is the stacking order when things overlap, and backdrop-filter:blur is a glass effect that blurs what is behind it. */
 .r-sh{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+/* After scrolling (when the shrunk class is added), a shadow appears to separate the header from the content. */
 .r-sh.shrunk{box-shadow:0 8px 14px -12px rgba(0,0,0,.5)}
+/* The first row (logo, search, cart): laid out side by side (flex), and its padding shrinks smoothly with transition. */
 .r-sh .top{display:flex;align-items:center;gap:10px;padding:14px 12px;transition:padding .2s}
+/* After scrolling, the top and bottom padding of the first row shrink to make the header smaller. */
 .r-sh.shrunk .top{padding:6px 12px}
+/* The logo text: extra bold (800) in the accent color. */
 .r-sh .logo{font:800 15px var(--display);color:var(--accent)}
+/* The search box. flex:1 takes all the leftover width, min-width:0 lets it shrink, and text-overflow:ellipsis shortens overflowing text with an ellipsis. */
 .r-sh .sch{flex:1;min-width:0;padding:7px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The cart icon spot: position:relative makes it the reference point for the badge inside. */
 .r-sh .cart{position:relative;font-size:18px}
+/* The cart count badge: a red circle placed over the top right of the icon with absolute positioning. */
 .r-sh .cart em{position:absolute;top:-6px;right:-8px;min-width:16px;height:16px;border-radius:8px;background:var(--rose);color:#fff;font:700 10px/16px var(--sans);text-align:center;font-style:normal}
+/* The menu row. max-height sets the height, and transition makes it fold and unfold smoothly. */
 .r-sh nav{display:flex;gap:14px;padding:0 12px 8px;font-size:12.5px;overflow:hidden;white-space:nowrap;transition:max-height .2s,padding .2s,opacity .2s;max-height:34px}
+/* After scrolling, the menu row collapses to zero height and becomes transparent (opacity:0). */
 .r-sh.shrunk nav{max-height:0;padding-bottom:0;opacity:0}
+/* The first menu item (the current position) is bold and in the accent color. */
 .r-sh nav span:first-child{font-weight:700;color:var(--accent)}
+/* The product list area: rows stacked one by one with grid. */
 .r-list{display:grid;gap:0}
+/* One list row: the picture and text side by side, with a bottom divider. */
 .r-list div{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--line);font-size:13px}
+/* The size of the emoji picture at the start of a row. */
 .r-list i{font-style:normal;font-size:26px}
+/* Small secondary text on its own line in a lighter color. */
 .r-list small{display:block;color:var(--ink-2)}
 `,
 demo:`<div class="d-scroll"><header class="r-sh"><div class="top"><span class="logo">Example Market</span><span class="sch">Search products, brands</span><span class="cart" aria-label="2 items in cart">🛒<em>2</em></span></div><nav aria-label="Example categories"><span>Best</span><span>New</span><span>Food</span><span>Living</span><span>Sale</span></nav></header><div class="r-list"><div><i>🥑</i><span>Avocados, 4 pack<small>KRW 7,900 · Arrives tomorrow</small></span></div><div><i>🍞</i><span>Whole wheat bread<small>KRW 4,500 · Arrives tomorrow</small></span></div><div><i>🥛</i><span>Antibiotic-free milk 1L<small>KRW 3,200 · Arrives today</small></span></div><div><i>🍳</i><span>Free-range eggs, 15 count<small>KRW 6,900 · Arrives tomorrow</small></span></div><div><i>🍅</i><span>Ripe tomatoes 1kg<small>KRW 8,500 · Arrives tomorrow</small></span></div><div><i>🧴</i><span>Dish soap refill<small>KRW 5,400 · Arrives the day after tomorrow</small></span></div><div><i>🧻</i><span>Paper towels, 6 rolls<small>KRW 9,900 · Arrives tomorrow</small></span></div></div></div>`,
-init(r){const s=r.querySelector('.d-scroll'),h=r.querySelector('.r-sh');s.addEventListener('scroll',()=>h.classList.toggle('shrunk',s.scrollTop>16),{passive:true})}
+init(r){
+  // Find the scrolling box (s) and the header (h).
+  const s=r.querySelector('.d-scroll'),h=r.querySelector('.r-sh');
+  // On every scroll, check whether it moved more than 16px down; if so add the shrunk class, otherwise remove it. passive:true promises not to block scrolling, which keeps it smooth.
+  s.addEventListener('scroll',()=>h.classList.toggle('shrunk',s.scrollTop>16),{passive:true})}
 };
 
 REAL['split-layout']={
 css:`
+/* The split layout. The left pane width is the variable --split (42% by default), the middle 10px is a draggable handle, and the right pane takes the rest. JavaScript changes --split to adjust the ratio. */
 .d-split{display:grid;grid-template-columns:var(--split,42%) 10px minmax(0,1fr);min-height:230px}
+/* The two content panes. overflow:auto scrolls when content overflows, and min-width:0 keeps a pane from being forced wider by its content inside the grid. */
 .d-pane{padding:0;overflow:auto;font-size:13px;min-width:0;background:var(--surface)}
+/* The middle handle. cursor:col-resize shows the left-right resize cursor, and touch-action:none keeps the page from scrolling while you drag with a finger. */
 .d-handle{position:relative;background:var(--line);cursor:col-resize;touch-action:none}
+/* Two dotted lines decorating the middle of the handle. ::after is a way to attach imaginary content after an element. */
 .d-handle::after{content:"";position:absolute;inset:calc(50% - 14px) 3px;border-left:2px dotted var(--ink-2);border-right:2px dotted var(--ink-2)}
+/* On hover, keyboard focus, or while dragging (the drag class), the handle is shown in the accent color. */
 .d-handle:hover,.d-handle:focus-visible,.d-handle.drag{background:var(--accent)}
+/* A small label showing the current ratio, placed over the bottom right corner. */
 .d-split-ro{position:absolute;right:8px;bottom:6px;z-index:2;background:var(--surface);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+/* One mail row: grid stacks the subject and the preview, with a bottom divider. */
 .r-mail{display:grid;padding:9px 12px;border-bottom:1px solid var(--line);gap:1px;font-size:12.5px}
+/* The mail subject: kept on one line, with overflow shortened by … (overflow:hidden and text-overflow:ellipsis). */
 .r-mail b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The preview text: a lighter color, shortened to one line. */
 .r-mail span{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The mail being viewed (the on class): a light accent background and a thick accent line on the left (an inset shadow). */
 .r-mail.on{background:var(--accent-soft);box-shadow:inset 3px 0 var(--accent)}
+/* An unread mail gets a ● before the subject (::before adds imaginary text in front). */
 .r-mail.unread b::before{content:"● ";color:var(--accent)}
+/* The reading area on the right: inner padding and a vertical layout stacked from the top. */
 .r-view{padding:14px;display:grid;gap:8px;align-content:start}
+/* The mail title text. */
 .r-view h4{margin:0;font:700 14px var(--display)}
+/* Small light text such as the sender and time. */
 .r-view small{color:var(--ink-2)}
+/* The body paragraph: the default outer margin is removed. */
 .r-view p{margin:0}
 `,
 demo:`<div class="d-split"><div class="d-pane" role="list" aria-label="Inbox example"><div class="r-mail on unread" role="listitem"><b>Kim Minsu · Quote review request</b><span>Please check the attached quote</span></div><div class="r-mail unread" role="listitem"><b>General Affairs · October meeting schedule</b><span>Changed to Thursday at 3 p.m.</span></div><div class="r-mail" role="listitem"><b>Delivery alert · Your order has shipped</b><span>Expected to arrive today</span></div><div class="r-mail" role="listitem"><b>Monthly report · September results</b><span>Summary attached</span></div></div><div class="d-handle" role="separator" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="80" aria-valuenow="42" tabindex="0" aria-label="Adjust pane ratio"></div><div class="d-pane r-view"><h4>Quote review request</h4><small>Kim Minsu · Today 10:12 a.m. (example)</small><p>Hello. Please review the attached quote and let us know if anything needs to change.</p><p>Amounts exclude VAT.</p></div></div><span class="d-readout d-split-ro">42 : 58</span>`,
 init(r){
+  // Find the split box (box), the handle (h), and the ratio label (ro), and start pct (the left pane percentage) at 42.
   const box=r.querySelector('.d-split'),h=r.querySelector('.d-handle'),ro=r.querySelector('.d-split-ro');let pct=42;
+  // set(v): limit the ratio to 20-80%, apply it to the screen by changing the CSS variable --split, and also update the accessibility value (aria-valuenow) and the label.
   const set=v=>{pct=Math.max(20,Math.min(80,v));box.style.setProperty('--split',pct+'%');h.setAttribute('aria-valuenow',Math.round(pct));ro.textContent=Math.round(pct)+' : '+Math.round(100-pct)};
+  // When the handle is pressed, setPointerCapture keeps tracking the mouse or finger even if it leaves the handle, and the dragging mark (the drag class) is added.
   h.addEventListener('pointerdown',e=>{h.setPointerCapture(e.pointerId);h.classList.add('drag')});
+  // While moving, convert the horizontal mouse position into a percentage of the box and pass it to set().
   h.addEventListener('pointermove',e=>{if(!h.hasPointerCapture(e.pointerId))return;const b=box.getBoundingClientRect();set((e.clientX-b.left)/b.width*100)});
+  // When released, remove the dragging mark.
   h.addEventListener('pointerup',()=>h.classList.remove('drag'));
+  // Keyboard accessibility: the left and right arrow keys adjust the ratio by 5%.
   h.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')set(pct-5);if(e.key==='ArrowRight')set(pct+5)});
 }
 };
@@ -7629,29 +7740,42 @@ ITEMS.forEach((it,idx)=>{
 /* ───────── Build a savable .html from the example (the example is the source) ───────── */
 function getCode(it){if(!it._code)it._code=buildFile(it);return it._code}
 /* Split the page's <style> text into rules (to reuse the text exactly as written) */
+const CMS=[];
+/* Keep only the comments between rules (marked) and drop comments inside rules */
+function keepTopComments(t){
+  let o='',d=0,i=0;
+  while(i<t.length){
+    if(t[i]==='/'&&t[i+1]==='*'){const e=t.indexOf('*/',i+2),end=e<0?t.length:e+2;if(d===0){CMS.push(t.slice(i+2,e<0?t.length:e).trim());o+='\u0001'+(CMS.length-1)+'\u0002'}i=end;continue}
+    if(t[i]==='{')d++;else if(t[i]==='}')d--;
+    o+=t[i++];
+  }
+  return o;
+}
 function parseCSS(t){
-  t=t.replace(/\/\*[\s\S]*?\*\//g,'');
+  t=keepTopComments(t);
   const out=[];let i=0;const n=t.length;
   while(i<n){
     let j=i,d=0,q='';
     for(;j<n;j++){const c=t[j];if(q){if(c===q)q='';continue}if(c==='"'||c==="'"){q=c;continue}if(c==='(')d++;else if(c===')')d--;else if(d===0&&(c==='{'||c===';'))break}
     if(j>=n)break;
-    const pre=t.slice(i,j).trim();
+    let pre=t.slice(i,j).trim();const cms=[];
+    pre=pre.replace(/\u0001(\d+)\u0002/g,(m,x)=>{cms.push(CMS[x]);return ''}).trim();
     if(t[j]===';'){i=j+1;continue}
     let k=j+1,dd=1;q='';
     for(;k<n&&dd>0;k++){const c=t[k];if(q){if(c===q)q='';continue}if(c==='"'||c==="'"){q=c;continue}if(c==='{')dd++;else if(c==='}')dd--}
     const body=t.slice(j+1,k-1);i=k;
     if(!pre)continue;
     if(pre[0]==='@'){
-      if(/^@(media|supports|container|layer)/.test(pre))out.push({at:pre,kids:parseCSS(body)});
-      else out.push({at:pre,raw:body});
-    }else out.push({sel:pre,raw:body});
+      if(/^@(media|supports|container|layer)/.test(pre))out.push({at:pre,kids:parseCSS(body),cm:cms.join('\n')});
+      else out.push({at:pre,raw:body,cm:cms.join('\n')});
+    }else out.push({sel:pre,raw:body,cm:cms.join('\n')});
   }
   return out;
 }
 /* Friendly comments added to the CSS, HTML, and JS of a saved file (key: selector or #name, c: explanation, d: per-property explanation) */
 const CSSNOTE={"#intro": "This file was made with \"Save the code\". Open it in a browser and the example appears as it is.\nFrom top to bottom: look (CSS), then screen structure (HTML), then behavior (JavaScript).","#style": "CSS sets the look: colors, sizes, spacing, and layout are decided here.","#html": "Screen structure (HTML): the buttons, tables, and text you see in the example are here.","#script": "JavaScript adds behavior: what happens when a button is pressed is decided here.","#js1": "(function(){ ... })() is a function that runs once as soon as it is created. It keeps the variables made inside from leaking outside.","#js2": "Find the box (.stage) that holds the example.","#js3": "Pass the box to the init function below and run it. try/catch keeps the page from stopping if an error occurs; the error is only logged to the console.","*": {"c": "Applies to every element. box-sizing:border-box includes padding and border in width and height,\nwhich makes size calculations easier."},"body": {"c": "Defaults for the whole page (body). The outer margin is removed (margin:0), the inner padding is 16px,\nand the background color, text color, and font come from the variables (var(--name)) in :root below."},":root": {"c": ":root is the top element of the document (html). If you gather color and font \"name tags\" here as CSS variables (--name),\nyou can use them anywhere below with var(--name), and changing this one place changes every color.","d": {"--bg": "Background color","--surface": "Background of cards and inputs","--surface-2": "A slightly darker background","--ink": "Main text color","--ink-2": "Secondary (lighter) text color","--line": "Border and divider color","--accent": "Accent color (main buttons, etc.)","--accent-ink": "Text color placed on the accent color","--accent-soft": "Light accent color (a hovered row, etc.)","--warm": "Orange color","--sun": "Yellow color","--sky": "Blue color","--leaf": "Green color","--rose": "Red color","--code-bg": "Code box background","--code-ink": "Code text color","--code-dim": "Dim text color for things like code comments","--sans": "Body font (system sans-serif)","--mono": "Monospaced font (for numbers and code)","--display": "Heading font","--serif": "Placeholder for a serif font (same as sans-serif here)"}},":focus-visible": {"c": "An outline (focus indicator) shown only on elements selected with the keyboard (Tab key). It does not appear on mouse clicks.\nKeyboard users must be able to see where they are, so do not remove it.","d": {"outline": "2px solid line in the accent color","outline-offset": "Gap of 2px from the element"}},".sr": {"c": "sr = screen reader only. Invisible to the eye, but screen readers read it.\ndisplay:none cannot be read by screen readers either, so it is shrunk to 1px and clipped instead.","d": {"position": "Take it out of the normal flow (takes no space)","width": "Shrink to one pixel","height": "Shrink to one pixel","overflow": "Hide the part that sticks out","clip": "Clip the visible area to zero","white-space": "Prevent line breaks (so screen readers read the sentence as one)"}},".stage": {"c": "The box (stage) that holds the example. container-type:inline-size turns on container queries (@container),\nwhich change the look based on the width of this box.","d": {"position": "Reference point for absolutely positioned children","container-type": "Turn on container queries","overflow": "Hide content that sticks out of the box","min-height": "Minimum height"}},".stage.flush": {"c": "When flush is added to .stage, the inner padding is removed (for examples that fill the box)."},".d-btn": {"c": "The basic button for examples: a light background, a border, rounded corners, and a hand cursor on hover (cursor:pointer).","d": {"cursor": "Hand cursor on hover","transition": "Make changes ease in smoothly"}},".d-btn:hover": {"c": "On mouse hover: a light accent background."},".d-btn:active": {"c": "The moment it is pressed: it shrinks slightly to feel pressed."},".d-btn-primary": {"c": "The main action button. It uses --accent-ink for the text on the accent background so the text stays clear."},".d-btn-primary:hover": {"c": "It gets slightly brighter on hover (brightness)."},".d-ctl": {"c": "The control row above the example. display:flex lays items out horizontally, flex-wrap wraps them when narrow, and align-items centers them vertically.","d": {"gap": "Space between items (6px vertical, 14px horizontal)","flex-wrap": "Wrap to the next line when space runs out"}},".d-readout": {"c": "Small text that tells the current state (monospaced font)."},".d-hint": {"c": "A small hint text below the example."},".d-row": {"c": "Line items up horizontally and wrap when narrow."},"@media (prefers-reduced-motion:reduce)": {"c": "If the user turned on \"reduce motion\" in the operating system, animations and transitions are made nearly instant to avoid dizziness (accessibility)."},"@container": {"c": "Container query: the reference is the width of the .stage box, not the whole screen."},"@keyframes": {"c": "Defines the steps (start to end) of an animation. The animation property calls this name."},".dg-wrap": {"c": "The box that wraps the table. If the table is wider than the box, it scrolls sideways inside the box.","d": {"overflow": "Show a scrollbar when content overflows"}},".dg": {"c": "The table itself. It fills the full width and merges the lines between cells into one (border-collapse).","d": {"border-collapse": "Merge cell borders into one"}},".dg th, .dg td": {"c": "Common to every cell (title th, body td): inner padding, left alignment, no line breaks (nowrap), and a bottom divider.","d": {"white-space": "No line breaks (keep it on one line)"}},".dg thead th": {"c": "The title row (header) is bold and has a slightly darker background."},".dg tbody tr:last-child td": {"c": "The last row has no bottom line (so it does not double up with the outer border)."},".dg tbody tr:hover td": {"c": "The row under the mouse is shown in a light accent color."},".dg .num": {"c": "Number cells: right-aligned, and tabular-nums gives every digit the same width so digits line up vertically.","d": {"text-align": "Right alignment","font-variant-numeric": "Give every digit the same width"}},".dg-empty td": {"c": "A one-line message such as \"No results\": centered, in a lighter text color."},".dg-badge": {"c": "Status badge: a small pill-shaped label."},".dg-badge.wait": {"c": "Received: a yellow-ish background. color-mix() blends two colors. The text is shown too, so color is not the only clue."},".dg-badge.run": {"c": "In progress: a blue-ish background."},".dg-badge.ok": {"c": "Done: a green-ish background."},".dg-sort": {"c": "The sort button inside a column title: its default button look is removed so it looks like title text. It can also be pressed with the keyboard (Tab, Enter)."},".dg-sort:focus-visible": {"c": "Show an outline when this button is selected with the keyboard."},".dg-ar": {"c": "The spot for the sort-direction arrow. min-width keeps the space reserved even without an arrow, so the title does not shift."},"th[aria-sort=\"ascending\"] .dg-ar::after": {"c": "Show ▲ when ascending (CSS changes the arrow based on the aria-sort value)."},"th[aria-sort=\"descending\"] .dg-ar::after": {"c": "Show ▼ when descending."},"th[aria-sort=\"none\"] .dg-ar::after": {"c": "Show ↕ when not sorted."},".dg-pager": {"c": "The page navigation row: the Previous button, the numbers, and the Next button laid out horizontally."},".dg-pages": {"c": "Groups the page number buttons horizontally."},".dg-pg": {"c": "The common look of the page navigation buttons."},".dg-pg:hover:not(:disabled)": {"c": "Hover effect only for buttons that can be pressed (:not(:disabled) means \"not disabled\")."},".dg-pg[aria-current=\"page\"]": {"c": "The page being viewed is shown in the accent color. aria-current=\"page\" also tells screen readers it is the current page."},".dg-pg:disabled": {"c": "Disabled buttons (Previous on the first page, Next on the last) are dimmed and show a not-allowed cursor."},".dg-prog": {"c": "The track of the progress bar: a thin rounded bar. overflow:hidden keeps the inner fill from spilling out."},".dg-prog-bar": {"c": "The filled part of the progress bar. JavaScript changes its width from 0% to 100%, and transition makes it grow smoothly."},".dg-sk": {"c": "A skeleton row: a gray bar that pulses while waiting. The animation property repeats dg-pulse (infinite)."},".dg-err td": {"c": "The error message row is shown in a red-ish text color."},".dg-radios": {"c": "Lays out the radio buttons in one row horizontally."},".dg-radios label": {"c": "Gives a hand cursor so clicking the label text also selects the radio."},".dg td select": {"c": "Makes the combo box (select) inside a cell match the other inputs."},".dg input[type=radio], .dg input[type=checkbox]": {"c": "accent-color changes the check color of radios and checkboxes to the accent color."},".dg-q": {"c": "The look of the search input. width:100% with max-width keeps it from overflowing on narrow screens."},".dg-q:focus-visible": {"c": "Show an outline when the input has keyboard focus."},".dg mark": {"c": "Highlights the text that matches the search with a yellow-ish background (the <mark> tag)."}};
 const cm=(k,ind)=>{const n=CSSNOTE[k]||(/^@container/.test(k)?CSSNOTE['@container']:/^@keyframes/.test(k)?CSSNOTE['@keyframes']:null);return n&&n.c?ind+'/* '+n.c.split('\n').join('\n'+ind+'   ')+' */\n':''};
+const cmx=(n,k,ind)=>n.cm?ind+'/* '+n.cm.split('\n').join('\n'+ind+'   ')+' */\n':cm(k,ind);
 const pn=(k,d)=>{const n=CSSNOTE[k],p=d.split(':')[0].trim();return n&&n.d&&n.d[p]?'  /* '+n.d[p]+' */':''};
 const hn=k=>CSSNOTE[k]||'';
 function buildFile(it){
@@ -7676,8 +7800,8 @@ function buildFile(it){
   document.querySelectorAll('style').forEach(s=>{tree=tree.concat(parseCSS(s.textContent))});
   /* Pick only the rules that are needed */
   const pick=nodes=>{const out=[];for(const n of nodes){
-    if(n.kids){const k=pick(n.kids);if(k.length)out.push({at:n.at,kids:k})}
-    else if(n.sel){const parts=splitTop(n.sel,',').map(x=>x.trim()).filter(partOK);if(parts.length)out.push({sel:parts,raw:n.raw})}
+    if(n.kids){const k=pick(n.kids);if(k.length)out.push({at:n.at,kids:k,cm:n.cm})}
+    else if(n.sel){const parts=splitTop(n.sel,',').map(x=>x.trim()).filter(partOK);if(parts.length)out.push({sel:parts,raw:n.raw,cm:n.cm})}
     else if(/^@(keyframes|property)/.test(n.at))out.push(n);
   }return out};
   const picked=pick(tree);
@@ -7690,20 +7814,20 @@ function buildFile(it){
   let prev=-1;
   while(used.size!==prev){prev=used.size;flat(picked,n=>{if(n.sel&&n.sel.every(x=>/^:root/.test(x)))decls(n.raw).forEach(d=>{const m=d.match(/^(--[\w-]+)\s*:/);if(m&&used.has(m[1]))scan(d)})})}
   const render=(nodes,ind)=>nodes.map(n=>{
-    if(n.kids){const inner=render(n.kids,ind+'  ');return inner?cm(n.at,ind)+ind+n.at+' {\n'+inner+'\n'+ind+'}':''}
+    if(n.kids){const inner=render(n.kids,ind+'  ');return inner?cmx(n,n.at,ind)+ind+n.at+' {\n'+inner+'\n'+ind+'}':''}
     if(n.sel){
       const isRoot=n.sel.every(x=>/^:root/.test(x));
       let ds=decls(n.raw);
       if(isRoot)ds=ds.filter(d=>{const m=d.match(/^(--[\w-]+)\s*:/);return !m||used.has(m[1])});
       if(!ds.length)return '';
-      const key=n.sel.join(', ');return cm(key,ind)+ind+n.sel.join(',\n'+ind)+' {\n'+ds.map(d=>ind+'  '+(/[{}]/.test(d)?d:d+';')+pn(key,d)).join('\n')+'\n'+ind+'}';
+      const key=n.sel.join(', ');return cmx(n,key,ind)+ind+n.sel.join(',\n'+ind)+' {\n'+ds.map(d=>ind+'  '+(/[{}]/.test(d)?d:d+';')+pn(key,d)).join('\n')+'\n'+ind+'}';
     }
     return '';
   }).filter(Boolean).join('\n');
   let css=render(picked,'');
   const extra=[];
   flat(picked,n=>{
-    if(n.at&&/^@keyframes/.test(n.at)){const nm=n.at.replace(/^@keyframes\s+/,'').trim();if(new RegExp('(^|[^\\w-])'+nm.replace(/-/g,'\\-')+'([^\\w-]|$)').test(css+initSrc+it.demo))extra.push(cm(n.at,'')+n.at+' {'+n.raw.replace(/\s+/g,' ').replace(/\}\s*/g,'}\n  ').replace(/^\s*/,'\n  ').replace(/\n\s*$/,'')+'\n}')}
+    if(n.at&&/^@keyframes/.test(n.at)){const nm=n.at.replace(/^@keyframes\s+/,'').trim();if(new RegExp('(^|[^\\w-])'+nm.replace(/-/g,'\\-')+'([^\\w-]|$)').test(css+initSrc+it.demo))extra.push(cmx(n,n.at,'')+n.at+' {'+n.raw.replace(/\s+/g,' ').replace(/\}\s*/g,'}\n  ').replace(/^\s*/,'\n  ').replace(/\n\s*$/,'')+'\n}')}
     else if(n.at&&/^@property/.test(n.at)){const nm=n.at.replace(/^@property\s+/,'').trim();if(css.includes(nm))extra.push(n.at+' {\n  '+decls(n.raw).join(';\n  ')+';\n}')}
   });
   css=[css].concat(extra).filter(Boolean).join('\n');
