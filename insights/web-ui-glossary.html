@@ -1035,6 +1035,12 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+.hist-box{margin-bottom:8px}
+.hist{margin:0;padding:0 0 12px;list-style:none;display:grid;gap:8px;font-size:13px}
+.hist li{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px}
+.hist time{font:600 12px var(--mono);color:var(--accent)}
+.hist span{color:var(--ink-2)}
+@media (max-width:520px){.hist li{grid-template-columns:1fr}}
 /* Modern SaaS: rounded cards, soft shadows, bold sans-serif headings */
 .item,.gloss,.foot,#empty{border-radius:14px}
 .stage,.note,.code-wrap pre{border-radius:12px}
@@ -1071,7 +1077,7 @@ html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
 <div class="shell gl">
   <div class="page-date-row"><time class="page-date" datetime="2026-11-02">작성일 2026.11.02</time> <time class="page-date" datetime="2026-11-03">수정일 2026.11.03</time></div>
   <header class="top">
-    <p class="eyebrow">99개 항목 · 2026-11-02 기준</p>
+    <p class="eyebrow" id="meta"></p>
     <h1>웹 UI 용어 사전</h1>
     <p class="lead">용어마다 핵심 문법 표, 직접 눌러 볼 수 있는 예시, 복사해서 쓰는 코드를 한 카드에 담았습니다. 필요할 때 위의 검색창에 한글이나 영어로 입력해 찾으세요.</p>
     <details class="gloss">
@@ -1098,6 +1104,10 @@ html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
         <dt>2. 열기</dt><dd>저장한 파일을 더블클릭해 브라우저(Chrome 등)로 엽니다.</dd>
         <dt>안내</dt><dd>99개 카드 모두 화면의 예시를 그대로 파일로 만든 것이라, 저장해 열면 예시와 똑같이 보입니다. 일부 카드(React 관련 등)는 개념을 순수 자바스크립트로 흉내 낸 데모이며, 실제 React 코드는 주석으로만 적었습니다(확인 필요).</dd>
       </dl>
+    </details>
+    <details class="gloss hist-box">
+      <summary>수정 이력</summary>
+      <ol class="hist" id="hist"></ol>
     </details>
   </header>
 
@@ -1272,7 +1282,7 @@ cheat:[
 terms:[['span','스팬, 차지할 칸 수'],['dense','덴스, 빈칸을 촘촘히 메우는 자동 배치 방식'],['grid','그리드, 가로세로 격자 배치 방식']],
 note:'칸 합계가 열 수와 행 수에 딱 맞아야 빈틈이 안 생깁니다. 좁은 화면에서는 모든 칸을 span 1로 되돌려 한 줄로 쌓는 편이 읽기 좋습니다.',
 css:`
-.d-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:62px;gap:8px}
+.d-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:66px;gap:8px}
 .d-bento>div{border-radius:10px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;font:600 12px/1.3 var(--sans);background:color-mix(in srgb,var(--c) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
 .d-bento b{font:700 clamp(15px,4cqi,22px) var(--display)}
 .d-bento .t1{grid-column:span 2;grid-row:span 2;--c:var(--accent)}
@@ -7415,7 +7425,7 @@ function buildFile(it){
   });
   css=[css].concat(extra).filter(Boolean).join('\n');
   const js=it.init?'\n<script>\n(function(){\n  var stage=document.querySelector(\'.stage\');\n  try{\n    ('+initSrc.replace(/\n/g,'\n    ')+')(stage);\n  }catch(err){console.error(err)}\n})();\n<\/script>':'';
-  return '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(it.ko)+' 예시</title>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">\n<style>\n*{box-sizing:border-box}\nbody{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans)}\n'+css+'\n</style>\n</head>\n<body>\n<div class="stage'+(it.flush?' flush':'')+'" role="group" aria-label="'+esc(it.ko)+' 예시">'+it.demo+'</div>'+js+'\n</body>\n</html>\n';
+  return '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(it.ko)+' 예시</title>\n<style>\n*{box-sizing:border-box}\nbody{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans)}\n'+css+'\n</style>\n</head>\n<body>\n<div class="stage'+(it.flush?' flush':'')+'" role="group" aria-label="'+esc(it.ko)+' 예시">'+it.demo+'</div>'+js+'\n</body>\n</html>\n';
 }
 
 /* 복사·저장 버튼 */
@@ -7473,6 +7483,17 @@ addEventListener('keydown',e=>{
 /* 목차 현재 위치 표시 */
 const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){records.forEach(r=>r.a.classList.toggle('active',r.art===e.target))}})},{rootMargin:'-20% 0px -70% 0px'});
 records.forEach(r=>spy.observe(r.art));
+
+/* 수정 이력: 맨 위가 최신. 새로 고칠 때마다 한 줄 추가 (날짜는 YYYY-MM-DD) */
+const HISTORY=[
+  ['2026-11-03','모든 예시를 원본으로 삼아 “코드 저장하기” 파일을 자동으로 만들도록 변경(99개), 첫 화면은 레이아웃만 먼저 표시, 사이트 테마 적용, 수정 이력 추가, 일출·일몰에 맞춘 자동 밝기 전환(☀ ☾ 버튼) 추가, 영문판 추가'],
+  ['2026-11-02','최초 작성 (99개 용어, 12개 카테고리)']
+];
+(function(){
+  const first=HISTORY[HISTORY.length-1][0],last=HISTORY[0][0];
+  $('#meta').textContent=ITEMS.length+'개 항목 · 최초 작성 '+first+' · 최근 수정 '+last;
+  $('#hist').innerHTML=HISTORY.map(h=>'<li><time datetime="'+esc(h[0])+'">'+esc(h[0])+'</time><span>'+esc(h[1])+'</span></li>').join('');
+})();
 
 /* 주소의 #이름으로 바로 이동 */
 function goHash(){

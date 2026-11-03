@@ -933,6 +933,12 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+.hist-box{margin-bottom:8px}
+.hist{margin:0;padding:0 0 12px;list-style:none;display:grid;gap:8px;font-size:13px}
+.hist li{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px}
+.hist time{font:600 12px var(--mono);color:var(--accent)}
+.hist span{color:var(--ink-2)}
+@media (max-width:520px){.hist li{grid-template-columns:1fr}}
 /* Modern SaaS: rounded cards, soft shadows, bold sans-serif headings */
 .item,.gloss,.foot,#empty{border-radius:14px}
 .stage,.note,.code-wrap pre{border-radius:12px}
@@ -967,7 +973,7 @@ html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
 <div class="shell gl">
   <div class="page-date-row"><time class="page-date" datetime="2026-11-02">Published November 2, 2026</time> <time class="page-date" datetime="2026-11-03">Updated November 3, 2026</time></div>
   <div class="top">
-    <p class="eyebrow">99 entries · as of November 2, 2026</p>
+    <p class="eyebrow" id="meta"></p>
     <h1>Web UI Glossary</h1>
     <p class="lead">Each term gets one card with a key-syntax table, a live example you can click, and code you can copy. Use the search box above whenever you need to find something, in Korean or English.</p>
     <details class="gloss">
@@ -994,6 +1000,10 @@ html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
         <dt>2. Open</dt><dd>Double-click the saved file to open it in a browser (such as Chrome).</dd>
         <dt>Note</dt><dd>Each of the 99 cards is saved exactly as its on-screen example, so the saved file looks the same as the example when you open it. Some cards (such as the React-related ones) are demos that imitate the concept in plain JavaScript, and the actual React code is written only as comments (needs verification).</dd>
       </dl>
+    </details>
+    <details class="gloss hist-box">
+      <summary>Revision history</summary>
+      <ol class="hist" id="hist"></ol>
     </details>
   </div>
 
@@ -1167,7 +1177,7 @@ cheat:[
 terms:[['span','Span, the number of cells to occupy'],['dense','Dense, an automatic placement mode that packs gaps tightly'],['grid','Grid, a layout method with rows and columns']],
 note:'The cell totals must fit the number of columns and rows exactly, or gaps will appear. On narrow screens it reads better to reset every cell to span 1 and stack them in one column.',
 css:`
-.d-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:62px;gap:8px}
+.d-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:66px;gap:8px}
 .d-bento>div{border-radius:10px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;font:600 12px/1.3 var(--sans);background:color-mix(in srgb,var(--c) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
 .d-bento b{font:700 clamp(15px,4cqi,22px) var(--display)}
 .d-bento .t1{grid-column:span 2;grid-row:span 2;--c:var(--accent)}
@@ -7309,7 +7319,7 @@ function buildFile(it){
   });
   css=[css].concat(extra).filter(Boolean).join('\n');
   const js=it.init?'\n<script>\n(function(){\n  var stage=document.querySelector(\'.stage\');\n  try{\n    ('+initSrc.replace(/\n/g,'\n    ')+')(stage);\n  }catch(err){console.error(err)}\n})();\n<\/script>':'';
-  return '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(it.en)+' example</title>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">\n<style>\n*{box-sizing:border-box}\nbody{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans)}\n'+css+'\n</style>\n</head>\n<body>\n<div class="stage'+(it.flush?' flush':'')+'" role="group" aria-label="'+esc(it.en)+' example">'+it.demo+'</div>'+js+'\n</body>\n</html>\n';
+  return '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(it.en)+' example</title>\n<style>\n*{box-sizing:border-box}\nbody{margin:0;padding:16px;background:var(--bg);color:var(--ink);font:15px/1.65 var(--sans)}\n'+css+'\n</style>\n</head>\n<body>\n<div class="stage'+(it.flush?' flush':'')+'" role="group" aria-label="'+esc(it.en)+' example">'+it.demo+'</div>'+js+'\n</body>\n</html>\n';
 }
 
 /* Copy and save buttons */
@@ -7367,6 +7377,18 @@ addEventListener('keydown',e=>{
 /* Highlight the current position in the table of contents */
 const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){records.forEach(r=>r.a.classList.toggle('active',r.art===e.target))}})},{rootMargin:'-20% 0px -70% 0px'});
 records.forEach(r=>spy.observe(r.art));
+
+/* Revision history: newest at the top. Add one line each time the page is changed (date as YYYY-MM-DD) */
+const HISTORY=[
+  ['2026-11-03','Changed every example to be the source of its "Save the code" file, generated automatically (99 cards); the first screen now shows only the layout cards; applied the site theme; added this revision history; added automatic light/dark switching by sunrise and sunset (☀ ☾ button); added the English version'],
+  ['2026-11-02','First published (99 terms, 12 categories)']
+];
+(function(){
+  const fmt=d=>new Date(d+'T00:00:00Z').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'});
+  const first=HISTORY[HISTORY.length-1][0],last=HISTORY[0][0];
+  $('#meta').textContent=ITEMS.length+' entries · first published '+fmt(first)+' · last updated '+fmt(last);
+  $('#hist').innerHTML=HISTORY.map(h=>'<li><time datetime="'+esc(h[0])+'">'+esc(fmt(h[0]))+'</time><span>'+esc(h[1])+'</span></li>').join('');
+})();
 
 /* Jump straight to the #name in the address */
 function goHash(){
