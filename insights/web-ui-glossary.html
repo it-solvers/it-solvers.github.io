@@ -2259,24 +2259,40 @@ cheat:[
 terms:[['RGBA','Red Green Blue Alpha, 빨강·초록·파랑에 투명도를 더한 색 표기'],['blur','블러, 흐림 효과'],['@supports','브라우저가 기능을 지원하는지 검사하는 CSS 규칙']],
 note:'글자와 배경의 대비가 낮아지기 쉽습니다. 글자 색 대비를 확인하고, 지원하지 않는 브라우저를 위해 불투명한 대체 배경을 둡니다. Chrome 76, Edge 79, Firefox 103, Safari 18부터 지원합니다(출처는 화면 맨 아래 근거 목록). 예시 코드에는 접두어 -webkit-도 함께 넣었지만 필요 여부는 확인한 자료에 없습니다.',
 css:`
+/* 유리 효과를 보여 줄 배경 무대입니다. --g1, --g2 는 어두운 청록 두 색을 담은 CSS 변수이고, linear-gradient 로 대각선(135deg) 배경을 만듭니다. 안쪽 도형이 밖으로 나가지 않게 overflow:hidden 을 씁니다. */
 .d-glass-stage{--g1:#0d3b44;--g2:#0b2230;position:relative;min-height:240px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--g1),var(--g2))}
+/* 배경의 색 동그라미 공통 모양: position:absolute 로 자유롭게 놓고, animation 으로 9초 동안 천천히 떠다니게(alternate = 갔다가 되돌아옴) 합니다. */
 .d-glass-stage .b{position:absolute;border-radius:50%;animation:d-drift 9s ease-in-out infinite alternate}
+/* 첫 번째 동그라미: 크기, 위치, 색. */
 .d-glass-stage .b1{width:130px;height:130px;left:8%;top:10%;background:#2CC4CF}
+/* 두 번째 동그라미. animation-delay 가 음수(-3s)라서 이미 3초 진행된 상태로 시작해 서로 다른 타이밍으로 움직입니다. */
 .d-glass-stage .b2{width:110px;height:110px;right:10%;bottom:8%;background:#F08A4B;animation-delay:-3s}
+/* 세 번째 동그라미(작은 노랑). */
 .d-glass-stage .b3{width:70px;height:70px;right:30%;top:8%;background:#F2C84F;animation-delay:-6s}
+/* 천천히 오른쪽 아래로 이동하는 애니메이션. */
 @keyframes d-drift{to{transform:translate(26px,18px)}}
+/* 유리 카드입니다. 기본(브라우저가 흐림 효과를 못 쓸 때)은 거의 불투명한 어두운 바탕이라 글자가 읽힙니다. */
 .d-glass{position:relative;width:min(270px,82%);padding:18px;border-radius:18px;color:#fff;background:rgba(20,40,50,.85);border:1px solid rgba(255,255,255,.35);box-shadow:0 14px 34px -12px rgba(0,0,0,.6)}
+/* @supports 는 "브라우저가 이 기능을 지원하면"이라는 조건입니다. 지원할 때만 반투명한 바탕과 backdrop-filter:blur(뒤 내용을 흐리게)로 진짜 유리처럼 만듭니다. saturate 는 뒤 색을 더 선명하게 합니다. */
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .d-glass{background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(var(--blur,14px)) saturate(160%);backdrop-filter:blur(var(--blur,14px)) saturate(160%)}
 }
+/* 카드 제목 글자. */
 .d-glass h4{margin:0 0 4px;font:600 15px var(--display)}
+/* 카드 설명 글: 살짝 투명하게(opacity:.9). */
 .d-glass p{margin:0 0 12px;font-size:12.5px;opacity:.9}
+/* 슬라이더 이름표와 슬라이더를 가로로 나란히 놓습니다. */
 .d-glass label{display:flex;gap:8px;align-items:center;font-size:12px}
+/* 슬라이더 모양: accent-color 는 슬라이더 색을 바꿉니다. */
 .d-glass input{accent-color:#4CC9D2;width:100%}
 `,
 demo:`<div class="d-glass-stage"><i class="b b1"></i><i class="b b2"></i><i class="b b3"></i><div class="d-glass"><h4>오늘의 날씨</h4><p>구름 조금, 낮 최고 19도 (예시)</p><label for="gl-blur">흐림 <input id="gl-blur" type="range" min="0" max="30" value="14"></label></div></div>`,
 flush:true,
-init(r){const g=r.querySelector('.d-glass');r.querySelector('input').addEventListener('input',e=>g.style.setProperty('--blur',e.target.value+'px'))},
+init(r){
+  // 유리 카드(g)를 찾습니다.
+  const g=r.querySelector('.d-glass');
+  // 슬라이더를 움직일 때마다 CSS 변수 --blur 를 바꿔 흐림 정도(px)를 조절합니다.
+  r.querySelector('input').addEventListener('input',e=>g.style.setProperty('--blur',e.target.value+'px'))},
 code:`.glass{
   background:rgba(255,255,255,.14);
   -webkit-backdrop-filter:blur(14px) saturate(160%);
@@ -2310,21 +2326,33 @@ cheat:[
 terms:[['parallax','패럴랙스, 시차, 보는 위치에 따라 물체가 다르게 움직여 보이는 현상'],['requestAnimationFrame','화면 갱신 시점에 맞춰 코드를 실행하는 함수'],['passive','패시브, 이벤트 안에서 기본 동작을 막지 않겠다는 약속']],
 note:'과하면 어지러움을 느끼는 사람이 있습니다. 움직임 줄이기 설정에서는 끄고, 모바일에서는 레이어 수를 줄입니다.',
 css:`
+/* 스크롤되는 바깥 상자: 높이 240px에 overflow:auto 로 스크롤합니다. */
 .d-par-scroll{height:240px;overflow:auto;position:relative}
+/* 스크롤 길이를 만드는 긴 띠(640px)입니다. 이 높이 때문에 스크롤할 거리가 생깁니다. */
 .d-par-track{height:640px;position:relative}
+/* 풍경 화면입니다. position:sticky;top:0 으로 스크롤해도 상자 위에 고정되고, 안쪽 층들이 움직이는 것만 보입니다. */
 .d-par-view{--p1:#1b4a6b;--p2:#f0b27a;position:sticky;top:0;height:240px;overflow:hidden;background:linear-gradient(var(--p1),var(--p2))}
+/* 움직이는 층 공통 설정입니다. will-change:transform 은 "곧 transform 이 자주 바뀐다"고 브라우저에 미리 알려 부드럽게 그리게 합니다. */
 .d-par-layer{position:absolute;left:0;right:0;will-change:transform}
+/* 해: 동그란 노란 원. */
 .d-par-sun{top:30px;left:62%;right:auto;width:54px;height:54px;border-radius:50%;background:#FFE08A}
+/* 먼 산: clip-path:polygon 은 점들을 이어 만든 다각형 모양으로 요소를 잘라 산 모양을 만듭니다. */
 .d-par-far{bottom:-240px;height:380px;background:#3f7f8a;clip-path:polygon(0 30%,16% 12%,34% 30%,52% 6%,72% 28%,100% 14%,100% 100%,0 100%)}
+/* 중간 산(조금 더 짙은 색). */
 .d-par-mid{bottom:-240px;height:340px;background:#2b5f6a;clip-path:polygon(0 36%,22% 22%,44% 40%,66% 20%,86% 38%,100% 28%,100% 100%,0 100%)}
+/* 가까운 산(가장 짙은 색). */
 .d-par-near{bottom:-240px;height:300px;background:#163a45;clip-path:polygon(0 42%,18% 34%,40% 48%,62% 34%,84% 46%,100% 38%,100% 100%,0 100%)}
+/* 제목 글자: text-shadow 로 그림자를 주어 배경 위에서도 읽히게 합니다. */
 .d-par-title{top:40px;left:16px;color:#fff;font:700 22px var(--display);text-shadow:0 2px 12px rgba(0,0,0,.4)}
 `,
 demo:`<div class="d-par-scroll"><div class="d-par-track"><div class="d-par-view"><div class="d-par-layer d-par-sun" data-speed="0.05"></div><div class="d-par-layer d-par-far" data-speed="0.15"></div><div class="d-par-layer d-par-mid" data-speed="0.3"></div><div class="d-par-layer d-par-near" data-speed="0.55"></div><div class="d-par-layer d-par-title" data-speed="0.9">천천히 내려 보세요</div></div></div></div>`,
 flush:true,
 init(r){
+  // 스크롤 상자(sc)와 움직일 층들(ls)을 찾고, tick(이미 그리기를 예약했는지)을 false 로 둡니다.
   const sc=r.querySelector('.d-par-scroll'),ls=[...r.querySelectorAll('.d-par-layer')];let tick=false;
+  // upd(): 스크롤한 만큼(y)에 층마다 다른 속도(data-speed)를 곱해 위로 옮깁니다. 속도가 큰 층(가까운 것)이 더 많이 움직여 깊이감이 생깁니다.
   const upd=()=>{tick=false;const y=sc.scrollTop;ls.forEach(l=>l.style.transform='translate3d(0,'+(-y*l.dataset.speed)+'px,0)')};
+  // 스크롤 이벤트는 아주 자주 일어나므로, requestAnimationFrame 으로 "화면을 다시 그리기 직전에 한 번만" upd()를 실행하게 모읍니다(tick 으로 중복 예약 방지).
   sc.addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
 },
 code:`<div class="stage">  <!-- height:640px, 안쪽은 sticky -->
@@ -2370,12 +2398,19 @@ cheat:[
 terms:[['mandatory','맨더토리, 반드시 맞춘다는 뜻'],['proximity','프록시미티, 가까이 갔을 때만 맞춘다는 뜻'],['swipe','스와이프, 손가락으로 밀어 넘기는 동작']],
 note:'칸이 화면보다 클 때 mandatory를 쓰면 안쪽 내용을 볼 수 없게 될 수 있습니다. 칸 높이는 화면 안에 들어오게 둡니다.',
 css:`
+/* 스냅 스크롤 상자입니다. scroll-snap-type:y mandatory 는 세로(y) 스크롤이 반드시(mandatory) 정해진 위치에 딱 멈추게 합니다. */
 .d-snap{height:210px;overflow-y:auto;scroll-snap-type:y mandatory;border-radius:10px;border:1px solid var(--line)}
+/* 화면 한 장(section)의 높이를 상자와 같게(100%) 하고, scroll-snap-align:start 로 각 장의 맨 위가 멈춤 위치가 되게 합니다. */
 .d-snap section{height:100%;scroll-snap-align:start;display:grid;place-items:center;text-align:center;font:700 20px var(--display);background:color-mix(in srgb,var(--c) 28%,var(--surface))}
+/* 장 안의 작은 설명 글. */
 .d-snap small{display:block;margin-top:4px;font:400 12px var(--sans);color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="snap-type">방식 <select id="snap-type"><option value="y mandatory">mandatory (항상 맞춤)</option><option value="y proximity">proximity (가까울 때만)</option><option value="none">none (끄기)</option></select></label></div><div class="d-snap"><section style="--c:var(--accent)">첫 번째<small>위아래로 스크롤해 보세요</small></section><section style="--c:var(--warm)">두 번째</section><section style="--c:var(--sky)">세 번째</section><section style="--c:var(--leaf)">네 번째</section></div>`,
-init(r){const s=r.querySelector('.d-snap');r.querySelector('select').addEventListener('change',e=>{s.style.scrollSnapType=e.target.value})},
+init(r){
+  // 스냅 스크롤 상자(s)를 찾습니다.
+  const s=r.querySelector('.d-snap');
+  // 선택 칸(mandatory, proximity, none)을 바꾸면 그 값을 scroll-snap-type 에 넣어 멈춤 방식을 바꿉니다.
+  r.querySelector('select').addEventListener('change',e=>{s.style.scrollSnapType=e.target.value})},
 code:`/* 세로 슬라이드 */
 .slides{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory}
 .slides section{height:100vh;scroll-snap-align:start}
@@ -2471,8 +2506,11 @@ css:`
 `,
 demo:`<div class="d-fade-row"><div class="d-fade-col"><div class="d-fade-box">transition</div><button class="d-btn" type="button" data-a="toggle">나타나기/사라지기</button></div><div class="d-fade-col"><div class="d-fade-box d-fade-kf" style="background:var(--warm)">keyframes</div><button class="d-btn" type="button" data-a="replay">다시 재생</button></div></div>`,
 init(r){
+  // transition 으로 보여 줄 상자(b1)와 @keyframes 로 보여 줄 상자(b2)를 찾습니다.
   const b1=r.querySelector('.d-fade-box'),b2=r.querySelector('.d-fade-kf');
+  // "사라지기/나타나기" 버튼: off 클래스를 붙였다 뗍니다(toggle).
   r.querySelector('[data-a=toggle]').addEventListener('click',()=>b1.classList.toggle('off'));
+  // "다시 재생" 버튼: play 클래스를 뗐다가 다시 붙여 애니메이션을 처음부터 재생합니다. void b2.offsetWidth 는 브라우저가 뗀 상태를 한 번 계산하게 하는 요령입니다.
   r.querySelector('[data-a=replay]').addEventListener('click',()=>{b2.classList.remove('play');void b2.offsetWidth;b2.classList.add('play')});
 },
 code:`/* 1) 상태를 바꿔 부드럽게 */
@@ -2510,7 +2548,9 @@ css:`
 `,
 demo:`<div class="d-ctl"><span>들어오는 방향</span><button class="d-btn" type="button" data-d="left">왼쪽</button><button class="d-btn" type="button" data-d="right">오른쪽</button><button class="d-btn" type="button" data-d="top">위</button><button class="d-btn" type="button" data-d="bottom">아래</button></div><div class="d-sl"><div class="d-sl-box">슬라이드</div></div>`,
 init(r){
+  // 움직일 상자(box)를 찾고, F: 방향별 "시작 위치"를 모은 사전을 만듭니다. translateX(-260%)는 자기 폭의 2.6배만큼 왼쪽에 있다는 뜻입니다.
   const box=r.querySelector('.d-sl-box');const F={left:'translateX(-260%)',right:'translateX(260%)',top:'translateY(-200%)',bottom:'translateY(200%)'};
+  // 방향 버튼마다 클릭하면 box.animate() 로 애니메이션을 재생합니다. [시작 모양, 끝 모양] 두 단계(키프레임)와 길이 520ms, 가속 곡선(easing)을 줍니다. 시작은 밖에서 투명하게, 끝은 제자리(none)에 불투명하게 입니다.
   r.querySelectorAll('button[data-d]').forEach(b=>b.addEventListener('click',()=>box.animate([{transform:F[b.dataset.d],opacity:0},{transform:'none',opacity:1}],{duration:520,easing:'cubic-bezier(.2,.8,.2,1)'})));
 },
 code:`/* CSS: 왼쪽에서 들어오기 */
@@ -2550,10 +2590,13 @@ css:`
 `,
 demo:`<div class="d-ctl"><label for="sc-origin">기준점 <select id="sc-origin"><option value="center">가운데</option><option value="top left">왼쪽 위</option><option value="bottom right">오른쪽 아래</option></select></label><button class="d-btn" type="button" data-a="pop">커지며 등장</button><button class="d-btn" type="button" data-a="press">눌림</button><button class="d-btn" type="button" data-a="zoom">확대</button></div><div class="d-sc"><div class="d-sc-box">스케일</div></div>`,
 init(r){
+  // 크기를 바꿀 카드(box)와 확대 중심점 선택 칸(sel)을 찾습니다.
   const box=r.querySelector('.d-sc-box'),sel=r.querySelector('select');
+  // A: 세 가지 동작(pop, press, zoom)의 [키프레임, 옵션] 모음입니다. 키프레임은 시간에 따른 모양 목록, offset 은 진행 위치(0~1), 옵션은 길이(duration)와 가속 곡선(easing)입니다. pop 은 작게 시작해 살짝 넘치게 커지고(1.56은 튕김), press 는 눌렀다 돌아오고, zoom 은 커졌다 돌아옵니다.
   const A={pop:[[{transform:'scale(.5)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:420,easing:'cubic-bezier(.34,1.56,.64,1)'}],
     press:[[{transform:'scale(1)'},{transform:'scale(.9)',offset:.4},{transform:'scale(1)'}],{duration:300,easing:'ease-out'}],
     zoom:[[{transform:'scale(1)'},{transform:'scale(1.4)',offset:.5},{transform:'scale(1)'}],{duration:800,easing:'ease-in-out'}]};
+  // 동작 버튼마다 클릭하면: 선택한 확대 중심점을 transformOrigin 에 넣고, 해당 동작의 키프레임으로 box.animate()를 재생합니다.
   r.querySelectorAll('button[data-a]').forEach(b=>b.addEventListener('click',()=>{box.style.transformOrigin=sel.value;box.animate(A[b.dataset.a][0],A[b.dataset.a][1])}));
 },
 code:`/* 등장: 작게 시작해 커지며 */
@@ -6791,6 +6834,7 @@ demo:`<div class="d-par-scroll"><div class="d-par-track"><div class="d-par-view"
 };
 
 REAL['scroll-snap']={
+/* 글자를 세로 가운데로 맞춥니다. */
 cssAppend:`.d-snap section{align-content:center}`,
 demo:`<div class="d-ctl"><label for="snap-type">방식 <select id="snap-type"><option value="y mandatory">mandatory (항상 맞춤)</option><option value="y proximity">proximity (가까울 때만)</option><option value="none">none (끄기)</option></select></label></div><div class="d-snap"><section style="--c:var(--accent)">1. 가입하기<small>휴대폰 번호만 입력하면 끝납니다 (앱 시작 안내 예시)</small></section><section style="--c:var(--warm)">2. 예약하기<small>원하는 날짜와 시간을 고릅니다</small></section><section style="--c:var(--sky)">3. 결제하기<small>카드나 간편결제로 한 번에</small></section><section style="--c:var(--leaf)">4. 확인하기<small>예약 내역은 알림으로 알려 드립니다</small></section></div>`
 };
@@ -7279,37 +7323,61 @@ init(r){
 };
 
 REAL['glassmorphism']={
+/* 이름표가 줄바꿈되지 않게 합니다. */
 cssAppend:`.d-glass label{white-space:nowrap}`,
 demo:`<div class="d-glass-stage"><i class="b b1"></i><i class="b b2"></i><i class="b b3"></i><div class="d-glass"><h4>서울 · 지금</h4><p style="font-size:34px;font-weight:700;margin:0;line-height:1">18°</p><p style="margin:2px 0 10px">구름 조금 · 최고 21° 최저 12° (예시)</p><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:12px"><span>오후<br>20°</span><span>저녁<br>17°</span><span>밤<br>14°</span><span>내일<br>19°</span></div><label for="gl-blur">흐림 <input id="gl-blur" type="range" min="0" max="30" value="14"></label></div></div>`
 };
 
 REAL['micro-interaction']={
 css:`
+/* 세 가지 예시를 세로로 쌓는 바깥 상자입니다. */
 .d-mi{display:grid;gap:14px;justify-items:stretch}
+/* 게시글 카드 모양. */
 .r-post{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:grid;gap:8px;font-size:13px}
+/* 게시글 작성자 글자와 시간 글자의 모양. */
 .r-post b{font-size:13.5px}.r-post small{color:var(--ink-2)}
+/* 좋아요 버튼: 알약 모양이고, justify-self:start 로 왼쪽에 붙습니다. transition 은 눌렀을 때 크기 변화를 부드럽게 합니다. */
 .d-like{justify-self:start;display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font:600 13px var(--sans);cursor:pointer;transition:transform .12s}
+/* 누르는 순간 6% 작아졌다 돌아와 눌린 느낌을 줍니다. */
 .d-like:active{transform:scale(.94)}
+/* 하트 아이콘(SVG): fill:none 은 안을 비우고 stroke:currentColor 는 윤곽선을 글자색으로 칠합니다. */
 .d-like svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;transition:fill .2s,stroke .2s}
+/* 좋아요를 누른 상태(aria-pressed="true")에서는 하트를 빨갛게 채우고 d-heart 애니메이션을 재생합니다. */
 .d-like[aria-pressed="true"] svg{fill:var(--rose);stroke:var(--rose);animation:d-heart .4s cubic-bezier(.3,1.6,.5,1)}
+/* 하트가 작았다가(60%) 커졌다가(135%) 제 크기로 돌아오는 "통통" 튀는 애니메이션입니다. 0%, 60%, 100% 는 진행 단계입니다. */
 @keyframes d-heart{0%{transform:scale(.6)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+/* 스위치 한 줄: 설명은 왼쪽, 스위치는 오른쪽 끝(space-between). */
 .d-swrow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* 스위치 설명 아래의 작은 글자. */
 .d-swrow small{display:block;color:var(--ink-2)}
+/* 스위치의 길쭉한 바탕(트랙): 46×26px 알약 모양. */
 .d-sw{position:relative;flex:none;width:46px;height:26px;border:0;border-radius:13px;background:var(--line);cursor:pointer;transition:background .25s}
+/* 스위치의 동그란 손잡이: 왼쪽에 놓여 있다가 켜지면 오른쪽으로 움직입니다. cubic-bezier 로 살짝 튕기는 움직임을 줍니다. */
 .d-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+/* 켜진 상태(aria-checked="true")의 바탕은 강조색. */
 .d-sw[aria-checked="true"]{background:var(--accent)}
+/* 켜지면 손잡이를 20px 오른쪽으로 옮깁니다. */
 .d-sw[aria-checked="true"]::after{transform:translateX(20px)}
+/* 물결(리플) 효과가 퍼질 버튼: overflow:hidden 으로 물결이 버튼 밖으로 나가지 않게 합니다. */
 .d-rp{position:relative;overflow:hidden}
+/* 물결 하나: 처음에는 크기 0(scale(0))인 반투명 원이 d-rp 애니메이션으로 퍼집니다. pointer-events:none 은 물결이 클릭을 가로채지 않게 합니다. */
 .d-rp .rp{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:d-rp .6s ease-out forwards;pointer-events:none}
+/* 물결이 4배로 커지면서 사라지는(opacity:0) 애니메이션. */
 @keyframes d-rp{to{transform:scale(4);opacity:0}}
 `,
 demo:`<div class="d-mi"><div class="r-post"><b>동네 빵집 신메뉴 후기</b><span>소금빵이 갓 나왔을 때 먹으면 정말 맛있어요. 줄 서도 후회 없습니다.</span><small>작성 3시간 전 (예시)</small><button class="d-like" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="n">좋아요 24</span></button></div><div class="d-swrow"><span>이벤트 알림 받기<small class="st">꺼짐</small></span><button class="d-sw" type="button" role="switch" aria-checked="false" aria-label="이벤트 알림 받기"></button></div><button class="d-btn d-btn-primary d-rp" type="button">12,000원 결제하기</button></div>`,
 init(r){
+  // 좋아요 버튼(like)과 숫자 글(n)을 찾고, 좋아요 수 c 를 24로 시작합니다.
   const like=r.querySelector('.d-like'),n=r.querySelector('.n');let c=24;
+  // 누를 때마다 눌림 상태를 반대로 바꾸고(aria-pressed), 켜지면 1 올리고 꺼지면 1 내려 숫자 글을 갱신합니다.
   like.addEventListener('click',()=>{const on=like.getAttribute('aria-pressed')!=='true';like.setAttribute('aria-pressed',on);c+=on?1:-1;n.textContent='좋아요 '+c});
+  // 스위치(sw)와 상태 글(st)을 찾습니다.
   const sw=r.querySelector('.d-sw'),st=r.querySelector('.st');
+  // 누르면 aria-checked(켜짐 여부)를 반대로 바꾸고 상태 글을 바꿉니다. CSS 가 이 속성을 보고 손잡이를 움직입니다.
   sw.addEventListener('click',()=>{const on=sw.getAttribute('aria-checked')!=='true';sw.setAttribute('aria-checked',on);st.textContent=on?'켜짐':'꺼짐'});
+  // 리플 효과를 줄 버튼(rp)을 찾습니다.
   const rp=r.querySelector('.d-rp');
+  // 누른 위치에 물결을 만듭니다. 버튼 크기(s)만 한 <span>을 만들고, 클릭 좌표(clientX, clientY)에서 버튼 위치를 뺀 값으로 클릭한 곳이 중심이 되게 놓은 뒤, 0.65초 후에 지웁니다.
   rp.addEventListener('click',e=>{const b=rp.getBoundingClientRect(),s=Math.max(b.width,b.height),sp=document.createElement('span');sp.className='rp';
     sp.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-b.left-s/2)+'px;top:'+(e.clientY-b.top-s/2)+'px';rp.appendChild(sp);setTimeout(()=>sp.remove(),650)});
 }
@@ -7318,13 +7386,21 @@ init(r){
 /* ───────── 움직임의 기본 8종 ───────── */
 REAL['fade']={
 css:`
+/* 두 예시를 가로로 나란히 놓습니다. repeat(auto-fit, minmax(150px,1fr))은 공간이 좁으면 알아서 세로로 쌓입니다. */
 .d-fade-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;align-items:start}
+/* 각 예시의 버튼과 상자를 세로로 쌓습니다. */
 .d-fade-col{display:grid;gap:10px;justify-items:start}
+/* 예시 이름표 글자. */
 .d-fade-col small{color:var(--ink-2);font-size:12px}
+/* 사라졌다 나타날 상자입니다. transition:opacity .6s 는 투명도가 바뀔 때 0.6초 동안 서서히 변하게 합니다. */
 .d-fade-box{width:100%;min-height:84px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--line);padding:12px;display:grid;gap:3px;align-content:center;color:var(--ink);font:600 13px var(--sans);transition:opacity .6s ease}
+/* 상자 안의 작은 설명 글. */
 .d-fade-box span{font-weight:400;font-size:12px;color:var(--ink-2)}
+/* off 클래스가 붙으면 투명(opacity:0)해집니다. 위의 transition 덕분에 서서히 사라집니다. */
 .d-fade-box.off{opacity:0}
+/* 두 번째 방식: play 클래스가 붙으면 @keyframes 애니메이션을 재생합니다. both 는 시작 전과 끝난 뒤 모양을 모두 유지합니다. */
 .d-fade-kf.play{animation:d-fadein .9s ease both}
+/* 투명한 상태(from)에서 원래 모양으로 나타나는 애니메이션. */
 @keyframes d-fadein{from{opacity:0}}
 `,
 demo:`<div class="d-fade-row"><div class="d-fade-col"><small>쿠폰 안내 배너 (transition)</small><div class="d-fade-box">🎟️ 신규 가입 5,000원 쿠폰<span>10월 31일까지 사용 가능 (예시)</span></div><button class="d-btn" type="button" data-a="toggle">배너 닫기/열기</button></div><div class="d-fade-col"><small>화면이 열릴 때 문구 (keyframes)</small><div class="d-fade-box d-fade-kf" style="background:color-mix(in srgb,var(--warm) 25%,var(--surface))">👋 다시 오셨네요, 하나 님<span>오늘 도착 예정 주문이 1건 있어요 (예시)</span></div><button class="d-btn" type="button" data-a="replay">다시 재생</button></div></div>`
@@ -7332,10 +7408,15 @@ demo:`<div class="d-fade-row"><div class="d-fade-col"><small>쿠폰 안내 배�
 
 REAL['slide']={
 css:`
+/* 슬라이드 무대: overflow:hidden 으로 밖에서 들어오는 상자가 경계 밖에서는 보이지 않게 합니다. */
 .d-sl{position:relative;height:150px;overflow:hidden;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center}
+/* 움직일 상자 모양: 아이콘과 글자를 가로로 나란히, 흰 바탕에 그림자. */
 .d-sl-box{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 20px -12px rgba(0,0,0,.45);font-size:13px;max-width:86%}
+/* 상자 안의 이모지 크기. */
 .d-sl-box i{font-style:normal;font-size:24px}
+/* 제목 글자는 한 줄을 차지하게(display:block). */
 .d-sl-box b{display:block}
+/* 작은 설명 글. */
 .d-sl-box span{color:var(--ink-2);font-size:12px}
 `,
 demo:`<div class="d-ctl"><span>등장 위치</span><button class="d-btn" type="button" data-d="top">위 (상단 알림)</button><button class="d-btn" type="button" data-d="bottom">아래 (하단 안내)</button><button class="d-btn" type="button" data-d="left">왼쪽 (메뉴)</button><button class="d-btn" type="button" data-d="right">오른쪽 (알림창)</button></div><div class="d-sl"><div class="d-sl-box"><i>💬</i><div><b>김민수</b><span>내일 오전 10시 미팅 가능하세요? (예시)</span></div></div></div>`
@@ -7343,10 +7424,15 @@ demo:`<div class="d-ctl"><span>등장 위치</span><button class="d-btn" type="b
 
 REAL['scale']={
 css:`
+/* 크기 변화를 보여 줄 무대: 가운데 정렬(place-items:center)과 overflow:hidden. */
 .d-sc{height:150px;display:grid;place-items:center;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+/* 크기를 바꿀 카드 상자: 112px 폭의 작은 카드 모양입니다. */
 .d-sc-box{width:112px;border-radius:12px;background:var(--surface);border:1px solid var(--line);overflow:hidden;font-size:12.5px;box-shadow:0 8px 18px -12px rgba(0,0,0,.4)}
+/* 카드 위쪽 그림 자리(이모지). */
 .d-sc-box i{display:grid;place-items:center;height:62px;font-style:normal;font-size:34px;background:color-mix(in srgb,var(--warm) 30%,var(--surface))}
+/* 카드 글 영역의 안쪽 여백. */
 .d-sc-box p{margin:0;padding:6px 8px}
+/* 카드 제목 글자는 한 줄을 차지하게. */
 .d-sc-box b{display:block}
 `,
 demo:`<div class="d-ctl"><label for="sc-origin">기준점 <select id="sc-origin"><option value="center">가운데</option><option value="top left">왼쪽 위</option><option value="bottom right">오른쪽 아래</option></select></label><button class="d-btn" type="button" data-a="pop">팝업 등장</button><button class="d-btn" type="button" data-a="press">버튼 눌림</button><button class="d-btn" type="button" data-a="zoom">사진 확대</button></div><div class="d-sc"><div class="d-sc-box"><i>🥐</i><p><b>크루아상</b>2,000원 (예시)</p></div></div>`
