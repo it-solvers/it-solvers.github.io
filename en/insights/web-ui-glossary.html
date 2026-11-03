@@ -3347,23 +3347,37 @@ cheat:[
 terms:[['pin','Pin, fixing an element in one place'],['scrollytelling','Scrollytelling, a blend of scrolling and storytelling'],['step','Step, one stage of the story']],
 note:'If the moment the pinned picture changes is out of sync with the text, it is confusing. On narrow screens, stick the picture on top and let the text scroll below it, or switch to a simple vertical layout.',
 css:`
+/* The outer scrolling box: 240px tall with overflow:auto. */
 .d-sty-sc{height:240px;overflow:auto}
+/* Lays the pinned left screen and the story steps on the right in 2 columns. minmax(0,...) keeps a column from overflowing when its content is long. */
 .d-sty-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr)}
+/* The pinned screen on the left. position:sticky with top:0 keeps it in place while scrolling (pin), and align-self:start makes it take only its own height inside the grid. The background color comes from the variable --c and changes smoothly with transition. */
 .d-sty-pin{position:sticky;top:0;height:240px;align-self:start;display:grid;place-items:center;align-content:center;gap:6px;text-align:center;background:color-mix(in srgb,var(--c,var(--accent)) 28%,var(--surface));transition:background .4s;border-right:1px solid var(--line)}
+/* The big step number: its color also follows --c. */
 .d-sty-pin b{font:700 52px/1 var(--display);color:var(--c,var(--accent));transition:color .4s}
+/* The step name text. */
 .d-sty-pin span{font:600 13px var(--sans)}
+/* The dots that show the steps, side by side. */
 .d-sty-dots{display:flex;gap:6px;margin-top:6px}
+/* One dot: a small light-gray circle by default. */
 .d-sty-dots i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .3s,transform .3s}
+/* The dot of the current step (the on class) is painted in the accent color and enlarged 1.3 times. */
 .d-sty-dots i.on{background:var(--c,var(--accent));transform:scale(1.3)}
+/* One story step: as tall as the screen (min-height) and shown faded (opacity:.45) at first. */
 .d-sty-steps section{min-height:240px;display:grid;align-content:center;padding:18px;font-size:13px;color:var(--ink-2);opacity:.45;transition:opacity .3s}
+/* The current step (the on class) is shown clearly (opacity:1). */
 .d-sty-steps section.on{opacity:1}
+/* The step title. */
 .d-sty-steps h4{margin:0 0 4px;font:600 15px var(--display);color:var(--ink)}
 `,
 demo:`<div class="d-sty-sc"><div class="d-sty-grid"><div class="d-sty-pin"><b>1</b><span>Identify the problem</span><div class="d-sty-dots"><i></i><i></i><i></i><i></i></div></div><div class="d-sty-steps"><section data-s="Identify the problem" data-c="var(--accent)"><h4>1. Identify the problem</h4>First, listen to what is inconvenient.</section><section data-s="Design" data-c="var(--warm)"><h4>2. Design</h4>Decide the screens and the data structure.</section><section data-s="Development" data-c="var(--sky)"><h4>3. Development</h4>Build in small units and check.</section><section data-s="Deployment" data-c="var(--leaf)"><h4>4. Deployment</h4>Put it into the real environment and watch over it.</section></div></div></div>`,
 flush:true,
 init(r){
+  // Find the scroll box (sc), the pinned screen (pin) with its number (num), name (lab), and dots, and the story steps (steps).
   const sc=r.querySelector('.d-sty-sc'),pin=r.querySelector('.d-sty-pin'),num=pin.querySelector('b'),lab=pin.querySelector('span'),dots=[...pin.querySelectorAll('i')],steps=[...r.querySelectorAll('.d-sty-steps section')];
+  // set(i): add the on class to only the i-th step, and change the number, name, and color (--c) of the pinned screen to that step values (data-s, data-c).
   const set=i=>{steps.forEach((s,j)=>s.classList.toggle('on',j===i));dots.forEach((d,j)=>d.classList.toggle('on',j===i));num.textContent=i+1;lab.textContent=steps[i].dataset.s;pin.style.setProperty('--c',steps[i].dataset.c)};
+  // With IntersectionObserver, when a step is at least 60% visible inside the scroll box (threshold:.6), it is activated with set(). At the start, step 0 is shown.
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)set(steps.indexOf(e.target))}),{root:sc,threshold:.6});steps.forEach(s=>io.observe(s));set(0);
 },
 code:`<div class="story">
@@ -3409,20 +3423,31 @@ cheat:[
 terms:[['pinned','Pinned, fixed on the screen'],['progress','Progress, the completion ratio'],['wheel','Wheel, mouse wheel input']],
 note:'Turning vertical scroll into horizontal can feel unexpected to users. Add a progress bar, and for simple lists, horizontal swiping (scroll snap) is safer.',
 css:`
+/* The outer box that scrolls vertically: 240px tall with overflow:auto. */
 .d-hs-sc{height:240px;overflow:auto}
+/* A long strip (720px) that creates the scroll length: scrolling down through this height moves the horizontal strip sideways. */
 .d-hs-track{height:720px;position:relative}
+/* The window pinned to the screen: position:sticky;top:0 keeps it in place while scrolling, and overflow:hidden hides cards that go outside. */
 .d-hs-view{position:sticky;top:0;height:240px;overflow:hidden;display:grid;align-content:center;gap:14px}
+/* The strip with the cards joined horizontally: width:max-content makes it as long as its content, and will-change:transform announces in advance that it moves often. */
 .d-hs-strip{display:flex;gap:12px;width:max-content;padding:0 16px;will-change:transform}
+/* One card: 200×150px and kept from shrinking (flex:none). Its color is mixed from the variable --c. */
 .d-hs-p{flex:none;width:200px;height:150px;border-radius:14px;padding:14px;display:grid;align-content:end;background:color-mix(in srgb,var(--c) 32%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 55%,transparent);font:700 17px var(--display)}
+/* Small description text inside a card. */
 .d-hs-p small{display:block;font:400 12px var(--sans);color:var(--ink-2)}
+/* The outer track of the progress bar. */
 .d-hs-bar{height:4px;margin:0 16px;border-radius:2px;background:var(--line);overflow:hidden}
+/* The fill of the progress bar: JavaScript changes its width from 0% to 100%. */
 .d-hs-bar i{display:block;height:100%;width:0;background:var(--accent)}
 `,
 demo:`<div class="d-hs-sc"><div class="d-hs-track"><div class="d-hs-view"><div class="d-hs-strip"><div class="d-hs-p" style="--c:var(--accent)">2021<small>Opened the shop</small></div><div class="d-hs-p" style="--c:var(--warm)">2022<small>Started online booking</small></div><div class="d-hs-p" style="--c:var(--sky)">2023<small>Second branch</small></div><div class="d-hs-p" style="--c:var(--leaf)">2024<small>Delivery service</small></div><div class="d-hs-p" style="--c:var(--rose)">2025<small>New menu development</small></div></div><div class="d-hs-bar"><i></i></div></div></div></div>`,
 flush:true,
 init(r){
+  // Find the scroll box (sc), the long track, the pinned window (view), the card strip (strip), and the progress bar (bar), and prepare tick (whether a redraw is scheduled).
   const sc=r.querySelector('.d-hs-sc'),track=r.querySelector('.d-hs-track'),view=r.querySelector('.d-hs-view'),strip=r.querySelector('.d-hs-strip'),bar=r.querySelector('.d-hs-bar i');let tick=false;
+  // upd(): turn the vertical scroll position into the progress p (0 to 1), and move the card strip sideways by p times the distance it should travel (dist = strip width - window width). The progress bar width is also set by p.
   const upd=()=>{tick=false;const max=track.offsetHeight-view.clientHeight,p=Math.min(1,Math.max(0,sc.scrollTop/max)),dist=Math.max(0,strip.offsetWidth-view.clientWidth+16);strip.style.transform='translateX('+(-p*dist)+'px)';bar.style.width=(p*100)+'%'};
+  // Scrolling fires very often, so requestAnimationFrame runs upd() only once just before the screen is redrawn. upd() also runs again when the window size changes (ResizeObserver).
   sc.addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});new ResizeObserver(upd).observe(view);upd();
 },
 code:`<section class="hs">                       <!-- Make it large, like height: 700vh -->
@@ -3472,9 +3497,12 @@ css:`
 `,
 demo:`<div class="d-ctl"><label for="mg-s">Pull <input id="mg-s" type="range" min="10" max="70" value="35"></label></div><div class="d-mg"><button class="d-mag" type="button"><span>Ask a question</span></button></div><p class="d-hint">Move the mouse near the button. (It does not work on touch screens)</p>`,
 init(r){
+  // Find the area, the button (btn), the button text (txt), and the strength slider (s), and set R (the radius within which the magnet pulls, 110px).
   const area=r.querySelector('.d-mg'),btn=r.querySelector('.d-mag'),txt=btn.querySelector('span'),s=r.querySelector('input'),R=110;
+  // When the mouse moves in the area (touch excluded), calculate the distance (dx, dy) between the button center (cx, cy) and the mouse. Within the button radius + R, add the on class and move the button toward the mouse by distance × strength (k). The text moves only 0.4 times as much for a sense of depth. When far away, call reset().
   area.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const b=btn.getBoundingClientRect(),cx=b.left+b.width/2,cy=b.top+b.height/2,dx=e.clientX-cx,dy=e.clientY-cy,k=s.value/100;
     if(Math.hypot(dx,dy)<R+b.width/2){btn.classList.add('on');btn.style.transform='translate('+dx*k+'px,'+dy*k+'px)';txt.style.transform='translate('+dx*k*.4+'px,'+dy*k*.4+'px)'}else reset()});
+  // reset(): remove the on class and clear the offsets so the button and text return to place. It also runs when the mouse leaves the area (pointerleave).
   const reset=()=>{btn.classList.remove('on');btn.style.transform='';txt.style.transform=''};area.addEventListener('pointerleave',reset);
 },
 code:`<div class="area"><button class="mag"><span>Ask a question</span></button></div>
@@ -3527,12 +3555,19 @@ css:`
 demo:`<div class="d-cur"><div class="dot"></div><div class="ring"></div><button class="d-btn" type="button" data-cur="link">Try pressing</button><button class="d-btn d-btn-primary" type="button" data-cur="link">View details</button><span class="d-readout">Hover with the mouse</span></div>`,
 flush:true,
 init(r){
+  // Find the box, the dot, and the ring.
   const box=r.querySelector('.d-cur'),dot=box.querySelector('.dot'),ring=box.querySelector('.ring');
+  // On devices without a precise pointer like a mouse (pointer:fine), which means touch, turn the effect off, show only a note, and stop (return).
   if(!matchMedia('(pointer:fine) and (hover:hover)').matches){box.classList.add('touch');box.querySelector('.d-readout').textContent='You can check this on devices with a mouse';return}
+  // tx, ty: the target mouse coordinates; rx, ry: the current ring coordinates; raf: the animation frame id.
   let tx=0,ty=0,rx=0,ry=0,raf=0;
+  // loop(): make the ring follow the mouse slowly. Every frame, "current += (target - current) × 0.18" moves it only 18% of the remaining distance, so it trails softly.
   const loop=()=>{rx+=(tx-rx)*.18;ry+=(ty-ry)*.18;ring.style.transform='translate('+rx+'px,'+ry+'px)';raf=requestAnimationFrame(loop)};
+  // When the mouse enters the box, start the ring at the mouse position, add the in class to show it, and start loop.
   box.addEventListener('pointerenter',e=>{const b=box.getBoundingClientRect();rx=tx=e.clientX-b.left;ry=ty=e.clientY-b.top;box.classList.add('in');cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)});
+  // On every move, set the mouse coordinates relative to the box as the target and place the dot there at once. If the mouse is over a [data-cur] item, the big class enlarges the ring.
   box.addEventListener('pointermove',e=>{const b=box.getBoundingClientRect();tx=e.clientX-b.left;ty=e.clientY-b.top;dot.style.transform='translate('+tx+'px,'+ty+'px)';box.classList.toggle('big',!!e.target.closest('[data-cur]'))});
+  // When the mouse leaves, remove the classes and stop loop.
   box.addEventListener('pointerleave',()=>{box.classList.remove('in','big');cancelAnimationFrame(raf)});
 },
 code:`<div class="stage"><div class="dot"></div><div class="ring"></div>
@@ -3588,9 +3623,13 @@ css:`
 `,
 demo:`<div class="d-ctl"><label for="tl-max">Max angle <input id="tl-max" type="range" min="4" max="24" value="12"></label></div><div class="d-tl"><div class="d-tl-card"><div class="d-tl-lift"><b>Membership card</b><span>Example · hover with the mouse</span></div></div></div>`,
 init(r){
+  // Find the stage (wrap), the card, and the tilt strength slider (mx).
   const wrap=r.querySelector('.d-tl'),card=r.querySelector('.d-tl-card'),mx=r.querySelector('input');
+  // When the mouse moves (touch excluded), get the position inside the card as a 0 to 1 ratio (px, py), and multiply how far it is from the center (-1 to 1, cl limits the range) by the strength (m) to make the rotation angle. The vertical position becomes rotateX and the horizontal position becomes rotateY.
   wrap.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const b=card.getBoundingClientRect(),px=(e.clientX-b.left)/b.width,py=(e.clientY-b.top)/b.height,m=+mx.value,cl=v=>Math.max(-1,Math.min(1,v));
+    // Turn on the fast transition with the on class, put the calculated angles into transform, and move the light reflection position (--mx, --my) to the mouse position too.
     card.classList.add('on');card.style.transform='rotateX('+(-cl((py-.5)*2)*m).toFixed(2)+'deg) rotateY('+(cl((px-.5)*2)*m).toFixed(2)+'deg)';card.style.setProperty('--mx',(px*100)+'%');card.style.setProperty('--my',(py*100)+'%')});
+  // When the mouse leaves, return all values to the start (no tilt, light in the center).
   wrap.addEventListener('pointerleave',()=>{card.classList.remove('on');card.style.transform='';card.style.setProperty('--mx','50%');card.style.setProperty('--my','50%')});
 },
 code:`<div class="wrap"><div class="card"><div class="lift">Membership card</div></div></div>
@@ -3631,8 +3670,11 @@ cheat:[
 terms:[['particle','Particle, a single small speck'],['gravity','Gravity, the force pulling down'],['canvas-confetti','canvas-confetti, a library that lets you write the same effect in one line (latest 1.9.4 on jsDelivr; the actual file path needs verification)']],
 note:'With the reduced motion setting, skip the effect and announce the result in text (the demo works this way too). Keep the burst short and always stop the canvas work when it ends.',
 css:`
+/* The box where confetti bursts: position:relative lets the canvas inside cover this box. */
 .d-cf{position:relative;display:grid;place-items:center;align-content:center;gap:10px;min-height:230px}
+/* The canvas that draws the paper pieces: it covers the whole box, and pointer-events:none keeps it from blocking clicks on the button below. */
 .d-cf canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* The button gets z-index:1 so it shows above the canvas. */
 .d-cf .d-btn{position:relative;z-index:1}
 `,
 demo:`<div class="d-cf"><canvas aria-hidden="true"></canvas><button class="d-btn d-btn-primary" type="button">Booked!</button><span class="d-readout" style="position:relative;z-index:1" aria-live="polite"></span></div>`,
@@ -7732,11 +7774,17 @@ demo:`<div class="d-hs-sc"><div class="d-hs-track"><div class="d-hs-view"><div c
 
 REAL['magnetic-button']={
 css:`
+/* The area for the magnet effect: a box with a light gradient background. */
 .d-mg{display:grid;place-items:center;align-content:center;gap:14px;min-height:210px;border-radius:10px;background:linear-gradient(120deg,var(--accent-soft),var(--surface-2));border:1px solid var(--line);text-align:center;padding:16px}
+/* The area title: clamp makes its size follow the box width. */
 .d-mg h4{margin:0;font:700 clamp(16px,4.6cqi,21px)/1.3 var(--display);text-wrap:balance}
+/* The area description. */
 .d-mg p{margin:0;font-size:12.5px;color:var(--ink-2)}
+/* The magnetic button: the cubic-bezier(.34,1.56,.64,1) in transition is a "springy" curve that overshoots slightly and returns, so the button bounces back to place when the mouse leaves. */
 .d-mag{padding:14px 28px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:700 15px var(--display);cursor:pointer;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+/* The text inside the button can also move on its own, so it is inline-block with the same transition. */
 .d-mag span{display:inline-block;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+/* While the mouse is near (the on class), the transition is a quick 0.12 seconds so the button follows the mouse right away. */
 .d-mag.on,.d-mag.on span{transition-duration:.12s;transition-timing-function:ease-out}
 `,
 demo:`<div class="d-ctl"><label for="mg-s">Pull <input id="mg-s" type="range" min="10" max="70" value="35"></label></div><div class="d-mg"><div><h4>Your shop’s booking page is ready in 10 minutes</h4><p>14 days free, no card registration (example)</p></div><button class="d-mag" type="button"><span>Start for free</span></button></div><p class="d-hint">Move the mouse near the button. (It does not work on touch screens)</p>`
@@ -7744,17 +7792,29 @@ demo:`<div class="d-ctl"><label for="mg-s">Pull <input id="mg-s" type="range" mi
 
 REAL['custom-cursor']={
 css:`
+/* The box for trying a custom cursor: cursor:none hides the default mouse shape, and position:relative makes it the reference point for the dot and ring inside. */
 .d-cur{position:relative;display:grid;gap:10px;align-content:center;min-height:230px;overflow:hidden;cursor:none;border-radius:10px;background:var(--surface);border:1px solid var(--line);padding:14px}
+/* On touch devices (the touch class), the default cursor is restored. */
 .d-cur.touch{cursor:auto}
+/* Common settings of the fake cursor (the dot and ring): freely placed with position:absolute, not interfering with clicks (pointer-events:none), and transparent (opacity:0) normally. */
 .d-cur .dot,.d-cur .ring{position:absolute;left:0;top:0;pointer-events:none;border-radius:50%;opacity:0;transition:opacity .2s,width .25s,height .25s,margin .25s,background .25s;z-index:3}
+/* The small dot at the center: the negative margins (-4px) put the center of the dot on the mouse coordinates. */
 .d-cur .dot{width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--accent)}
+/* The outer ring: it follows later than the dot for a soft feel. Negative margins center it. */
 .d-cur .ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:2px solid var(--accent)}
+/* When the mouse enters the box (the in class), the dot and ring become visible. */
 .d-cur.in .dot,.d-cur.in .ring{opacity:1}
+/* Over a pressable item (the big class), the ring grows and is filled with a light color. */
 .d-cur.in.big .ring{width:64px;height:64px;margin:-32px 0 0 -32px;background:color-mix(in srgb,var(--accent) 20%,transparent)}
+/* On touch devices, the fake cursor is hidden completely (display:none). */
 .d-cur.touch .dot,.d-cur.touch .ring{display:none}
+/* Lays the portfolio cards in a 3-column grid. */
 .r-pf{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+/* One card: the link (a) is made into a colored cell with its underline removed. */
 .r-pf a{display:grid;place-items:center;height:78px;border-radius:10px;background:color-mix(in srgb,var(--c) 32%,var(--surface));font-size:28px;text-decoration:none;color:var(--ink)}
+/* The card name text. */
 .r-pf small{display:block;font:600 11.5px var(--sans);text-align:center}
+/* The heading. */
 .r-cur-h{margin:0;font:700 14px var(--display)}
 `,
 demo:`<div class="d-cur"><div class="dot"></div><div class="ring"></div><p class="r-cur-h">Design studio portfolio (example)</p><div class="r-pf"><a data-cur="link" style="--c:var(--accent)">🛍️<small>Online store</small></a><a data-cur="link" style="--c:var(--warm)">🍽️<small>Booking app</small></a><a data-cur="link" style="--c:var(--sky)">📱<small>Branding</small></a></div><span class="d-readout">Hover with the mouse (the cursor grows over a project)</span></div>`
@@ -7762,13 +7822,21 @@ demo:`<div class="d-cur"><div class="dot"></div><div class="ring"></div><p class
 
 REAL['tilt-3d']={
 css:`
+/* The 3D tilt stage: perspective:700px gives a sense of depth (the distance from the eye to the screen) so tilting looks three-dimensional. */
 .d-tl{display:grid;place-items:center;min-height:230px;perspective:700px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+/* The card that tilts: --mx and --my are CSS variables holding the position (%) of the light reflection. transform-style:preserve-3d lets the items inside keep their 3D depth. The normal transition is slow (0.5 seconds), so it returns smoothly to place when released. */
 .d-tl-card{--mx:50%;--my:50%;position:relative;width:min(250px,84%);height:150px;border-radius:16px;padding:16px;color:#fff;background:linear-gradient(135deg,#0A7C86,#134B6B);transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 18px 30px -16px rgba(0,0,0,.6)}
+/* While the mouse moves (the on class), the transition is a quick 0.08 seconds so the card follows the mouse right away. */
 .d-tl-card.on{transition:transform .08s linear}
+/* The light reflection on the card: a radial-gradient where white spreads from the mouse position (--mx, --my). */
 .d-tl-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.35),transparent 55%)}
+/* The group of text on the card: translateZ(32px) lifts it in front of the card surface so it seems to float separately when tilted. */
 .d-tl-lift{transform:translateZ(32px);display:grid;gap:4px;height:100%;align-content:space-between}
+/* The card title. */
 .d-tl-lift b{font:700 17px var(--display)}
+/* The card description. */
 .d-tl-lift span{font-size:12px;opacity:.92}
+/* The card number: a monospaced font with wide letter spacing. */
 .d-tl-lift .no{font:600 14px var(--mono);letter-spacing:.12em}
 `,
 demo:`<div class="d-ctl"><label for="tl-max">Max angle <input id="tl-max" type="range" min="4" max="24" value="12"></label></div><div class="d-tl"><div class="d-tl-card"><div class="d-tl-lift"><div><b>Example Market membership</b><br><span>GOLD</span></div><div><div class="no">1234 ···· ···· 5678</div><span>Gildong Hong · 12,400 points earned (example)</span></div></div></div></div><p class="d-hint">Move the mouse over the card.</p>`
@@ -7778,20 +7846,32 @@ REAL['confetti']={
 demo:`<div class="d-cf"><canvas aria-hidden="true"></canvas><div style="position:relative;z-index:1;text-align:center;display:grid;gap:4px"><b style="font:700 15px var(--display)">Momo Restaurant · Saturday, October 31, 19:00 · 2 people</b><span style="font-size:12.5px;color:var(--ink-2)">Deposit KRW 10,000 (example)</span></div><button class="d-btn d-btn-primary" type="button">Pay deposit</button><span class="d-readout" style="position:relative;z-index:1" aria-live="polite"></span></div>`
 };
 REAL['confetti'].init=function(r){
+  // Find the box, the canvas (cv), the drawing tool (ctx = cv.getContext("2d")), the button (btn), and the message (ro), and prepare ps (the array of paper pieces) and raf (the animation frame id).
   const box=r.querySelector('.d-cf'),cv=box.querySelector('canvas'),ctx=cv.getContext('2d'),btn=box.querySelector('.d-btn'),ro=box.querySelector('.d-readout');let ps=[],raf=0;
+  // Read six colors from the page CSS variables (--accent and others) into the colors array. If missing, use gray (#888).
   const cs=getComputedStyle(document.documentElement),colors=['--accent','--warm','--sun','--sky','--leaf','--rose'].map(k=>cs.getPropertyValue(k).trim()||'#888');
+  // loop(): move and draw the paper pieces every frame. First clear the canvas (clearRect) and remove (filter) pieces that fell off the bottom or ran out of life.
   const loop=()=>{const w=cv.width/dpr,h=cv.height/dpr;ctx.clearRect(0,0,w,h);
+    // For each remaining piece: add gravity (+.35) to the speed vy, slow it with air resistance (multiplying by 0.985 and 0.992), and update the position and rotation.
     ps=ps.filter(p=>p.y<h+20&&p.life>0);ps.forEach(p=>{p.vy+=.35;p.vx*=.985;p.vy*=.992;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life--;
+      // Drawing a piece: move the coordinate system to the piece position (translate) and rotate it, set the color and transparency (fading as life runs out), and draw a small rectangle (fillRect). save/restore keep the settings from leaking to other pieces.
       ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.globalAlpha=Math.min(1,p.life/30);ctx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.6);ctx.restore()});
+    // If pieces remain, run loop again on the next frame; when all are gone, stop and clear the canvas.
     if(ps.length)raf=requestAnimationFrame(loop);else{raf=0;ctx.clearRect(0,0,w,h)}};
+  // dpr: the screen sharpness ratio (2 or more on high-resolution screens).
   let dpr=1;
+  // Pressing the button shows the result text, and if "reduce motion" is on in the operating system, it ends without the effect (accessibility).
   btn.addEventListener('click',()=>{
     ro.textContent='Your booking is complete!';
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){ro.textContent='Your booking is complete. (effect skipped by the reduced motion setting)';return}
+    // Set the canvas size to the box size × dpr so it draws sharply on high-resolution screens, and setTransform returns the coordinates to CSS pixel units.
     dpr=window.devicePixelRatio||1;const b=box.getBoundingClientRect(),bb=btn.getBoundingClientRect();
     cv.width=b.width*dpr;cv.height=b.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    // ox, oy: the center coordinates of the button (relative to the box). The paper pieces burst out from here.
     const ox=bb.left-b.left+bb.width/2,oy=bb.top-b.top+bb.height/2;
+    // Create 90 paper pieces. The angle is random around upward (-90 degrees), and the speed (sp), size (s), rotation (rot, vr), color (c), and life are also random, so they scatter naturally.
     for(let i=0;i<90;i++){const a=-Math.PI/2+(Math.random()-.5)*2.1,sp=6+Math.random()*9;ps.push({x:ox,y:oy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,s:6+Math.random()*6,rot:Math.random()*6,vr:(Math.random()-.5)*.35,c:colors[i%colors.length],life:150+Math.random()*60})}
+    // Start loop only if it is not already running.
     if(!raf)raf=requestAnimationFrame(loop);
   });
 };
