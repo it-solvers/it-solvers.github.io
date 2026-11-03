@@ -1825,21 +1825,34 @@ cheat:[
 terms:[['carousel','Carousel, slides you rotate through like a merry-go-round'],['index','Index, a number that shows which item it is'],['autoplay','Autoplay, a feature that advances automatically']],
 note:'If you add autoplay, include a pause button, and put the most important information on the first slide. If only swiping is supported, mouse users cannot move through it.',
 css:`
+/* The outer box of the carousel: overflow:hidden keeps the neighboring slides from showing outside. */
 .d-car{overflow:hidden;border-radius:12px}
+/* The track: a long strip with the slides joined side by side. Sliding it sideways (transform) shows the next slide. */
 .d-car-track{display:flex;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+/* One slide: flex:0 0 100% means it neither shrinks nor grows and takes 100% of the box width. The text is gathered at the bottom. */
 .d-slide{flex:0 0 100%;min-height:150px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;background:color-mix(in srgb,var(--c) 26%,var(--surface))}
+/* The slide title. */
 .d-slide h4{margin:0 0 4px;font:700 18px var(--display)}
+/* The slide description. */
 .d-slide p{margin:0;font-size:13px;color:var(--ink-2)}
+/* The control row below: the previous and next buttons and the dots laid out horizontally. */
 .d-car-ctl{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+/* The dots that show the current position, side by side. */
 .d-dots{display:flex;gap:6px}
+/* One dot: a small rounded bar. transition makes the length change smoothly. */
 .d-dots button{width:8px;height:8px;padding:0;border-radius:4px;border:0;background:var(--line);cursor:pointer;transition:width .25s,background .25s}
+/* The dot of the slide being viewed is longer (22px) and in the accent color. */
 .d-dots button[aria-current="true"]{width:22px;background:var(--accent)}
 `,
 demo:`<div class="d-car" role="group" aria-roledescription="carousel" aria-label="Event intro"><div class="d-car-track"><div class="d-slide" style="--c:var(--accent)" role="group" aria-roledescription="slide"><h4>New menu launch</h4><p>This week only: the matcha series (example)</p></div><div class="d-slide" style="--c:var(--warm)" role="group" aria-roledescription="slide"><h4>Group order discount</h4><p>10% off orders of 20 or more (example)</p></div><div class="d-slide" style="--c:var(--sky)" role="group" aria-roledescription="slide"><h4>New branch notice</h4><p>A second store opens in front of the station (example)</p></div></div></div><div class="d-car-ctl"><button class="d-btn d-prev" type="button" aria-label="Previous">Previous</button><div class="d-dots"></div><button class="d-btn d-next" type="button" aria-label="Next">Next</button></div>`,
 init(r){
+  // Find the track, the number of slides (n), and the dots place (dots), and start i (the current slide number) at 0.
   const track=r.querySelector('.d-car-track'),n=track.children.length,dots=r.querySelector('.d-dots');let i=0;
+  // Create as many dot buttons as there are slides. Each dot has a name for screen readers (aria-label) and goes to its slide (go) when pressed.
   for(let k=0;k<n;k++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Go to slide '+(k+1));b.addEventListener('click',()=>go(k));dots.appendChild(b)}
+  // go(index): wrap the index into 0 to n-1 (after the last comes the first), slide the track sideways by that much, and set aria-current on only the matching dot to highlight it.
   function go(k){i=(k+n)%n;track.style.transform='translateX(-'+i*100+'%)';[...dots.children].forEach((d,j)=>d.setAttribute('aria-current',j===i))}
+  // The previous and next buttons move by -1 and +1 from the current number. The final go(0) sets up the first screen.
   r.querySelector('.d-prev').addEventListener('click',()=>go(i-1));r.querySelector('.d-next').addEventListener('click',()=>go(i+1));go(0);
 },
 code:`<div class="car">
@@ -1984,17 +1997,26 @@ cheat:[
 terms:[['IntersectionObserver','Intersection observer, a browser feature that tells you whether an element overlaps the screen'],['threshold','Threshold, the ratio of visibility at which to react'],['rootMargin','A margin value that widens or narrows the observed area']],
 note:'Do not hide key content that must be visible on the first screen. With the reduced motion setting, it should be visible from the start.',
 css:`
+/* The scrolling box: a fixed 210px height with overflow:auto for scrolling. */
 .d-rv{height:210px;overflow:auto;padding:12px;background:var(--surface-2);border-radius:10px}
+/* An item to reveal: it starts transparent (opacity:0) and 26px lower, and when .in below is added it rises smoothly with transition. */
 .d-rv-item{margin:0 0 14px;padding:16px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px;opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+/* An item that has entered the view (the in class) becomes opaque and moves into place. */
 .d-rv-item.in{opacity:1;transform:none}
+/* The item title. */
 .d-rv-item b{display:block;margin-bottom:2px;font:600 13px var(--display)}
+/* The bottom spacer: lets the last item scroll up enough to be seen. */
 .d-rv-end{height:40px}
+/* For people who turned on "reduce motion" in the operating system, items are shown from the start without movement (accessibility). */
 @media (prefers-reduced-motion:reduce){.d-rv-item{opacity:1;transform:none}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-reset" type="button">Start over</button></div><div class="d-rv"><div class="d-rv-item"><b>1. Introduction</b>They appear one at a time as you scroll.</div><div class="d-rv-item"><b>2. Services</b>Each rises up as it enters the screen.</div><div class="d-rv-item"><b>3. Cases</b>Once it appears, observation stops.</div><div class="d-rv-item"><b>4. Reviews</b>Keep scrolling down.</div><div class="d-rv-item"><b>5. Contact</b>This is the last card.</div><div class="d-rv-end"></div></div>`,
 init(r){
+  // Find the scrolling box (box) and the items, and prepare a variable to hold the observer (io).
   const box=r.querySelector('.d-rv'),items=[...box.querySelectorAll('.d-rv-item')];let io;
+  // start(): create an IntersectionObserver and attach it to every item. When an item is at least 25% visible inside the box (threshold:.25), the in class is added, and an item that has appeared is no longer observed (unobserve).
   const start=()=>{io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{root:box,threshold:.25});items.forEach(i=>io.observe(i))};
+  // The "replay" button: stop observing (disconnect), remove the in class from all items, scroll back to the top, and start again from the beginning.
   r.querySelector('.d-reset').addEventListener('click',()=>{io.disconnect();items.forEach(i=>i.classList.remove('in'));box.scrollTop=0;start()});
   start();
 },
@@ -2030,17 +2052,26 @@ cheat:[
 terms:[['stagger','Stagger, meaning to place in an offset arrangement: consecutive motions with time offsets'],['keyframes','Keyframes, rules that define the start and end states of an animation'],['CSS variable','A way to store a value in the form --name and reuse it']],
 note:'An interval of 60–100 ms is common, but it is a rule of thumb with no source. With many items the total time grows, so cap the maximum delay.',
 css:`
+/* The list box: removes the default bullets and spacing and stacks the rows with grid. --step is a CSS variable holding the time gap between items (90ms). */
 .d-stg{list-style:none;margin:0;padding:0;display:grid;gap:8px;--step:90ms}
+/* The card look of one list item. */
 .d-stg li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px}
+/* A small accent-colored dot before each item. */
 .d-stg li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+/* With the go class, the items appear with the d-up animation. animation-delay is the key: item number (--i) × step (--step), so later items start later and appear one after another. backwards keeps the starting look (transparent) even before it starts. */
 .d-stg.go li{animation:d-up .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i) * var(--step))}
+/* An animation that rises into place from transparent and 14px lower. */
 @keyframes d-up{from{opacity:0;transform:translateY(14px)}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-replay" type="button">Replay</button><label for="stg-step">Interval <input id="stg-step" type="range" min="0" max="250" value="90"></label><span class="d-readout">90ms</span></div><ul class="d-stg"><li style="--i:0">Booking confirmed</li><li style="--i:1">Payment complete</li><li style="--i:2">Notification sent</li><li style="--i:3">Preparation started</li><li style="--i:4">Awaiting pickup</li></ul>`,
 init(r){
+  // Find the list (ul), the step slider (rg), and the value text (ro).
   const ul=r.querySelector('.d-stg'),rg=r.querySelector('input'),ro=r.querySelector('.d-readout');
+  // play(): remove the go class and add it again to replay the animation from the start. void ul.offsetWidth is a trick that makes the browser calculate the "removed" state once (without it, removing and adding are merged and the animation does not replay).
   const play=()=>{ul.classList.remove('go');void ul.offsetWidth;ul.classList.add('go')};
+  // Moving the slider changes the --step variable and the text, and replays the animation.
   rg.addEventListener('input',()=>{ul.style.setProperty('--step',rg.value+'ms');ro.textContent=rg.value+'ms';play()});
+  // Connect the replay button and play once at the start.
   r.querySelector('.d-replay').addEventListener('click',play);play();
 },
 code:`<ul class="list">
@@ -6544,26 +6575,47 @@ code:`<!-- Icon buttons at the top of a document editor -->
 
 REAL['hover-effect']={
 css:`
+/* The example grid: 2 columns with gaps of 14px (vertical) and 12px (horizontal). minmax(0,1fr) keeps a column from overflowing when its content is long. */
 .r-hv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px}
+/* Each example group: the label and the box stacked vertically. */
 .r-hv>div{display:grid;gap:6px;align-content:start}
+/* The example label: small monospaced text. */
 .r-hv-cap{font:600 11px var(--mono);color:var(--ink-2)}
+/* The common look of the boxes to hover over. position:relative is the reference point for things layered inside, and cursor:pointer is the hand-shaped hint that it can be pressed. */
 .r-hv-box{position:relative;overflow:hidden;min-height:100px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;align-content:center;justify-items:start;gap:3px;font-size:13px;cursor:pointer}
+/* Small description text inside the box. */
 .r-hv-box small{color:var(--ink-2);font-size:12px}
+/* Example 1 (lifting a card): the change in position and shadow is smoothed over 0.2 seconds. */
 .r-hv1{transition:transform .2s,box-shadow .2s}
+/* On hover (:hover), keyboard focus (:focus-visible), and press (:active), it lifts 5px and gets a shadow. :active makes it respond on touch screens too. */
 .r-hv1:is(:hover,:focus-visible,:active){transform:translateY(-5px);box-shadow:0 14px 24px -14px rgba(10,30,50,.5)}
+/* Example 2 (a menu whose underline draws in): the content is centered. */
 .r-hv2{align-content:center}
+/* Lay the menu items out side by side. */
 .r-hv2 nav{display:flex;gap:14px}
+/* The underline of the button is drawn as a background image. Its background-size is "0 wide, 2px tall" so it is hidden at first, and on :hover below it grows to 100%, drawing the line from the left. */
 .r-hv2 button{border:0;background:linear-gradient(var(--accent),var(--accent)) left bottom/0 2px no-repeat;padding:0 0 3px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;transition:background-size .3s,color .3s}
+/* The underline grows to 100% and the text becomes the accent color. */
 .r-hv2 button:is(:hover,:focus-visible,:active){background-size:100% 2px;color:var(--accent)}
+/* Example 3 (zooming a photo): the inner padding is removed. */
 .r-hv3{padding:0}
+/* The photo spot: position:absolute with inset:0 fills the box, and repeating-radial-gradient draws a concentric circle pattern. transform-origin is the center of the zoom. */
 .r-hv3 .ph{position:absolute;inset:0;background:repeating-radial-gradient(circle at 30% 40%,var(--sun) 0 9px,var(--warm) 9px 18px);opacity:.65;transform-origin:30% 40%;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+/* On hover, the photo scales up 1.8 times (scale). The overflow:hidden of the box cuts off what sticks out. */
 .r-hv3:is(:hover,:focus-visible,:active) .ph{transform:scale(1.8)}
+/* The caption layer under the photo: white text on a transparent-to-dark gradient stuck at the bottom. */
 .r-hv3 span{position:absolute;left:0;right:0;bottom:0;padding:16px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font:600 12px var(--sans)}
+/* Example 4 (a button that fills with color): the content is centered. */
 .r-hv4{justify-items:center}
+/* A pill-shaped button: position:relative with overflow:hidden keeps the fill layer inside from going outside the button. */
 .r-hv4 button{position:relative;overflow:hidden;padding:10px 22px;border-radius:999px;border:2px solid var(--accent);background:var(--surface);color:var(--accent);font:700 13px var(--sans);cursor:pointer;transition:color .3s}
+/* The fill layer behind the button. Normally it hides off to the left with translateX(-101%), and z-index:0 puts it behind the text. */
 .r-hv4 button::before{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .3s;z-index:0}
+/* The button text gets z-index:1 so it shows above the fill layer. */
 .r-hv4 button span{position:relative;z-index:1}
+/* On hover, the text color changes so it stays readable on the filled background (--accent-ink). */
 .r-hv4 button:is(:hover,:focus-visible,:active){color:var(--accent-ink)}
+/* On hover, the fill layer slides into place (transform:none) and the button fills. */
 .r-hv4 button:is(:hover,:focus-visible,:active)::before{transform:none}
 `,
 demo:`<div class="r-hv"><div><div class="r-hv-box r-hv1" tabindex="0"><b>Americano</b><small>KRW 3,500 · Popular today</small></div><span class="r-hv-cap">Product card: lift up</span></div><div><div class="r-hv-box r-hv2"><nav aria-label="Example menu"><button type="button">About us</button><button type="button">Services</button><button type="button">Questions</button></nav></div><span class="r-hv-cap">Top menu: extending underline</span></div><div><div class="r-hv-box r-hv3" tabindex="0"><div class="ph"></div><span>Anniversary event photo</span></div><span class="r-hv-cap">Gallery photo: image zoom</span></div><div><div class="r-hv-box r-hv4"><button type="button"><span>Request a consultation</span></button></div><span class="r-hv-cap">Action button: color fill</span></div></div>`
@@ -6571,19 +6623,30 @@ demo:`<div class="r-hv"><div><div class="r-hv-box r-hv1" tabindex="0"><b>America
 
 REAL['smooth-transition']={
 css:`
+/* The outer box of the example: position:relative makes the reference point for the panel inside. */
 .r-tr{position:relative;min-height:210px}
+/* The top bar: the title on the left and the button at the right end (space-between). */
 .r-tr-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+/* The bar title. */
 .r-tr-bar b{font:700 14px var(--display)}
+/* The panel that unfolds. At first it is transparent (opacity:0), hidden (visibility:hidden), and slightly shifted and scaled down. The transition time (--dur) and acceleration curve (--ease) are CSS variables, so JavaScript changes them with the slider values. */
 .r-tr-panel{margin-top:8px;padding:6px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 16px 28px -18px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-14px) scale(.98);transform-origin:top;transition:transform var(--dur,400ms) var(--ease,ease),opacity var(--dur,400ms) var(--ease,ease),visibility 0s var(--dur,400ms)}
+/* With the open class, it is visible (opacity:1) and moves into place. transition-delay:0s means that when opening it does not wait to un-hide. */
 .r-tr-panel.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+/* A menu button in the panel: it takes a whole row and has the default look removed. */
 .r-tr-panel button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:6px;font:13px var(--sans);color:var(--ink);cursor:pointer}
+/* A light accent background on hover. */
 .r-tr-panel button:hover{background:var(--accent-soft)}
 `,
 demo:`<div class="d-ctl"><label for="tr-ease">Curve <select id="tr-ease"><option>linear</option><option selected>ease</option><option>ease-in</option><option>ease-out</option><option>ease-in-out</option><option value="cubic-bezier(.34,1.56,.64,1)">Slight overshoot and return</option><option value="cubic-bezier(.7,0,.3,1)">Sharp acceleration then deceleration</option></select></label><label for="tr-dur">Time <input id="tr-dur" type="range" min="100" max="2000" step="50" value="400"></label></div><div class="r-tr"><div class="r-tr-bar"><b>Our shop</b><button class="d-btn d-btn-primary r-tr-btn" type="button" aria-expanded="false">Menu</button></div><div class="r-tr-panel"><button type="button">Today’s menu</button><button type="button">Book now</button><button type="button">Directions</button><button type="button">Group order inquiry</button></div></div><p class="d-hint"><code class="d-readout"></code></p>`,
 init(r){
+  // Find the example box (st), the open button (btn), the panel, the curve selector (sel), the time slider (dur), and the text (ro).
   const st=r.querySelector('.r-tr'),btn=r.querySelector('.r-tr-btn'),panel=r.querySelector('.r-tr-panel'),sel=r.querySelector('select'),dur=r.querySelector('input'),ro=r.querySelector('.d-readout');
+  // upd(): put the chosen curve and time into the CSS variables (--ease, --dur) so the transition uses them, and show the current setting as CSS code text.
   const upd=()=>{st.style.setProperty('--ease',sel.value);st.style.setProperty('--dur',dur.value+'ms');ro.textContent='transition: transform '+dur.value+'ms '+sel.value};
+  // Run upd() whenever the selection or the slider changes, and once at the start.
   sel.addEventListener('change',upd);dur.addEventListener('input',upd);upd();
+  // Pressing the button adds or removes the open class (toggle). The result (whether it was added) goes into aria-expanded to tell screen readers too.
   btn.addEventListener('click',()=>{const on=panel.classList.toggle('open');btn.setAttribute('aria-expanded',on)});
 },
 code:`/* The mobile menu panel opens and closes smoothly */
@@ -7019,26 +7082,45 @@ css:`
 REAL['toast-snackbar']={
 demo:`<div class="r-shop"><span class="r-shop-i">☕</span><div><b>Cold brew 500ml</b><span>KRW 6,800</span></div></div><div class="d-row"><button class="d-btn" type="button" data-type="ok">Add to cart</button><button class="d-btn" type="button" data-type="err">Pay</button><button class="d-btn" type="button" data-type="info">Get coupon</button></div><p class="d-hint">Press a button and look at the bottom right. It disappears on its own after a few seconds.</p><div class="d-toast-host" role="status" aria-live="polite"></div>`,
 css:`
+/* The place where toasts stack. position:absolute with right and bottom floats it at the bottom right of the box, and grid with gap stacks the toasts vertically. pointer-events:none keeps this empty area from blocking clicks on the screen below. */
 .d-toast-host{position:absolute;right:12px;bottom:12px;z-index:3;display:grid;gap:8px;width:min(280px,calc(100% - 24px));pointer-events:none}
+/* One toast. pointer-events:auto lets the toast itself receive clicks, and a dark background with light text (inverted colors) makes it stand out. animation makes it appear with d-toast-in below. */
 .d-toast{pointer-events:auto;display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:13px;box-shadow:0 14px 28px -14px rgba(0,0,0,.6);animation:d-toast-in .28s cubic-bezier(.2,.8,.2,1)}
+/* The small colored dot at the start of a toast. Its color comes from the variable --c and tells success (green), error (red), and info (blue) apart. */
 .d-toast::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:var(--c)}
+/* The message text takes all the leftover width (flex:1), so the button sits at the right end. */
 .d-toast span{flex:1}
+/* The action button inside a toast ("View", "Undo"): its default look is removed so it looks like underlined text. */
 .d-toast button{flex:none;border:0;background:none;color:inherit;font:700 12.5px var(--sans);text-decoration:underline;cursor:pointer;padding:2px 4px}
+/* While leaving (the leaving class), the d-toast-out animation plays. forwards keeps the end state. */
 .d-toast.leaving{animation:d-toast-out .2s ease forwards}
+/* When appearing: from transparent and lower down into its place. */
 @keyframes d-toast-in{from{opacity:0;transform:translateY(14px)}}
+/* When disappearing: it slides to the right and becomes transparent. */
 @keyframes d-toast-out{to{opacity:0;transform:translateX(24px)}}
+/* A product card: the picture, text, and button side by side. */
 .r-shop{display:flex;gap:12px;align-items:center;padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* The product emoji size and the look of the name and price text, written together on one line. */
 .r-shop-i{font-size:30px}.r-shop b{display:block;font-size:14px}.r-shop span{font-size:12.5px;color:var(--ink-2)}
 `,
 init(r){
+  // Find the place where toasts go (host).
   const host=r.querySelector('.d-toast-host');
+  // M: a dictionary (object) holding [message, dot color, action button text] for each type (ok, err, info).
   const M={ok:['Added to your cart.','var(--leaf)','View'],err:['Your card was declined. Please try another card.','var(--rose)',''],info:['A KRW 5,000 coupon was issued.','var(--sky)','Undo']};
+  // Each type button creates a toast when clicked. The data-type attribute value tells which type it is.
   r.querySelectorAll('button[data-type]').forEach(b=>b.addEventListener('click',()=>{
+    // m: the message info for this type, t: the new toast <div>. The dot color is passed through the CSS variable --c.
     const m=M[b.dataset.type],t=document.createElement('div');t.className='d-toast';t.style.setProperty('--c',m[1]);
+    // Create a <span> with the message text and attach it to the toast. textContent inserts the text as plain text (not HTML), which is safe.
     const s=document.createElement('span');s.textContent=m[0];t.appendChild(s);
+    // kill(): close the toast. Add the leaving class to show the disappearing animation, then remove the element after 0.22 seconds.
     const kill=()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),220)};
+    // If there is action button text, create the button, attach it to the toast, and close the toast when it is pressed.
     if(m[2]){const a=document.createElement('button');a.type='button';a.textContent=m[2];a.addEventListener('click',kill);t.appendChild(a)}
+    // Add the toast to the screen, and when there are more than 3, remove the oldest first.
     host.appendChild(t);while(host.children.length>3)host.firstChild.remove();
+    // Close it automatically after a while. Errors need more time to read, so 5 seconds; the others 3.2 seconds.
     setTimeout(kill,b.dataset.type==='err'?5000:3200)}));
 }
 };
@@ -7049,23 +7131,38 @@ demo:`<div class="d-car" role="group" aria-roledescription="carousel" aria-label
 
 REAL['skeleton-loading']={
 css:`
+/* A skeleton piece: a gray bar. overflow:hidden keeps the inner shimmer from going outside. */
 .sk{position:relative;overflow:hidden;background:var(--line);border-radius:6px}
+/* The shimmering streak of light. A transparent → light → transparent gradient waits off the left edge, and animation sweeps it to the right. */
 .sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--surface) 75%,transparent),transparent);animation:d-shimmer 1.3s infinite}
+/* An animation where the streak moves from outside the left edge to outside the right edge (translateX(100%)). */
 @keyframes d-shimmer{to{transform:translateX(100%)}}
+/* The list that stacks the cards vertically. */
 .r-feed{display:grid;gap:8px}
+/* One card: a 2-column grid with a 44px circle spot on the left and a text spot on the right (minmax(0,1fr)). min-height reserves the height in advance so the screen does not jump when the content changes. */
 .d-sk-card{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;min-height:84px}
+/* The skeleton circle (the profile picture spot). */
 .d-sk-card .av{width:44px;height:44px;border-radius:50%}
+/* A skeleton text line: a gray bar 11px tall. */
 .d-sk-card .ln{height:11px;margin:7px 0}
+/* A short line (40%) and a medium line (75%) vary the length like real text lines. */
 .d-sk-card .ln.s{width:40%}.d-sk-card .ln.m{width:75%}
+/* An avatar with the hidden attribute is hidden (so the display:grid below does not override hidden). */
 .r-av[hidden]{display:none}
+/* The real avatar: a colored circle with the name initial centered. */
 .r-av{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--c);color:#fff;font:700 16px var(--display)}
+/* The real name after loading takes its own line (display:block), and the text beside it is small and light. */
 .r-real b{display:block;font-size:13.5px}.r-real span{font-size:12.5px;color:var(--ink-2)}
+/* Very small text such as the time. */
 .r-real small{display:block;color:var(--ink-2);font-size:11.5px;margin-top:2px}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-replay" type="button">Reload</button><span class="d-readout">Status: Loaded</span></div><div class="r-feed" aria-busy="false"><div class="d-sk-card"><div class="sk av" hidden></div><div class="sk-body" hidden><div class="sk ln s"></div><div class="sk ln"></div><div class="sk ln m"></div></div><div class="r-av" style="--c:var(--accent)">S</div><div class="r-real"><b>Park Seoyeon · ★★★★★</b><span>The packaging was careful, so it was great as a gift. I will order again.</span><small>2 hours ago · Purchase confirmed (example)</small></div></div><div class="d-sk-card"><div class="sk av" hidden></div><div class="sk-body" hidden><div class="sk ln s"></div><div class="sk ln"></div><div class="sk ln m"></div></div><div class="r-av" style="--c:var(--warm)">J</div><div class="r-real"><b>Lee Junho · ★★★★☆</b><span>The taste is good, but delivery was a day late.</span><small>Yesterday · Purchase confirmed (example)</small></div></div></div><p class="d-hint">Gray frames first show where the content will go. This is the situation of loading a review list.</p>`,
 init(r){
+  // Find the cards, the list (feed), the reload button (btn), and the status text (ro), and prepare t (the timer id).
   const cards=[...r.querySelectorAll('.d-sk-card')],feed=r.querySelector('.r-feed'),btn=r.querySelector('.d-replay'),ro=r.querySelector('.d-readout');let t;
+  // show(true/false): true shows the skeletons and hides the real content, and false does the opposite. aria-busy on the list tells screen readers it is loading.
   const show=l=>{cards.forEach(c=>{c.children[0].hidden=!l;c.children[1].hidden=!l;c.children[2].hidden=l;c.children[3].hidden=l});feed.setAttribute('aria-busy',l);ro.textContent='Status: '+(l?'Loading':'Loaded')};
+  // Pressing the button clears the previous timer (clearTimeout), shows the skeletons, and after 1.6 seconds switches to the real content (imitating waiting for a server).
   btn.addEventListener('click',()=>{clearTimeout(t);show(true);t=setTimeout(()=>show(false),1600)});
 }
 };

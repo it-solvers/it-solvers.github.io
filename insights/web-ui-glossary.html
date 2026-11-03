@@ -1936,21 +1936,34 @@ cheat:[
 terms:[['carousel','캐러셀, 회전목마처럼 돌려 보는 슬라이드'],['index','인덱스, 몇 번째인지를 나타내는 번호'],['autoplay','오토플레이, 자동으로 넘어가는 기능']],
 note:'자동 재생을 넣는다면 정지 버튼을 함께 두고, 가장 중요한 정보는 첫 장에 둡니다. 스와이프만 지원하면 마우스 사용자가 못 넘깁니다.',
 css:`
+/* 캐러셀 바깥 상자: overflow:hidden 으로 옆 슬라이드가 밖으로 보이지 않게 합니다. */
 .d-car{overflow:hidden;border-radius:12px}
+/* 슬라이드를 가로로 길게 이어 붙인 띠(트랙)입니다. 이 띠를 옆으로 밀어(transform) 다음 슬라이드를 보여 줍니다. */
 .d-car-track{display:flex;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+/* 슬라이드 하나: flex:0 0 100% 은 줄어들지도 늘어나지도 않고 상자 폭 100%를 차지하게 합니다. 글자는 아래쪽에 모읍니다. */
 .d-slide{flex:0 0 100%;min-height:150px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;background:color-mix(in srgb,var(--c) 26%,var(--surface))}
+/* 슬라이드 제목 글자. */
 .d-slide h4{margin:0 0 4px;font:700 18px var(--display)}
+/* 슬라이드 설명 글. */
 .d-slide p{margin:0;font-size:13px;color:var(--ink-2)}
+/* 아래 조작 줄: 이전·다음 버튼과 점을 가로로 배치합니다. */
 .d-car-ctl{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+/* 현재 위치를 알려 주는 점들을 가로로 나란히. */
 .d-dots{display:flex;gap:6px}
+/* 점 하나: 작은 둥근 막대입니다. transition 으로 길이가 바뀔 때 부드럽게. */
 .d-dots button{width:8px;height:8px;padding:0;border-radius:4px;border:0;background:var(--line);cursor:pointer;transition:width .25s,background .25s}
+/* 지금 보고 있는 슬라이드의 점은 길고(22px) 강조색으로 표시합니다. */
 .d-dots button[aria-current="true"]{width:22px;background:var(--accent)}
 `,
 demo:`<div class="d-car" role="group" aria-roledescription="carousel" aria-label="이벤트 소개"><div class="d-car-track"><div class="d-slide" style="--c:var(--accent)" role="group" aria-roledescription="slide"><h4>신메뉴 출시</h4><p>이번 주 한정 말차 시리즈 (예시)</p></div><div class="d-slide" style="--c:var(--warm)" role="group" aria-roledescription="slide"><h4>단체 주문 할인</h4><p>20개 이상 주문 시 10% (예시)</p></div><div class="d-slide" style="--c:var(--sky)" role="group" aria-roledescription="slide"><h4>새 지점 안내</h4><p>역 앞에 두 번째 매장이 열립니다 (예시)</p></div></div></div><div class="d-car-ctl"><button class="d-btn d-prev" type="button" aria-label="이전">이전</button><div class="d-dots"></div><button class="d-btn d-next" type="button" aria-label="다음">다음</button></div>`,
 init(r){
+  // 띠(track), 슬라이드 개수(n), 점 자리(dots)를 찾고, i(지금 슬라이드 번호)를 0으로 시작합니다.
   const track=r.querySelector('.d-car-track'),n=track.children.length,dots=r.querySelector('.d-dots');let i=0;
+  // 슬라이드 개수만큼 점 버튼을 만듭니다. 각 점은 화면 낭독기용 이름(aria-label)을 갖고, 누르면 그 슬라이드로 이동(go)합니다.
   for(let k=0;k<n;k++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',(k+1)+'번째 슬라이드');b.addEventListener('click',()=>go(k));dots.appendChild(b)}
+  // go(번호): 번호를 0~n-1 안으로 돌려(맨 끝 다음은 처음으로) 띠를 그만큼 옆으로 밀고, 해당 점에만 aria-current 를 붙여 강조합니다.
   function go(k){i=(k+n)%n;track.style.transform='translateX(-'+i*100+'%)';[...dots.children].forEach((d,j)=>d.setAttribute('aria-current',j===i))}
+  // 이전·다음 버튼은 현재 번호에서 -1, +1 로 이동합니다. 마지막의 go(0)은 처음 화면을 맞춥니다.
   r.querySelector('.d-prev').addEventListener('click',()=>go(i-1));r.querySelector('.d-next').addEventListener('click',()=>go(i+1));go(0);
 },
 code:`<div class="car">
@@ -2095,17 +2108,26 @@ cheat:[
 terms:[['IntersectionObserver','교차 관찰자, 요소와 화면이 겹치는지를 알려 주는 브라우저 기능'],['threshold','임계값, 얼마나 보일 때 반응할지의 비율'],['rootMargin','관찰 영역을 넓히거나 좁히는 여백 값']],
 note:'첫 화면에 보여야 할 핵심 내용은 숨겨 두지 않습니다. 움직임 줄이기 설정에서는 처음부터 보이게 해야 합니다.',
 css:`
+/* 스크롤되는 상자: 높이 210px 고정에 overflow:auto 로 스크롤합니다. */
 .d-rv{height:210px;overflow:auto;padding:12px;background:var(--surface-2);border-radius:10px}
+/* 나타날 항목: 처음에는 투명(opacity:0)하고 26px 아래에 있다가, 아래 .in 이 붙으면 transition 으로 부드럽게 올라옵니다. */
 .d-rv-item{margin:0 0 14px;padding:16px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px;opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+/* 화면에 들어온 항목(in 클래스)은 불투명하고 제자리로 옵니다. */
 .d-rv-item.in{opacity:1;transform:none}
+/* 항목 제목 글자. */
 .d-rv-item b{display:block;margin-bottom:2px;font:600 13px var(--display)}
+/* 맨 아래 여백: 마지막 항목도 충분히 올라와 보이게 합니다. */
 .d-rv-end{height:40px}
+/* 운영체제에서 "동작 줄이기"를 켠 사람에게는 처음부터 보이게 하고 움직임을 없앱니다(접근성). */
 @media (prefers-reduced-motion:reduce){.d-rv-item{opacity:1;transform:none}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-reset" type="button">처음부터 다시</button></div><div class="d-rv"><div class="d-rv-item"><b>1. 소개</b>스크롤하면 하나씩 나타납니다.</div><div class="d-rv-item"><b>2. 서비스</b>화면에 들어올 때 위로 떠오르며 보입니다.</div><div class="d-rv-item"><b>3. 사례</b>한 번 나타나면 관찰을 멈춥니다.</div><div class="d-rv-item"><b>4. 후기</b>계속 아래로 내려 보세요.</div><div class="d-rv-item"><b>5. 문의</b>마지막 카드입니다.</div><div class="d-rv-end"></div></div>`,
 init(r){
+  // 스크롤 상자(box)와 항목들(items)을 찾고, io(관찰자)를 담을 변수를 준비합니다.
   const box=r.querySelector('.d-rv'),items=[...box.querySelectorAll('.d-rv-item')];let io;
+  // start(): IntersectionObserver(교차 관찰자)를 만들어 항목마다 붙입니다. 항목이 상자 안에 25%(threshold:.25) 이상 보이면 in 클래스를 붙이고, 한 번 나타난 항목은 더 이상 관찰하지 않습니다(unobserve).
   const start=()=>{io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{root:box,threshold:.25});items.forEach(i=>io.observe(i))};
+  // "다시 보기" 버튼: 관찰을 멈추고(disconnect), 모든 항목의 in 클래스를 떼고, 스크롤을 맨 위로 올린 뒤 처음부터 다시 시작합니다.
   r.querySelector('.d-reset').addEventListener('click',()=>{io.disconnect();items.forEach(i=>i.classList.remove('in'));box.scrollTop=0;start()});
   start();
 },
@@ -2141,17 +2163,26 @@ cheat:[
 terms:[['stagger','스태거, 엇갈리게 배치한다는 뜻으로 시차를 둔 연속 동작'],['keyframes','키프레임, 애니메이션 시작과 끝 상태를 정하는 규칙'],['CSS 변수','--이름 형태로 값을 저장해 재사용하는 방식']],
 note:'간격은 60~100ms를 많이 쓰지만 경험적인 값이라 출처는 없습니다. 항목이 많으면 전체 시간이 길어지므로 최대 지연 시간에 상한을 둡니다.',
 css:`
+/* 목록 상자: 점과 줄바꿈 기본 모양을 지우고 grid 로 세로로 쌓습니다. --step 은 항목 사이의 시간 간격(90ms)을 담은 CSS 변수입니다. */
 .d-stg{list-style:none;margin:0;padding:0;display:grid;gap:8px;--step:90ms}
+/* 목록 항목 하나의 카드 모양. */
 .d-stg li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:13px}
+/* 항목 앞의 작은 강조색 점. */
 .d-stg li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+/* go 클래스가 붙으면 항목이 d-up 애니메이션으로 나타납니다. animation-delay 가 핵심입니다: 항목 번호(--i) × 간격(--step)이라 뒤 항목일수록 늦게 시작해 차례로 나타납니다. backwards 는 시작 전에도 처음 모양(투명)을 유지하게 합니다. */
 .d-stg.go li{animation:d-up .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i) * var(--step))}
+/* 투명하고 14px 아래에서 제자리로 올라오는 애니메이션. */
 @keyframes d-up{from{opacity:0;transform:translateY(14px)}}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-replay" type="button">다시 재생</button><label for="stg-step">간격 <input id="stg-step" type="range" min="0" max="250" value="90"></label><span class="d-readout">90ms</span></div><ul class="d-stg"><li style="--i:0">예약 확인</li><li style="--i:1">결제 완료</li><li style="--i:2">알림 발송</li><li style="--i:3">준비 시작</li><li style="--i:4">수령 대기</li></ul>`,
 init(r){
+  // 목록(ul), 간격 슬라이더(rg), 값 표시 글(ro)을 찾습니다.
   const ul=r.querySelector('.d-stg'),rg=r.querySelector('input'),ro=r.querySelector('.d-readout');
+  // play(): go 클래스를 뗐다가 다시 붙여 애니메이션을 처음부터 다시 재생합니다. void ul.offsetWidth 는 브라우저가 "뗀 상태"를 한 번 계산하게 만드는 요령입니다(이게 없으면 뗐다 붙인 것이 합쳐져 다시 재생되지 않습니다).
   const play=()=>{ul.classList.remove('go');void ul.offsetWidth;ul.classList.add('go')};
+  // 슬라이더를 움직이면 --step 변수와 표시 글을 바꾸고 애니메이션을 다시 재생합니다.
   rg.addEventListener('input',()=>{ul.style.setProperty('--step',rg.value+'ms');ro.textContent=rg.value+'ms';play()});
+  // 다시 재생 버튼을 연결하고, 처음 한 번 재생합니다.
   r.querySelector('.d-replay').addEventListener('click',play);play();
 },
 code:`<ul class="list">
@@ -6655,26 +6686,47 @@ code:`<!-- 문서 편집기 위쪽의 아이콘 버튼 -->
 
 REAL['hover-effect']={
 css:`
+/* 예시 격자: 2열, 칸 사이 간격 14px(세로) 12px(가로). minmax(0,1fr)은 내용이 길어도 칸이 넘치지 않게 합니다. */
 .r-hv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px}
+/* 각 예시 묶음: 이름표와 상자를 세로로 쌓습니다. */
 .r-hv>div{display:grid;gap:6px;align-content:start}
+/* 예시 이름표: 작은 고정폭 글꼴. */
 .r-hv-cap{font:600 11px var(--mono);color:var(--ink-2)}
+/* 마우스를 올려 볼 상자 공통 모양입니다. position:relative 는 안쪽 겹침의 기준점, cursor:pointer 는 눌러도 된다는 손 모양 신호입니다. */
 .r-hv-box{position:relative;overflow:hidden;min-height:100px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;align-content:center;justify-items:start;gap:3px;font-size:13px;cursor:pointer}
+/* 상자 안의 작은 설명 글. */
 .r-hv-box small{color:var(--ink-2);font-size:12px}
+/* 예시 1(카드 들어올리기): 위치와 그림자의 변화를 0.2초 동안 부드럽게 잇습니다. */
 .r-hv1{transition:transform .2s,box-shadow .2s}
+/* 마우스를 올릴 때(:hover), 키보드로 선택할 때(:focus-visible), 누를 때(:active) 5px 위로 뜨고 그림자가 생깁니다. :active 는 손가락으로 터치하는 화면에서도 반응하게 합니다. */
 .r-hv1:is(:hover,:focus-visible,:active){transform:translateY(-5px);box-shadow:0 14px 24px -14px rgba(10,30,50,.5)}
+/* 예시 2(밑줄이 그어지는 메뉴): 안쪽을 가운데 정렬합니다. */
 .r-hv2{align-content:center}
+/* 메뉴 글자들을 가로로 나란히 놓습니다. */
 .r-hv2 nav{display:flex;gap:14px}
+/* 버튼의 밑줄을 배경 그림으로 그립니다. background-size 가 "0 너비, 2px 높이"라서 처음에는 안 보이고, 아래 :hover 에서 100%로 늘어나 왼쪽부터 선이 그어집니다. */
 .r-hv2 button{border:0;background:linear-gradient(var(--accent),var(--accent)) left bottom/0 2px no-repeat;padding:0 0 3px;font:600 13px var(--sans);color:var(--ink);cursor:pointer;transition:background-size .3s,color .3s}
+/* 밑줄이 100%로 늘어나고 글자가 강조색이 됩니다. */
 .r-hv2 button:is(:hover,:focus-visible,:active){background-size:100% 2px;color:var(--accent)}
+/* 예시 3(사진 확대): 안쪽 여백을 없앱니다. */
 .r-hv3{padding:0}
+/* 사진 자리: position:absolute 와 inset:0 으로 상자를 가득 채우고, repeating-radial-gradient 로 동심원 무늬를 그립니다. transform-origin 은 확대의 중심점입니다. */
 .r-hv3 .ph{position:absolute;inset:0;background:repeating-radial-gradient(circle at 30% 40%,var(--sun) 0 9px,var(--warm) 9px 18px);opacity:.65;transform-origin:30% 40%;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+/* 올리면 사진이 1.8배로 확대됩니다(scale). 상자의 overflow:hidden 이 넘치는 부분을 잘라 냅니다. */
 .r-hv3:is(:hover,:focus-visible,:active) .ph{transform:scale(1.8)}
+/* 사진 아래 글자 막: 아래쪽에 붙은 투명→어두움 그라데이션 위에 흰 글자를 올립니다. */
 .r-hv3 span{position:absolute;left:0;right:0;bottom:0;padding:16px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font:600 12px var(--sans)}
+/* 예시 4(색이 채워지는 버튼): 안쪽을 가운데 정렬합니다. */
 .r-hv4{justify-items:center}
+/* 알약 모양 버튼: position:relative 와 overflow:hidden 으로 안쪽의 채움 막이 버튼 밖으로 나가지 않게 합니다. */
 .r-hv4 button{position:relative;overflow:hidden;padding:10px 22px;border-radius:999px;border:2px solid var(--accent);background:var(--surface);color:var(--accent);font:700 13px var(--sans);cursor:pointer;transition:color .3s}
+/* 버튼 뒤의 채움 막입니다. 평소에는 translateX(-101%)로 왼쪽 밖에 숨어 있고, z-index:0 으로 글자 뒤에 놓입니다. */
 .r-hv4 button::before{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .3s;z-index:0}
+/* 버튼 글자는 채움 막 위에 보이도록 z-index:1 을 줍니다. */
 .r-hv4 button span{position:relative;z-index:1}
+/* 올리면 글자색을 바꿔 채워진 바탕 위에서도 읽히게 합니다(--accent-ink). */
 .r-hv4 button:is(:hover,:focus-visible,:active){color:var(--accent-ink)}
+/* 올리면 채움 막이 제자리(transform:none)로 들어와 버튼이 채워집니다. */
 .r-hv4 button:is(:hover,:focus-visible,:active)::before{transform:none}
 `,
 demo:`<div class="r-hv"><div><div class="r-hv-box r-hv1" tabindex="0"><b>아메리카노</b><small>3,500원 · 오늘 인기</small></div><span class="r-hv-cap">상품 카드: 떠오르기</span></div><div><div class="r-hv-box r-hv2"><nav aria-label="예시 메뉴"><button type="button">회사 소개</button><button type="button">서비스</button><button type="button">문의</button></nav></div><span class="r-hv-cap">상단 메뉴: 밑줄 늘이기</span></div><div><div class="r-hv-box r-hv3" tabindex="0"><div class="ph"></div><span>창립 기념 행사 사진</span></div><span class="r-hv-cap">갤러리 사진: 이미지 확대</span></div><div><div class="r-hv-box r-hv4"><button type="button"><span>상담 신청</span></button></div><span class="r-hv-cap">행동 버튼: 색 채우기</span></div></div>`
@@ -6682,19 +6734,30 @@ demo:`<div class="r-hv"><div><div class="r-hv-box r-hv1" tabindex="0"><b>아메�
 
 REAL['smooth-transition']={
 css:`
+/* 예시 바깥 상자: position:relative 로 안쪽 패널의 기준점을 만듭니다. */
 .r-tr{position:relative;min-height:210px}
+/* 위쪽 막대: 제목은 왼쪽, 버튼은 오른쪽 끝(space-between). */
 .r-tr-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+/* 막대 제목 글자. */
 .r-tr-bar b{font:700 14px var(--display)}
+/* 펼쳐지는 패널입니다. 처음에는 투명(opacity:0)·숨김(visibility:hidden)이고 살짝 위로 줄어든 모양입니다. transition 의 시간(--dur)과 가속 곡선(--ease)은 CSS 변수라서 자바스크립트가 슬라이더 값으로 바꿉니다. */
 .r-tr-panel{margin-top:8px;padding:6px;border-radius:10px;background:var(--surface);border:1px solid var(--line);box-shadow:0 16px 28px -18px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-14px) scale(.98);transform-origin:top;transition:transform var(--dur,400ms) var(--ease,ease),opacity var(--dur,400ms) var(--ease,ease),visibility 0s var(--dur,400ms)}
+/* open 클래스가 붙으면 보이고(opacity:1) 제자리로 옵니다. transition-delay:0s 로 열 때는 숨김 해제를 기다리지 않습니다. */
 .r-tr-panel.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+/* 패널 안 메뉴 버튼: 한 줄을 차지하고 기본 모양을 지웁니다. */
 .r-tr-panel button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:6px;font:13px var(--sans);color:var(--ink);cursor:pointer}
+/* 마우스를 올리면 연한 강조 배경. */
 .r-tr-panel button:hover{background:var(--accent-soft)}
 `,
 demo:`<div class="d-ctl"><label for="tr-ease">곡선 <select id="tr-ease"><option>linear</option><option selected>ease</option><option>ease-in</option><option>ease-out</option><option>ease-in-out</option><option value="cubic-bezier(.34,1.56,.64,1)">살짝 지나쳤다 돌아옴</option><option value="cubic-bezier(.7,0,.3,1)">급가속 후 감속</option></select></label><label for="tr-dur">시간 <input id="tr-dur" type="range" min="100" max="2000" step="50" value="400"></label></div><div class="r-tr"><div class="r-tr-bar"><b>우리 가게</b><button class="d-btn d-btn-primary r-tr-btn" type="button" aria-expanded="false">메뉴</button></div><div class="r-tr-panel"><button type="button">오늘의 메뉴</button><button type="button">예약하기</button><button type="button">오시는 길</button><button type="button">단체 주문 문의</button></div></div><p class="d-hint"><code class="d-readout"></code></p>`,
 init(r){
+  // 예시 상자(st), 열기 버튼(btn), 패널(panel), 곡선 선택 칸(sel), 시간 슬라이더(dur), 설명 글(ro)을 찾습니다.
   const st=r.querySelector('.r-tr'),btn=r.querySelector('.r-tr-btn'),panel=r.querySelector('.r-tr-panel'),sel=r.querySelector('select'),dur=r.querySelector('input'),ro=r.querySelector('.d-readout');
+  // upd(): 선택한 곡선과 시간을 CSS 변수(--ease, --dur)에 넣어 transition 에 반영하고, 지금 설정을 CSS 코드 글자로 보여 줍니다.
   const upd=()=>{st.style.setProperty('--ease',sel.value);st.style.setProperty('--dur',dur.value+'ms');ro.textContent='transition: transform '+dur.value+'ms '+sel.value};
+  // 선택이나 슬라이더가 바뀔 때마다 upd()를 실행하고, 처음에도 한 번 실행합니다.
   sel.addEventListener('change',upd);dur.addEventListener('input',upd);upd();
+  // 버튼을 누르면 open 클래스를 붙였다 뗍니다(toggle). 결과(붙었는지)를 aria-expanded 에 넣어 화면 낭독기에도 알립니다.
   btn.addEventListener('click',()=>{const on=panel.classList.toggle('open');btn.setAttribute('aria-expanded',on)});
 },
 code:`/* 모바일 메뉴 패널이 부드럽게 열리고 닫힘 */
@@ -7130,26 +7193,45 @@ css:`
 REAL['toast-snackbar']={
 demo:`<div class="r-shop"><span class="r-shop-i">☕</span><div><b>콜드브루 500ml</b><span>6,800원</span></div></div><div class="d-row"><button class="d-btn" type="button" data-type="ok">장바구니 담기</button><button class="d-btn" type="button" data-type="err">결제하기</button><button class="d-btn" type="button" data-type="info">쿠폰 받기</button></div><p class="d-hint">버튼을 눌러 오른쪽 아래를 보세요. 몇 초 뒤 저절로 사라집니다.</p><div class="d-toast-host" role="status" aria-live="polite"></div>`,
 css:`
+/* 토스트가 쌓이는 자리입니다. position:absolute 와 right, bottom 으로 상자 오른쪽 아래에 띄우고, grid 와 gap 으로 토스트를 세로로 쌓습니다. pointer-events:none 은 이 빈 자리가 아래 화면의 클릭을 막지 않게 합니다. */
 .d-toast-host{position:absolute;right:12px;bottom:12px;z-index:3;display:grid;gap:8px;width:min(280px,calc(100% - 24px));pointer-events:none}
+/* 토스트 하나입니다. pointer-events:auto 로 토스트 자신은 클릭을 받고, 어두운 바탕에 밝은 글자(색 반전)로 눈에 띄게 합니다. animation 은 아래 d-toast-in 으로 나타나게 합니다. */
 .d-toast{pointer-events:auto;display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:13px;box-shadow:0 14px 28px -14px rgba(0,0,0,.6);animation:d-toast-in .28s cubic-bezier(.2,.8,.2,1)}
+/* 토스트 앞의 작은 색 점입니다. 색은 변수 --c 에서 가져오며 성공(초록)·오류(빨강)·안내(파랑)를 구분합니다. */
 .d-toast::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:var(--c)}
+/* 메시지 글자가 남는 폭을 모두 차지하게(flex:1) 해서 버튼이 오른쪽 끝에 놓입니다. */
 .d-toast span{flex:1}
+/* 토스트 안의 동작 버튼("보기", "되돌리기"): 기본 모양을 지우고 밑줄이 있는 글자처럼 보이게 합니다. */
 .d-toast button{flex:none;border:0;background:none;color:inherit;font:700 12.5px var(--sans);text-decoration:underline;cursor:pointer;padding:2px 4px}
+/* 사라지는 중(leaving 클래스)에는 d-toast-out 애니메이션을 재생합니다. forwards 는 끝난 모습을 유지하게 합니다. */
 .d-toast.leaving{animation:d-toast-out .2s ease forwards}
+/* 나타날 때: 투명하고 아래에 있던 상태에서 제자리로 올라옵니다. */
 @keyframes d-toast-in{from{opacity:0;transform:translateY(14px)}}
+/* 사라질 때: 오른쪽으로 밀리며 투명해집니다. */
 @keyframes d-toast-out{to{opacity:0;transform:translateX(24px)}}
+/* 상품 카드: 그림, 글자, 버튼을 가로로 나란히 놓습니다. */
 .r-shop{display:flex;gap:12px;align-items:center;padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* 상품 이모지 크기와 이름·가격 글자 모양을 한 줄에 함께 적었습니다. */
 .r-shop-i{font-size:30px}.r-shop b{display:block;font-size:14px}.r-shop span{font-size:12.5px;color:var(--ink-2)}
 `,
 init(r){
+  // 토스트가 들어갈 자리(host)를 찾습니다.
   const host=r.querySelector('.d-toast-host');
+  // M: 종류(ok, err, info)별 [메시지, 점 색, 동작 버튼 글자]를 모아 둔 사전(객체)입니다.
   const M={ok:['장바구니에 담았습니다.','var(--leaf)','보기'],err:['카드 승인이 거절되었습니다. 다른 카드로 시도해 주세요.','var(--rose)',''],info:['5,000원 쿠폰이 지급되었습니다.','var(--sky)','되돌리기']};
+  // 종류 버튼마다 클릭하면 토스트를 만듭니다. data-type 속성 값으로 어떤 종류인지 알아냅니다.
   r.querySelectorAll('button[data-type]').forEach(b=>b.addEventListener('click',()=>{
+    // m: 이 종류의 메시지 정보, t: 새로 만들 토스트 <div>. 점 색은 CSS 변수 --c 로 넘깁니다.
     const m=M[b.dataset.type],t=document.createElement('div');t.className='d-toast';t.style.setProperty('--c',m[1]);
+    // 메시지 글자를 담은 <span>을 만들어 토스트에 붙입니다. textContent 는 글자를 그대로(HTML이 아닌 글자로) 넣어 안전합니다.
     const s=document.createElement('span');s.textContent=m[0];t.appendChild(s);
+    // kill(): 토스트를 닫습니다. leaving 클래스를 붙여 사라지는 애니메이션을 보여 주고, 0.22초 뒤에 요소를 지웁니다.
     const kill=()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),220)};
+    // 동작 버튼 글자가 있으면 버튼을 만들어 토스트에 붙이고, 누르면 토스트를 닫습니다.
     if(m[2]){const a=document.createElement('button');a.type='button';a.textContent=m[2];a.addEventListener('click',kill);t.appendChild(a)}
+    // 토스트를 화면에 붙이고, 3개를 넘으면 가장 오래된 것부터 지웁니다.
     host.appendChild(t);while(host.children.length>3)host.firstChild.remove();
+    // 일정 시간 뒤 저절로 닫습니다. 오류는 읽을 시간이 더 필요해서 5초, 나머지는 3.2초입니다.
     setTimeout(kill,b.dataset.type==='err'?5000:3200)}));
 }
 };
@@ -7160,23 +7242,38 @@ demo:`<div class="d-car" role="group" aria-roledescription="carousel" aria-label
 
 REAL['skeleton-loading']={
 css:`
+/* 스켈레톤(뼈대) 조각: 회색 막대입니다. overflow:hidden 은 안쪽 반짝임이 밖으로 나가지 않게 합니다. */
 .sk{position:relative;overflow:hidden;background:var(--line);border-radius:6px}
+/* 반짝이는 빛줄기입니다. 투명 → 밝은색 → 투명으로 이어지는 그라데이션을 왼쪽 밖에 두고 animation 으로 오른쪽으로 쓸고 지나가게 합니다. */
 .sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--surface) 75%,transparent),transparent);animation:d-shimmer 1.3s infinite}
+/* 빛줄기가 왼쪽 밖에서 오른쪽 밖(translateX(100%))으로 움직이는 애니메이션입니다. */
 @keyframes d-shimmer{to{transform:translateX(100%)}}
+/* 카드들을 세로로 쌓는 목록입니다. */
 .r-feed{display:grid;gap:8px}
+/* 카드 하나: 왼쪽 44px 동그라미 자리 + 오른쪽 글 자리(minmax(0,1fr))의 2칸 격자입니다. min-height 로 높이를 미리 확보해 내용이 바뀌어도 화면이 덜컥 움직이지 않게 합니다. */
 .d-sk-card{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;min-height:84px}
+/* 뼈대 동그라미(프로필 사진 자리). */
 .d-sk-card .av{width:44px;height:44px;border-radius:50%}
+/* 뼈대 글줄: 높이 11px 회색 막대. */
 .d-sk-card .ln{height:11px;margin:7px 0}
+/* 짧은 줄(40%)과 중간 줄(75%)로 실제 글줄처럼 길이를 다르게 합니다. */
 .d-sk-card .ln.s{width:40%}.d-sk-card .ln.m{width:75%}
+/* hidden 속성이 붙은 아바타는 숨깁니다(아래 display:grid 가 hidden 을 덮어쓰지 않게). */
 .r-av[hidden]{display:none}
+/* 실제 아바타: 색 동그라미 안에 이름 글자를 가운데 놓습니다. */
 .r-av{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--c);color:#fff;font:700 16px var(--display)}
+/* 불러온 뒤의 실제 이름 글자는 한 줄을 차지하게(display:block), 옆 글자는 작고 연하게. */
 .r-real b{display:block;font-size:13.5px}.r-real span{font-size:12.5px;color:var(--ink-2)}
+/* 시간 같은 아주 작은 글자. */
 .r-real small{display:block;color:var(--ink-2);font-size:11.5px;margin-top:2px}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-replay" type="button">다시 불러오기</button><span class="d-readout">상태: 불러옴</span></div><div class="r-feed" aria-busy="false"><div class="d-sk-card"><div class="sk av" hidden></div><div class="sk-body" hidden><div class="sk ln s"></div><div class="sk ln"></div><div class="sk ln m"></div></div><div class="r-av" style="--c:var(--accent)">서</div><div class="r-real"><b>박서연 · ★★★★★</b><span>포장이 꼼꼼해서 선물하기 좋았어요. 다음에도 주문할게요.</span><small>2시간 전 · 구매 확정 (예시)</small></div></div><div class="d-sk-card"><div class="sk av" hidden></div><div class="sk-body" hidden><div class="sk ln s"></div><div class="sk ln"></div><div class="sk ln m"></div></div><div class="r-av" style="--c:var(--warm)">준</div><div class="r-real"><b>이준호 · ★★★★☆</b><span>맛은 좋은데 배송이 하루 늦었습니다.</span><small>어제 · 구매 확정 (예시)</small></div></div></div><p class="d-hint">내용이 올 자리를 회색 틀로 먼저 보여 줍니다. 리뷰 목록을 불러오는 상황입니다.</p>`,
 init(r){
+  // 카드들(cards), 목록(feed), 다시 불러오기 버튼(btn), 상태 글(ro)을 찾고, t(타이머 번호)를 준비합니다.
   const cards=[...r.querySelectorAll('.d-sk-card')],feed=r.querySelector('.r-feed'),btn=r.querySelector('.d-replay'),ro=r.querySelector('.d-readout');let t;
+  // show(true/false): true 면 뼈대를 보이고 실제 내용을 숨기고, false 면 반대로 합니다. 목록에 aria-busy 를 달아 화면 낭독기에 "불러오는 중"임을 알립니다.
   const show=l=>{cards.forEach(c=>{c.children[0].hidden=!l;c.children[1].hidden=!l;c.children[2].hidden=l;c.children[3].hidden=l});feed.setAttribute('aria-busy',l);ro.textContent='상태: '+(l?'불러오는 중':'불러옴')};
+  // 버튼을 누르면 이전 타이머를 지우고(clearTimeout), 뼈대를 보였다가 1.6초 뒤 실제 내용으로 바꿉니다(서버 응답을 기다리는 흉내).
   btn.addEventListener('click',()=>{clearTimeout(t);show(true);t=setTimeout(()=>show(false),1600)});
 }
 };
