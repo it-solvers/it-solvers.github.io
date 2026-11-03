@@ -6656,27 +6656,45 @@ cheat:[
 terms:[['haptic','Haptic, tactile (vibration) feedback'],['vibration pattern','Vibration pattern, an array alternating vibration and pause'],['progressive enhancement','Progressive enhancement, adding a feature only on devices that support it']],
 note:'We understand that this feature does not work on desktop and iOS Safari, but we could not confirm it from sources this time (needs verification). Vibration is only a supplementary aid, so important information must also be delivered by screen and sound, and it should not be overused.',
 css:`
+/* The outer box of the haptic example. */
 .x-hp{display:grid;gap:10px}
+/* The box that tells whether vibration is supported. */
 .x-hp-s{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:12.5px}
+/* Green text if supported, red text if not. */
 .x-hp-s b.ok{color:var(--leaf)}.x-hp-s b.no{color:var(--rose)}
+/* Lays the pattern buttons in a grid. */
 .x-hp-b{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+/* The look of one pattern button. */
 .x-hp-b button{padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 12.5px var(--sans);cursor:pointer;display:grid;gap:3px;text-align:center}
+/* The pattern value text inside the button. */
 .x-hp-b button small{font:11px var(--mono);color:var(--ink-2)}
+/* A row that shows the vibration pattern as bars: vibrating and resting sections laid out side by side. */
 .x-hp-tl{display:flex;height:22px;gap:2px;align-items:stretch;border-radius:6px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line);min-width:0}
+/* A vibrating section: an accent-colored bar. */
 .x-hp-tl i{display:block;background:var(--accent);transform-origin:left;animation:x-hp-p .25s ease-out}
+/* A resting section (the g class) is transparent. */
 .x-hp-tl i.g{background:transparent}
+/* An animation where the bar appears from a faded state. */
 @keyframes x-hp-p{from{opacity:.3}}
+/* With the shake class, a shaking animation plays (a visual response instead of vibration). */
 .x-hp-ph.shake{animation:x-hp-sh .4s}
+/* Steps that shake left and right with decreasing strength. */
 @keyframes x-hp-sh{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 `,
 demo:`<div class="x-hp"><div class="x-hp-s x-hp-st"></div><div class="x-hp-b"><button type="button" data-p="[12]"><span>Light tap</span><small>[12]</small></button><button type="button" data-p="[25,60,25]"><span>Success</span><small>[25,60,25]</small></button><button type="button" data-p="[60,40,60,40,120]"><span>Error</span><small>[60,40,60,40,120]</small></button></div><div class="x-hp-tl" aria-label="Vibration pattern bar"></div><output class="d-readout" aria-live="polite">Press a button.</output></div>`,
 init(r){
+  // Find the support message (st), the pattern bar (tl), and the result text (out), and check with ok whether the browser has the navigator.vibrate function. iPhone Safari and others do not support it.
   const st=r.querySelector('.x-hp-st'),tl=r.querySelector('.x-hp-tl'),out=r.querySelector('output');const ok='vibrate' in navigator&&typeof navigator.vibrate==='function';
+  // Show the message that matches the support.
   st.innerHTML=ok?'This device’s browser <b class="ok">has the vibrate function</b>. Try pressing on a mobile device.':'This device’s browser <b class="no">does not have the vibrate function</b>. The bar below shows only the pattern instead of vibrating.';
+  // When a pattern button is pressed: read the pattern written in data-p (JSON, such as [30, 50, 30]). The numbers alternate as "vibrate ms, rest ms, vibrate ms, ...".
   r.querySelectorAll('.x-hp-b button').forEach(b=>b.addEventListener('click',()=>{const p=JSON.parse(b.dataset.p);let sent='';
+    // If supported, call navigator.vibrate(pattern). It is wrapped in try/catch so the screen does not stop even if the call fails. If unsupported, only a message is shown (a fallback response).
     try{if(ok){const res=navigator.vibrate(p);sent=res?'A vibration request was sent.':'The browser did not accept the request.'}else sent='Vibration is not supported: replaced with a visual response.'}catch(e){sent='Vibration call failed (needs verification)'}
+    // Redraw the pattern bar. Odd-numbered values become resting sections (g), and each section length is given as a flex ratio. The total time is also calculated and shown.
     tl.textContent='';const tot=p.reduce((a,c)=>a+c,0);p.forEach((v,i)=>{const s=document.createElement('i');if(i%2)s.className='g';s.style.flex=v+' 0 0';tl.appendChild(s)});
     out.textContent='Pattern '+JSON.stringify(p)+' (total '+tot+'ms). '+sent;
+    // Give a visual response where the button shrinks slightly and returns, as if pressed (so there is feedback even without vibration).
     b.animate([{transform:'scale(1)'},{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:180})}));
 },
 code:`// Call after checking support (do nothing, or substitute a visual response, if unsupported)
@@ -6716,22 +6734,35 @@ cheat:[
 terms:[['theme','Theme, a set of color schemes'],['design token','Design token, a name given to a value such as a color or spacing (implemented as a CSS variable)'],['system preference','System preference, the OS’s screen mode setting']],
 note:'For the flicker where the first screen is light and then turns dark, see the "FOUC" card. Using a very dark gray instead of pure black (#000) often tires the eyes less (an opinion, no source). This page supports light and dark in the same way.',
 css:`
+/* The dark/light preview screen: colors are defined as variables (--b background, --s secondary background, --t text, --m light text, --a accent). transition makes the change smooth. */
 .x-dl-pg{--b:#ffffff;--s:#f1f5f8;--t:#14222c;--m:#5b6b77;--a:#0a7c86;padding:14px;border-radius:14px;background:var(--b);color:var(--t);border:1px solid var(--line);display:grid;gap:8px;transition:background .25s,color .25s}
+/* When the data-th="dark" attribute is set, the same variables are redefined with dark color values. The rest of the rules stay the same and only the variable values change, so the whole screen turns dark. (A real site sets data-theme on the html element.) */
 .x-dl-pg[data-th="dark"]{--b:#101a21;--s:#1a2730;--t:#e8f0f4;--m:#9db0bc;--a:#4fc3cf}
+/* The preview title. */
 .x-dl-pg h4{margin:0;font:700 15px var(--display)}
+/* The preview description: the light text color variable (--m). */
 .x-dl-pg p{margin:0;font-size:12.5px;color:var(--m);line-height:1.6}
+/* One preview card row. */
 .x-dl-pg .c{padding:10px 12px;border-radius:10px;background:var(--s);font-size:12.5px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+/* Emphasized text in the card. */
 .x-dl-pg .c b{color:var(--a)}
+/* The preview button: an accent background with the background color (--b) as the text color, so the text stays clear in either theme. */
 .x-dl-pg button{border:0;border-radius:8px;padding:6px 12px;background:var(--a);color:var(--b);font:700 12px var(--sans);cursor:pointer}
+/* The group of "light / dark / system" choice buttons. */
 .x-dl-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+/* The look of one choice button. */
 .x-dl-seg button{border:0;background:var(--surface);color:var(--ink);padding:7px 12px;font:600 12.5px var(--sans);cursor:pointer}
+/* The selected button (aria-checked="true") is shown in the accent color. */
 .x-dl-seg button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink)}
 `,
 demo:`<div class="d-ctl"><div class="x-dl-seg" role="radiogroup" aria-label="Choose theme"><button type="button" role="radio" aria-checked="false" data-m="light">☀️ Light</button><button type="button" role="radio" aria-checked="false" data-m="dark">🌙 Dark</button><button type="button" role="radio" aria-checked="true" data-m="system">🖥️ System</button></div><label for="x-dl-os"><input id="x-dl-os" type="checkbox"> (assume my OS is in dark mode)</label></div><div class="x-dl-pg" data-th="light"><h4>Example Market settings (example)</h4><p>The card and text colors all use the same variables, so changing only the values changes everything at once.</p><div class="c"><span>Today’s rewards <b>1,250P</b></span><button type="button">Use</button></div></div><output class="d-readout" aria-live="polite"></output>`,
 init(r){
+  // Find the preview screen (pg), the "operating system is in dark mode" checkbox (os), the result text (out), and the choice buttons (bs), and prepare mode (the chosen value; system by default).
   const pg=r.querySelector('.x-dl-pg'),os=r.querySelector('#x-dl-os'),out=r.querySelector('output'),bs=[...r.querySelectorAll('.x-dl-seg button')];let mode='system';
+  // apply(): decide the theme to actually apply (eff). "Follow system" uses the operating system setting (the os checkbox); otherwise it uses the value the user chose. It applies it to the screen with data-th and updates the choice buttons aria-checked and the description.
   const apply=()=>{const eff=mode==='system'?(os.checked?'dark':'light'):mode;pg.dataset.th=eff;bs.forEach(b=>b.setAttribute('aria-checked',b.dataset.m===mode));
     out.textContent='Selected: '+({light:'Light',dark:'Dark',system:'Follow system'}[mode])+' → Actually applied: '+(eff==='dark'?'Dark':'Light')+(mode==='system'?' (follows the OS setting)':' (independent of the OS setting)')};
+  // Pressing a button changes the chosen value and runs apply(). It also runs when the OS checkbox changes and at the start.
   bs.forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.m;apply()}));os.addEventListener('change',apply);apply();
 },
 code:`:root{
@@ -6771,25 +6802,40 @@ cheat:[
 terms:[['lazy loading','Lazy loading, deferred loading'],['eager','Load this right away (the opposite of lazy)'],['viewport','Viewport, the area of the screen currently visible'],['LCP','LCP, a performance metric that measures when the largest content is painted']],
 note:'Applying lazy to the main image visible on the first screen can actually make things slower. The numeric delay (0.5 seconds) in this card is a demo value.',
 css:`
+/* The scrolling photo list area: 230px tall with overflow:auto. */
 .x-lz-sc{height:230px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);padding:10px}
+/* Lays the photo cards in a 2-column grid. */
 .x-lz-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+/* The look of one photo card. */
 .x-lz-c{border-radius:10px;background:var(--surface);border:1px solid var(--line);overflow:hidden;font-size:12px}
+/* The photo spot: aspect-ratio reserves the space even before the photo arrives so the screen does not jump. A gray striped gradient flows with an animation, making a "skeleton" look. */
 .x-lz-i{aspect-ratio:16/10;display:grid;place-items:center;font-size:34px;background:linear-gradient(100deg,var(--surface-2) 30%,var(--line) 50%,var(--surface-2) 70%);background-size:200% 100%;animation:x-lz-sh 1.2s linear infinite;color:var(--ink-2)}
+/* After loading (the ld class): the animation stops and it becomes a colored background. */
 .x-lz-i.ld{animation:none;background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+/* While loading (the wait class): the animation stops, with small text on a gray background. */
 .x-lz-i.wait{animation:none;background:var(--surface-2);font-size:12px}
+/* Shifts the gradient background to the left so the stripes flow. */
 @keyframes x-lz-sh{to{background-position:-200% 0}}
+/* The photo name text. */
 .x-lz-c p{margin:0;padding:6px 8px}
 `,
 demo:`<div class="d-ctl"><label for="x-lz-m">Mode <select id="x-lz-m"><option value="lazy">Lazy loading (only when visible)</option><option value="eager">Load everything right away</option></select></label><button class="d-btn x-lz-r" type="button">Resume</button></div><div class="x-lz-sc"><div class="x-lz-g"></div></div><output class="d-readout" aria-live="polite"></output>`,
 init(r){
+  // P: 12 photo data entries [emoji, name, color].
   const P=[['🥐','Croissant','var(--warm)'],['🍞','Loaf bread','var(--sun)'],['🥗','Salad','var(--leaf)'],['🍓','Tart','var(--rose)'],['🧀','Cheese','var(--sky)'],['☕','Coffee','var(--accent)'],['🍰','Cake','var(--rose)'],['🥪','Sandwich','var(--warm)'],['🍪','Cookie','var(--sun)'],['🥧','Pie','var(--warm)'],['🍩','Donut','var(--rose)'],['🍫','Chocolate','var(--ink-2)']];
+  // Find the scroll area (sc), the grid (g), the mode selector (sel), and the result text (out), and prepare io (the observer), loaded (the number loaded), and tms (the timers).
   const sc=r.querySelector('.x-lz-sc'),g=r.querySelector('.x-lz-g'),sel=r.querySelector('#x-lz-m'),out=r.querySelector('output');let io=null,loaded=0,tms=[];
+  // upd(): show "n of N images loaded".
   const upd=()=>{out.textContent='Images loaded '+loaded+' / '+P.length+' items'+(sel.value==='lazy'?' (grows as you scroll)':' (all from the start)')};
+  // load(spot, photo): ignore it if loading already started; otherwise change to "loading" and fill in the photo after 0.5 seconds (imitating the network).
   const load=(el,p)=>{if(el.dataset.s)return;el.dataset.s='1';el.classList.add('wait');el.textContent='Loading';tms.push(setTimeout(()=>{el.classList.remove('wait');el.classList.add('ld');el.style.setProperty('--c',p[2]);el.textContent=p[0];loaded++;upd()},500))};
+  // build(): rebuild from scratch. Clean up the previous timers and observer and empty the grid. IntersectionObserver calls load() when a photo spot enters the scroll area (with 40px of room below) and then stops observing it.
   const build=()=>{tms.forEach(clearTimeout);tms=[];if(io)io.disconnect();loaded=0;sc.scrollTop=0;g.textContent='';
     io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){load(e.target,e.target._p);io.unobserve(e.target)}}),{root:sc,rootMargin:'0px 0px 40px 0px'});
+    // Create a card for each photo. The photo spot gets a name with role="img" and aria-label for accessibility. In the "all at once (eager)" mode, call load() right away; in the "when needed (lazy)" mode, only start observing.
     P.forEach(p=>{const c=document.createElement('div');c.className='x-lz-c';const i=document.createElement('div');i.className='x-lz-i';i.setAttribute('role','img');i.setAttribute('aria-label',p[1]);i._p=p;c.appendChild(i);const t=document.createElement('p');t.textContent=p[1];c.appendChild(t);g.appendChild(c);
       if(sel.value==='eager')load(i,p);else io.observe(i)});upd()};
+  // Changing the mode or pressing "reload" runs build(), and it also runs once at the start.
   sel.addEventListener('change',build);r.querySelector('.x-lz-r').addEventListener('click',build);build();
 },
 code:`<!-- The simplest way: leave it to the browser -->
@@ -6827,24 +6873,38 @@ cheat:[
 terms:[['debounce','Debounce, run only once after consecutive calls end'],['throttle','Throttle, limit to a fixed time interval'],['event storm','Event storm, a flood of events in a short time']],
 note:'The time values (300–500 ms) are rules of thumb that depend on the service (no source). Also consider that with debounce, the last input takes that much longer to be reflected.',
 css:`
+/* The outer box of the debounce and throttle example. */
 .x-db{display:grid;gap:10px}
+/* The search input look: box-sizing:border-box includes padding in the width. */
 .x-db input[type=text]{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans)}
+/* The three call count cards in 3 columns. */
 .x-db-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+/* The look of one count card. */
 .x-db-k div{padding:10px 8px;border-radius:10px;background:var(--surface);border:1px solid var(--line);text-align:center;font-size:11.5px;color:var(--ink-2)}
+/* The big count number: its color change is smoothed. */
 .x-db-k b{display:block;font:800 24px var(--display);color:var(--ink);transition:color .2s}
+/* The moment the number goes up (the hit class), it flashes in the accent color. */
 .x-db-k div.hit b{color:var(--accent)}
+/* The server request log text: a monospaced font. */
 .x-db-lg{font:11.5px/1.7 var(--mono);color:var(--ink-2);min-height:40px;word-break:break-all}
 `,
 demo:`<div class="x-db"><label class="d-hint" for="x-db-in" style="margin:0">Quickly type "croissant bakery" in the search box</label><input id="x-db-in" type="text" autocomplete="off" placeholder="Search input (example)"><div class="d-ctl"><label for="x-db-ms">Wait time <input id="x-db-ms" type="range" min="100" max="1000" step="50" value="400"> <span class="x-db-v">400ms</span></label><button class="d-btn x-db-r" type="button">Reset counts</button></div><div class="x-db-k"><div data-k="raw"><b>0</b>Keystrokes (raw)</div><div data-k="deb"><b>0</b>Debounced requests</div><div data-k="thr"><b>0</b>Throttled requests</div></div><div class="x-db-lg" aria-live="polite">The request log builds up here.</div></div>`,
 init(r){
+  // Find the input (inp), the interval slider (rng), the interval text (v), and the log spot (lg), and prepare n (call counts: raw for all, deb for debounce, thr for throttle), tD (the debounce timer), and last (the last run time of the throttle).
   const inp=r.querySelector('#x-db-in'),rng=r.querySelector('#x-db-ms'),v=r.querySelector('.x-db-v'),lg=r.querySelector('.x-db-lg');const n={raw:0,deb:0,thr:0};let tD=null,last=0;
+  // K(name): a helper that finds the matching count card.
   const K=k=>r.querySelector('[data-k="'+k+'"]');
+  // bump(name): raise the count by 1 to update the number, and make it flash with the hit class for 0.25 seconds.
   const bump=k=>{n[k]++;const el=K(k);el.querySelector('b').textContent=n[k];el.classList.add('hit');setTimeout(()=>el.classList.remove('hit'),250)};
+  // log(kind, query): add a line at the top of the log as if a request went to the server, and keep only the latest 3 lines.
   const log=(t,q)=>{lg.textContent='['+t+'] "'+q+'" requests\n'+(lg.dataset.p||'');lg.dataset.p=lg.textContent.split('\n').slice(0,3).join('\n');lg.style.whiteSpace='pre-line';lg.textContent=lg.dataset.p};
+  // On every typed character: (1) raise the total (raw) by 1. (2) Debounce: clear the previous timer (clearTimeout) and set a new one, so a request is made once only after typing has paused for the interval (ms). (3) Throttle: make a request only when the interval has passed since the last run, so even if typing continues it requests once per interval.
   inp.addEventListener('input',()=>{const ms=+rng.value,q=inp.value;bump('raw');
     clearTimeout(tD);tD=setTimeout(()=>{bump('deb');log('Debounce',q)},ms);
     const now=Date.now();if(now-last>=ms){last=now;bump('thr');log('Throttle',q)}});
+  // Moving the slider changes the interval text.
   rng.addEventListener('input',()=>v.textContent=rng.value+'ms');
+  // The "reset" button: return all counts, the log, the input, and the waiting timer to the initial state.
   r.querySelector('.x-db-r').addEventListener('click',()=>{n.raw=n.deb=n.thr=0;r.querySelectorAll('.x-db-k b').forEach(b=>b.textContent=0);lg.dataset.p='';lg.textContent='The request log builds up here.';inp.value='';clearTimeout(tD)});
 },
 code:`function debounce(fn, ms){
@@ -6883,32 +6943,52 @@ cheat:[
 terms:[['optimistic','Optimistic, assuming things go well'],['rollback','Rollback, reverting to the previous state'],['pessimistic','Pessimistic, a method that reflects only after waiting for the server’s response'],['mutation','Mutation, a request that changes server data']],
 note:'Do not use it for actions where the result must be confirmed, such as payments. On rollback, a short message is essential so the user is not surprised and does not wonder "why was it canceled?" . We understand that libraries such as React Query and SWR have related features, but we could not check their documentation this time (needs verification).',
 css:`
+/* The outer box of the optimistic UI example. */
 .x-op{display:grid;gap:10px}
+/* A post card: the text on the left and the like button at the right end. */
 .x-op-card{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* The card title takes its own line (display:block). */
 .x-op-card b{font:700 14px var(--display);display:block}
+/* The small description text of the card. */
 .x-op-card small{color:var(--ink-2);font-size:12px}
+/* The like button: pill-shaped, with a minimum width so the button size does not wobble when the number changes. */
 .x-op-lk{display:flex;align-items:center;gap:6px;min-width:84px;justify-content:center;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--surface-2);color:var(--ink);font:700 14px var(--sans);cursor:pointer}
+/* The liked state (aria-pressed="true") is shown in red tones. */
 .x-op-lk[aria-pressed="true"]{background:color-mix(in srgb,var(--rose) 18%,var(--surface));border-color:var(--rose);color:var(--rose)}
+/* While waiting for the server (disabled), it is dimmed and shows a wait cursor. */
 .x-op-lk:disabled{opacity:.6;cursor:wait}
+/* The heart icon: its size change is smoothed. */
 .x-op-lk i{font-style:normal;display:inline-block;transition:transform .2s}
+/* In the liked state, the heart is enlarged 1.2 times. */
 .x-op-lk[aria-pressed="true"] i{transform:scale(1.2)}
+/* The status message spot: a minimum height keeps the screen from shifting when the message changes. */
 .x-op-st{font-size:12.5px;min-height:20px;color:var(--ink-2)}
+/* The failure message is bold red text. */
 .x-op-st.err{color:var(--rose);font-weight:700}
+/* The success message is green text. */
 .x-op-st.ok{color:var(--leaf)}
 `,
 demo:`<div class="x-op"><div class="d-ctl"><label for="x-op-m">Mode <select id="x-op-m"><option value="opt">Optimistic (change first)</option><option value="wait">Wait for response</option></select></label><label for="x-op-f"><input id="x-op-f" type="checkbox"> Make the server fail</label></div><div class="x-op-card"><div><b>Autumn new menu introduction</b><small>Assume the server takes 1.2 seconds to respond (example)</small></div><button class="x-op-lk" type="button" aria-pressed="false"><i>♥</i><span class="n">128</span></button></div><div class="x-op-st" role="status" aria-live="polite"></div></div>`,
 init(r){
+  // Find the like button (btn), the number (num), the message (st), the mode selector (m), and the "make the server fail" checkbox (f), and prepare liked (whether liked) and count (the number).
   const btn=r.querySelector('.x-op-lk'),num=r.querySelector('.n'),st=r.querySelector('.x-op-st'),m=r.querySelector('#x-op-m'),f=r.querySelector('#x-op-f');let liked=false,count=128;
+  // draw(): draw the current state (liked, count) into the button and the number.
   const draw=()=>{btn.setAttribute('aria-pressed',liked);num.textContent=count};
+  // server(): imitates a server response. After 1.2 seconds it succeeds (resolve), or fails (reject) if "make the server fail" is on. A Promise is a tool for handling work that finishes later.
   const server=()=>new Promise((res,rej)=>setTimeout(()=>f.checked?rej(new Error('fail')):res(),1200));
+  // say(text, kind): change the message and its color (ok/err).
   const say=(t,c)=>{st.className='x-op-st '+(c||'');st.textContent=t};
+  // On press, first save the previous state (prev). async/await is syntax that waits for the server response without blocking other work.
   btn.addEventListener('click',async()=>{const prev={liked,count},t0=performance.now();
+    // Optimistic mode: change the screen right away without waiting for the server (optimistically assuming success). Then save to the server. If it succeeds, only the message changes; if it fails, restore the saved previous state and notify.
     if(m.value==='opt'){liked=!liked;count+=liked?1:-1;draw();say('The screen has already changed · saving to the server…');btn.disabled=true;
       try{await server();say('Saved (screen response 0 seconds, server '+((performance.now()-t0)/1000).toFixed(1)+' seconds)','ok')}catch(e){liked=prev.liked;count=prev.count;draw();say('Could not save, so it was reverted. Please try again.','err')}
       btn.disabled=false}
+    // Regular mode: wait until the server answers before changing the screen. Nothing responds during the wait, so it feels slow.
     else{btn.disabled=true;say('Waiting for the server response… (nothing responds in the meantime)');
       try{await server();liked=!liked;count+=liked?1:-1;draw();say('Reflected (it took '+((performance.now()-t0)/1000).toFixed(1)+' seconds)','ok')}catch(e){say('Could not save. Please try again.','err')}
       btn.disabled=false}});
+  // Draw the first screen.
   draw();
 },
 code:`async function toggleLike(post){
@@ -6943,34 +7023,56 @@ cheat:[
 terms:[['FOUC','FOUC, content visible before styles are applied'],['FOUT / FOIT','FOUT / FOIT, text changing or being invisible while web fonts load'],['critical CSS','Critical CSS, the CSS absolutely needed for the first screen']],
 note:'The hide-then-show approach removes the flicker but can lengthen the blank-screen time, so there is a trade-off. The best fix is to get the styles to arrive first and fast. Below is a simulation showing the concept.',
 css:`
+/* The comparison screen box. */
 .x-fo-v{border:1px solid var(--line);border-radius:12px;min-height:150px;padding:14px;position:relative;overflow:hidden;background:var(--surface)}
+/* The page area under test. */
 .x-fo-pg{padding:0}
+/* The default weight of the title. */
 .x-fo-pg .h{font-weight:700;margin-bottom:4px}
+/* The bottom margin of the paragraph. */
 .x-fo-pg .t{margin:0 0 8px}
+/* The title in the state where styles are not applied yet (:not(.styled)): it shows in the browser default serif font. This is what appears first in a FOUC (flash of unstyled content). */
 .x-fo-pg:not(.styled) .h{font:700 16px serif}
+/* The paragraph font before styling. */
 .x-fo-pg:not(.styled) .t{font:14px serif}
+/* The button font before styling. */
 .x-fo-pg:not(.styled) button{font:13px serif}
+/* The look in the styled state (the styled class): a card with the background and text colors taken from the variables (--bgc, --tc). */
 .x-fo-pg.styled{padding:14px;border-radius:12px;background:var(--bgc,#fff);color:var(--tc,#14222c);display:grid;gap:6px}
+/* In dark mode (the dk class), the same variables become dark colors. */
 .x-fo-pg.styled.dk{--bgc:#101a21;--tc:#e8f0f4}
+/* The title font after styling. */
 .x-fo-pg.styled .h{font:800 16px var(--display)}
+/* The paragraph font after styling. */
 .x-fo-pg.styled .t{font:13px var(--sans);opacity:.85}
+/* The button look after styling. */
 .x-fo-pg.styled button{border:0;border-radius:8px;padding:8px 14px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--sans);width:max-content}
+/* Method 2: hidden until styles are ready (visibility:hidden). No flash, but the screen is blank meanwhile. */
 .x-fo-pg.hid{visibility:hidden}
+/* A rule that reproduces the state where a dark mode user first sees a light screen (a glaring flash). */
 .x-fo-pg.light-first{padding:14px;border-radius:12px;background:#fff;color:#14222c;display:grid;gap:6px}
+/* The title of the light screen. */
 .x-fo-pg.light-first .h{font:800 16px var(--display)}
+/* The paragraph of the light screen. */
 .x-fo-pg.light-first .t{font:13px var(--sans)}
+/* The button of the light screen. */
 .x-fo-pg.light-first button{border:0;border-radius:8px;padding:8px 14px;background:#0a7c86;color:#fff;font:700 13px var(--sans);width:max-content}
+/* The text that explains the timeline. */
 .x-fo-tm{font:11.5px/1.7 var(--mono);color:var(--ink-2);margin-top:8px}
 `,
 demo:`<div class="d-ctl"><label for="x-fo-s">Situation <select id="x-fo-s"><option value="a">① Problem: styles arrive late</option><option value="b">② Fix: hide until ready</option><option value="c">③ Problem: a light screen first for dark users</option><option value="d">④ Fix: apply the theme first</option></select></label><button class="d-btn d-btn-primary x-fo-p" type="button">▶ Replay</button></div><div class="x-fo-v"><div class="x-fo-pg"><div class="h">Autumn new menu launch</div><p class="t">On sale in limited quantities from today. (example)</p><button type="button">Order now</button></div></div><div class="x-fo-tm" aria-live="polite"></div>`,
 init(r){
+  // Find the page area (pg), the scenario selector (sel), and the explanation (tm), and prepare ts (the timers).
   const pg=r.querySelector('.x-fo-pg'),sel=r.querySelector('#x-fo-s'),tm=r.querySelector('.x-fo-tm');let ts=[];
+  // T: for each scenario (a to d), an explanation of "what is seen over time".
   const T={a:'0 s: unstyled screen → 1.2 s: styles applied (the look suddenly changes)',b:'0–1.2 s: blank screen → 1.2 s: first seen with styles applied (no flicker, but a blank screen while waiting)',c:'0 s: light screen → 1.2 s: switches to dark (glare)',d:'0 s: dark screen from the start (no flicker)'};
+  // play(): clear the previous timers and replay the scenario from the start. a: an unstyled screen shows first and styles apply after 1.2 seconds (a flash). b: hidden, then shown after styling. c: a light screen shows first and then turns dark (a glare). d: dark from the start (the fix). In practice the fix is to decide the theme first with a very small script in the <head>.
   const play=()=>{ts.forEach(clearTimeout);ts=[];const k=sel.value;pg.className='x-fo-pg';tm.textContent='Playing… '+T[k];
     if(k==='a'){ts.push(setTimeout(()=>pg.classList.add('styled'),1200))}
     if(k==='b'){pg.classList.add('hid');ts.push(setTimeout(()=>{pg.classList.remove('hid');pg.classList.add('styled')},1200))}
     if(k==='c'){pg.classList.add('light-first');ts.push(setTimeout(()=>{pg.className='x-fo-pg styled dk'},1200))}
     if(k==='d'){pg.className='x-fo-pg styled dk'}};
+  // Changing the scenario or pressing "replay" plays it, and it also plays once at the start.
   sel.addEventListener('change',play);r.querySelector('.x-fo-p').addEventListener('click',play);play();
 },
 code:`<!-- Theme flicker prevention: put it in the <head> so it runs before the body is painted -->
@@ -7008,26 +7110,40 @@ cheat:[
 terms:[['error boundary','Error boundary, a fence around errors'],['fallback','Fallback, the screen shown instead when an error occurs'],['blast radius','Blast radius, the range an error’s impact spreads over']],
 note:'The detailed rules of React error boundaries (they can only be built as class components, certain errors cannot be caught, and so on) are based on memory because we could not consult the official documentation this time (needs verification). The demo below imitates the concept in plain JavaScript.',
 css:`
+/* The outer box of the error boundary example. */
 .x-eb{display:grid;gap:8px}
+/* The screen that holds the widgets: with a minimum height. */
 .x-eb-pg{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px;display:grid;gap:8px;min-height:190px}
+/* The state where the whole screen has stopped (the dead class): a gray background with the message centered. */
 .x-eb-pg.dead{background:var(--surface-2);place-items:center;text-align:center;color:var(--ink-2);font-size:13px}
+/* The card look of one widget (cart, recommended products, reviews). */
 .x-eb-w{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* The widget name. */
 .x-eb-w b{font:700 13px var(--display)}
+/* A widget with an error (the bad class) is shown with a red border and a light red background. */
 .x-eb-w.bad{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
+/* The look of the buttons in a widget ("cause an error", "try again"). */
 .x-eb-w button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font:600 12px var(--sans);cursor:pointer}
 `,
 demo:`<div class="x-eb"><div class="d-ctl"><label for="x-eb-b"><input id="x-eb-b" type="checkbox" checked> use ErrorBoundary</label></div><div class="x-eb-pg"></div><output class="d-readout" aria-live="polite">"Reviews" Use the button beside a widget to trigger an error.</output></div>`,
 init(r){
+  // Find the screen (pg), the "turn on error boundary" checkbox (cb), and the result text (out), and prepare W (the list of widget names) and bad (the name of the widget that will fail now).
   const pg=r.querySelector('.x-eb-pg'),cb=r.querySelector('#x-eb-b'),out=r.querySelector('output');const W=['Cart','Recommended products','Reviews'];let bad=null;
+  // render(): redraw the widgets from scratch. The outer try/catch is the last line of defense that guards the "whole screen".
   const render=()=>{pg.textContent='';pg.classList.remove('dead');
     try{W.forEach(name=>{const w=document.createElement('div');w.className='x-eb-w';
+      // run(): if this is the widget chosen to fail, deliberately throw an Error. It imitates a bug happening in a real app.
       const run=()=>{if(bad===name)throw new Error(name+' widget error')};
+      // With the error boundary on: each widget is wrapped in its own try/catch. If an error occurs, only that widget turns into "something went wrong" with a "try again" button, and the other widgets stay normal. Trapping the error inside one widget like this is an error boundary.
       if(cb.checked){try{run();w.innerHTML='<span><b>'+name+'</b> showing normally</span><button type="button">Trigger error</button>';w.querySelector('button').addEventListener('click',()=>{bad=name;render()})}
         catch(e){w.classList.add('bad');w.innerHTML='<span><b>'+name+'</b> Something went wrong</span><button type="button">Try again</button>';w.querySelector('button').addEventListener('click',()=>{bad=null;render()});out.textContent='The error was "'+name+'" contained inside the widget. The rest is normal.'}}
+      // With the error boundary off: widgets are not wrapped, so the error spreads outward up to the catch at the bottom.
       else{run();w.innerHTML='<span><b>'+name+'</b> showing normally</span><button type="button">Trigger error</button>';w.querySelector('button').addEventListener('click',()=>{bad=name;render()})}
       pg.appendChild(w)})}
+    // The outer catch: when an error spreads here, the whole screen turns into a "stopped" message with a "restore" button. This is a situation where one widget error stopped everything.
     catch(e){pg.classList.add('dead');pg.innerHTML='<div>⚠️ The whole screen froze<br><small>(The error started in one widget but spread to everything)</small><br><br><button class="d-btn" type="button">Restore to the start</button></div>';pg.querySelector('button').addEventListener('click',()=>{bad=null;render()});out.textContent='Without an ErrorBoundary, an error in one widget stopped the whole screen.'}
     if(!bad)out.textContent='"Reviews" Use the button beside a widget to trigger an error.'};
+  // Changing the checkbox clears the error state and redraws. It also draws once at the start.
   cb.addEventListener('change',()=>{bad=null;render()});render();
 },
 code:`// React (build it as a class component)
@@ -7069,22 +7185,33 @@ cheat:[
 terms:[['fallback','Fallback, an alternative'],['graceful degradation','Graceful degradation, replacing gracefully when some features do not work'],['placeholder','Placeholder, a stand-in']],
 note:'"Loading/error state" card, but here the focus is on alternatives for partial elements like images and widgets. Even in the fallback screen, leave the user a way to take the next action (a link, a retry).',
 css:`
+/* The outer box of the fallback example. */
 .x-fb2{display:grid;gap:10px}
+/* Lays the three kinds (profile, image, map) in 3 columns. */
 .x-fb2-r{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center;font-size:11.5px;color:var(--ink-2)}
+/* The square box of each cell (aspect-ratio:1). */
 .x-fb2-b{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line);overflow:hidden;background:var(--surface);position:relative}
+/* The profile circle: when there is no photo, it shows the first letter of the name in a colored circle. */
 .x-fb2-av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:800 24px var(--display);color:#fff}
+/* The image placeholder: a diagonal striped background (repeating-linear-gradient) with a "could not load" message. */
 .x-fb2-ph{width:100%;height:100%;display:grid;place-items:center;background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 8px,var(--surface) 8px,var(--surface) 16px);color:var(--ink-2);font-size:11px;padding:6px;box-sizing:border-box}
+/* The map fallback: the address text and an "open in map app" link stacked vertically. */
 .x-fb2-mp{width:100%;height:100%;padding:8px;box-sizing:border-box;display:grid;align-content:center;gap:4px;font-size:11.5px;color:var(--ink);text-align:left}
+/* The fallback link look: accent color, underline, and a hand cursor. */
 .x-fb2-mp a{color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline}
+/* The big emoji shown in the normal state. */
 .x-fb2-big{font-size:34px}
 `,
 demo:`<div class="x-fb2"><div class="d-ctl"><label for="x-fb2-f"><input id="x-fb2-f" type="checkbox"> Make the image and map fail to load</label></div><div class="x-fb2-r"><div><div class="x-fb2-b" data-k="av"></div>Profile</div><div><div class="x-fb2-b" data-k="img"></div>Product image</div><div><div class="x-fb2-b" data-k="map"></div>Store map</div></div></div>`,
 init(r){
+  // Find the "make loading fail" checkbox (f) and the three cells (av profile, img image, mp map).
   const f=r.querySelector('#x-fb2-f'),av=r.querySelector('[data-k="av"]'),img=r.querySelector('[data-k="img"]'),mp=r.querySelector('[data-k="map"]');
+  // draw(): redraw the three cells according to the failure checkbox. If normal, show emojis; if failed, show fallback screens (a profile with the first letter of the name, a "could not load" image spot, and a map message with the address and a link). The fallback screens also carry meaning with role="img" and aria-label, giving screen reader users the same information.
   const draw=()=>{const bad=f.checked;
     av.innerHTML=bad?'<div class="x-fb2-av" style="background:var(--accent)" role="img" aria-label="Kim Jiwoo profile">K</div>':'<div class="x-fb2-av" style="background:var(--sky);font-size:34px" role="img" aria-label="Kim Jiwoo profile photo">🙂</div>';
     img.innerHTML=bad?'<div class="x-fb2-ph" role="img" aria-label="Could not load the croissant photo">📷 Could not load the image</div>':'<div class="x-fb2-big" role="img" aria-label="Croissant">🥐</div>';
     mp.innerHTML=bad?'<div class="x-fb2-mp"><b>123 Hapjeong-dong, Mapo-gu, Seoul</b><span>Could not load the map.</span><a role="button" tabindex="0">Open in map app</a></div>':'<div class="x-fb2-big" role="img" aria-label="Map">🗺️</div>'};
+  // Run draw() when the checkbox changes and at the start.
   f.addEventListener('change',draw);draw();
 },
 code:`<!-- 1) Fallback image when image loading fails -->
@@ -7121,26 +7248,44 @@ cheat:[
 terms:[['stale','Stale, out of date'],['revalidate','Revalidate, re-check whether it is up to date'],['cache','Cache, a saved copy']],
 note:'The name SWR is used both for the HTTP cache extension (RFC 5861) and for a data-fetching library with the same name. Since we could not consult either document directly this time, the detailed behavior needs verification. The prices and wait times in the demo are all fake data.',
 css:`
+/* The outer box of the SWR example. */
 .x-sw2{display:grid;gap:10px}
+/* The price card: position:relative is the reference point for placing the status badge at the top right. */
 .x-sw2-card{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);min-height:96px;display:grid;gap:4px;align-content:center;position:relative}
+/* The small text of the card. */
 .x-sw2-card small{color:var(--ink-2);font-size:12px}
+/* The big price text: its background change is smoothed. */
 .x-sw2-v{font:800 30px var(--display);transition:background .6s}
+/* The moment it is replaced with a new value (the flash class), it flashes briefly with a green background. */
 .x-sw2-v.flash{background:color-mix(in srgb,var(--leaf) 30%,transparent);border-radius:6px}
+/* The status badge at the top right of the card ("Latest", "Updating..."). */
 .x-sw2-b{position:absolute;right:12px;top:12px;font:700 11px var(--sans);padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+/* A small spinning indicator is added before the "Updating..." badge (the go class). */
 .x-sw2-b.go::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-pf-spin .7s linear infinite;vertical-align:-1px}
+/* Turns once around (360 degrees). */
 @keyframes x-pf-spin{to{transform:rotate(360deg)}}
+/* The "loading..." screen (a spinner and text). */
 .x-sw2-sp{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:13px}
+/* The spinning circle. */
 .x-sw2-sp i{width:16px;height:16px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-pf-spin .7s linear infinite}
 `,
 demo:`<div class="x-sw2"><div class="d-ctl"><label for="x-sw2-m">Mode <select id="x-sw2-m"><option value="swr">SWR (cache first)</option><option value="plain">Wait every time</option></select></label><button class="d-btn d-btn-primary x-sw2-o" type="button">Open screen</button><button class="d-btn x-sw2-c" type="button">Clear cache</button></div><div class="x-sw2-card" aria-live="polite"><span class="d-hint" style="margin:0">"Open screen". The server response takes 1 second. (example)</span></div><output class="d-readout"></output></div>`,
 init(r){
+  // Find the card, the result text (out), and the mode selector (m), and prepare cache (the saved previous value), tm, and seq (the request number).
   const card=r.querySelector('.x-sw2-card'),out=r.querySelector('output'),m=r.querySelector('#x-sw2-m');let cache=null,tm=null,seq=0;
+  // fmt(number): turn it into a won format (₩ with thousands separators).
   const fmt=n=>'₩'+n.toLocaleString('ko-KR');
+  // fetchP(): imitates a server request. After 1 second it returns a random value and the current time.
   const fetchP=()=>new Promise(res=>setTimeout(()=>res({v:4800+Math.floor(Math.random()*400),at:new Date()}),1000));
+  // show(data, badge text, flash): draw the card. Put in the value, the reference time, and the status badge, and remove the flash effect after 0.7 seconds if it is on.
   const show=(d,badge,flash)=>{card.innerHTML='<span class="x-sw2-b'+(badge==='Refreshing…'?' go':'')+'">'+badge+'</span><small>Croissant price today</small><div class="x-sw2-v'+(flash?' flash':'')+'">'+fmt(d.v)+'</div><small>As of '+d.at.toLocaleTimeString('ko-KR')+'</small>';if(flash)setTimeout(()=>{const v=card.querySelector('.x-sw2-v');if(v)v.classList.remove('flash')},700)};
+  // The "clear cache" button: delete the saved value so the next open waits like a first open.
   r.querySelector('.x-sw2-c').addEventListener('click',()=>{cache=null;out.textContent='Cache cleared. The next open waits like the first open.'});
+  // The "open" button: each time it takes a new request number (me) and records the start time (t0).
   r.querySelector('.x-sw2-o').addEventListener('click',async()=>{const me=++seq,t0=performance.now();
+    // In SWR mode with a cache: show the saved value right away (0 seconds) with an "Updating..." badge, fetch the latest value in the background, and quietly replace it. The user sees a value without waiting. If the request number has changed when the response arrives (it was pressed again meanwhile), the response is stale and discarded.
     if(m.value==='swr'&&cache){show(cache,'Refreshing…',false);out.textContent='0 s until the cache is shown · checking the latest value in the background';const d=await fetchP();if(me!==seq)return;cache=d;show(d,'Latest',true);out.textContent='Swapped in the latest value (total '+((performance.now()-t0)/1000).toFixed(1)+' s; the user saw a value from the start)'}
+    // In other cases (regular mode, or the first time without a cache): wait with "Loading...", then show the value when it arrives and save it in the cache.
     else{card.innerHTML='<div class="x-sw2-sp"><i></i> Loading…</div>';out.textContent=cache||m.value==='plain'?'Waiting to see the value':'It is the first open, so there is no cache and you wait.';const d=await fetchP();if(me!==seq)return;cache=d;show(d,'Latest',false);out.textContent='It took '+((performance.now()-t0)/1000).toFixed(1)+' s before the value appeared.'}});
 },
 code:`/* HTTP response header (server/CDN settings) — RFC 5861, detailed behavior needs verification */
@@ -7175,33 +7320,52 @@ cheat:[
 terms:[['bundle','Bundle, a combined JavaScript file'],['chunk','Chunk, a split piece'],['dynamic import','Dynamic import, import() loaded at runtime'],['tree shaking','Tree shaking, removing unused code from the bundle']],
 note:'The sizes (KB) and speeds below are fake values to show the concept. Measure real values with a bundle analyzer and the network developer tools.',
 css:`
+/* The outer box of the code splitting example. */
 .x-cs{display:grid;gap:10px}
+/* The bar that shows the amount of code downloaded: pieces joined side by side. */
 .x-cs-bar{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--surface-2)}
+/* One code piece: a width proportional to its size (KB) with flex, with the name and size as text. transition smooths width changes. */
 .x-cs-bar i{display:grid;place-items:center;font:700 10.5px var(--sans);color:#fff;white-space:nowrap;overflow:hidden;transition:flex .3s}
+/* The screen (tab) buttons in a row. */
 .x-cs-tabs{display:flex;gap:6px;flex-wrap:wrap}
+/* The look of a tab button. */
 .x-cs-tabs button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 12.5px var(--sans);cursor:pointer}
+/* The selected tab is shown in the accent color. */
 .x-cs-tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* The screen content box. */
 .x-cs-pn{min-height:70px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px;display:grid;align-content:center;gap:4px}
+/* Small description text. */
 .x-cs-pn small{color:var(--ink-2)}
+/* The outer track of the download progress bar. */
 .x-cs-pg{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+/* The progress bar fill: transitions width, with the duration calculated and set by JavaScript. */
 .x-cs-pg i{display:block;height:100%;width:0;background:var(--accent);transition:width linear}
 `,
 demo:`<div class="x-cs"><div class="d-ctl"><label for="x-cs-m">Mode <select id="x-cs-m"><option value="split">Split download (code splitting)</option><option value="one">Download as one lump</option></select></label><button class="d-btn x-cs-r" type="button">Start over</button></div><div class="x-cs-bar" aria-label="Amount of code downloaded"></div><div class="x-cs-tabs" role="tablist" aria-label="Screen (example)"></div><div class="x-cs-pn" role="tabpanel" aria-live="polite"></div><output class="d-readout"></output></div>`,
 init(r){
+  // C: the list of code pieces [name, size (KB), color]. SPEED is the download speed (KB/ms).
   const C=[['Common',120,'#5b6b77'],['Home',40,'#0a7c86'],['Search',60,'#3a7ebd'],['Chart',180,'#c46a3a'],['Editor',240,'#b04a6a']];const SPEED=0.4;// KB per ms
+  // Find the bar (bar), the tabs spot (tabs), the content (pn), the result text (out), and the mode selector (sel), and prepare loaded (the set of downloaded piece numbers, a Set), tms (the timers), cur (the current screen), and booted.
   const bar=r.querySelector('.x-cs-bar'),tabs=r.querySelector('.x-cs-tabs'),pn=r.querySelector('.x-cs-pn'),out=r.querySelector('output'),sel=r.querySelector('#x-cs-m');let loaded=new Set(),tms=[],cur=1,booted=false;
+  // total(): the sum of the code sizes (KB) downloaded so far.
   const total=()=>[...loaded].reduce((a,i)=>a+C[i][1],0);
+  // drawBar(): draw only the downloaded pieces as bars proportional to size. If there is nothing yet, show "No code downloaded yet".
   const drawBar=()=>{bar.textContent='';C.forEach((c,i)=>{if(!loaded.has(i))return;const e=document.createElement('i');e.style.flex=c[1]+' 0 0';e.style.background=c[2];e.textContent=c[0]+' '+c[1]+'KB';bar.appendChild(e)});if(!loaded.size){const e=document.createElement('i');e.style.flex='1';e.style.color='var(--ink-2)';e.textContent='No code downloaded yet';bar.appendChild(e)}};
+  // load(piece numbers, callback): add up the size (kb) of pieces not yet downloaded and calculate the time needed (ms = kb ÷ speed). If everything is already downloaded, finish right away. Otherwise fill the progress bar over that time, and when it passes, record them as downloaded and update the bar.
   const load=(idx,cb)=>{const kb=idx.filter(i=>!loaded.has(i)).reduce((a,i)=>a+C[i][1],0);if(!kb){cb(0);return}const ms=Math.round(kb/SPEED);
     pn.innerHTML='<b>Downloading code…</b><small>'+kb+' KB · about '+(ms/1000).toFixed(1)+' s</small><div class="x-cs-pg"><i></i></div>';const p=pn.querySelector('i');requestAnimationFrame(()=>{p.style.transitionDuration=ms+'ms';p.style.width='100%'});
     tms.push(setTimeout(()=>{idx.forEach(i=>loaded.add(i));drawBar();cb(ms)},ms))};
+  // view(index): mark the tab as selected, and in the "split" mode download and show only that screen code (it takes time only on the first open and opens right away afterwards). In the "download everything" mode, everything was already downloaded so it is shown right away.
   const view=i=>{cur=i;[...tabs.children].forEach((b,k)=>b.setAttribute('aria-selected',k+1===i));
     if(sel.value==='split'){load([i],ms=>{pn.innerHTML='<b>'+C[i][0]+' screen</b><small>'+(ms?'This screen’s code took '+(ms/1000).toFixed(1)+' s to download.':'The code was already downloaded, so it opens right away.')+' · amount downloaded so far '+total()+'KB</small>';out.textContent='Total '+total()+' KB downloaded'})}
     else{pn.innerHTML='<b>'+C[i][0]+' screen</b><small>All the code is already downloaded, so it opens right away. (total '+total()+'KB)</small>'}};
+  // boot(): imitates a first visit. Empty everything, then download only the common and home code (what the first screen needs) in split mode, or all pieces in the download-everything mode, and then show the first screen. Splitting makes the first screen appear sooner.
   const boot=()=>{tms.forEach(clearTimeout);tms=[];loaded=new Set();drawBar();out.textContent='';
     const first=sel.value==='split'?[0,1]:[0,1,2,3,4];const t0=performance.now();
     load(first,ms=>{out.textContent='It took '+(ms/1000).toFixed(1)+' s until the first screen appeared (code downloaded '+total()+'KB)';view(1)})};
+  // Create a tab button (role="tab") for each screen except the common code. Pressing it shows that screen.
   C.slice(1).forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=c[0];b.addEventListener('click',()=>view(i+1));tabs.appendChild(b)});
+  // Changing the mode or pressing "restart" runs boot(), and it also runs once at the start.
   sel.addEventListener('change',boot);r.querySelector('.x-cs-r').addEventListener('click',boot);boot();
 },
 code:`// 1) The basics: dynamic import — the file is only downloaded when this line runs
@@ -7240,26 +7404,42 @@ cheat:[
 terms:[['SSR','SSR, a method where the server builds and sends the HTML'],['hydration','Hydration, a metaphor of giving water to bring something back to life'],['TTI','TTI, the point at which the screen actually becomes interactive'],['island','Island, a structure that brings only small areas that need behavior to life separately']],
 note:'Typical causes of a mismatch between server and client are using the current time, random values, or browser-only values (window) in rendering. Specific warning messages and fixes need to be checked in the framework documentation.',
 css:`
+/* The outer box of the hydration example. */
 .x-hy{display:grid;gap:10px}
+/* The progress stage bar (HTML arrived → loading JS → done). */
 .x-hy-st{display:flex;gap:6px;flex-wrap:wrap;font:700 11.5px var(--sans)}
+/* One stage: a gray pill if not reached yet. */
 .x-hy-st span{padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+/* A stage that has been reached (the on class) is shown in the accent color. */
 .x-hy-st span.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* The look of the page the server built and sent first. */
 .x-hy-pg{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);display:grid;gap:10px;justify-items:start}
+/* Before hydration (the dead class), the button shows a not-allowed cursor as if it cannot be pressed. The screen is visible but not responding. */
 .x-hy-pg.dead button{cursor:not-allowed;opacity:.85}
+/* The page title. */
 .x-hy-pg b{font:700 15px var(--display)}
+/* The counter number (it goes up each time the button is pressed). */
 .x-hy-n{font:800 28px var(--display)}
+/* The look of the counter button. */
 .x-hy-pg button{border:0;border-radius:10px;padding:10px 18px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--sans);cursor:pointer}
+/* The outer track of the JS download progress bar. */
 .x-hy-pgb{height:6px;width:100%;border-radius:3px;background:var(--surface-2);overflow:hidden}
+/* The fill of the JS download progress bar. */
 .x-hy-pgb i{display:block;height:100%;width:0;background:var(--sky);transition:width linear}
 `,
 demo:`<div class="x-hy"><div class="d-ctl"><label for="x-hy-d">Until JS arrives <input id="x-hy-d" type="range" min="1000" max="5000" step="500" value="3000"> <span class="x-hy-dv">3.0 s</span></label><button class="d-btn d-btn-primary x-hy-r" type="button">▶ Load from the start</button></div><div class="x-hy-st" aria-hidden="true"><span>① HTML arrives</span><span>② Downloading JS</span><span>③ Hydration complete</span></div><div class="x-hy-pg"><b>🛒 Cart quantity (example)</b><div class="x-hy-n">1</div><button type="button">Add +1</button><div class="x-hy-pgb"><i></i></div></div><output class="d-readout" aria-live="polite"></output></div>`,
 init(r){
+  // Find the page (pg), the number (n), the button (b), the progress bar (bar), the stage markers (st), the result text (out), the time slider (rng), and the time text (dv), and prepare hyd (whether hydration is done), lost (the number of clicks ignored before that), tms (the timers), and val (the counter value).
   const pg=r.querySelector('.x-hy-pg'),n=r.querySelector('.x-hy-n'),b=pg.querySelector('button'),bar=pg.querySelector('.x-hy-pgb i'),st=[...r.querySelectorAll('.x-hy-st span')],out=r.querySelector('output'),rng=r.querySelector('#x-hy-d'),dv=r.querySelector('.x-hy-dv');let hyd=false,lost=0,tms=[],val=1;
+  // phase(index): turn on the stage markers up to that index (the on class).
   const phase=k=>st.forEach((s,i)=>s.classList.toggle('on',i<=k));
+  // start(): restart from the beginning. Reset the values and make the button "dead", then after 0.3 seconds go to the JS download stage and fill the progress bar for the slider time, and when that time passes switch to hydration done (hyd=true) to bring the button to life.
   const start=()=>{tms.forEach(clearTimeout);tms=[];hyd=false;lost=0;val=1;n.textContent=1;pg.classList.add('dead');bar.style.transition='none';bar.style.width='0';phase(0);out.textContent='The HTML has arrived and the screen is visible. Try pressing the button now.';
     const ms=+rng.value;tms.push(setTimeout(()=>{phase(1);requestAnimationFrame(()=>{bar.style.transition='width '+(ms-300)+'ms linear';bar.style.width='100%'})},300));
     tms.push(setTimeout(()=>{hyd=true;pg.classList.remove('dead');phase(2);out.textContent='Hydration complete'+(lost?' · clicks pressed before that: '+lost+' did not respond.':'. The button works now.')},ms))};
+  // Button click: before hydration (hyd=false), the click is ignored and only lost goes up ("a screen that does not respond when pressed"). After it ends, the counter goes up. The key point of hydration is that the HTML the server sent is visible first but does not work until JS is attached.
   b.addEventListener('click',()=>{if(!hyd){lost++;out.textContent='No response yet (clicks pressed before JS was connected: '+lost+') — a screen that does not work when pressed';return}val++;n.textContent=val});
+  // Changing the JS download time with the slider updates the time text. Connect the "restart" button and start once at the beginning.
   rng.addEventListener('input',()=>dv.textContent=(rng.value/1000).toFixed(1)+' s');r.querySelector('.x-hy-r').addEventListener('click',start);start();
 },
 code:`// Server: builds and sends the HTML (SSR)

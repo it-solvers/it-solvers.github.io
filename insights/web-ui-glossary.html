@@ -6767,27 +6767,45 @@ cheat:[
 terms:[['haptic','햅틱, 촉각(진동) 피드백'],['vibration pattern','바이브레이션 패턴, 진동과 쉼을 번갈아 정한 배열'],['progressive enhancement','프로그레시브 인핸스먼트, 지원하는 기기에서만 기능을 더하는 방식']],
 note:'데스크톱과 iOS 사파리(Safari)에서는 이 기능이 동작하지 않는 것으로 알고 있으나 이번에 자료로 확인하지 못했습니다(확인 필요). 진동은 보조 수단이므로 중요한 정보는 반드시 화면과 소리로도 전달해야 하고, 과하게 쓰지 않습니다.',
 css:`
+/* 햅틱 예시 바깥 상자. */
 .x-hp{display:grid;gap:10px}
+/* 지원 여부 안내 상자. */
 .x-hp-s{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:12.5px}
+/* 지원하면 초록, 지원하지 않으면 빨강 글자. */
 .x-hp-s b.ok{color:var(--leaf)}.x-hp-s b.no{color:var(--rose)}
+/* 패턴 버튼들을 격자로 놓습니다. */
 .x-hp-b{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+/* 패턴 버튼 하나의 모양. */
 .x-hp-b button{padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 12.5px var(--sans);cursor:pointer;display:grid;gap:3px;text-align:center}
+/* 버튼 안의 패턴 값 글자. */
 .x-hp-b button small{font:11px var(--mono);color:var(--ink-2)}
+/* 진동 패턴을 막대로 보여 주는 줄: 진동 구간과 쉬는 구간을 가로로 이어 보여 줍니다. */
 .x-hp-tl{display:flex;height:22px;gap:2px;align-items:stretch;border-radius:6px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line);min-width:0}
+/* 진동하는 구간: 강조색 막대. */
 .x-hp-tl i{display:block;background:var(--accent);transform-origin:left;animation:x-hp-p .25s ease-out}
+/* 쉬는 구간(g 클래스)은 투명. */
 .x-hp-tl i.g{background:transparent}
+/* 막대가 흐릿한 상태에서 나타나는 애니메이션. */
 @keyframes x-hp-p{from{opacity:.3}}
+/* shake 클래스가 붙으면 흔들리는 애니메이션을 재생합니다(진동 대신 화면 반응). */
 .x-hp-ph.shake{animation:x-hp-sh .4s}
+/* 좌우로 점점 작게 흔들리는 단계들. */
 @keyframes x-hp-sh{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 `,
 demo:`<div class="x-hp"><div class="x-hp-s x-hp-st"></div><div class="x-hp-b"><button type="button" data-p="[12]"><span>가벼운 탭</span><small>[12]</small></button><button type="button" data-p="[25,60,25]"><span>성공</span><small>[25,60,25]</small></button><button type="button" data-p="[60,40,60,40,120]"><span>오류</span><small>[60,40,60,40,120]</small></button></div><div class="x-hp-tl" aria-label="진동 패턴 막대"></div><output class="d-readout" aria-live="polite">버튼을 눌러 보세요.</output></div>`,
 init(r){
+  // 지원 안내(st), 패턴 막대(tl), 결과 글(out)을 찾고, ok: 브라우저에 navigator.vibrate 함수가 있는지 확인합니다. 아이폰 사파리 등은 지원하지 않습니다.
   const st=r.querySelector('.x-hp-st'),tl=r.querySelector('.x-hp-tl'),out=r.querySelector('output');const ok='vibrate' in navigator&&typeof navigator.vibrate==='function';
+  // 지원 여부에 맞는 안내 문구를 보여 줍니다.
   st.innerHTML=ok?'이 기기의 브라우저는 <b class="ok">vibrate 함수가 있습니다</b>. 모바일 기기에서 눌러 보세요.':'이 기기의 브라우저에는 <b class="no">vibrate 함수가 없습니다</b>. 진동 대신 아래 막대로 패턴만 보여 줍니다.';
+  // 패턴 버튼을 누르면: data-p 에 적힌 패턴(JSON, 예 [30, 50, 30])을 읽어 옵니다. 숫자는 "진동 ms, 쉼 ms, 진동 ms ..."가 번갈아 나옵니다.
   r.querySelectorAll('.x-hp-b button').forEach(b=>b.addEventListener('click',()=>{const p=JSON.parse(b.dataset.p);let sent='';
+    // 지원하면 navigator.vibrate(패턴)을 호출합니다. 호출이 실패해도 화면이 멈추지 않게 try/catch 로 감쌉니다. 지원하지 않으면 안내만 합니다(대체 반응).
     try{if(ok){const res=navigator.vibrate(p);sent=res?'진동 요청을 보냈습니다.':'브라우저가 요청을 받아들이지 않았습니다.'}else sent='진동 미지원: 화면 반응으로 대체합니다.'}catch(e){sent='진동 호출 실패 (확인 필요)'}
+    // 패턴 막대를 다시 그립니다. 홀수 번째 값은 쉬는 구간(g)으로 만들고, 구간 길이를 flex 비율로 줍니다. 총 시간도 계산해 글로 보여 줍니다.
     tl.textContent='';const tot=p.reduce((a,c)=>a+c,0);p.forEach((v,i)=>{const s=document.createElement('i');if(i%2)s.className='g';s.style.flex=v+' 0 0';tl.appendChild(s)});
     out.textContent='패턴 '+JSON.stringify(p)+' (총 '+tot+'ms). '+sent;
+    // 버튼이 눌린 듯 살짝 작아졌다 돌아오는 시각 반응을 줍니다(진동이 없어도 피드백을 느끼게).
     b.animate([{transform:'scale(1)'},{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:180})}));
 },
 code:`// 지원 확인 후 호출 (지원하지 않으면 아무것도 하지 않거나 화면 반응으로 대체)
@@ -6827,22 +6845,35 @@ cheat:[
 terms:[['theme','테마, 색 구성 한 벌'],['design token','디자인 토큰, 색·간격 같은 값에 붙인 이름 (CSS 변수로 구현)'],['system preference','시스템 프리퍼런스, OS의 화면 모드 설정']],
 note:'처음 화면이 밝았다가 어두워지는 깜빡임은 "FOUC" 카드를 보세요. 순수 검정(#000)보다 아주 어두운 회색을 쓰면 눈이 덜 피로한 경우가 많습니다(경험적 의견, 출처 없음). 이 페이지도 같은 방식으로 라이트·다크를 지원합니다.',
 css:`
+/* 다크/라이트 미리보기 화면: 색을 변수(--b 바탕, --s 보조 바탕, --t 글자, --m 연한 글자, --a 강조)로 정의해 둡니다. transition 으로 바뀔 때 부드럽게 변합니다. */
 .x-dl-pg{--b:#ffffff;--s:#f1f5f8;--t:#14222c;--m:#5b6b77;--a:#0a7c86;padding:14px;border-radius:14px;background:var(--b);color:var(--t);border:1px solid var(--line);display:grid;gap:8px;transition:background .25s,color .25s}
+/* data-th="dark" 속성이 붙으면 같은 변수에 어두운 색 값을 다시 정합니다. 화면의 나머지 규칙은 그대로이고 변수 값만 바뀌어 전체가 어두워집니다. (실제 사이트는 html 요소에 data-theme 를 붙입니다.) */
 .x-dl-pg[data-th="dark"]{--b:#101a21;--s:#1a2730;--t:#e8f0f4;--m:#9db0bc;--a:#4fc3cf}
+/* 미리보기 제목 글자. */
 .x-dl-pg h4{margin:0;font:700 15px var(--display)}
+/* 미리보기 설명 글: 연한 글자색 변수(--m). */
 .x-dl-pg p{margin:0;font-size:12.5px;color:var(--m);line-height:1.6}
+/* 미리보기 카드 한 줄. */
 .x-dl-pg .c{padding:10px 12px;border-radius:10px;background:var(--s);font-size:12.5px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+/* 카드 안 강조 글자. */
 .x-dl-pg .c b{color:var(--a)}
+/* 미리보기 버튼: 강조색 바탕에 글자는 배경색(--b)을 써서 어느 테마에서도 글자가 또렷하게 보입니다. */
 .x-dl-pg button{border:0;border-radius:8px;padding:6px 12px;background:var(--a);color:var(--b);font:700 12px var(--sans);cursor:pointer}
+/* "라이트 / 다크 / 시스템" 선택 버튼 묶음. */
 .x-dl-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+/* 선택 버튼 하나의 모양. */
 .x-dl-seg button{border:0;background:var(--surface);color:var(--ink);padding:7px 12px;font:600 12.5px var(--sans);cursor:pointer}
+/* 선택된 버튼(aria-checked="true")은 강조색으로 표시합니다. */
 .x-dl-seg button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink)}
 `,
 demo:`<div class="d-ctl"><div class="x-dl-seg" role="radiogroup" aria-label="테마 선택"><button type="button" role="radio" aria-checked="false" data-m="light">☀️ 라이트</button><button type="button" role="radio" aria-checked="false" data-m="dark">🌙 다크</button><button type="button" role="radio" aria-checked="true" data-m="system">🖥️ 시스템</button></div><label for="x-dl-os"><input id="x-dl-os" type="checkbox"> (가정) 내 OS가 다크 모드</label></div><div class="x-dl-pg" data-th="light"><h4>예시마켓 설정 (예시)</h4><p>카드와 글자 색이 모두 같은 변수를 사용하기 때문에 값만 바꾸면 한 번에 바뀝니다.</p><div class="c"><span>오늘의 적립금 <b>1,250P</b></span><button type="button">사용</button></div></div><output class="d-readout" aria-live="polite"></output>`,
 init(r){
+  // 미리보기 화면(pg), "운영체제가 다크 모드" 체크(os), 결과 글(out), 선택 버튼들(bs)을 찾고, mode(선택한 값: system 이 기본)를 준비합니다.
   const pg=r.querySelector('.x-dl-pg'),os=r.querySelector('#x-dl-os'),out=r.querySelector('output'),bs=[...r.querySelectorAll('.x-dl-seg button')];let mode='system';
+  // apply(): 실제로 적용할 테마(eff)를 정합니다. "시스템 따르기"면 운영체제 설정(os 체크)을, 아니면 사용자가 직접 고른 값을 씁니다. 화면에 data-th 로 적용하고 선택 버튼의 aria-checked 와 설명 글을 갱신합니다.
   const apply=()=>{const eff=mode==='system'?(os.checked?'dark':'light'):mode;pg.dataset.th=eff;bs.forEach(b=>b.setAttribute('aria-checked',b.dataset.m===mode));
     out.textContent='선택: '+({light:'라이트',dark:'다크',system:'시스템 따르기'}[mode])+' → 실제 적용: '+(eff==='dark'?'다크':'라이트')+(mode==='system'?' (OS 설정을 따라감)':' (OS 설정과 무관)')};
+  // 버튼을 누르면 선택값을 바꾸고 apply() 를 실행합니다. 운영체제 체크가 바뀌어도, 처음에도 apply() 를 실행합니다.
   bs.forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.m;apply()}));os.addEventListener('change',apply);apply();
 },
 code:`:root{
@@ -6882,25 +6913,40 @@ cheat:[
 terms:[['lazy loading','레이지 로딩, 지연 로딩'],['eager','이거, 바로 불러오기 (lazy의 반대)'],['viewport','뷰포트, 지금 보이는 화면 영역'],['LCP','엘시피, 가장 큰 콘텐츠가 그려지는 시점을 재는 성능 지표']],
 note:'첫 화면에 보이는 대표 이미지에 lazy를 걸면 오히려 느려질 수 있습니다. 이 카드의 숫자 지연 시간(0.5초)은 데모용 값입니다.',
 css:`
+/* 스크롤되는 사진 목록 영역: 높이 230px에 overflow:auto. */
 .x-lz-sc{height:230px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);padding:10px}
+/* 사진 카드를 2열 격자로 놓습니다. */
 .x-lz-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+/* 사진 카드 하나의 모양. */
 .x-lz-c{border-radius:10px;background:var(--surface);border:1px solid var(--line);overflow:hidden;font-size:12px}
+/* 사진 자리: aspect-ratio 로 사진이 오기 전에도 자리를 미리 잡아 화면이 덜컥 움직이지 않게 합니다. 회색 줄무늬 그라데이션이 animation 으로 흐르는 "뼈대" 모양입니다. */
 .x-lz-i{aspect-ratio:16/10;display:grid;place-items:center;font-size:34px;background:linear-gradient(100deg,var(--surface-2) 30%,var(--line) 50%,var(--surface-2) 70%);background-size:200% 100%;animation:x-lz-sh 1.2s linear infinite;color:var(--ink-2)}
+/* 불러온 뒤(ld 클래스): 애니메이션을 멈추고 색 바탕으로. */
 .x-lz-i.ld{animation:none;background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+/* 불러오는 중(wait 클래스): 애니메이션을 멈추고 회색 바탕에 작은 글자. */
 .x-lz-i.wait{animation:none;background:var(--surface-2);font-size:12px}
+/* 그라데이션 배경을 왼쪽으로 밀어 줄무늬가 흐르게 합니다. */
 @keyframes x-lz-sh{to{background-position:-200% 0}}
+/* 사진 이름 글자. */
 .x-lz-c p{margin:0;padding:6px 8px}
 `,
 demo:`<div class="d-ctl"><label for="x-lz-m">방식 <select id="x-lz-m"><option value="lazy">지연 로딩 (보일 때만)</option><option value="eager">전부 바로 로딩</option></select></label><button class="d-btn x-lz-r" type="button">다시 시작</button></div><div class="x-lz-sc"><div class="x-lz-g"></div></div><output class="d-readout" aria-live="polite"></output>`,
 init(r){
+  // P: 사진 데이터 [이모지, 이름, 색] 12개.
   const P=[['🥐','크루아상','var(--warm)'],['🍞','식빵','var(--sun)'],['🥗','샐러드','var(--leaf)'],['🍓','타르트','var(--rose)'],['🧀','치즈','var(--sky)'],['☕','커피','var(--accent)'],['🍰','케이크','var(--rose)'],['🥪','샌드위치','var(--warm)'],['🍪','쿠키','var(--sun)'],['🥧','파이','var(--warm)'],['🍩','도넛','var(--rose)'],['🍫','초콜릿','var(--ink-2)']];
+  // 스크롤 영역(sc), 격자(g), 방식 선택(sel), 결과 글(out)을 찾고, io(관찰자), loaded(불러온 수), tms(타이머들)를 준비합니다.
   const sc=r.querySelector('.x-lz-sc'),g=r.querySelector('.x-lz-g'),sel=r.querySelector('#x-lz-m'),out=r.querySelector('output');let io=null,loaded=0,tms=[];
+  // upd(): "불러온 이미지 몇 / 전체 몇 개"를 보여 줍니다.
   const upd=()=>{out.textContent='불러온 이미지 '+loaded+' / '+P.length+'개'+(sel.value==='lazy'?' (스크롤하면 늘어납니다)':' (처음부터 전부)')};
+  // load(자리, 사진): 이미 불러오기 시작했으면 무시하고, 아니면 "불러오는 중"으로 바꾼 뒤 0.5초 뒤(네트워크 흉내) 사진을 채웁니다.
   const load=(el,p)=>{if(el.dataset.s)return;el.dataset.s='1';el.classList.add('wait');el.textContent='불러오는 중';tms.push(setTimeout(()=>{el.classList.remove('wait');el.classList.add('ld');el.style.setProperty('--c',p[2]);el.textContent=p[0];loaded++;upd()},500))};
+  // build(): 처음부터 다시 만듭니다. 이전 타이머와 관찰자를 정리하고 격자를 비웁니다. IntersectionObserver 는 사진 자리가 스크롤 영역 안으로(아래쪽 40px 여유) 들어오면 그때 load()를 부르고 더는 관찰하지 않습니다.
   const build=()=>{tms.forEach(clearTimeout);tms=[];if(io)io.disconnect();loaded=0;sc.scrollTop=0;g.textContent='';
     io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){load(e.target,e.target._p);io.unobserve(e.target)}}),{root:sc,rootMargin:'0px 0px 40px 0px'});
+    // 사진마다 카드를 만듭니다. 사진 자리에는 role="img" 와 aria-label 로 이름을 달아 접근성을 챙깁니다. "전부 한 번에(eager)" 방식이면 바로 load(), "필요할 때(lazy)" 방식이면 관찰만 시작합니다.
     P.forEach(p=>{const c=document.createElement('div');c.className='x-lz-c';const i=document.createElement('div');i.className='x-lz-i';i.setAttribute('role','img');i.setAttribute('aria-label',p[1]);i._p=p;c.appendChild(i);const t=document.createElement('p');t.textContent=p[1];c.appendChild(t);g.appendChild(c);
       if(sel.value==='eager')load(i,p);else io.observe(i)});upd()};
+  // 방식을 바꾸거나 "다시 불러오기"를 누르면 build() 를 실행하고, 처음에도 한 번 실행합니다.
   sel.addEventListener('change',build);r.querySelector('.x-lz-r').addEventListener('click',build);build();
 },
 code:`<!-- 가장 간단한 방법: 브라우저에 맡기기 -->
@@ -6938,24 +6984,38 @@ cheat:[
 terms:[['debounce','디바운스, 연속 호출이 끝난 뒤 한 번만 실행'],['throttle','스로틀, 일정 시간 간격으로 제한'],['event storm','이벤트 스톰, 짧은 시간에 쏟아지는 이벤트']],
 note:'시간 값(300~500ms)은 서비스 성격에 따라 정하는 경험적 값입니다(출처 없음). 디바운스를 쓰면 마지막 입력이 반영되기까지 그만큼 늦어지는 점도 고려하세요.',
 css:`
+/* 디바운스/스로틀 예시 바깥 상자. */
 .x-db{display:grid;gap:10px}
+/* 검색 입력 칸 모양: box-sizing:border-box 로 padding 이 폭에 포함되게 합니다. */
 .x-db input[type=text]{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:14px var(--sans)}
+/* 세 개의 호출 횟수 카드를 3열로. */
 .x-db-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+/* 횟수 카드 하나의 모양. */
 .x-db-k div{padding:10px 8px;border-radius:10px;background:var(--surface);border:1px solid var(--line);text-align:center;font-size:11.5px;color:var(--ink-2)}
+/* 큰 횟수 숫자: 색이 바뀔 때 부드럽게. */
 .x-db-k b{display:block;font:800 24px var(--display);color:var(--ink);transition:color .2s}
+/* 숫자가 올라가는 순간(hit 클래스)에 강조색으로 반짝입니다. */
 .x-db-k div.hit b{color:var(--accent)}
+/* 서버 요청 기록 글: 고정폭 글꼴. */
 .x-db-lg{font:11.5px/1.7 var(--mono);color:var(--ink-2);min-height:40px;word-break:break-all}
 `,
 demo:`<div class="x-db"><label class="d-hint" for="x-db-in" style="margin:0">검색창에 빠르게 "크루아상 맛집"을 타이핑해 보세요</label><input id="x-db-in" type="text" autocomplete="off" placeholder="검색어 입력 (예시)"><div class="d-ctl"><label for="x-db-ms">대기 시간 <input id="x-db-ms" type="range" min="100" max="1000" step="50" value="400"> <span class="x-db-v">400ms</span></label><button class="d-btn x-db-r" type="button">숫자 초기화</button></div><div class="x-db-k"><div data-k="raw"><b>0</b>키 입력 (원래)</div><div data-k="deb"><b>0</b>디바운스 요청</div><div data-k="thr"><b>0</b>스로틀 요청</div></div><div class="x-db-lg" aria-live="polite">요청 로그가 여기에 쌓입니다.</div></div>`,
 init(r){
+  // 입력 칸(inp), 간격 슬라이더(rng), 간격 글(v), 기록 자리(lg)를 찾고, n(호출 횟수 raw 전체 / deb 디바운스 / thr 스로틀), tD(디바운스 타이머), last(스로틀의 마지막 실행 시각)를 준비합니다.
   const inp=r.querySelector('#x-db-in'),rng=r.querySelector('#x-db-ms'),v=r.querySelector('.x-db-v'),lg=r.querySelector('.x-db-lg');const n={raw:0,deb:0,thr:0};let tD=null,last=0;
+  // K(이름): 해당 횟수 카드를 찾는 도우미.
   const K=k=>r.querySelector('[data-k="'+k+'"]');
+  // bump(이름): 횟수를 1 올려 숫자를 갱신하고, 0.25초 동안 hit 클래스로 반짝이게 합니다.
   const bump=k=>{n[k]++;const el=K(k);el.querySelector('b').textContent=n[k];el.classList.add('hit');setTimeout(()=>el.classList.remove('hit'),250)};
+  // log(종류, 검색어): 서버에 요청이 나간 것처럼 기록 맨 위에 한 줄 추가하고 최근 3줄만 남깁니다.
   const log=(t,q)=>{lg.textContent='['+t+'] "'+q+'" 요청\n'+(lg.dataset.p||'');lg.dataset.p=lg.textContent.split('\n').slice(0,3).join('\n');lg.style.whiteSpace='pre-line';lg.textContent=lg.dataset.p};
+  // 글자를 입력할 때마다: (1) 전체(raw)를 1 올립니다. (2) 디바운스: 이전 타이머를 지우고(clearTimeout) 새로 설정해서, 입력이 간격(ms)만큼 멈춘 뒤에야 한 번 요청합니다. (3) 스로틀: 마지막 실행 후 간격이 지났을 때만 요청하고 입력이 계속돼도 일정 간격마다 한 번씩 요청합니다.
   inp.addEventListener('input',()=>{const ms=+rng.value,q=inp.value;bump('raw');
     clearTimeout(tD);tD=setTimeout(()=>{bump('deb');log('디바운스',q)},ms);
     const now=Date.now();if(now-last>=ms){last=now;bump('thr');log('스로틀',q)}});
+  // 슬라이더를 움직이면 간격 표시 글을 바꿉니다.
   rng.addEventListener('input',()=>v.textContent=rng.value+'ms');
+  // "초기화" 버튼: 모든 횟수와 기록, 입력 칸, 대기 중인 타이머를 처음 상태로 되돌립니다.
   r.querySelector('.x-db-r').addEventListener('click',()=>{n.raw=n.deb=n.thr=0;r.querySelectorAll('.x-db-k b').forEach(b=>b.textContent=0);lg.dataset.p='';lg.textContent='요청 로그가 여기에 쌓입니다.';inp.value='';clearTimeout(tD)});
 },
 code:`function debounce(fn, ms){
@@ -6994,32 +7054,52 @@ cheat:[
 terms:[['optimistic','옵티미스틱, 낙관적'],['rollback','롤백, 이전 상태로 되돌리기'],['pessimistic','페시미스틱, 서버 응답을 기다린 뒤 반영하는 방식'],['mutation','뮤테이션, 서버 데이터를 바꾸는 요청']],
 note:'결제처럼 결과가 확정되어야 하는 동작에는 쓰지 않습니다. 롤백 시 사용자가 "왜 취소됐지?" 하고 놀라지 않도록 짧은 안내가 꼭 필요합니다. React Query, SWR 같은 라이브러리에 관련 기능이 있다고 알고 있으나 이번에 문서를 확인하지 못했습니다(확인 필요).',
 css:`
+/* 낙관적 UI 예시 바깥 상자. */
 .x-op{display:grid;gap:10px}
+/* 게시글 카드: 글은 왼쪽, 좋아요 버튼은 오른쪽 끝. */
 .x-op-card{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+/* 카드 제목은 한 줄을 차지하게(display:block). */
 .x-op-card b{font:700 14px var(--display);display:block}
+/* 카드의 작은 설명 글. */
 .x-op-card small{color:var(--ink-2);font-size:12px}
+/* 좋아요 버튼: 알약 모양, 최소 폭으로 숫자가 바뀌어도 버튼 크기가 흔들리지 않게 합니다. */
 .x-op-lk{display:flex;align-items:center;gap:6px;min-width:84px;justify-content:center;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--surface-2);color:var(--ink);font:700 14px var(--sans);cursor:pointer}
+/* 좋아요를 누른 상태(aria-pressed="true")는 빨간색 계열로 표시합니다. */
 .x-op-lk[aria-pressed="true"]{background:color-mix(in srgb,var(--rose) 18%,var(--surface));border-color:var(--rose);color:var(--rose)}
+/* 서버 응답을 기다리는 중(비활성)에는 흐리게 하고 기다림(wait) 커서를 보입니다. */
 .x-op-lk:disabled{opacity:.6;cursor:wait}
+/* 하트 아이콘: 크기가 바뀔 때 부드럽게. */
 .x-op-lk i{font-style:normal;display:inline-block;transition:transform .2s}
+/* 좋아요 상태에서는 하트를 1.2배로 키웁니다. */
 .x-op-lk[aria-pressed="true"] i{transform:scale(1.2)}
+/* 상태 안내 글 자리: 최소 높이를 두어 문구가 바뀌어도 화면이 밀리지 않게 합니다. */
 .x-op-st{font-size:12.5px;min-height:20px;color:var(--ink-2)}
+/* 실패 안내는 굵은 빨강 글자. */
 .x-op-st.err{color:var(--rose);font-weight:700}
+/* 성공 안내는 초록 글자. */
 .x-op-st.ok{color:var(--leaf)}
 `,
 demo:`<div class="x-op"><div class="d-ctl"><label for="x-op-m">방식 <select id="x-op-m"><option value="opt">낙관적 (먼저 바꿈)</option><option value="wait">응답 기다리기</option></select></label><label for="x-op-f"><input id="x-op-f" type="checkbox"> 서버가 실패하게 하기</label></div><div class="x-op-card"><div><b>가을 신메뉴 소개</b><small>서버 응답에 1.2초 걸린다고 가정 (예시)</small></div><button class="x-op-lk" type="button" aria-pressed="false"><i>♥</i><span class="n">128</span></button></div><div class="x-op-st" role="status" aria-live="polite"></div></div>`,
 init(r){
+  // 좋아요 버튼(btn), 숫자(num), 안내 글(st), 방식 선택(m), "서버 실패시키기" 체크(f)를 찾고, liked(좋아요 여부)와 count(숫자)를 준비합니다.
   const btn=r.querySelector('.x-op-lk'),num=r.querySelector('.n'),st=r.querySelector('.x-op-st'),m=r.querySelector('#x-op-m'),f=r.querySelector('#x-op-f');let liked=false,count=128;
+  // draw(): 지금 상태(liked, count)를 버튼과 숫자에 그려 넣습니다.
   const draw=()=>{btn.setAttribute('aria-pressed',liked);num.textContent=count};
+  // server(): 서버 응답 흉내입니다. 1.2초 뒤에 성공(resolve)하거나, "서버 실패시키기"가 켜져 있으면 실패(reject)합니다. Promise 는 "나중에 끝나는 일"을 다루는 도구입니다.
   const server=()=>new Promise((res,rej)=>setTimeout(()=>f.checked?rej(new Error('fail')):res(),1200));
+  // say(글, 종류): 안내 글과 색(ok/err)을 바꿉니다.
   const say=(t,c)=>{st.className='x-op-st '+(c||'');st.textContent=t};
+  // 누르면 먼저 이전 상태(prev)를 저장해 둡니다. async/await 는 서버 응답을 기다리는 동안 다른 일을 막지 않는 문법입니다.
   btn.addEventListener('click',async()=>{const prev={liked,count},t0=performance.now();
+    // 낙관적 방식: 서버 응답을 기다리지 않고 화면부터 바로 바꿉니다(성공할 것이라고 낙관). 그다음 서버에 저장합니다. 성공하면 안내만 바꾸고, 실패하면 저장해 둔 이전 상태로 되돌리고 알립니다.
     if(m.value==='opt'){liked=!liked;count+=liked?1:-1;draw();say('화면은 이미 바뀜 · 서버에 저장 중…');btn.disabled=true;
       try{await server();say('저장 완료 (화면 반응은 0초, 서버는 '+((performance.now()-t0)/1000).toFixed(1)+'초)','ok')}catch(e){liked=prev.liked;count=prev.count;draw();say('저장하지 못해 되돌렸어요. 다시 시도해 주세요.','err')}
       btn.disabled=false}
+    // 일반 방식: 서버 응답이 올 때까지 기다린 뒤에야 화면을 바꿉니다. 기다리는 동안은 아무 반응이 없어 느리게 느껴집니다.
     else{btn.disabled=true;say('서버 응답을 기다리는 중… (이 동안 아무 반응이 없습니다)');
       try{await server();liked=!liked;count+=liked?1:-1;draw();say('반영됨 (눌러서 보이기까지 '+((performance.now()-t0)/1000).toFixed(1)+'초)','ok')}catch(e){say('저장하지 못했어요. 다시 시도해 주세요.','err')}
       btn.disabled=false}});
+  // 처음 화면을 그립니다.
   draw();
 },
 code:`async function toggleLike(post){
@@ -7054,34 +7134,56 @@ cheat:[
 terms:[['FOUC','포욱, 스타일이 적용되기 전 내용이 보이는 현상'],['FOUT / FOIT','포우트 / 포잇, 웹 폰트 로딩 중 글자가 바뀌어 보이거나 안 보이는 현상'],['critical CSS','크리티컬 씨에스에스, 첫 화면에 꼭 필요한 CSS']],
 note:'숨겼다가 보여주는 방법은 깜빡임은 없애지만 빈 화면 시간이 늘어날 수 있어 트레이드오프가 있습니다. 가장 좋은 해결은 스타일을 먼저, 빠르게 도착시키는 것입니다. 아래는 개념을 보이는 시뮬레이션입니다.',
 css:`
+/* 화면 비교 상자. */
 .x-fo-v{border:1px solid var(--line);border-radius:12px;min-height:150px;padding:14px;position:relative;overflow:hidden;background:var(--surface)}
+/* 시험할 페이지 영역. */
 .x-fo-pg{padding:0}
+/* 제목 글자 기본 굵기. */
 .x-fo-pg .h{font-weight:700;margin-bottom:4px}
+/* 문단 아래 여백. */
 .x-fo-pg .t{margin:0 0 8px}
+/* 스타일이 아직 적용되지 않은 상태(:not(.styled))의 제목: 브라우저 기본 세리프 글꼴로 보입니다. FOUC(스타일 없는 내용의 깜빡임)에서 먼저 보이는 모습입니다. */
 .x-fo-pg:not(.styled) .h{font:700 16px serif}
+/* 스타일 적용 전의 문단 글꼴. */
 .x-fo-pg:not(.styled) .t{font:14px serif}
+/* 스타일 적용 전의 버튼 글꼴. */
 .x-fo-pg:not(.styled) button{font:13px serif}
+/* 스타일이 적용된 상태(styled 클래스)의 모양: 카드, 바탕색·글자색은 변수(--bgc, --tc)에서 가져옵니다. */
 .x-fo-pg.styled{padding:14px;border-radius:12px;background:var(--bgc,#fff);color:var(--tc,#14222c);display:grid;gap:6px}
+/* 다크 모드(dk 클래스)에서는 같은 변수를 어두운 색으로 바꿉니다. */
 .x-fo-pg.styled.dk{--bgc:#101a21;--tc:#e8f0f4}
+/* 적용 후의 제목 글꼴. */
 .x-fo-pg.styled .h{font:800 16px var(--display)}
+/* 적용 후의 문단 글꼴. */
 .x-fo-pg.styled .t{font:13px var(--sans);opacity:.85}
+/* 적용 후의 버튼 모양. */
 .x-fo-pg.styled button{border:0;border-radius:8px;padding:8px 14px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--sans);width:max-content}
+/* 방법 2: 스타일이 준비될 때까지 숨깁니다(visibility:hidden). 깜빡임은 없지만 그동안 빈 화면입니다. */
 .x-fo-pg.hid{visibility:hidden}
+/* 다크 모드 사용자에게 먼저 밝은 화면이 보이는 상태(눈부심 깜빡임)를 재현하는 규칙입니다. */
 .x-fo-pg.light-first{padding:14px;border-radius:12px;background:#fff;color:#14222c;display:grid;gap:6px}
+/* 밝은 화면의 제목. */
 .x-fo-pg.light-first .h{font:800 16px var(--display)}
+/* 밝은 화면의 문단. */
 .x-fo-pg.light-first .t{font:13px var(--sans)}
+/* 밝은 화면의 버튼. */
 .x-fo-pg.light-first button{border:0;border-radius:8px;padding:8px 14px;background:#0a7c86;color:#fff;font:700 13px var(--sans);width:max-content}
+/* 시간 흐름 설명 글. */
 .x-fo-tm{font:11.5px/1.7 var(--mono);color:var(--ink-2);margin-top:8px}
 `,
 demo:`<div class="d-ctl"><label for="x-fo-s">상황 <select id="x-fo-s"><option value="a">① 문제: 스타일이 늦게 도착</option><option value="b">② 해결: 준비될 때까지 숨김</option><option value="c">③ 문제: 다크 사용자에게 밝은 화면이 먼저</option><option value="d">④ 해결: 테마를 먼저 적용</option></select></label><button class="d-btn d-btn-primary x-fo-p" type="button">▶ 다시 재생</button></div><div class="x-fo-v"><div class="x-fo-pg"><div class="h">가을 신메뉴 출시</div><p class="t">오늘부터 한정 판매합니다. (예시)</p><button type="button">주문하기</button></div></div><div class="x-fo-tm" aria-live="polite"></div>`,
 init(r){
+  // 페이지 영역(pg), 시나리오 선택(sel), 설명 글(tm)을 찾고, ts(타이머들)를 준비합니다.
   const pg=r.querySelector('.x-fo-pg'),sel=r.querySelector('#x-fo-s'),tm=r.querySelector('.x-fo-tm');let ts=[];
+  // T: 시나리오(a~d)별 "시간에 따라 무엇이 보이는지" 설명 글.
   const T={a:'0초: 스타일 없는 화면 → 1.2초: 스타일 적용 (갑자기 모양이 바뀜)',b:'0~1.2초: 빈 화면 → 1.2초: 스타일 적용 상태로 처음 보임 (깜빡임 없음, 단 대기 시간 동안 빈 화면)',c:'0초: 밝은 화면 → 1.2초: 다크로 바뀜 (눈부심)',d:'0초: 처음부터 다크 화면 (깜빡임 없음)'};
+  // play(): 이전 타이머를 지우고 시나리오를 처음부터 재생합니다. a: 스타일 없는 화면이 먼저 보였다가 1.2초 뒤 스타일이 적용됨(깜빡임). b: 숨겼다가 적용 후 보임. c: 밝은 화면이 먼저 보였다가 다크로 바뀜(눈부심). d: 처음부터 다크(해결). 실제로는 <head>의 아주 작은 스크립트로 테마를 먼저 정하는 것이 해결책입니다.
   const play=()=>{ts.forEach(clearTimeout);ts=[];const k=sel.value;pg.className='x-fo-pg';tm.textContent='재생 중… '+T[k];
     if(k==='a'){ts.push(setTimeout(()=>pg.classList.add('styled'),1200))}
     if(k==='b'){pg.classList.add('hid');ts.push(setTimeout(()=>{pg.classList.remove('hid');pg.classList.add('styled')},1200))}
     if(k==='c'){pg.classList.add('light-first');ts.push(setTimeout(()=>{pg.className='x-fo-pg styled dk'},1200))}
     if(k==='d'){pg.className='x-fo-pg styled dk'}};
+  // 시나리오를 바꾸거나 "다시 보기"를 누르면 재생하고, 처음에도 한 번 재생합니다.
   sel.addEventListener('change',play);r.querySelector('.x-fo-p').addEventListener('click',play);play();
 },
 code:`<!-- 테마 깜빡임 방지: 본문이 그려지기 전에 실행되도록 <head> 안에 둡니다 -->
@@ -7119,26 +7221,40 @@ cheat:[
 terms:[['error boundary','에러 바운더리, 오류 경계'],['fallback','폴백, 오류 때 대신 보여 주는 화면'],['blast radius','블래스트 래디어스, 오류 영향이 퍼지는 범위']],
 note:'React의 에러 바운더리 세부 규칙(클래스 컴포넌트로만 만든다, 어떤 오류를 잡지 못한다 등)은 이번에 공식 문서를 조회하지 못해 기억에 기반합니다(확인 필요). 아래 데모는 개념을 일반 자바스크립트로 흉내 낸 것입니다.',
 css:`
+/* 에러 바운더리 예시 바깥 상자. */
 .x-eb{display:grid;gap:8px}
+/* 위젯들이 들어갈 화면: 최소 높이를 둡니다. */
 .x-eb-pg{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px;display:grid;gap:8px;min-height:190px}
+/* 화면 전체가 멈춘 상태(dead 클래스): 회색 바탕에 안내를 가운데 놓습니다. */
 .x-eb-pg.dead{background:var(--surface-2);place-items:center;text-align:center;color:var(--ink-2);font-size:13px}
+/* 위젯 하나(장바구니, 추천 상품, 리뷰)의 카드 모양. */
 .x-eb-w{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* 위젯 이름 글자. */
 .x-eb-w b{font:700 13px var(--display)}
+/* 오류가 난 위젯(bad 클래스)은 빨간 테두리와 연한 빨간 바탕으로 표시합니다. */
 .x-eb-w.bad{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
+/* 위젯 안 버튼("오류 내기", "다시 시도") 모양. */
 .x-eb-w button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font:600 12px var(--sans);cursor:pointer}
 `,
 demo:`<div class="x-eb"><div class="d-ctl"><label for="x-eb-b"><input id="x-eb-b" type="checkbox" checked> ErrorBoundary 사용</label></div><div class="x-eb-pg"></div><output class="d-readout" aria-live="polite">"리뷰" 위젯 옆 버튼으로 오류를 일으켜 보세요.</output></div>`,
 init(r){
+  // 화면(pg), "에러 바운더리 켜기" 체크(cb), 결과 글(out)을 찾고, W(위젯 이름 목록), bad(지금 오류를 낼 위젯 이름)를 준비합니다.
   const pg=r.querySelector('.x-eb-pg'),cb=r.querySelector('#x-eb-b'),out=r.querySelector('output');const W=['장바구니','추천 상품','리뷰'];let bad=null;
+  // render(): 위젯들을 처음부터 다시 그립니다. 바깥 try/catch 는 "화면 전체"를 지키는 마지막 방어선입니다.
   const render=()=>{pg.textContent='';pg.classList.remove('dead');
     try{W.forEach(name=>{const w=document.createElement('div');w.className='x-eb-w';
+      // run(): 오류를 낼 위젯이면 일부러 Error 를 던집니다(throw). 실제 앱에서 버그가 나는 상황을 흉내 낸 것입니다.
       const run=()=>{if(bad===name)throw new Error(name+' 위젯 오류')};
+      // 에러 바운더리를 켠 경우: 위젯마다 따로 try/catch 로 감쌉니다. 오류가 나면 그 위젯만 "문제가 생겼어요"와 "다시 시도" 버튼으로 바꾸고, 나머지 위젯은 정상으로 남습니다. 이렇게 오류를 한 위젯 안에 가두는 것이 에러 바운더리입니다.
       if(cb.checked){try{run();w.innerHTML='<span><b>'+name+'</b> 정상 표시 중</span><button type="button">오류 내기</button>';w.querySelector('button').addEventListener('click',()=>{bad=name;render()})}
         catch(e){w.classList.add('bad');w.innerHTML='<span><b>'+name+'</b> 문제가 생겼어요</span><button type="button">다시 시도</button>';w.querySelector('button').addEventListener('click',()=>{bad=null;render()});out.textContent='오류가 "'+name+'" 위젯 안에서 막혔습니다. 나머지는 정상입니다.'}}
+      // 에러 바운더리를 끈 경우: 위젯을 감싸지 않아 오류가 바깥으로 번져 맨 아래 catch 까지 올라갑니다.
       else{run();w.innerHTML='<span><b>'+name+'</b> 정상 표시 중</span><button type="button">오류 내기</button>';w.querySelector('button').addEventListener('click',()=>{bad=name;render()})}
       pg.appendChild(w)})}
+    // 바깥 catch: 오류가 번져 오면 화면 전체를 "멈췄습니다" 안내로 바꾸고 "처음으로 복구" 버튼을 보입니다. 위젯 하나의 오류가 전체를 멈추게 한 상황입니다.
     catch(e){pg.classList.add('dead');pg.innerHTML='<div>⚠️ 화면 전체가 멈췄습니다<br><small>(오류가 위젯 하나에서 시작되었지만 전체로 번짐)</small><br><br><button class="d-btn" type="button">처음으로 복구</button></div>';pg.querySelector('button').addEventListener('click',()=>{bad=null;render()});out.textContent='ErrorBoundary가 없어서 위젯 하나의 오류가 화면 전체를 중단시켰습니다.'}
     if(!bad)out.textContent='"리뷰" 위젯 옆 버튼으로 오류를 일으켜 보세요.'};
+  // 체크를 바꾸면 오류 상태를 지우고 다시 그립니다. 처음에도 한 번 그립니다.
   cb.addEventListener('change',()=>{bad=null;render()});render();
 },
 code:`// React (클래스 컴포넌트로 만듭니다)
@@ -7180,22 +7296,33 @@ cheat:[
 terms:[['fallback','폴백, 대안'],['graceful degradation','그레이스풀 디그레이데이션, 일부 기능이 안 돼도 점잖게 대체'],['placeholder','플레이스홀더, 자리 표시']],
 note:'"로딩/에러 상태" 카드와 비슷해 보이지만, 여기서는 이미지·위젯 같은 부분 요소의 대안에 초점을 둡니다. 대체 화면에서도 사용자가 다음 행동을 할 수 있는 길(링크, 재시도)을 남겨 두세요.',
 css:`
+/* 대체 화면 예시 바깥 상자. */
 .x-fb2{display:grid;gap:10px}
+/* 세 종류(프로필, 이미지, 지도)를 3열로 놓습니다. */
 .x-fb2-r{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center;font-size:11.5px;color:var(--ink-2)}
+/* 각 칸의 정사각형 상자(aspect-ratio:1). */
 .x-fb2-b{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line);overflow:hidden;background:var(--surface);position:relative}
+/* 프로필 동그라미: 사진이 없을 때 이름 첫 글자를 색 원 안에 보여 줍니다. */
 .x-fb2-av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:800 24px var(--display);color:#fff}
+/* 이미지 대체 자리: 사선 줄무늬 배경(repeating-linear-gradient)에 "불러오지 못했어요" 안내를 보여 줍니다. */
 .x-fb2-ph{width:100%;height:100%;display:grid;place-items:center;background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 8px,var(--surface) 8px,var(--surface) 16px);color:var(--ink-2);font-size:11px;padding:6px;box-sizing:border-box}
+/* 지도 대체 안내: 주소 글과 "지도 앱에서 열기" 링크를 세로로 쌓습니다. */
 .x-fb2-mp{width:100%;height:100%;padding:8px;box-sizing:border-box;display:grid;align-content:center;gap:4px;font-size:11.5px;color:var(--ink);text-align:left}
+/* 대체 링크 모양: 강조색, 밑줄, 손 모양 커서. */
 .x-fb2-mp a{color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline}
+/* 정상 상태에서 보이는 큰 이모지. */
 .x-fb2-big{font-size:34px}
 `,
 demo:`<div class="x-fb2"><div class="d-ctl"><label for="x-fb2-f"><input id="x-fb2-f" type="checkbox"> 이미지·지도 불러오기 실패시키기</label></div><div class="x-fb2-r"><div><div class="x-fb2-b" data-k="av"></div>프로필</div><div><div class="x-fb2-b" data-k="img"></div>상품 이미지</div><div><div class="x-fb2-b" data-k="map"></div>매장 지도</div></div></div>`,
 init(r){
+  // "불러오기 실패시키기" 체크(f)와 세 칸(av 프로필, img 이미지, mp 지도)을 찾습니다.
   const f=r.querySelector('#x-fb2-f'),av=r.querySelector('[data-k="av"]'),img=r.querySelector('[data-k="img"]'),mp=r.querySelector('[data-k="map"]');
+  // draw(): 실패 체크에 따라 세 칸을 다시 그립니다. 정상이면 이모지를, 실패하면 대체 화면(이름 첫 글자 프로필, "불러오지 못했어요" 이미지 자리, 주소와 링크가 있는 지도 안내)을 보여 줍니다. 대체 화면에도 role="img" 와 aria-label 로 의미를 알려 화면 낭독기 사용자에게도 같은 정보를 줍니다.
   const draw=()=>{const bad=f.checked;
     av.innerHTML=bad?'<div class="x-fb2-av" style="background:var(--accent)" role="img" aria-label="김지우 프로필">김</div>':'<div class="x-fb2-av" style="background:var(--sky);font-size:34px" role="img" aria-label="김지우 프로필 사진">🙂</div>';
     img.innerHTML=bad?'<div class="x-fb2-ph" role="img" aria-label="크루아상 사진을 불러오지 못했어요">📷 이미지를 불러오지 못했어요</div>':'<div class="x-fb2-big" role="img" aria-label="크루아상">🥐</div>';
     mp.innerHTML=bad?'<div class="x-fb2-mp"><b>서울 마포구 합정동 123</b><span>지도를 불러오지 못했어요.</span><a role="button" tabindex="0">지도 앱에서 열기</a></div>':'<div class="x-fb2-big" role="img" aria-label="지도">🗺️</div>'};
+  // 체크를 바꿀 때와 처음에 draw()를 실행합니다.
   f.addEventListener('change',draw);draw();
 },
 code:`<!-- 1) 이미지 로딩 실패 시 대체 이미지 -->
@@ -7232,26 +7359,44 @@ cheat:[
 terms:[['stale','스테일, 낡은'],['revalidate','리밸리데이트, 최신인지 다시 확인'],['cache','캐시, 받아 둔 사본']],
 note:'SWR이라는 이름은 HTTP 캐시 확장(RFC 5861)과 같은 이름의 데이터 패칭 라이브러리에서 모두 쓰입니다. 이번에 두 문서를 직접 조회하지 못했으므로 세부 동작은 확인이 필요합니다. 데모의 시세 값과 대기 시간은 모두 가짜 데이터입니다.',
 css:`
+/* SWR 예시 바깥 상자. */
 .x-sw2{display:grid;gap:10px}
+/* 시세 카드: position:relative 로 안쪽 상태 배지를 오른쪽 위에 놓을 기준점. */
 .x-sw2-card{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);min-height:96px;display:grid;gap:4px;align-content:center;position:relative}
+/* 카드의 작은 글자. */
 .x-sw2-card small{color:var(--ink-2);font-size:12px}
+/* 큰 가격 글자: 배경이 바뀔 때 부드럽게. */
 .x-sw2-v{font:800 30px var(--display);transition:background .6s}
+/* 새 값으로 교체된 순간(flash 클래스)에 초록 배경으로 잠깐 번쩍입니다. */
 .x-sw2-v.flash{background:color-mix(in srgb,var(--leaf) 30%,transparent);border-radius:6px}
+/* 카드 오른쪽 위 상태 배지("최신", "갱신 중…"). */
 .x-sw2-b{position:absolute;right:12px;top:12px;font:700 11px var(--sans);padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+/* "갱신 중…" 배지(go 클래스) 앞에 작은 빙글빙글 도는 표시를 붙입니다. */
 .x-sw2-b.go::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-pf-spin .7s linear infinite;vertical-align:-1px}
+/* 한 바퀴(360도) 돕니다. */
 @keyframes x-pf-spin{to{transform:rotate(360deg)}}
+/* "불러오는 중…" 화면(스피너와 글자). */
 .x-sw2-sp{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:13px}
+/* 빙글빙글 도는 동그라미. */
 .x-sw2-sp i{width:16px;height:16px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:x-pf-spin .7s linear infinite}
 `,
 demo:`<div class="x-sw2"><div class="d-ctl"><label for="x-sw2-m">방식 <select id="x-sw2-m"><option value="swr">SWR (캐시 먼저)</option><option value="plain">매번 기다리기</option></select></label><button class="d-btn d-btn-primary x-sw2-o" type="button">화면 열기</button><button class="d-btn x-sw2-c" type="button">캐시 지우기</button></div><div class="x-sw2-card" aria-live="polite"><span class="d-hint" style="margin:0">"화면 열기"를 눌러 보세요. 서버 응답은 1초 걸립니다. (예시)</span></div><output class="d-readout"></output></div>`,
 init(r){
+  // 카드(card), 결과 글(out), 방식 선택(m)을 찾고, cache(저장해 둔 이전 값), tm, seq(요청 번호)를 준비합니다.
   const card=r.querySelector('.x-sw2-card'),out=r.querySelector('output'),m=r.querySelector('#x-sw2-m');let cache=null,tm=null,seq=0;
+  // fmt(숫자): 원화 모양(₩ 천 단위 쉼표)으로 바꿉니다.
   const fmt=n=>'₩'+n.toLocaleString('ko-KR');
+  // fetchP(): 서버 요청 흉내. 1초 뒤에 무작위 값과 현재 시각을 돌려줍니다.
   const fetchP=()=>new Promise(res=>setTimeout(()=>res({v:4800+Math.floor(Math.random()*400),at:new Date()}),1000));
+  // show(데이터, 배지 글, 번쩍임 여부): 카드를 그립니다. 값, 기준 시각, 상태 배지를 넣고, 번쩍임이 켜져 있으면 0.7초 뒤에 효과를 뗍니다.
   const show=(d,badge,flash)=>{card.innerHTML='<span class="x-sw2-b'+(badge==='갱신 중…'?' go':'')+'">'+badge+'</span><small>크루아상 오늘 시세</small><div class="x-sw2-v'+(flash?' flash':'')+'">'+fmt(d.v)+'</div><small>기준 '+d.at.toLocaleTimeString('ko-KR')+'</small>';if(flash)setTimeout(()=>{const v=card.querySelector('.x-sw2-v');if(v)v.classList.remove('flash')},700)};
+  // "캐시 지우기" 버튼: 저장해 둔 값을 지워 다음 열기가 처음 열기처럼 기다리게 합니다.
   r.querySelector('.x-sw2-c').addEventListener('click',()=>{cache=null;out.textContent='캐시를 지웠습니다. 다음 열기는 처음 열기처럼 기다립니다.'});
+  // "열기" 버튼: 매번 새 요청 번호(me)를 받습니다. 시작 시각(t0)도 기록합니다.
   r.querySelector('.x-sw2-o').addEventListener('click',async()=>{const me=++seq,t0=performance.now();
+    // SWR 방식이고 캐시가 있으면: 저장해 둔 값을 바로 보여 주고(0초) "갱신 중…" 배지를 단 채, 뒤에서 최신 값을 가져와 조용히 교체합니다. 사용자는 기다리지 않고 값을 봅니다. 응답이 올 때 요청 번호가 달라졌으면(그사이 다시 눌렀으면) 낡은 응답이라 버립니다.
     if(m.value==='swr'&&cache){show(cache,'갱신 중…',false);out.textContent='캐시를 보여 주기까지 0초 · 뒤에서 최신 값 확인 중';const d=await fetchP();if(me!==seq)return;cache=d;show(d,'최신',true);out.textContent='최신 값으로 교체 (총 '+((performance.now()-t0)/1000).toFixed(1)+'초, 사용자는 처음부터 값을 봤음)'}
+    // 그 밖의 경우(일반 방식, 또는 캐시가 없는 처음): "불러오는 중…"으로 기다렸다가 값이 오면 보여 주고 캐시에 저장합니다.
     else{card.innerHTML='<div class="x-sw2-sp"><i></i> 불러오는 중…</div>';out.textContent=cache||m.value==='plain'?'값을 보기까지 기다리는 중':'처음 열기라 캐시가 없어 기다립니다.';const d=await fetchP();if(me!==seq)return;cache=d;show(d,'최신',false);out.textContent='값이 보이기까지 '+((performance.now()-t0)/1000).toFixed(1)+'초 걸렸습니다.'}});
 },
 code:`/* HTTP 응답 헤더 (서버/CDN 설정) — RFC 5861, 세부 동작 확인 필요 */
@@ -7286,33 +7431,52 @@ cheat:[
 terms:[['bundle','번들, 합쳐진 자바스크립트 파일'],['chunk','청크, 나뉜 조각'],['dynamic import','다이내믹 임포트, 실행 중에 불러오는 import()'],['tree shaking','트리 셰이킹, 쓰지 않는 코드를 번들에서 제거']],
 note:'아래 용량(KB)과 속도는 개념을 보이기 위한 가짜 값입니다. 실제 값은 번들 분석기와 네트워크 개발자 도구로 측정하세요.',
 css:`
+/* 코드 분할 예시 바깥 상자. */
 .x-cs{display:grid;gap:10px}
+/* 받은 코드 양을 보여 주는 막대: 조각이 가로로 이어집니다. */
 .x-cs-bar{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--surface-2)}
+/* 코드 조각 하나: 크기(KB)에 비례한 폭(flex), 이름과 크기 글자. transition 으로 폭이 바뀔 때 부드럽게. */
 .x-cs-bar i{display:grid;place-items:center;font:700 10.5px var(--sans);color:#fff;white-space:nowrap;overflow:hidden;transition:flex .3s}
+/* 화면(탭) 버튼들을 가로로. */
 .x-cs-tabs{display:flex;gap:6px;flex-wrap:wrap}
+/* 탭 버튼 모양. */
 .x-cs-tabs button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 12.5px var(--sans);cursor:pointer}
+/* 선택된 탭은 강조색으로. */
 .x-cs-tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* 화면 내용 상자. */
 .x-cs-pn{min-height:70px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px;display:grid;align-content:center;gap:4px}
+/* 작은 설명 글. */
 .x-cs-pn small{color:var(--ink-2)}
+/* 코드 받는 진행 막대의 바깥 길. */
 .x-cs-pg{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+/* 진행 막대의 채움: width 를 transition 하며 시간은 자바스크립트가 계산해 넣습니다. */
 .x-cs-pg i{display:block;height:100%;width:0;background:var(--accent);transition:width linear}
 `,
 demo:`<div class="x-cs"><div class="d-ctl"><label for="x-cs-m">방식 <select id="x-cs-m"><option value="split">나눠 받기 (코드 스플리팅)</option><option value="one">한 덩어리로 받기</option></select></label><button class="d-btn x-cs-r" type="button">처음부터 다시</button></div><div class="x-cs-bar" aria-label="내려받은 코드 양"></div><div class="x-cs-tabs" role="tablist" aria-label="화면 (예시)"></div><div class="x-cs-pn" role="tabpanel" aria-live="polite"></div><output class="d-readout"></output></div>`,
 init(r){
+  // C: 코드 조각 목록 [이름, 크기(KB), 색]. SPEED 는 받는 속도(KB/ms)입니다.
   const C=[['공통',120,'#5b6b77'],['홈',40,'#0a7c86'],['검색',60,'#3a7ebd'],['차트',180,'#c46a3a'],['에디터',240,'#b04a6a']];const SPEED=0.4;// KB per ms
+  // 막대(bar), 탭 자리(tabs), 내용(pn), 결과 글(out), 방식 선택(sel)을 찾고, loaded(받은 조각 번호 모음, Set), tms(타이머들), cur(현재 화면), booted 를 준비합니다.
   const bar=r.querySelector('.x-cs-bar'),tabs=r.querySelector('.x-cs-tabs'),pn=r.querySelector('.x-cs-pn'),out=r.querySelector('output'),sel=r.querySelector('#x-cs-m');let loaded=new Set(),tms=[],cur=1,booted=false;
+  // total(): 지금까지 받은 코드 크기(KB)의 합.
   const total=()=>[...loaded].reduce((a,i)=>a+C[i][1],0);
+  // drawBar(): 받은 조각만 크기에 비례한 막대로 그립니다. 아직 아무것도 없으면 "아직 받은 코드 없음"을 보입니다.
   const drawBar=()=>{bar.textContent='';C.forEach((c,i)=>{if(!loaded.has(i))return;const e=document.createElement('i');e.style.flex=c[1]+' 0 0';e.style.background=c[2];e.textContent=c[0]+' '+c[1]+'KB';bar.appendChild(e)});if(!loaded.size){const e=document.createElement('i');e.style.flex='1';e.style.color='var(--ink-2)';e.textContent='아직 받은 코드 없음';bar.appendChild(e)}};
+  // load(조각 번호들, 끝난 뒤 함수): 아직 안 받은 조각의 크기(kb)를 더해 걸리는 시간(ms = kb ÷ 속도)을 계산합니다. 이미 다 받았으면 바로 끝냅니다. 아니면 진행 막대를 그 시간 동안 채우고, 시간이 지나면 받은 것으로 기록하고 막대를 갱신합니다.
   const load=(idx,cb)=>{const kb=idx.filter(i=>!loaded.has(i)).reduce((a,i)=>a+C[i][1],0);if(!kb){cb(0);return}const ms=Math.round(kb/SPEED);
     pn.innerHTML='<b>코드 받는 중…</b><small>'+kb+'KB · 약 '+(ms/1000).toFixed(1)+'초</small><div class="x-cs-pg"><i></i></div>';const p=pn.querySelector('i');requestAnimationFrame(()=>{p.style.transitionDuration=ms+'ms';p.style.width='100%'});
     tms.push(setTimeout(()=>{idx.forEach(i=>loaded.add(i));drawBar();cb(ms)},ms))};
+  // view(번호): 탭을 선택 표시하고, "나눠 받기(split)" 방식이면 그 화면 코드만 받아 보여 줍니다(처음 열 때만 시간이 걸리고 다음부터는 바로 열림). "전부 받기" 방식이면 이미 다 받았으니 바로 보여 줍니다.
   const view=i=>{cur=i;[...tabs.children].forEach((b,k)=>b.setAttribute('aria-selected',k+1===i));
     if(sel.value==='split'){load([i],ms=>{pn.innerHTML='<b>'+C[i][0]+' 화면</b><small>'+(ms?'이 화면 코드를 받는 데 '+(ms/1000).toFixed(1)+'초가 걸렸습니다.':'이미 받아 둔 코드라 바로 열립니다.')+' · 지금까지 받은 양 '+total()+'KB</small>';out.textContent='누적 '+total()+'KB 내려받음'})}
     else{pn.innerHTML='<b>'+C[i][0]+' 화면</b><small>모든 코드를 이미 받았으므로 바로 열립니다. (누적 '+total()+'KB)</small>'}};
+  // boot(): 처음 접속을 흉내 냅니다. 모든 것을 비우고, 나눠 받기면 공통+홈 코드만(첫 화면에 필요한 것), 전부 받기면 모든 조각을 받은 뒤 첫 화면을 보여 줍니다. 나눠 받으면 첫 화면이 더 빨리 뜹니다.
   const boot=()=>{tms.forEach(clearTimeout);tms=[];loaded=new Set();drawBar();out.textContent='';
     const first=sel.value==='split'?[0,1]:[0,1,2,3,4];const t0=performance.now();
     load(first,ms=>{out.textContent='첫 화면이 뜨기까지 '+(ms/1000).toFixed(1)+'초 (받은 코드 '+total()+'KB)';view(1)})};
+  // 공통을 뺀 각 화면마다 탭 버튼을 만듭니다(role="tab"). 누르면 그 화면을 봅니다.
   C.slice(1).forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=c[0];b.addEventListener('click',()=>view(i+1));tabs.appendChild(b)});
+  // 방식을 바꾸거나 "처음부터"를 누르면 boot()를 실행하고, 처음에도 한 번 실행합니다.
   sel.addEventListener('change',boot);r.querySelector('.x-cs-r').addEventListener('click',boot);boot();
 },
 code:`// 1) 가장 기본: 동적 import — 이 줄이 실행될 때 비로소 파일을 받음
@@ -7351,26 +7515,42 @@ cheat:[
 terms:[['SSR','에스에스알, 서버에서 HTML을 만들어 보내는 방식'],['hydration','하이드레이션, 물을 줘서 살려낸다는 비유'],['TTI','티티아이, 화면이 실제로 조작 가능해지는 시점'],['island','아일랜드, 동작이 필요한 작은 영역만 따로 살리는 구조']],
 note:'서버와 클라이언트의 결과가 달라지는 대표 원인은 현재 시각, 랜덤 값, 브라우저에만 있는 값(window)을 렌더링에 쓰는 경우입니다. 구체적인 경고 메시지와 해결 방법은 프레임워크 문서 확인이 필요합니다.',
 css:`
+/* 하이드레이션 예시 바깥 상자. */
 .x-hy{display:grid;gap:10px}
+/* 진행 단계 표시줄(HTML 도착 → JS 받는 중 → 완료). */
 .x-hy-st{display:flex;gap:6px;flex-wrap:wrap;font:700 11.5px var(--sans)}
+/* 단계 하나: 아직이면 회색 알약. */
 .x-hy-st span{padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+/* 도달한 단계(on 클래스)는 강조색으로. */
 .x-hy-st span.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* 서버가 먼저 만들어 보낸 페이지 모양. */
 .x-hy-pg{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);display:grid;gap:10px;justify-items:start}
+/* 아직 하이드레이션 전(dead 클래스)에는 버튼이 눌리지 않는 것처럼 금지 커서를 보여 줍니다. 화면은 보이지만 반응하지 않는 상태입니다. */
 .x-hy-pg.dead button{cursor:not-allowed;opacity:.85}
+/* 페이지 제목 글자. */
 .x-hy-pg b{font:700 15px var(--display)}
+/* 카운터 숫자(버튼을 누를 때마다 올라감). */
 .x-hy-n{font:800 28px var(--display)}
+/* 카운터 버튼 모양. */
 .x-hy-pg button{border:0;border-radius:10px;padding:10px 18px;background:var(--accent);color:var(--accent-ink);font:700 13px var(--sans);cursor:pointer}
+/* JS 받는 진행 막대의 바깥 길. */
 .x-hy-pgb{height:6px;width:100%;border-radius:3px;background:var(--surface-2);overflow:hidden}
+/* JS 받는 진행 막대의 채움. */
 .x-hy-pgb i{display:block;height:100%;width:0;background:var(--sky);transition:width linear}
 `,
 demo:`<div class="x-hy"><div class="d-ctl"><label for="x-hy-d">JS 도착까지 <input id="x-hy-d" type="range" min="1000" max="5000" step="500" value="3000"> <span class="x-hy-dv">3.0초</span></label><button class="d-btn d-btn-primary x-hy-r" type="button">▶ 처음부터 로딩</button></div><div class="x-hy-st" aria-hidden="true"><span>① HTML 도착</span><span>② JS 받는 중</span><span>③ 하이드레이션 완료</span></div><div class="x-hy-pg"><b>🛒 장바구니 수량 (예시)</b><div class="x-hy-n">1</div><button type="button">+1 담기</button><div class="x-hy-pgb"><i></i></div></div><output class="d-readout" aria-live="polite"></output></div>`,
 init(r){
+  // 페이지(pg), 숫자(n), 버튼(b), 진행 막대(bar), 단계 표시들(st), 결과 글(out), 시간 슬라이더(rng), 시간 글(dv)을 찾고, hyd(하이드레이션이 끝났는지), lost(그 전에 눌러서 무시된 클릭 수), tms(타이머들), val(카운터 값)을 준비합니다.
   const pg=r.querySelector('.x-hy-pg'),n=r.querySelector('.x-hy-n'),b=pg.querySelector('button'),bar=pg.querySelector('.x-hy-pgb i'),st=[...r.querySelectorAll('.x-hy-st span')],out=r.querySelector('output'),rng=r.querySelector('#x-hy-d'),dv=r.querySelector('.x-hy-dv');let hyd=false,lost=0,tms=[],val=1;
+  // phase(번호): 단계 표시를 그 번호까지 켭니다(on 클래스).
   const phase=k=>st.forEach((s,i)=>s.classList.toggle('on',i<=k));
+  // start(): 처음부터 다시 시작합니다. 값을 초기화하고 버튼을 "죽은 상태(dead)"로 만든 뒤, 0.3초 뒤에 JS 받는 단계로 가서 진행 막대를 슬라이더 시간만큼 채우고, 그 시간이 지나면 하이드레이션 완료(hyd=true)로 바꿔 버튼을 살립니다.
   const start=()=>{tms.forEach(clearTimeout);tms=[];hyd=false;lost=0;val=1;n.textContent=1;pg.classList.add('dead');bar.style.transition='none';bar.style.width='0';phase(0);out.textContent='HTML이 도착해 화면은 보입니다. 지금 버튼을 눌러 보세요.';
     const ms=+rng.value;tms.push(setTimeout(()=>{phase(1);requestAnimationFrame(()=>{bar.style.transition='width '+(ms-300)+'ms linear';bar.style.width='100%'})},300));
     tms.push(setTimeout(()=>{hyd=true;pg.classList.remove('dead');phase(2);out.textContent='하이드레이션 완료'+(lost?' · 그 전에 누른 클릭 '+lost+'번은 반응하지 않았습니다.':'. 이제 버튼이 동작합니다.')},ms))};
+  // 버튼 클릭: 하이드레이션 전(hyd=false)이면 클릭이 무시되고 lost 만 올립니다("눌렀는데 안 되는 화면"). 끝난 뒤면 카운터를 올립니다. 서버가 보낸 HTML 은 먼저 보이지만 JS 가 연결되기 전에는 동작하지 않는다는 것이 하이드레이션의 핵심입니다.
   b.addEventListener('click',()=>{if(!hyd){lost++;out.textContent='아직 반응 없음 (JS가 연결되기 전에 누른 클릭 '+lost+'번) — 눌렀는데 안 되는 화면';return}val++;n.textContent=val});
+  // 슬라이더로 JS 받는 시간을 바꾸면 시간 글을 갱신합니다. "처음부터" 버튼을 연결하고 처음에도 한 번 시작합니다.
   rng.addEventListener('input',()=>dv.textContent=(rng.value/1000).toFixed(1)+'초');r.querySelector('.x-hy-r').addEventListener('click',start);start();
 },
 code:`// 서버: HTML을 만들어 보냄 (SSR)
