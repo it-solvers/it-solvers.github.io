@@ -2525,8 +2525,11 @@ css:`
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary d-run" type="button">Run</button><label for="ez-dur">Time <input id="ez-dur" type="range" min="600" max="3000" step="100" value="1400"></label></div><div class="d-ez"><div class="d-ez-lane" data-e="linear"><i></i><span>linear</span></div><div class="d-ez-lane" data-e="ease-in"><i></i><span>ease-in</span></div><div class="d-ez-lane" data-e="ease-out"><i></i><span>ease-out</span></div><div class="d-ez-lane" data-e="ease-in-out"><i></i><span>ease-in-out</span></div><div class="d-ez-lane" data-e="cubic-bezier(.34,1.56,.64,1)"><i></i><span>overshoot</span></div></div>`,
 init(r){
+  // Find the duration slider (dur).
   const dur=r.querySelector('input');
+  // run(): move the ball in every lane (.d-ez-lane). d is the distance the ball runs (lane width - 30px), and animate() plays from the start (transform:none) to the end (translateX(d)). Each lane uses the curve (easing) written in its data-e and the slider duration, and fill:both keeps the ball where it ended.
   const run=()=>r.querySelectorAll('.d-ez-lane').forEach(l=>{const i=l.querySelector('i'),d=l.clientWidth-30;i.animate([{transform:'none'},{transform:'translateX('+d+'px)'}],{duration:+dur.value,easing:l.dataset.e,fill:'both'})});
+  // Pressing the "run" button runs run().
   r.querySelector('.d-run').addEventListener('click',run);
 },
 code:`/* Keywords */
@@ -2622,7 +2625,11 @@ css:`
 }
 `,
 demo:`<div class="d-bn"><div class="d-bn-ball go"></div><div class="d-bn-ground"></div></div><button class="d-btn d-btn-primary" type="button">Drop again</button>`,
-init(r){const b=r.querySelector('.d-bn-ball');r.querySelector('button').addEventListener('click',()=>{b.classList.remove('go');void b.offsetWidth;b.classList.add('go')})},
+init(r){
+  // Find the ball (b).
+  const b=r.querySelector('.d-bn-ball');
+  // Pressing the button removes the go class and adds it again to replay the animation from the start. void b.offsetWidth is a trick that makes the browser calculate the removed state once.
+  r.querySelector('button').addEventListener('click',()=>{b.classList.remove('go');void b.offsetWidth;b.classList.add('go')})},
 code:`.ball{--h:150px;animation:bounce 1.6s both}
 
 @keyframes bounce{
@@ -2718,10 +2725,15 @@ css:`
 `,
 demo:`<div class="d-ctl"><label for="lp-dir">Direction <select id="lp-dir"><option>alternate</option><option>normal</option><option>reverse</option></select></label><label for="lp-cnt">Count <select id="lp-cnt"><option>infinite</option><option>1</option><option>3</option></select></label><button class="d-btn" type="button" data-a="pause">Pause</button><button class="d-btn" type="button" data-a="restart">Resume</button></div><div class="d-lp-grid"><div class="d-lp-spin" aria-label="Rotation"></div><div class="d-lp-dots" aria-label="Dot wave"><i></i><i></i><i></i></div><div class="d-lp-pulse" aria-label="Pulse"></div></div><p class="d-hint d-readout"></p>`,
 init(r){
+  // Find the grid (g), the pulse dot (p), the direction selector (dir), the count selector (cnt), and the description text (ro).
   const g=r.querySelector('.d-lp-grid'),p=r.querySelector('.d-lp-pulse'),dir=r.querySelector('#lp-dir'),cnt=r.querySelector('#lp-cnt'),ro=r.querySelector('.d-readout');
+  // apply(): put the chosen direction and count into CSS variables, update the description text, and restart the animation from the beginning (a trick of setting animation to none and back).
   const apply=()=>{p.style.setProperty('--dir',dir.value);p.style.setProperty('--cnt',cnt.value);ro.textContent='Pulse: animation-direction:'+dir.value+'; animation-iteration-count:'+cnt.value;p.style.animation='none';void p.offsetWidth;p.style.animation=''};
+  // Run apply() whenever a selection changes, and once at the start.
   dir.addEventListener('change',apply);cnt.addEventListener('change',apply);apply();
+  // The pause button: adds or removes the paused class (toggle) and changes the button text to match the state.
   r.querySelector('[data-a=pause]').addEventListener('click',e=>{const on=g.classList.toggle('paused');e.target.textContent=on?'Play':'Pause'});
+  // The restart button runs apply() again.
   r.querySelector('[data-a=restart]').addEventListener('click',apply);
 },
 code:`/* Rotate forever (spinner) */
@@ -2867,16 +2879,23 @@ cheat:[
 terms:[['Intl.Segmenter','Intl.Segmenter, a browser feature that splits a string into characters or words'],['grapheme','Grapheme, the unit that people perceive as one character'],['inline-block','Inline block, a layout that allows size and transforms within the text flow']],
 note:'The extra spans can make screen readers read it awkwardly. Give the parent an aria-label with the whole sentence and mark the pieces aria-hidden.',
 css:`
+/* The box where split text appears: clamp makes the font size follow the box width (cqi), and text-wrap:balance evens out the line lengths. */
 .d-spl{padding:16px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font:700 clamp(20px,6cqi,30px)/1.3 var(--display);text-wrap:balance;min-height:80px}
+/* One split piece (a letter or a word): inline-block lets it move on its own, and white-space:pre keeps spaces as they are. animation-delay is the piece number (--i) × the gap (--gap), so they appear one after another. */
 .d-spl .sp{display:inline-block;white-space:pre;animation:d-spl-in .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i) * var(--gap,40ms))}
+/* An animation that rises into place from transparent, slightly lower, and slightly tilted. */
 @keyframes d-spl-in{from{opacity:0;transform:translateY(.6em) rotate(6deg)}}
 `,
 demo:`<div class="d-ctl"><label for="spl-mode">Unit <select id="spl-mode"><option value="char">Characters</option><option value="word">Words</option></select></label><label for="spl-text" class="sr">Phrase</label><input id="spl-text" type="text" value="A big change for a small shop" aria-label="Phrase to split"><button class="d-btn d-btn-primary" type="button">Play</button></div><div class="d-spl" aria-live="polite"></div>`,
 init(r){
+  // Find the output box (out), the splitting mode selector (mode), and the input (inp).
   const out=r.querySelector('.d-spl'),mode=r.querySelector('select'),inp=r.querySelector('input');
+  // seg(text): split the text into an array of pieces. In "word" mode it splits by spaces (keeping spaces as pieces); otherwise Intl.Segmenter splits it into human-readable characters (graphemes). Browsers without Segmenter fall back to Array.from.
   const seg=t=>mode.value==='word'?t.split(/(\s+)/).filter(Boolean):(window.Intl&&Intl.Segmenter?[...new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(t)].map(s=>s.segment):Array.from(t));
+  // run(): empty the box, set the whole sentence on aria-label (for screen readers), set the gap variable, and create a <span> for each piece with its number (--i). The pieces use aria-hidden so screen readers do not read them separately.
   const run=()=>{const t=inp.value||' ';out.textContent='';out.setAttribute('aria-label',t);out.style.setProperty('--gap',mode.value==='word'?'120ms':'40ms');
     seg(t).forEach((s,i)=>{const sp=document.createElement('span');sp.className='sp';sp.style.setProperty('--i',i);sp.textContent=s;sp.setAttribute('aria-hidden','true');out.appendChild(sp)})};
+  // Run run() whenever the button is pressed or the mode changes, and once at the start.
   r.querySelector('.d-btn-primary').addEventListener('click',run);mode.addEventListener('change',run);run();
 },
 code:`<h1 id="title" aria-label="A big change for a small shop"></h1>
@@ -7329,11 +7348,17 @@ demo:`<div class="d-ctl"><label for="sc-origin">Origin <select id="sc-origin"><o
 
 REAL['easing']={
 css:`
+/* The outer box that stacks the easing examples vertically. */
 .d-ez{display:grid;gap:10px}
+/* One easing row: the label and the running lane stacked. */
 .r-ez-row{display:grid;gap:3px}
+/* The curve name and description: small and light. */
 .r-ez-row small{font-size:12px;color:var(--ink-2)}
+/* The curve name (the CSS value) in a monospaced font to stand out. */
 .r-ez-row small b{font:600 11.5px var(--mono);color:var(--ink)}
+/* The running lane: a long pill-shaped box. position:relative makes it the reference point for the ball inside. */
 .d-ez-lane{position:relative;height:30px;border-radius:15px;background:var(--surface);border:1px solid var(--line)}
+/* The circle (ball) that moves: placed at the left end of the lane. */
 .d-ez-lane i{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:var(--accent)}
 `,
 demo:`<div class="d-ctl"><button class="d-btn d-btn-primary d-run" type="button">Run</button><label for="ez-dur">Time <input id="ez-dur" type="range" min="600" max="3000" step="100" value="1400"></label></div><div class="d-ez"><div class="r-ez-row"><small><b>linear</b> · constant speed like a progress bar</small><div class="d-ez-lane" data-e="linear"><i></i></div></div><div class="r-ez-row"><small><b>ease-in</b> · when leaving the screen</small><div class="d-ez-lane" data-e="ease-in"><i></i></div></div><div class="r-ez-row"><small><b>ease-out</b> · when entering the screen</small><div class="d-ez-lane" data-e="ease-out"><i></i></div></div><div class="r-ez-row"><small><b>ease-in-out</b> · when moving within the screen</small><div class="d-ez-lane" data-e="ease-in-out"><i></i></div></div><div class="r-ez-row"><small><b>overshoot</b> · the popup bounces in</small><div class="d-ez-lane" data-e="cubic-bezier(.34,1.56,.64,1)"><i></i></div></div></div>`
@@ -7341,29 +7366,45 @@ demo:`<div class="d-ctl"><button class="d-btn d-btn-primary d-run" type="button"
 
 REAL['spring']={
 css:`
+/* The lane where the spring ball runs: a long pill-shaped box. */
 .d-sp-track{position:relative;height:58px;margin:8px 0 14px;border-radius:29px;background:var(--surface);border:1px solid var(--line)}
+/* The moving ball: will-change:transform announces that its motion changes often, so it is drawn smoothly. */
 .d-sp-ball{position:absolute;left:6px;top:6px;width:44px;height:44px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:grid;place-items:center;font-size:22px;will-change:transform}
+/* A thin vertical line showing the target position where the ball will arrive. */
 .d-sp-target{position:absolute;top:6px;width:2px;height:44px;background:var(--ink-2);opacity:.4}
+/* The left and right labels under the lane: spread to both ends. */
 .r-sp-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);margin-top:-8px;margin-bottom:10px}
 `,
 demo:`<div class="d-ctl"><label for="sp-k">Stiffness <input id="sp-k" type="range" min="40" max="500" value="180"></label><label for="sp-c">Damping <input id="sp-c" type="range" min="2" max="40" value="10"></label></div><div class="d-sp-track"><div class="d-sp-target"></div><div class="d-sp-ball">🛒</div></div><div class="r-sp-lbl"><span>Product list</span><span>Cart slot</span></div><div class="d-row"><button class="d-btn d-btn-primary" type="button">Add (round trip)</button><span class="d-readout"></span></div><p class="d-hint">This is the motion used when a dragged card settles into place or a bottom sheet opens.</p>`
 };
 REAL['spring'].init=function(r){
+  // Find the ball, the lane (track), the target line (tg), the spring stiffness slider (ks), the damping slider (cs), and the value text (ro).
   const ball=r.querySelector('.d-sp-ball'),track=r.querySelector('.d-sp-track'),tg=r.querySelector('.d-sp-target'),ks=r.querySelector('#sp-k'),cs=r.querySelector('#sp-c'),ro=r.querySelector('.d-readout');
+  // Physics state: x (ball position), v (velocity), target (target position), raf (animation frame id), last (previous time), right (whether the target is on the right).
   let x=0,v=0,target=0,raf=0,last=0,right=false;
+  // upd(): show the slider values (k, c) as text. Runs when a slider moves and at the start.
   const upd=()=>{ro.textContent='k='+ks.value+'  c='+cs.value};ks.addEventListener('input',upd);cs.addEventListener('input',upd);upd();
+  // step(time): calculate one step of the spring physics and move the ball. dt is the time since the previous frame (in seconds). Acceleration a = -k×(position-target) - c×velocity: the farther from the target the harder it pulls (k), and it slows in proportion to velocity (c). Velocity is updated with acceleration, and position with velocity.
   const step=t=>{const dt=Math.min(.032,(t-last)/1000||.016);last=t;const a=-(+ks.value)*(x-target)-(+cs.value)*v;v+=a*dt;x+=v*dt;ball.style.transform='translateX('+x+'px)';
+    // When the velocity and the distance to the target become tiny, snap to the target and stop (no more scheduling). Otherwise run step again on the next frame.
     if(Math.abs(v)<.05&&Math.abs(x-target)<.05){x=target;ball.style.transform='translateX('+x+'px)';raf=0;return}raf=requestAnimationFrame(step)};
+  // Pressing the button switches the target between left and right, moves the target line, and starts step if it is not already running.
   r.querySelector('.d-btn').addEventListener('click',()=>{right=!right;target=right?track.clientWidth-58:0;tg.style.left=(target+25)+'px';if(!raf){last=performance.now();raf=requestAnimationFrame(step)}});
+  // Set the initial position of the target line.
   tg.style.left='25px';
 };
 
 REAL['bounce']={
 css:`
+/* The box where the ball falls: 210px tall. */
 .d-bn{position:relative;height:210px;display:grid;justify-items:center}
+/* The ball: --h is a CSS variable holding the drop height (140px). */
 .d-bn-ball{--h:140px;position:absolute;top:0;font-size:32px;line-height:1}
+/* With the go class, the d-bounce animation plays for 1.6 seconds. both keeps the look before it starts and after it ends. */
 .d-bn-ball.go{animation:d-bounce 1.6s both}
+/* The ground marker: a box with a dashed border. */
 .d-bn-ground{position:absolute;left:12%;right:12%;bottom:6px;height:36px;border-radius:10px;border:2px dashed var(--ink-2);opacity:.6;display:grid;place-items:center;font-size:12px;font-weight:600}
+/* Defines the bouncing motion step by step. It starts at 0%, hits the ground at 36%, bounces up only halfway at 55%, touches again at 72%, and so on, bouncing lower each time. The animation-timing-function of each step gives a curve that slows going up and speeds up coming down. calc(var(--h) * .5) is half the height. */
 @keyframes d-bounce{
 0%{transform:translateY(0);animation-timing-function:cubic-bezier(.55,.06,.68,.19)}
 36%{transform:translateY(var(--h));animation-timing-function:cubic-bezier(.22,.61,.36,1)}
@@ -7378,39 +7419,65 @@ demo:`<div class="d-bn"><div class="d-bn-ball go" aria-label="Coupon">🎟️</d
 
 REAL['duration-delay']={
 css:`
+/* The timeline bar: shows the delay and duration sections side by side. */
 .d-dd-tl{display:flex;height:22px;border-radius:6px;overflow:hidden;background:var(--surface);border:1px solid var(--line);margin:4px 0 12px;font:600 11px var(--mono)}
+/* The common look of one section. transition:flex-grow makes it move smoothly when the slider changes the length. */
 .d-dd-tl i{display:grid;place-items:center;font-style:normal;color:#fff;white-space:nowrap;overflow:hidden;transition:flex-grow .2s}
+/* The delay section: diagonal stripes (repeating-linear-gradient) express that it is "waiting time". */
 .d-dd-tl .dl{background:repeating-linear-gradient(45deg,var(--ink-2),var(--ink-2) 4px,transparent 4px,transparent 8px);color:var(--ink)}
+/* The duration section: the accent color expresses the "moving time". */
 .d-dd-tl .du{background:var(--accent)}
+/* The lane for the ball: a pill shape. */
 .d-dd-lane{height:40px;border-radius:20px;background:var(--surface);border:1px solid var(--line);position:relative}
+/* The ball (emoji) that moves. */
 .d-dd-lane i{position:absolute;left:5px;top:5px;width:28px;height:28px;display:grid;place-items:center;font-style:normal;font-size:20px;line-height:1}
+/* The arrival marker at the right end of the lane. */
 .d-dd-lane em{position:absolute;right:10px;top:8px;font-style:normal;font-size:20px;line-height:1}
+/* Small guide text on the lane. */
 .d-dd-lane small{position:absolute;left:44px;top:12px;font-size:11.5px;color:var(--ink-2)}
 `,
 demo:`<div class="d-ctl"><label for="dd-dur">Duration <input id="dd-dur" type="range" min="100" max="2000" step="50" value="800"></label><label for="dd-del">Delay <input id="dd-del" type="range" min="0" max="1500" step="50" value="400"></label><button class="d-btn d-btn-primary" type="button">Shipped</button></div><div class="d-dd-tl"><i class="dl">Delay</i><i class="du">Duration</i></div><div class="d-dd-lane"><small>Our shop</small><em>🏠</em><i>🚚</i></div><p class="d-hint d-readout"></p>`
 };
 REAL['duration-delay'].init=function(r){
+  // Find the duration slider (du), the delay slider (de), the two timeline sections (dl, dr), the description text (ro), the lane, and the ball.
   const du=r.querySelector('#dd-dur'),de=r.querySelector('#dd-del'),dl=r.querySelector('.dl'),dr=r.querySelector('.du'),ro=r.querySelector('.d-hint'),lane=r.querySelector('.d-dd-lane'),ball=lane.querySelector('i');
+  // upd(): update the length (flex-grow) and text of the timeline sections and the CSS code text to match the slider values.
   const upd=()=>{dl.style.flexGrow=de.value||1;dr.style.flexGrow=du.value;dl.textContent=de.value>150?'Delay '+de.value:'';dr.textContent='Duration '+du.value;ro.textContent='animation-duration:'+du.value+'ms; animation-delay:'+de.value+'ms';};
+  // Run upd() whenever a slider changes, and once at the start.
   du.addEventListener('input',upd);de.addEventListener('input',upd);upd();
+  // Pressing the button moves the ball to the end of the lane. In animate(), duration is the moving time, delay is the wait before starting, easing is the acceleration curve, and fill:both keeps it where it ended.
   r.querySelector('.d-btn-primary').addEventListener('click',()=>ball.animate([{transform:'none'},{transform:'translateX('+(lane.clientWidth-76)+'px)'}],{duration:+du.value,delay:+de.value,easing:'ease-in-out',fill:'both'}));
 };
 
 REAL['loop']={
 css:`
+/* Lays the looping animation examples in a grid. repeat(auto-fit, minmax(120px,1fr)) changes the number of columns to fit the space. */
 .d-lp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:8px 0 14px}
+/* The card look of one example cell. */
 .r-lp-item{display:grid;gap:8px;justify-items:center;text-align:center;padding:14px 8px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:12px;color:var(--ink-2)}
+/* The example name text. */
 .r-lp-item b{color:var(--ink);font-size:12.5px}
+/* The spinning loading indicator (spinner): a round border with only the top painted in the accent color, repeating animation:d-spin at a constant speed (linear) forever (infinite). */
 .d-lp-spin{width:30px;height:30px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--accent);animation:d-spin .9s linear infinite}
+/* An animation that turns once around (360 degrees). */
 @keyframes d-spin{to{transform:rotate(360deg)}}
+/* The look of the "typing..." bubble. */
 .r-bub{display:inline-flex;gap:5px;padding:10px 14px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line)}
+/* Three dots side by side. */
 .d-lp-dots{display:flex;gap:5px}
+/* One dot: alternate makes it go and come back, giving a bouncing motion. */
 .d-lp-dots i{width:8px;height:8px;border-radius:50%;background:var(--ink-2);animation:d-hop .6s ease-in-out infinite alternate}
+/* The second and third dots start a little later (animation-delay), so they hop one after another like a wave. */
 .d-lp-dots i:nth-child(2){animation-delay:.15s}.d-lp-dots i:nth-child(3){animation-delay:.3s}
+/* An animation where the dot rises 6px and fades, then returns. */
 @keyframes d-hop{to{transform:translateY(-6px);opacity:.4}}
+/* The "LIVE" indicator: a dot and text side by side, in red. */
 .r-live{display:inline-flex;gap:7px;align-items:center;font:700 12px var(--sans);color:var(--rose)}
+/* A dot that beats like a pulse. It takes speed (--spd), repeat count (--cnt), and direction (--dir) as CSS variables, so JavaScript can change them. */
 .d-lp-pulse{width:12px;height:12px;border-radius:50%;background:var(--rose);animation:d-pulse var(--spd,1.2s) ease-in-out var(--cnt,infinite) var(--dir,alternate)}
+/* An animation that changes from small and faint (from) to large and clear (to). */
 @keyframes d-pulse{from{transform:scale(.7);opacity:.5}to{transform:scale(1.5);opacity:1}}
+/* With the paused class, the animation of every element (*) inside is paused (animation-play-state:paused). */
 .d-lp-grid.paused *{animation-play-state:paused}
 `,
 demo:`<div class="d-ctl"><label for="lp-dir">Direction <select id="lp-dir"><option>alternate</option><option>normal</option><option>reverse</option></select></label><label for="lp-cnt">Count <select id="lp-cnt"><option>infinite</option><option>1</option><option>3</option></select></label><button class="d-btn" type="button" data-a="pause">Pause</button><button class="d-btn" type="button" data-a="restart">Resume</button></div><div class="d-lp-grid"><div class="r-lp-item"><div class="d-lp-spin" role="img" aria-label="Processing payment"></div><b>Processing payment</b>Spinning around</div><div class="r-lp-item"><div class="r-bub"><div class="d-lp-dots" role="img" aria-label="Typing"><i></i><i></i><i></i></div></div><b>The other person is typing</b>Dots appear in turn</div><div class="r-lp-item"><span class="r-live"><span class="d-lp-pulse" role="img" aria-label="Live"></span>LIVE</span><b>Live broadcast in progress</b>Repeats like a pulse</div></div><p class="d-hint d-readout"></p>`
@@ -7419,39 +7486,61 @@ demo:`<div class="d-ctl"><label for="lp-dir">Direction <select id="lp-dir"><opti
 /* ───────── 8 text and drawing effects ───────── */
 REAL['typewriter']={
 css:`
+/* The outer box of the chat screen. */
 .r-chat{display:grid;gap:8px;padding:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:13px}
+/* The bubble I sent: at the right end (justify-self:end) with the accent background. The four border-radius values are the roundness of each corner (only the bottom right is sharp). */
 .r-chat .me{justify-self:end;max-width:80%;padding:8px 12px;border-radius:14px 14px 4px 14px;background:var(--accent);color:var(--accent-ink)}
+/* The other side (bot) row: an icon and a bubble side by side. */
 .r-chat .bot{display:flex;gap:8px;align-items:flex-start}
+/* The bot icon: a 28px circle. */
 .r-chat .bot i{flex:none;font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);font-size:15px}
+/* The bot bubble: min-height keeps its size from jumping while the text fills in letter by letter. */
 .d-tw{flex:1;min-height:60px;padding:9px 12px;border-radius:14px 14px 14px 4px;background:var(--surface);border:1px solid var(--line);font:400 13.5px/1.55 var(--sans)}
+/* A blinking cursor (a vertical bar) at the end of the text. ::after attaches imaginary content after an element, and animation makes it blink. */
 .d-tw-text::after{content:"";display:inline-block;width:2px;height:1.1em;margin-left:2px;vertical-align:text-bottom;background:var(--accent);animation:d-blink .8s steps(1) infinite}
+/* An animation that turns transparent at the halfway point (50%) to make it blink. */
 @keyframes d-blink{50%{opacity:0}}
+/* A typing effect made with only CSS: the width is 16ch (16 characters wide) and overflow:hidden hides the rest. The right border acts as the cursor. steps(16) makes the width grow in 16 jumps. */
 .d-tw-css{display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid var(--accent);font:600 13px var(--mono);width:16ch;animation:d-typing 3.2s steps(16) infinite alternate,d-blink .8s steps(1) infinite}
+/* An animation where the width grows from 0 to its normal width. */
 @keyframes d-typing{from{width:0}}
+/* The look of a terminal (command window): light teal text on a dark background. */
 .r-term{display:block;padding:10px 12px;border-radius:10px;background:var(--code-bg);color:#9CF0E0}
 `,
 demo:`<div class="d-ctl"><label for="tw-speed">Speed <input id="tw-speed" type="range" min="20" max="160" value="40"></label><button class="d-btn d-btn-primary" type="button">Answer again</button></div><div class="r-chat"><div class="me">When will my delivery arrive?</div><div class="bot"><i>🤖</i><div class="d-tw" aria-live="polite"><span class="d-tw-text"></span></div></div></div><p class="d-hint">CSS steps() method that looks like a terminal screen (English):</p><div class="r-term"><div class="d-tw-css">$ npm run build</div></div>`,
 init(r){
+  // Find the output spot (out), the speed slider (sp), and the text to show (text), and split the text into an array of single characters (chars) with Array.from(text). t is the timer id.
   const out=r.querySelector('.d-tw-text'),sp=r.querySelector('input'),text='Hello! Orders placed before 2 p.m. today arrive tomorrow. Remote islands and mountain areas can take one more day.',chars=Array.from(text);let t;
+  // run(): stop the previous timer, clear the text, and use setInterval to show one more character at each interval (the first i characters). When all are shown, the timer stops.
   const run=()=>{clearInterval(t);let i=0;out.textContent='';t=setInterval(()=>{i++;out.textContent=chars.slice(0,i).join('');if(i>=chars.length)clearInterval(t)},+sp.value)};
+  // Connect the replay button and run once at the start.
   r.querySelector('.d-btn-primary').addEventListener('click',run);run();
 }
 };
 
 REAL['text-scramble']={
 css:`
+/* The dark screen where the scramble effect appears. clamp makes the font size follow the box width (cqi). */
 .d-sc-out{padding:18px 16px;border-radius:10px;background:var(--code-bg);color:#9CF0E0;font:600 clamp(16px,5cqi,22px)/1.4 var(--mono);min-height:84px;letter-spacing:.02em;display:grid;align-content:center}
+/* Scrambled letters not yet settled are shown in orange and slightly faded. */
 .d-sc-out .x{color:#E0A86B;opacity:.8}
+/* The small label above the screen. */
 .r-sc-lbl{font:600 11px var(--mono);color:var(--ink-2);margin-bottom:6px}
 `,
 demo:`<div class="r-sc-lbl">New product announcement teaser page (example)</div><div class="d-ctl"><button class="d-btn" type="button" data-t="0">Step 1</button><button class="d-btn" type="button" data-t="1">Step 2</button><button class="d-btn" type="button" data-t="2">Step 3</button></div><div class="d-sc-out" aria-live="polite"></div>`,
 init(r){
+  // Set the output screen (out), the collection of phrases to show (T), and the symbols used for scrambling (chars), and prepare raf (the animation frame id).
   const out=r.querySelector('.d-sc-out'),T=['Coming soon','October 31, 2 p.m.','Pre-orders open'],chars='!<>-_/[]{}=+*^?#';let raf=0;
+  // run(text): start the effect that changes the text into the new phrase.
   function run(text){
+    // Stop any running effect and build the list q for each character. Each character has c (the original letter), s (the frame to start scrambling), e (the frame to settle), and x (the random symbol shown now). The start and end times are random per character, so they resolve one by one.
     cancelAnimationFrame(raf);const arr=Array.from(text),q=arr.map(c=>{const s=Math.floor(Math.random()*20);return{c,s,e:s+10+Math.floor(Math.random()*20),x:''}});let f=0;
+    // up(): draw one frame. Characters past their settle frame (e) show the original letter, those past their start frame (s) show a random symbol (changing now and then), and the rest show a blank, building the screen text.
     const up=()=>{let html='',done=0;q.forEach(o=>{if(f>=o.e){done++;html+=o.c}else if(f>=o.s){if(!o.x||Math.random()<.3)o.x=chars[Math.floor(Math.random()*chars.length)];html+='<span class="x">'+o.x+'</span>'}else html+=' '});
+      // Put the built text on the screen, set aria-label so screen readers read the original phrase instead of scrambled characters, and redraw on the next frame (requestAnimationFrame) if some characters are not yet resolved.
       out.innerHTML=html;out.setAttribute('aria-label',text);if(done<q.length){f++;raf=requestAnimationFrame(up)}};up();
   }
+  // Each phrase button runs run() with its phrase when clicked, and the first phrase is shown at the start.
   r.querySelectorAll('button[data-t]').forEach(b=>b.addEventListener('click',()=>run(T[+b.dataset.t])));run(T[0]);
 }
 };
