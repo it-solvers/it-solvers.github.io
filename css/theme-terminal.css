@@ -1,0 +1,85 @@
+/* 사이트 테마: 터미널(다크 터미널 + 같은 모양의 밝은 화면). 한글 메인(index.html)에만 쓴다.
+   css/styles.css, css/theme.css 다음에 불러와 색과 모양만 덮어쓴다.
+   theme.css의 색 변수(--t-*)를 터미널 색으로 바꾸면 카드·섹션·문의 폼 색이 한꺼번에 따라온다.
+   밝은/어두운 화면은 js/theme.js가 html에 dark-mode 클래스를 붙여 일출·일몰에 맞춰 바꾼다. */
+
+/* ===== 색: 어두운 화면 = 거의 검정 바탕 + 초록 포인트 / 밝은 화면 = 같은 모양, 색만 밝게(초록은 더 진하게) ===== */
+html:not(.dark-mode) {
+    --t-bg: #f6f8fa; --t-bg2: #eef1f5; --t-soft: #f0f3f6; --t-card: #ffffff;
+    --t-ink: #1f2328; --t-muted: #59636e; --t-line: #d0d7de;
+    --t-ac: #0a7a45; --t-ac-hover: #0d9356; --t-ac-ink: #ffffff; --t-ac2: #0b63c4; --t-ac-text: #0a7a45;
+    --t-glow: rgba(10, 122, 69, 0.07); --t-shadow: none;
+    --t-head: rgba(246, 248, 250, 0.88); --t-foot: #ffffff; --t-foot-ink: #59636e;
+}
+html.dark-mode {
+    --t-bg: #0b0e13; --t-bg2: #10151c; --t-soft: #121821; --t-card: #121821;
+    --t-ink: #e6edf3; --t-muted: #8b98a9; --t-line: #232c38;
+    --t-ac: #3fdc8a; --t-ac-hover: #6af0aa; --t-ac-ink: #04130b; --t-ac2: #5cc8ff; --t-ac-text: #3fdc8a;
+    --t-glow: rgba(63, 220, 138, 0.10); --t-shadow: none;
+    --t-head: rgba(11, 14, 19, 0.85); --t-foot: #080a10; --t-foot-ink: #8b98a9;
+}
+
+/* ===== 제목: 코드 글꼴 ===== */
+:root:root:root h1, :root:root:root h2, :root:root:root h3 { font-family: var(--t-mono); letter-spacing: -0.03em; }
+:root:root:root .section-label { font-family: var(--t-mono); font-size: 13px; font-weight: 500; letter-spacing: 0; }
+.section-label::before { content: "## "; opacity: 0.6; }
+:root:root:root .section-title h2 { font-weight: 700; letter-spacing: -0.04em; word-break: keep-all; }
+
+/* ===== 헤더: 로고 글자 뒤에 터미널 프롬프트(~ %) ===== */
+header .logo > span:last-child::after { content: "~ %"; margin-left: 8px; font-family: var(--t-mono); font-weight: 500; color: var(--t-ac-text); }
+
+/* ===== 첫 화면 ===== */
+:root:root:root .hero h1 { font-weight: 700; letter-spacing: -0.04em; line-height: 1.3; }
+:root:root:root .hero h1 span { background: none; color: var(--t-ac-text); -webkit-text-fill-color: var(--t-ac-text); }
+.hero-text::before { content: "// "; font-family: var(--t-mono); opacity: 0.55; }
+/* 맨 위 프롬프트 석 줄과 맨 아래 커서 줄(장식이라 스크린리더는 읽지 않음) */
+.hero-prompts, .hero-end-prompt { font-family: var(--t-mono); font-size: 14px; color: var(--t-muted); }
+.hero-prompts { margin: 0 0 20px; }
+.hero-prompts p, .hero-end-prompt { margin: 0; line-height: 1.8; }
+.hero-prompts b, .hero-end-prompt b { color: var(--t-ac-text); font-weight: 500; }
+.hero-end-prompt { margin-top: 34px; }
+.term-cursor { display: inline-block; width: 0.5em; height: 1em; margin-left: 6px; vertical-align: -0.12em; background: var(--t-ac); animation: term-blink 1.1s steps(1) infinite; }
+@keyframes term-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } }
+
+/* 버튼 세 개: 명령어 모양(% 앞표시), 같은 크기, 화살표·그림자 없음 */
+:root:root:root .hero-cta .button {
+    justify-content: flex-start; gap: 10px; padding: 14px 18px; border-radius: 8px;
+    font-family: var(--t-mono); font-size: 14px; font-weight: 600; letter-spacing: 0; box-shadow: none;
+}
+.hero-cta .button::before { content: "%"; color: var(--t-ac-text); }
+:root:root:root .hero-cta .button::after { content: none; }
+:root:root:root .hero-cta .button-primary::before { color: var(--t-ac-ink); opacity: 0.7; }
+:root:root:root .hero-cta .button-primary, :root:root:root .hero-cta .button-primary:hover { box-shadow: none; }
+:root:root:root .hero-cta .button-secondary { background: var(--t-card); box-shadow: none; }
+
+/* 새소식: 로그 창 모양(제목줄 + 줄 단위 목록) */
+:root:root:root .hero-news { max-width: 760px; padding: 0; border-radius: 10px; box-shadow: none; overflow: hidden; }
+:root:root:root .hero-news-title { margin: 0; padding: 10px 18px; font-family: var(--t-mono); font-size: 12px; font-weight: 500; color: var(--t-muted); background: var(--t-bg2); border-bottom: 1px solid var(--t-line); }
+:root:root:root .hero-news-list { padding: 6px 0; }
+:root:root:root .hero-news-list li { padding: 9px 18px; border-top: 0; }
+:root:root:root .hero-news-list li:hover { background: var(--t-bg2); }
+:root:root:root .hero-news-date { font-family: var(--t-mono); font-size: 13px; }
+:root:root:root .hero-news-tag { padding: 0; border-radius: 0; background: transparent; font-family: var(--t-mono); font-size: 12.5px; font-weight: 500; color: var(--t-ac2); }
+
+/* ===== 카드: 얇은 테두리, 작은 모서리, 그림자 없음. 벤토 배치는 theme.css 그대로 ===== */
+:root:root:root .service-card, :root:root:root .insight-card { border-radius: 10px; box-shadow: none; }
+:root:root:root .insight-grid .insight-card { border-radius: 10px; padding: 20px 22px; }
+:root:root:root .insight-grid .insight-card:first-child { background: var(--t-card); }
+:root:root:root .insight-grid .insight-card:first-child h3 { font-size: 18px; }
+:root:root:root .insight-card h3, :root:root:root .service-card h3 { font-family: var(--t-mono); font-size: 16px; }
+:root:root:root .insight-card:hover, :root:root:root .service-card:hover { border-color: var(--t-ac); }
+:root:root:root .history-group-title { font-family: var(--t-mono); font-size: 14px; font-weight: 500; color: var(--t-ac2); border-left: 0; padding-left: 0; }
+.history-group-title::before { content: "── "; color: var(--t-line); }
+:root:root:root .service-icon { border-radius: 8px; background: var(--t-ac); color: var(--t-ac-ink); font-family: var(--t-mono); }
+
+/* ===== 문의 폼 · 버튼 모서리 ===== */
+:root:root:root .contact-field input, :root:root:root .contact-field textarea { border-radius: 8px; }
+:root:root:root .contact-submit, :root:root:root .contact-copy, :root:root:root .contact-btn-row > .contact-copy, :root:root:root .contact-btn-row > .contact-mailto { border-radius: 8px; }
+
+/* ===== 폰 ===== */
+@media (max-width: 520px) {
+    :root:root:root .section-title h2 { font-size: 28px; }
+    :root:root:root .hero-cta .button { padding: 12px 10px; font-size: 12.5px; justify-content: center; gap: 4px; }
+    :root:root:root .hero-news-list li { padding: 9px 14px; }
+}
