@@ -18,3 +18,11 @@
 .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid var(--t-line); object-fit: cover; }
 @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } .about-section { padding: 52px 0; } }
 @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } .about-card { padding: 22px 20px; } }
+
+/* 영문 페이지 헤더의 "한국어" 링크: 밝은/어두운 화면 모두에서 보이게 테마 변수 색을 쓴다 */
+.language-link { border-color: var(--t-line); color: var(--t-muted); }
+.language-link:hover { border-color: var(--t-ac); color: var(--t-ac-text); }
+
+/* 영문 주요실적: 날짜("Jul 2024 – Sep 2025")가 여러 줄로 쪼개지지 않게 한 줄로 두고, 폭을 같게 맞춘다 */
+html[lang="en"] .history-date { white-space: nowrap; flex: none; min-width: 150px; }
+@media (max-width: 760px) { html[lang="en"] .history-date { min-width: 0; } }

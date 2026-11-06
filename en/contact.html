@@ -37,11 +37,12 @@
     .language-link { padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #475467; font-size: 13px; font-weight: 600; white-space: nowrap; }
     .language-link:hover { border-color: #2563eb; color: #2563eb; }
   </style>
-  <link rel="stylesheet" href="../css/dark.css?v=20261102">
-  <link rel="stylesheet" href="../css/theme-sub.css?v=20261102">
+  <link rel="stylesheet" href="../css/theme.css?v=20261102">
+  <link rel="stylesheet" href="../css/company-pages.css?v=20261107">
   <script src="../js/theme.js"></script>
+  <script src="../js/contact-form.js" defer></script>
 </head>
-<body class="lease-page">
+<body>
   <header>
     <div class="container nav">
       <a href="./" class="logo" title="Go to the IT Solvers home page">
@@ -56,35 +57,86 @@
     </div>
   </header>
 
-  <main class="lease-overview">
-    <div class="page-date-row"><time class="page-date" datetime="2026-10-21">Published October 21, 2026</time></div>
-    <h1>Contact</h1>
-    <p class="sub">We are happy to hear from you. We reply by email in the order messages arrive.</p>
+  <main>
 
-    <section class="card">
-      <h2>What you can contact us about</h2>
-      <ul>
-        <li>Software, web, and mobile app development, and system maintenance</li>
-        <li>IT asset and PC supply and installation</li>
-        <li>Errors or questions about our guides and calculators</li>
-        <li>Partnership proposals</li>
-      </ul>
+    <section class="about-section alt" id="inquiry-info">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">Info</span>
+          <h2>Contact</h2>
+          <p>We are happy to hear from you. We reply by email in the order messages arrive.</p>
+        </div>
+        <p class="about-page-date"><time class="page-date" datetime="2026-10-21">Published October 21, 2026</time></p>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>What you can contact us about</h3>
+            <ul>
+              <li>Software, web, and mobile app development, and system maintenance</li>
+              <li>IT asset and PC supply and installation</li>
+              <li>Errors or questions about our guides and calculators</li>
+              <li>Partnership proposals</li>
+            </ul>
+          </div>
+          <div class="about-card">
+            <h3>Business information</h3>
+            <p>IT Solvers · CEO Hyeok Lee · Biz. Reg. No. 364-11-03265</p>
+            <p>Please include a reply-to email address and a short description of your situation (what kind of work and what environment) so we can answer more quickly.</p>
+            <p>We handle the information you send us as described in our <a href="privacy.html">Privacy Policy</a>.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>How to reach us</h2>
-      <h3>Email</h3>
-      <p><a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a></p>
-      <p>Please include a reply-to email address and a short description of your situation (what kind of work and what environment) so we can answer more quickly.</p>
-      <h3>Contact form</h3>
-      <p>The contact form on our <a href="/#contact">Korean home page</a> also works, but it is in Korean. Email is the easiest option in English.</p>
-    </section>
-
-    <section class="card">
-      <h2>Business information</h2>
-      <p>IT Solvers · CEO Hyeok Lee · Biz. Reg. No. 364-11-03265</p>
-      <p>We handle the information you send us as described in our <a href="privacy.html">Privacy Policy</a>.</p>
-    </section>
+        <section id="contact" class="contact">
+            <div class="container">
+                <span class="section-label">Contact</span>
+                <h2>Leave us a question</h2>
+                <p>Send us a question, an error report, a development or IT asset inquiry, or a partnership proposal using the form below or by email.</p>
+                <!-- Contact form: sent through Web3Forms and delivered to the itsolvers mailbox. The access_key is a public key (the service limits its use). Works without JavaScript through action/method. -->
+                <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="28bac450-407f-4eca-80e8-d56aa9b0e839">
+                    <input type="hidden" name="subject" value="[IT Solvers website] A new inquiry has arrived">
+                    <input type="hidden" name="from_name" value="IT Solvers website (English)">
+                    <!-- Spam trap: hidden from people; the service filters submissions where a bot filled it in -->
+                    <input type="checkbox" name="botcheck" class="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="contact-field">
+                        <label for="cfName">Name (or company or organization)</label>
+                        <input type="text" id="cfName" name="name" autocomplete="name" maxlength="80" required>
+                    </div>
+                    <div class="contact-field">
+                        <label for="cfEmail">Email for our reply</label>
+                        <input type="email" id="cfEmail" name="email" autocomplete="email" maxlength="120" required>
+                    </div>
+                    <div class="contact-field">
+                        <label for="cfMessage">Message</label>
+                        <textarea id="cfMessage" name="message" rows="5" maxlength="3000" required></textarea>
+                    </div>
+                    <label class="contact-consent">
+                        <input type="checkbox" name="consent" value="Agreed" required>
+                        <span>
+                            I agree to the collection and use of my personal information.
+                            <small>
+                                Information collected: name, email, message / Purpose: to review your message and reply /
+                                Retention: deleted promptly after we reply (unless the law requires us to keep it) /
+                                You may decline, but then you cannot use the form (you can email us at the address below instead).
+                                What you enter is delivered to us by email through the form service Web3Forms.
+                            </small>
+                        </span>
+                    </label>
+                    <button type="submit" class="contact-copy contact-submit" id="contactSubmit">Send message</button>
+                    <p class="contact-status contact-form-status" id="contactStatus" role="status" aria-live="polite"></p>
+                </form>
+                <div class="contact-email">
+                    <p class="contact-or">You can also email us directly instead of using the form</p>
+                    <p class="contact-address">dlgurpro@itsolvers.co.kr</p>
+                    <div class="contact-btn-row">
+                        <button type="button" class="contact-copy contact-copy-sub" id="copyEmail" data-email="dlgurpro@itsolvers.co.kr" title="Copy the email address to your clipboard">Copy email address</button>
+                        <a class="contact-mailto" href="mailto:dlgurpro@itsolvers.co.kr">Open in mail app</a>
+                    </div>
+                    <p class="contact-status" id="copyStatus" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+        </section>
 
   </main>
 

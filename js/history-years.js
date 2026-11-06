@@ -1,5 +1,6 @@
 /* 주요실적: 카드 위 연도 슬라이드. 연도를 누르면 그 연도에 시작한 실적만 보이고, '전체'는 처음 모양으로 돌아간다. */
 (function () {
+    var EN = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0; /* 영문 페이지면 영어 문구 */
     var list = document.querySelector(".history-list");
     if (!list) return;
 
@@ -27,7 +28,7 @@
     range.max = years.length;
     range.step = 1;
     range.value = 0;
-    range.setAttribute("aria-label", "시작 연도 선택");
+    range.setAttribute("aria-label", EN ? "Select start year" : "시작 연도 선택");
 
     var STEP = 3;
     var shown = STEP;
@@ -36,16 +37,16 @@
     var moreBtn = document.createElement("button");
     moreBtn.type = "button";
     moreBtn.className = "history-more-btn";
-    moreBtn.textContent = "실적 더 보기";
+    moreBtn.textContent = EN ? "Show more projects" : "실적 더 보기";
 
     function render() {
-        label.textContent = current === "all" ? "전체" : current + "년";
+        label.textContent = current === "all" ? (EN ? "All" : "전체") : (EN ? current : current + "년");
         label.style.setProperty("--pos", range.value / range.max);
         items.forEach(function (item, idx) {
             item.hidden = current === "all" ? idx >= shown : item.dataset.year !== current;
         });
         moreBtn.hidden = current !== "all";
-        moreBtn.textContent = shown >= items.length ? "주요실적 맨 위로 ↑" : "실적 더 보기";
+        moreBtn.textContent = shown >= items.length ? (EN ? "Back to top of projects ↑" : "주요실적 맨 위로 ↑") : (EN ? "Show more projects" : "실적 더 보기");
     }
 
     function select(year) {

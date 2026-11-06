@@ -37,18 +37,13 @@
     .language-link { padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #475467; font-size: 13px; font-weight: 600; white-space: nowrap; }
     .language-link:hover { border-color: #2563eb; color: #2563eb; }
   </style>
-  <style>
-    /* About card: portrait on the right, text on the left (two columns so the text never wraps under the image) */
-    .about-who { display: flex; flex-direction: row-reverse; gap: 20px; align-items: flex-start; }
-    .about-who-text { flex: 1; min-width: 0; }
-    .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid #cdb98f; box-shadow: 3px 3px 0 rgba(80, 55, 20, .18); object-fit: cover; }
-    @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } }
-  </style>
-  <link rel="stylesheet" href="../css/dark.css?v=20261102">
-  <link rel="stylesheet" href="../css/theme-sub.css?v=20261102">
+  <link rel="stylesheet" href="../css/theme.css?v=20261102">
+  <link rel="stylesheet" href="../css/company-pages.css?v=20261107">
   <script src="../js/theme.js"></script>
+  <script src="../js/contact-form.js" defer></script>
+  <script src="../js/history-years.js" defer></script>
 </head>
-<body class="lease-page">
+<body>
   <header>
     <div class="container nav">
       <a href="./" class="logo" title="Go to the IT Solvers home page">
@@ -63,53 +58,1008 @@
     </div>
   </header>
 
-  <main class="lease-overview">
-    <div class="page-date-row"><time class="page-date" datetime="2026-10-21">Published October 21, 2026</time></div>
-    <h1>About IT Solvers</h1>
-    <p class="sub">An IT partner that listens first, then finds the solution.</p>
+  <main>
 
-    <section class="card about-who">
-      <img class="about-avatar" src="../images/ceo-avatar.webp" alt="Cartoon portrait of CEO Hyeok Lee" width="104" height="104" loading="lazy">
-      <div class="about-who-text">
-        <h2>Who runs this site</h2>
-        <p>IT Solvers is an IT service business run by its CEO, Hyeok Lee (Business Registration No. 364-11-03265). We take on software, web, and mobile app development, system maintenance, and IT asset and PC supply and installation.</p>
-        <p>The CEO has built and operated finance and lease domain systems for more than 20 years. The technical insights on this site come from that hands-on experience.</p>
+    <section class="about-section alt" id="about">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">About</span>
+          <h2>About IT Solvers</h2>
+          <p>An IT partner that listens first, then finds the solution.</p>
+        </div>
+        <p class="about-page-date"><time class="page-date" datetime="2026-10-21">Published October 21, 2026</time></p>
+        <div class="about-card about-who">
+          <img class="about-avatar" src="../images/ceo-avatar.webp" alt="Cartoon portrait of CEO Hyeok Lee" width="104" height="104" loading="lazy">
+          <div class="about-who-text">
+            <h3>Who runs this site</h3>
+            <p>IT Solvers is an IT service business run by its CEO, Hyeok Lee (Business Registration No. 364-11-03265). We take on software, web, and mobile app development, system maintenance, and IT asset and PC supply and installation.</p>
+            <p>The CEO has built and operated finance and lease domain systems for more than 20 years. The technical insights on this site come from that hands-on experience.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="card">
-      <h2>What we do</h2>
-      <ul>
-        <li>Software, web, and mobile app development, and system maintenance</li>
-        <li>Custom IT asset and PC supply, setup, and installation</li>
-        <li>Consulting on finance and lease business systems</li>
-      </ul>
+    <section class="about-section" id="about-site">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">This site</span>
+          <h2>What you will find here</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>Technical insights</h3>
+            <p>The <a href="./">English home page</a> lists everything we publish for free:</p>
+            <ul>
+              <li><strong>Guides and terminology</strong> – a lease overview, lease terminology, and a guide to revenue recognition for finance and operating leases, explained in plain English with examples.</li>
+              <li><strong>Calculators</strong> – a lease payment calculator, a cash-flow IRR calculator, and a calculator that works backward from a target IRR. The calculation methods are published with the code.</li>
+              <li><strong>MVP (Minimum Viable Product)</strong> – services we are building ourselves, such as an e-contract tool you install on your own server with no subscription.</li>
+            </ul>
+          </div>
+          <div class="about-card">
+            <h3>How we write</h3>
+            <ul>
+              <li>Accounting and lease content is explained against standards such as K-IFRS 1116, and we try to separate what the standard says from common industry practice.</li>
+              <li>Example figures are made up to aid understanding. The calculators are for learning only and are not an estimate, accounting opinion, or tax advice.</li>
+              <li>When we correct an error, we fix the page and show the publication date at the top.</li>
+              <li>If you find a mistake, please tell us through the <a href="contact.html">contact page</a>. We will review it and update the page.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>What you will find here</h2>
-      <p>The <a href="./">English home page</a> lists everything we publish for free:</p>
-      <ul>
-        <li><strong>Guides and terminology</strong> – a lease overview, lease terminology, and a guide to revenue recognition for finance and operating leases, explained in plain English with examples.</li>
-        <li><strong>Calculators</strong> – a lease payment calculator, a cash-flow IRR calculator, and a calculator that works backward from a target IRR. The calculation methods are published with the code.</li>
-        <li><strong>MVP (Minimum Viable Product)</strong> – services we are building ourselves, such as an e-contract tool you install on your own server with no subscription.</li>
-      </ul>
-    </section>
+        <section id="services" class="services">
 
-    <section class="card">
-      <h2>How we write</h2>
-      <ul>
-        <li>Accounting and lease content is explained against standards such as K-IFRS 1116, and we try to separate what the standard says from common industry practice.</li>
-        <li>Example figures are made up to aid understanding. The calculators are for learning only and are not an estimate, accounting opinion, or tax advice.</li>
-        <li>When we correct an error, we fix the page and show the publication date at the top.</li>
-        <li>If you find a mistake, please tell us through the <a href="contact.html">contact page</a>. We will review it and update the page.</li>
-      </ul>
-    </section>
+            <div class="container">
 
-    <section class="card">
-      <h2>Contact</h2>
-      <p>Email <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy Policy</a></p>
-    </section>
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        Services
+                    </span>
+
+                    <h2>
+                        What We Offer
+                    </h2>
+
+                    <p>We take on software and app development, IT asset supply, and computer, server, and NAS setup.</p>
+
+                </div>
+
+
+
+                <div class="service-grid">
+
+
+                    
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            01
+                        </div>
+
+                        <h3>
+                            AI-First Software and App Development
+                        </h3>
+
+                        <p>With AI helping from analysis through testing, we build a working product (MVP) first and then refine it.</p>
+
+                        <ul>
+
+                            <li>
+                                Business software development with AI
+                            </li>
+
+                            <li>
+                                Custom web and app development (starting from an MVP, step by step)
+                            </li>
+
+                            <li>
+                                Design review grounded in finance and lease business knowledge
+                            </li>
+
+                            <li>
+                                Maintenance of existing systems
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+
+                    
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            02
+                        </div>
+
+                        <h3>
+                            IT Asset Supply
+                        </h3>
+
+                        <p>We consult on and supply the IT equipment that institutions and companies need.</p>
+
+                        <ul>
+
+                            <li>
+                                Laptops and desktops
+                            </li>
+
+                            <li>
+                                Monitors and peripherals
+                            </li>
+
+
+                            <li>
+                                Network equipment design and setup
+                            </li>
+
+                            <li>
+                                IT asset supply for institutions and companies
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+
+                    
+
+                    <article class="service-card">
+
+                        <div class="service-icon">
+                            03
+                        </div>
+
+                        <h3>
+                            Computer, Server, and NAS Setup
+                        </h3>
+
+                        <p>We configure and install computers to fit your purpose and budget.</p>
+
+                        <ul>
+
+                            <li>
+                                Custom PC configuration and sales
+                            </li>
+
+                            <li>
+                                Windows installation and initial setup
+                            </li>
+
+                            <li>
+                                Linux installation and server environment setup
+                            </li>
+
+                            <li>
+                                Synology and OpenMediaVault NAS setup
+                            </li>
+
+                            <li>
+                                Installing essential software and checking the initial work environment
+                            </li>
+
+                        </ul>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="process" class="process">
+
+            <div class="container">
+
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        Process
+                    </span>
+
+                    <h2>
+                        From Request to Delivery
+                    </h2>
+
+                    <p>We work in this order: estimate, contract, tax documents, delivery and inspection, and payment confirmation.</p>
+
+                </div>
+
+
+
+                <div class="process-grid">
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            01
+                        </span>
+
+                        <h3>
+                            Estimate
+                        </h3>
+
+                        <p>We confirm your request, then send you an estimate.</p>
+
+                    </div>
+
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Contract (e-contract or paper)
+                        </h3>
+
+                        <p>Once you confirm the estimate, we move on to the contract.</p>
+
+                    </div>
+
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            03
+                        </span>
+
+                        <h3>
+                            Tax documents
+                        </h3>
+
+                        <p>We issue an electronic tax invoice or a cash receipt.</p>
+
+                    </div>
+
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            04
+                        </span>
+
+                        <h3>
+                            Installation, delivery, and inspection
+                        </h3>
+
+                        <p>We deliver the products, then handle any needed installation, initial setup, and final inspection.</p>
+
+                    </div>
+
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            05
+                        </span>
+
+                        <h3>
+                            Payment
+                        </h3>
+
+                        <p>Once delivery and inspection are done, we confirm your payment.</p>
+
+                    </div>
+
+
+
+                    
+
+                    <div class="process-card">
+
+                        <span class="process-number">
+                            06
+                        </span>
+
+                        <h3>
+                            Wrap-up
+                        </h3>
+
+                        <p>We review the delivery once more and close out the deal.</p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="history" class="history">
+
+            <div class="container">
+
+                <div class="section-title">
+
+                    <span class="section-label">
+                        Track Record
+                    </span>
+
+                    <h2>
+                        Key Projects and Deliveries
+                    </h2>
+
+                    <p>
+                        We provide sustainable IT services built on trust with institutions and companies.
+                    </p>
+
+                </div>
+
+
+                <div class="history-list">
+
+                    
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Oct 2026</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Approved as a bidder-qualified supplier on KONEPS (Korea public procurement e-system)</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Public Procurement Service (KONEPS)</span>
+                                <span class="history-role">Supplier registration</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Sep 2026</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">IT asset delivery to the Gimpo Child Protection Agency</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Gimpo Child Protection Agency</span>
+                                <span class="history-role">IT Asset Supply</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Synology NAS</span>
+                            <span class="env-tag">Laptops</span>
+                        </div>
+                    </article>
+
+                    
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Jul 2024 – Sep 2025</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Shinhan Bank New Integrated Financial System 2.0 (Innovation) Project</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Shinhan Bank, Integrated Finance Dept.</span>
+                                <span class="history-role">Project Lead / Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MyBatis</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">BXM</span>
+                            <span class="env-tag">WebSquare5</span>
+                            <span class="env-tag">Report Designer</span>
+                            <span class="env-tag">EAI/MCI</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Jul 2023 – Dec 2023</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Woori Financial Capital Leased Asset Post-Management Enhancement Project
+                                </h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Woori Financial Capital</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">XFrame</span>
+                            <span class="env-tag">Jira</span>
+                            <span class="env-tag">EAI/MCI</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Aug 2022 – Jun 2023</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">SaaS Brokerage Platform for Small Car Rental Companies</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Biz & Platform Co., Ltd.</span>
+                                <span class="history-role">Project Manager / Analysis, design</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">AWS</span>
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">Vue 3.0</span>
+                            <span class="env-tag">Typescript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">IntelliJ</span>
+                            <span class="env-tag">VS Code</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Git</span>
+                            <span class="env-tag">RESTful API</span>
+                            <span class="env-tag">Toss Payments</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Apr 2022 – Jul 2022</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">RentNote System Build (Car Rental ERP Enhancement)
+                                </h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Fincar Co., Ltd.</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">React</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">VS Code</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Git</span>
+                            <span class="env-tag">RESTful API</span>
+                        </div>
+                    </article>
+
+                                            <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">May 2021 – Dec 2021</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Shinhan My Car Connect Project</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Shinhan Card</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">jQuery</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">EAI/MCI</span>
+                            <span class="env-tag">Devon Framework</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Aug 2020 – Feb 2021</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Hana Capital Car Rental Enhancement Project</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Hana Capital</span>
+                                <span class="history-role">PL</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Jul 2019 – Jul 2020</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Woori Card Lease/Rental Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Woori Card</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Mar 2017 – Jun 2019</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Woori Card Lease/Rental Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Woori FIS</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Aug 2016 – Feb 2017</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Production Process Computerization: Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Seongwook Co., Ltd.</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Win10</span>
+                            <span class="env-tag">C#</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Visual Studio 2016</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Apr 2016 – Jul 2016</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Production Process Computerization: Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Seongwook Co., Ltd.</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Win10</span>
+                            <span class="env-tag">C#</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Visual Studio 2016</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Feb 2016 – Mar 2016</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">
+                                    <a href="https://www.hansulmusic.com/" target="_blank" rel="noopener">Hanseol Music Website Development <span class="insight-link-cue" aria-hidden="true">↗</span></a>
+                                </h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Hanseol Music</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Wix</span>
+                            <span class="env-tag">Music preview</span>
+                            <span class="env-tag">PayPal integration</span>
+                            <span class="env-tag">Website</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Aug 2014 – Jul 2015</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">JB Woori Capital Next-Generation Project</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">JB Woori Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">WebSquare</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Nov 2013 – Jul 2014</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">KDB Capital Auto Finance Enhancement</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">KDB Capital</span>
+                                <span class="history-role">Analysis, design</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">IBM S814 (IBM i7.3)</span>
+                            <span class="env-tag">RPG</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">Magic</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Feb 2010 – Jan 2011</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Samsung Card Next-Generation System Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Samsung Card</span>
+                                <span class="history-role">Analysis, design</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Unix</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Nov 2009 – Feb 2010</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Lease Package Enhancement</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Biz System Co., Ltd.</span>
+                                <span class="history-role">Analysis, design</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Linux</span>
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MySQL</span>
+                            <span class="env-tag">Eclipse</span>
+                            <span class="env-tag">Miplatform</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Jun 2008 – Nov 2009</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Doosan Capital Next-Generation System Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Doosan Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Oct 2005 – Aug 2006</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">KTRental New Management System Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">KTRental</span>
+                                <span class="history-role">Analysis, design</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Mar 2005 – Sep 2005</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">IBK Capital Lease System Enhancement</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">IBK Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Delphi</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Dec 2004 – Feb 2005</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Yeonhap Capital Lease System Enhancement</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Yeonhap Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Delphi</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Oct 2003 – Nov 2004</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Samsung Capital Integrated Lease System Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Samsung Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Apr 2003 – Jul 2003</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Samsung Capital SAP Interface Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Samsung Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Jan 2003 – Apr 2003</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Samsung Capital Durable Goods Lease Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Samsung Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Apr 2002 – Nov 2002</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Samsung Capital Auto Lease Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Samsung Capital</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Feb 2001 – Feb 2002</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">KOICA Integrated Information System Development</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Korea International Cooperation Agency (KOICA)</span>
+                                <span class="history-role">Analysis, design, development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Oracle</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Aug 2000 – Dec 2000</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">NongHyup Management Information System Enhancement</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">National Agricultural Cooperative Federation (NongHyup)</span>
+                                <span class="history-role">Development</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">Informix</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Mar 1998 – Jun 2000</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Daedong Cable Web ERP Development and Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Daedong Cable Co., Ltd.</span>
+                                <span class="history-role">Development / Operations</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">Java</span>
+                            <span class="env-tag">JSP</span>
+                            <span class="env-tag">JavaScript</span>
+                            <span class="env-tag">MSSQL</span>
+                        </div>
+                    </article>
+
+                    <article class="history-item">
+                        <div class="history-header">
+                            <div class="history-main">
+                                <div class="history-date">Nov 1994 – Feb 1998</div>
+                                <h3 class="history-desc" style="margin:0; font-size:17px;">Basic Process Control System (BPCS) Operations</h3>
+                            </div>
+                            <div class="history-meta">
+                                <span class="history-client">Daedong Cable Co., Ltd.</span>
+                                <span class="history-role">Development / Operations</span>
+                            </div>
+                        </div>
+                        <div class="history-env">
+                            <span class="env-tag">IBM AS400 (OS400)</span>
+                            <span class="env-tag">RPG</span>
+                            <span class="env-tag">DB2</span>
+                            <span class="env-tag">AS/SET</span>
+                        </div>
+                    </article>
+
+                    
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <span class="section-label">Contact</span>
+                <h2>Leave us a question</h2>
+                <p>Send us a question, an error report, a development or IT asset inquiry, or a partnership proposal using the form below or by email.</p>
+                <!-- Contact form: sent through Web3Forms and delivered to the itsolvers mailbox. The access_key is a public key (the service limits its use). Works without JavaScript through action/method. -->
+                <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="28bac450-407f-4eca-80e8-d56aa9b0e839">
+                    <input type="hidden" name="subject" value="[IT Solvers website] A new inquiry has arrived">
+                    <input type="hidden" name="from_name" value="IT Solvers website (English)">
+                    <!-- Spam trap: hidden from people; the service filters submissions where a bot filled it in -->
+                    <input type="checkbox" name="botcheck" class="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="contact-field">
+                        <label for="cfName">Name (or company or organization)</label>
+                        <input type="text" id="cfName" name="name" autocomplete="name" maxlength="80" required>
+                    </div>
+                    <div class="contact-field">
+                        <label for="cfEmail">Email for our reply</label>
+                        <input type="email" id="cfEmail" name="email" autocomplete="email" maxlength="120" required>
+                    </div>
+                    <div class="contact-field">
+                        <label for="cfMessage">Message</label>
+                        <textarea id="cfMessage" name="message" rows="5" maxlength="3000" required></textarea>
+                    </div>
+                    <label class="contact-consent">
+                        <input type="checkbox" name="consent" value="Agreed" required>
+                        <span>
+                            I agree to the collection and use of my personal information.
+                            <small>
+                                Information collected: name, email, message / Purpose: to review your message and reply /
+                                Retention: deleted promptly after we reply (unless the law requires us to keep it) /
+                                You may decline, but then you cannot use the form (you can email us at the address below instead).
+                                What you enter is delivered to us by email through the form service Web3Forms.
+                            </small>
+                        </span>
+                    </label>
+                    <button type="submit" class="contact-copy contact-submit" id="contactSubmit">Send message</button>
+                    <p class="contact-status contact-form-status" id="contactStatus" role="status" aria-live="polite"></p>
+                </form>
+                <div class="contact-email">
+                    <p class="contact-or">You can also email us directly instead of using the form</p>
+                    <p class="contact-address">dlgurpro@itsolvers.co.kr</p>
+                    <div class="contact-btn-row">
+                        <button type="button" class="contact-copy contact-copy-sub" id="copyEmail" data-email="dlgurpro@itsolvers.co.kr" title="Copy the email address to your clipboard">Copy email address</button>
+                        <a class="contact-mailto" href="mailto:dlgurpro@itsolvers.co.kr">Open in mail app</a>
+                    </div>
+                    <p class="contact-status" id="copyStatus" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+        </section>
 
   </main>
 
