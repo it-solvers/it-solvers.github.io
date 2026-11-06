@@ -40,6 +40,24 @@
     .pk-shot img { display: block; width: 100%; height: auto; }
     .pk-shot figcaption { margin-top: 8px; font-size: 14px; line-height: 1.5; }
     .pk-shot figcaption strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    /* 움직임: 처음 열 때 제목·그림이 떠오르고, 스크롤하면 카드와 화면 캡처가 차례로 나타나요. 마우스를 올리면 캡처가 살짝 올라와요.
+       '움직임 줄이기'를 켠 사람에게는 모두 끈다. */
+    @keyframes pk-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes pk-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .lease-overview > h1, .lease-overview > .sub, .pk-hero { animation: pk-rise .7s ease-out both; }
+    .lease-overview > .sub { animation-delay: .12s; }
+    .pk-hero { animation-delay: .24s; }
+    .pk-hero img { animation: pk-float 6s ease-in-out 1s infinite; }
+    .pk-shot a { transition: transform .25s ease, box-shadow .25s ease; }
+    .pk-shot a:hover, .pk-shot a:focus-visible { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(10, 18, 48, .22); }
+    .js-anim .pk-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--d, 0s); }
+    .js-anim .pk-reveal.is-in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .lease-overview > h1, .lease-overview > .sub, .pk-hero, .pk-hero img { animation: none; }
+      .js-anim .pk-reveal { opacity: 1; transform: none; transition: none; }
+      .pk-shot a { transition: none; }
+      .pk-shot a:hover, .pk-shot a:focus-visible { transform: none; }
+    }
     @media (max-width: 640px) { .pk-shots { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; } }
   </style>
   <link rel="stylesheet" href="../css/styles.css">
@@ -171,5 +189,24 @@
   <div class="container footer-links"><a href="../about.html">소개</a> · <a href="../contact.html">문의 안내</a> · <a href="../privacy.html">개인정보처리방침</a></div>
   <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 아이티해결단 (IT Solvers). All rights reserved.</div>
 </footer>
+
+  <script>
+    // 스크롤해서 화면에 들어오면 .is-in을 붙여 나타나게 해요. 자바스크립트가 꺼져 있으면 처음부터 모두 보여요.
+    (function () {
+      var items = document.querySelectorAll('.lease-overview .card, .pk-shot');
+      if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.documentElement.classList.add('js-anim');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el, i) {
+        el.classList.add('pk-reveal');
+        if (el.classList.contains('pk-shot')) el.style.setProperty('--d', ((i % 3) * 0.08) + 's'); // 같은 줄 캡처는 조금씩 늦게
+        io.observe(el);
+      });
+    })();
+  </script>
 </body>
 </html>
