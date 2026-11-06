@@ -66,7 +66,6 @@
     .pk-step, .pk-feat { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 16px; border: 1px solid var(--lo-line); border-radius: 14px; font-size: 14px; line-height: 1.5; transition: transform .25s ease, box-shadow .25s ease; }
     .pk-step:hover, .pk-feat:hover { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(10, 18, 48, .16); }
     .pk-step strong, .pk-feat strong { font-size: 16px; }
-    .pk-ico { font-size: 28px; line-height: 1; }
     .pk-num { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
     html.dark-mode .pk-num { background: #6b9bff; color: #06122e; }
     .pk-shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; }
@@ -75,7 +74,7 @@
     .lease-overview > section.pk-privacy h2, .lease-overview > section.pk-privacy p { color: #fff; margin-top: 0; }
     .lease-overview > section.pk-privacy a, html.dark-mode .lease-overview > section.pk-privacy a { color: #fff; font-weight: 700; text-decoration: underline; }
     .pk-notes { display: flex; flex-direction: column; gap: 10px; }
-    .pk-notes li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border: 1px solid var(--lo-line); border-radius: 12px; font-size: 15px; }
+    .pk-notes li { padding: 12px 16px; border: 1px solid var(--lo-line); border-radius: 12px; font-size: 15px; }
     html.dark-mode .pk-notes li { border-color: #262c40; }
     html.dark-mode .pk-step, html.dark-mode .pk-feat { border-color: #262c40; }
     @media (max-width: 860px) { .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } }
@@ -108,22 +107,22 @@
     <section>
       <h2 class="pk-h">이렇게 써요</h2>
       <ol class="pk-steps">
-        <li class="pk-step card"><span class="pk-num">1</span><span class="pk-ico" aria-hidden="true">📷</span><strong>찍기</strong><span>책 쪽을 한 쪽씩, 또는 펼친 두 쪽을 한 번에 스캔해요.</span></li>
-        <li class="pk-step card"><span class="pk-num">2</span><span class="pk-ico" aria-hidden="true">✂️</span><strong>다듬기</strong><span>돌리고, 자르고, 밝게·회색조·흑백 필터로 읽기 좋게 만들어요.</span></li>
-        <li class="pk-step card"><span class="pk-num">3</span><span class="pk-ico" aria-hidden="true">🔎</span><strong>읽고 메모하기</strong><span>한국어 글자를 읽어 주고, 검색하고, 손글씨로 메모해요.</span></li>
-        <li class="pk-step card"><span class="pk-num">4</span><span class="pk-ico" aria-hidden="true">📄</span><strong>PDF로 보관</strong><span>책 한 권을 PDF로 만들어 문서 폴더에 저장해요.</span></li>
+        <li class="pk-step card"><span class="pk-num">1</span><strong>찍기</strong><span>책 쪽을 한 쪽씩, 또는 펼친 두 쪽을 한 번에 스캔해요.</span></li>
+        <li class="pk-step card"><span class="pk-num">2</span><strong>다듬기</strong><span>돌리고, 자르고, 밝게·회색조·흑백 필터로 읽기 좋게 만들어요.</span></li>
+        <li class="pk-step card"><span class="pk-num">3</span><strong>읽고 메모하기</strong><span>한국어 글자를 읽어 주고, 검색하고, 손글씨로 메모해요.</span></li>
+        <li class="pk-step card"><span class="pk-num">4</span><strong>PDF로 보관</strong><span>책 한 권을 PDF로 만들어 문서 폴더에 저장해요.</span></li>
       </ol>
     </section>
 
     <section>
       <h2 class="pk-h">주요 기능</h2>
       <ul class="pk-feats">
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">📚</span><strong>책·악보·문서</strong><span>책, 악보, 문서를 쪽 단위로 모아 한 권으로 관리해요.</span></li>
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">✍️</span><strong>손글씨 메모</strong><span>볼펜, 형광펜, 지우개로 쪽 위에 바로 메모해요.</span></li>
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🔍</span><strong>글자 검색</strong><span>읽은 글자 전체에서 단어를 찾고 그 쪽으로 바로 가요.</span></li>
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">✏️</span><strong>글자 고치기</strong><span>잘못 읽은 글자는 직접 고치고 글자 크기도 바꿔요.</span></li>
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🔒</span><strong>내 폰 안에만</strong><span>회원가입·서버 없이 내 폰 안에만 저장돼요.</span></li>
-        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🆓</span><strong>광고 없이 무료</strong><span>광고 없이 무료로 쓸 수 있어요.</span></li>
+        <li class="pk-feat card"><strong>책·악보·문서</strong><span>책, 악보, 문서를 쪽 단위로 모아 한 권으로 관리해요.</span></li>
+        <li class="pk-feat card"><strong>손글씨 메모</strong><span>볼펜, 형광펜, 지우개로 쪽 위에 바로 메모해요.</span></li>
+        <li class="pk-feat card"><strong>글자 검색</strong><span>읽은 글자 전체에서 단어를 찾고 그 쪽으로 바로 가요.</span></li>
+        <li class="pk-feat card"><strong>글자 고치기</strong><span>잘못 읽은 글자는 직접 고치고 글자 크기도 바꿔요.</span></li>
+        <li class="pk-feat card"><strong>내 폰 안에만</strong><span>회원가입·서버 없이 내 폰 안에만 저장돼요.</span></li>
+        <li class="pk-feat card"><strong>광고 없이 무료</strong><span>광고 없이 무료로 쓸 수 있어요.</span></li>
       </ul>
     </section>
 
@@ -197,9 +196,9 @@
     <section>
       <h2 class="pk-h">알아 두실 점</h2>
       <ul class="pk-notes">
-        <li><span aria-hidden="true">📱</span><span>안드로이드 앱이에요. 폰과 태블릿, 갤럭시 Z 폴드 같은 접는 폰에서도 쓸 수 있어요.</span></li>
-        <li><span aria-hidden="true">🗓️</span><span>출시 일정은 11월 중이며, 심사 상황에 따라 달라질 수 있습니다.</span></li>
-        <li><span aria-hidden="true">🍎</span><span>아이폰(iOS)용은 추후 출시 예정입니다.</span></li>
+        <li>안드로이드 앱이에요. 폰과 태블릿, 갤럭시 Z 폴드 같은 접는 폰에서도 쓸 수 있어요.</li>
+        <li>출시 일정은 11월 중이며, 심사 상황에 따라 달라질 수 있습니다.</li>
+        <li>아이폰(iOS)용은 추후 출시 예정입니다.</li>
       </ul>
     </section>
 
