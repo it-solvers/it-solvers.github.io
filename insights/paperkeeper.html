@@ -261,7 +261,7 @@
   </script>
 
   <script>
-    // 화면 미리보기 슬라이더. 화살표·점·터치 밀기로 넘기고, 4초마다 저절로 넘어가요(마우스를 올리거나 손이 닿으면 멈춤).
+    // 화면 미리보기 슬라이더. 화살표·점·터치 밀기로 넘기고, 3초마다 저절로 넘어가요(마우스를 올리거나 손이 닿으면 멈춤).
     (function () {
       var box = document.querySelector('.pk-slider');
       if (!box) return;
@@ -337,7 +337,7 @@
       var timer = null;
       function play() {
         if (reduce || timer) return;
-        timer = setInterval(function () { goTo(current() >= lastIndex() ? 0 : current() + 1); }, 4000);
+        timer = setInterval(function () { goTo(current() >= lastIndex() ? 0 : current() + 1); }, 3000);
       }
       function pause() { clearInterval(timer); timer = null; }
       box.addEventListener('mouseenter', pause);
