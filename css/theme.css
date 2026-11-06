@@ -181,3 +181,5 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
 .hero-build { margin: 0 0 10px; max-width: 650px; word-break: keep-all; font-size: 15px; line-height: 1.65; color: var(--t-muted); }
 .hero-build strong { color: var(--t-ink); }
 .hero-build a { margin-left: 6px; color: var(--t-ac-text); font-weight: 600; white-space: nowrap; }
+/* 메인의 서비스 카드는 항목 목록 없이 요약만 있어서 아래 빈 공간이 생기지 않게 최소 높이를 푼다(소개 페이지는 목록이 있어 그대로) */
+.services-compact .service-card { min-height: 0; }
