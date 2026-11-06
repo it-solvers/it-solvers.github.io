@@ -89,3 +89,20 @@ html.dark-mode .site-header .brand .logo-light { display: none; }
 .news-tag { border-radius: 0; background: transparent; padding: 0; font-family: var(--t-mono); font-weight: 500; color: var(--t-ac2); }
 .button-link, button:not(.theme-toggle) { border-radius: 8px; }
 input, select { border-radius: 8px; }
+
+/* ===== 영문 메인 카드: 벤토(Bento) 격자 (한글 메인과 같은 규칙) =====
+   6칸 격자에서 카드 4개는 4·2·2·4칸, 카드 3개는 첫 카드가 왼쪽에서 2줄 높이. 그 외 개수는 모두 3칸(2열).
+   폭 800px 이하(폰)에서는 한 줄에 한 장. */
+:root:root:root .card-grid { grid-template-columns: repeat(6, 1fr); gap: 16px; }
+:root:root:root .card-grid > .card-link { grid-column: span 3; padding: 20px 22px; }
+:root:root:root .card-grid > .card-link:first-child:nth-last-child(4) { grid-column: span 4; }
+:root:root:root .card-grid > .card-link:nth-child(2):nth-last-child(3) { grid-column: span 2; }
+:root:root:root .card-grid > .card-link:nth-child(3):nth-last-child(2) { grid-column: span 2; }
+:root:root:root .card-grid > .card-link:last-child:nth-child(4) { grid-column: span 4; }
+:root:root:root .card-grid > .card-link:first-child:nth-last-child(3) { grid-column: span 3; grid-row: span 2; }
+@media (max-width: 800px) {
+    :root:root:root .card-grid { grid-template-columns: 1fr; }
+    :root:root:root .card-grid > .card-link:nth-child(n):nth-last-child(n) { grid-column: auto; grid-row: auto; }
+}
+/* 카드 묶음 사이 간격(벤토로 카드가 커져서 묶음 제목이 앞 카드에 붙어 보이던 것을 띄운다) */
+main section + section { margin-top: 36px; }
