@@ -3,31 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PaperKeeper 개인정보처리방침 / Privacy Policy | 아이티해결단</title>
-  <meta name="description" content="PaperKeeper 앱의 개인정보처리방침입니다. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고 서버로 보내지 않습니다. (Korean and English)">
+  <title>PaperKeeper 개인정보처리방침 / Privacy Policy</title>
+  <meta name="description" content="PaperKeeper 앱의 개인정보처리방침입니다. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고 서버로 보내지 않습니다. (한국어와 English 한 페이지)">
   <link rel="icon" href="https://itsolvers.co.kr/images/logo.png" type="image/png">
   <!--
-  PaperKeeper 개인정보처리방침 초안이에요. 홈페이지(예: https://itsolvers.co.kr/paperkeeper/privacy)에 이 파일을 올리고,
+  PaperKeeper 개인정보처리방침 초안이에요. 홈페이지(https://itsolvers.co.kr/app/android/paperkeeper/privacy-policy.html)에 이 파일을 올리고,
   그 주소를 Play Console의 "개인정보처리방침"에 적어요. (docs/출시-준비.md 3-2)
   2026-11-06: 메모·원본 이미지(필터·자르기 되돌리기) 저장 내용과 삭제 내용을 1번·6번에 추가하고 시행일을 고쳤어요. 앱에 저장하는 것이 더 늘면 1번·6번을 같이 고쳐요.
   ★ 7번 "자동 백업과 기기 변경"은 앱 설정(data_extraction_rules.xml, backup_rules.xml)과 맞아야 해요. 지금 글은 "구글 계정 백업은 끄고, 기기 변경 때 폰 대 폰 이전은 허용"한 설정을 기준으로 썼어요. (docs/출시-준비.md 3-1)
   ★ 3번의 구글 ML Kit 데이터 내용은 구글 안내 페이지(https://developers.google.com/ml-kit/android-data-disclosure)를 기준으로 했어요. 올리기 전에 한 번 더 확인해요.
 -->
   <style>
-    /* 언어 전환 버튼 (한국어 / English). 글자 대비 4.5:1 이상: 밝은 화면 #1d4ed8 위 흰 글자, 어두운 화면 #6b9bff 위 #06122e 글자 */
-    .lang-switch { display: flex; gap: 8px; margin: 12px 0 4px; }
-    .lang-switch button { padding: 8px 18px; border: 1px solid #1d4ed8; border-radius: 999px; background: transparent; color: #1d4ed8; font: inherit; font-weight: 700; cursor: pointer; }
-    .lang-switch button[aria-pressed="true"] { background: #1d4ed8; color: #fff; }
-    html.dark-mode .lang-switch button { border-color: #6b9bff; color: #6b9bff; }
-    html.dark-mode .lang-switch button[aria-pressed="true"] { background: #6b9bff; color: #06122e; }
-    .lang-switch button:focus-visible { outline: 3px solid #06b6d4; outline-offset: 2px; }
-    /* 카드는 원래 main 바로 아래 section만 모양이 입혀져요. 여기서는 언어 칸(div) 안에 있어서 같은 모양을 한 번 더 지정해요. */
-    .lease-overview > [data-lang] > section.card { min-width: 0; margin-top: 16px; padding: 20px; border: 1px solid var(--lo-line); border-radius: 10px; background: #fbf9f4; }
-    /* 자바스크립트가 켜져 있을 때만 한쪽 언어를 숨긴다. 꺼져 있으면 두 언어가 모두 보인다. */
-    .js-lang [data-lang][hidden] { display: none; }
-    [data-lang="en"] { margin-top: 0; }
-    html:not(.js-lang) [data-lang="en"] { margin-top: 56px; }
-    html:not(.js-lang) .lang-switch { display: none; }
+    /* 한국어와 English를 한 페이지에 모두 보여 준다(구글 플레이 심사에서 한 번에 확인). 위쪽 링크로 서로 건너뛴다. */
+    .lease-overview h1[id] { scroll-margin-top: 88px; }
+    .lease-overview > h1[id="en"] { margin-top: 0; }
+    .lease-overview > hr { border: 0; border-top: 1px solid var(--lo-line); margin: 56px 0 40px; }
+    .lease-overview > section.card { min-width: 0; }
   </style>
   <link rel="stylesheet" href="../../../css/styles.css">
   <link rel="stylesheet" href="../../../css/dark.css">
@@ -48,14 +39,8 @@
 
   <main class="lease-overview">
     <div class="page-date-row"><time class="page-date" datetime="2026-11-06">작성일 2026.11.06</time></div>
-    <div class="lang-switch" role="group" aria-label="언어 / Language">
-      <button type="button" data-set="ko" aria-pressed="true">한국어</button>
-      <button type="button" data-set="en" aria-pressed="false">English</button>
-    </div>
-
-    <div data-lang="ko" lang="ko">
     <h1 id="top">PaperKeeper 개인정보처리방침</h1>
-<p class="sub">시행일: 2026-11-06 (최근 고친 날: 2026-11-06) · 운영: 개인 개발자 · 문의: <a href="mailto:dlgur1010@naver.com">dlgur1010@naver.com</a></p>
+<p class="sub">시행일: 2026-11-06 (최근 고친 날: 2026-11-06) · 운영: 개인 개발자 · 문의: <a href="mailto:dlgur1010@naver.com">dlgur1010@naver.com</a> · <a href="#en">English</a></p>
 
 <p class="note"><strong>한 줄 요약.</strong> PaperKeeper에는 회원가입도, 서버도, 광고도 없어요. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고, 우리가 가져가지 않아요.</p>
 
@@ -129,11 +114,10 @@
     </section>
 
 
-    </div>
+    <hr>
 
-    <div data-lang="en" lang="en">
-    <h1 id="en">PaperKeeper Privacy Policy</h1>
-<p class="sub">Effective: 2026-11-06 (last updated: 2026-11-06) · Operated by an individual developer · Contact: <a href="mailto:dlgur1010@naver.com">dlgur1010@naver.com</a></p>
+    <h1 id="en" lang="en">PaperKeeper Privacy Policy</h1>
+<p class="sub">Effective: 2026-11-06 (last updated: 2026-11-06) · Operated by an individual developer · Contact: <a href="mailto:dlgur1010@naver.com">dlgur1010@naver.com</a> · <a href="#top">한국어</a></p>
 
 <p class="note"><strong>In short.</strong> PaperKeeper has no accounts, no servers and no ads. Your scanned documents and recognized text stay on your phone. We do not collect them.</p>
 
@@ -207,41 +191,6 @@
     </section>
 
 
-    </div>
   </main>
-
-  <footer>
-    <div class="container">
-      <strong>아이티해결단 (IT Solvers)</strong>
-      <span>| 대표 이혁</span>
-      <span>| 사업자등록번호 364-11-03265</span>
-    </div>
-  <div class="container footer-links"><a href="../../../about.html">소개</a> · <a href="../../../contact.html">문의 안내</a> · <a href="../../../privacy.html">개인정보처리방침</a></div>
-  <div class="container copyright" style="margin-top:12px;font-size:12px;opacity:.7;text-align:left;">&copy; 2026 아이티해결단 (IT Solvers). All rights reserved.</div>
-</footer>
-
-  <script>
-    // 한국어/English 전환. 처음에는 브라우저 언어(또는 주소 끝 #en)를 따라가고, 버튼을 누르면 바뀌어요.
-    (function () {
-      var root = document.documentElement;
-      var panels = document.querySelectorAll('[data-lang]');
-      var buttons = document.querySelectorAll('.lang-switch button');
-      function show(lang) {
-        panels.forEach(function (p) { p.hidden = p.getAttribute('data-lang') !== lang; });
-        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set') === lang ? 'true' : 'false'); });
-        document.title = lang === 'en' ? 'PaperKeeper Privacy Policy | IT Solvers' : 'PaperKeeper 개인정보처리방침 | 아이티해결단';
-      }
-      buttons.forEach(function (b) {
-        b.addEventListener('click', function () {
-          var lang = b.getAttribute('data-set');
-          show(lang);
-          history.replaceState(null, '', lang === 'en' ? '#en' : location.pathname);
-        });
-      });
-      root.classList.add('js-lang');
-      var wantEn = location.hash === '#en' || (location.hash !== '#ko' && !/^ko/i.test(navigator.language || 'ko'));
-      show(wantEn ? 'en' : 'ko');
-    })();
-  </script>
 </body>
 </html>
