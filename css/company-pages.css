@@ -10,7 +10,7 @@
 .about-card p, .about-card li { color: var(--t-muted); line-height: 1.7; }
 .about-card ul { margin: 8px 0 0; padding-left: 20px; }
 .about-card a { color: var(--t-ac-text); }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
 .about-grid .about-card + .about-card { margin-top: 0; }
 /* 대표 소개: 오른쪽에 캐릭터, 왼쪽에 글(두 칸) */
 .about-who { display: flex; flex-direction: row-reverse; gap: 22px; align-items: flex-start; }
