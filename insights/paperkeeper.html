@@ -73,13 +73,13 @@
     html.dark-mode .pk-num { background: #6b9bff; color: #06122e; }
     /* 화면 미리보기 슬라이더: 옆으로 밀어서(터치), 화살표로, 점으로 넘기고, 가만히 두면 저절로 넘어가요. */
     .pk-slider { position: relative; margin-top: 12px; }
-    .pk-shots { list-style: none; margin: 0; padding: 14px 4px 22px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 4px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .pk-shots { list-style: none; margin: 0; padding: 14px 4px 22px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 4px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .pk-shots::-webkit-scrollbar { display: none; }
     .pk-shots { cursor: grab; }
     .pk-shots img { -webkit-user-drag: none; user-select: none; }
     /* 마우스로 끄는 동안: 자석처럼 붙는 동작과 부드러운 이동을 잠시 끄고 손을 떼면 가장 가까운 장에 맞춘다 */
     .pk-shots.is-drag { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-    .pk-shots > li { flex: 0 0 calc((100% - 32px) / 3); scroll-snap-align: start; }
+    .pk-shots > li { flex: 0 0 calc((100% - 32px) / 3); scroll-snap-align: start; scroll-snap-stop: normal; }
     .pk-arrow { position: absolute; top: 40%; z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(10, 18, 48, .3); }
     .pk-arrow:hover { background: #1e3a8a; }
     .pk-arrow[disabled] { opacity: .35; cursor: default; }
