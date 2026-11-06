@@ -74,8 +74,7 @@
     .lease-overview .pk-feats .pk-feat:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; justify-content: flex-end; padding: 24px; color: #fff; background: linear-gradient(135deg, #1e3a8a, #1d4ed8); border-color: transparent; font-size: 16px; }
     .lease-overview .pk-feats .pk-feat:nth-child(1) strong { font-size: 26px; line-height: 1.25; color: #fff; }
     .pk-feats .pk-feat:nth-child(4) { grid-column: 3 / 5; }
-    .pk-feats .pk-feat:nth-child(5) { grid-column: 1 / 3; }
-    .pk-feats .pk-feat:nth-child(6) { grid-column: 3 / 5; }
+    .pk-feats .pk-feat:nth-child(7) { grid-column: 3 / 5; }
     .pk-feats .pk-feat { justify-content: center; }
     .pk-emo { font-size: 24px; line-height: 1; }
     .pk-feats .pk-feat:nth-child(1) .pk-emo { font-size: 40px; }
@@ -112,13 +111,7 @@
     .pk-notes li { padding: 12px 16px; border: 1px solid var(--lo-line); border-radius: 12px; font-size: 15px; }
     html.dark-mode .pk-notes li { border-color: #262c40; }
     html.dark-mode .pk-step, html.dark-mode .pk-feat { border-color: #262c40; }
-    /* 가로 보기 안내 카드: 이모지와 글을 가로로 나란히 */
-    .lease-overview > section.pk-landscape { display: flex; align-items: center; gap: 18px; margin-top: 32px; padding: 22px 24px; border-left: 5px solid #1d4ed8; }
-    html.dark-mode .lease-overview > section.pk-landscape { border-left-color: #6b9bff; }
-    .pk-landscape .pk-emo { font-size: 44px; }
-    .pk-landscape h2 { margin: 0 0 4px; font-size: 20px; }
-    .pk-landscape p { margin: 0; }
-    @media (max-width: 860px) { .pk-shots > li { flex-basis: calc((100% - 16px) / 2); } .pk-prev { left: 0; } .pk-next { right: 0; } .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } .lease-overview .pk-feats .pk-feat:nth-child(1) { grid-column: 1 / 3; grid-row: auto; min-height: 160px; } .pk-feats .pk-feat:nth-child(4), .pk-feats .pk-feat:nth-child(5), .pk-feats .pk-feat:nth-child(6) { grid-column: auto; } }
+    @media (max-width: 860px) { .pk-shots > li { flex-basis: calc((100% - 16px) / 2); } .pk-prev { left: 0; } .pk-next { right: 0; } .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } .lease-overview .pk-feats .pk-feat:nth-child(1) { grid-column: 1 / 3; grid-row: auto; min-height: 160px; } .pk-feats .pk-feat:nth-child(4), .pk-feats .pk-feat:nth-child(5), .pk-feats .pk-feat:nth-child(6) { grid-column: auto; } .pk-feats .pk-feat:nth-child(7) { grid-column: 1 / -1; } }
   </style>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/dark.css">
@@ -167,15 +160,8 @@
         <li class="pk-feat card"><strong>글자 고치기</strong><span>잘못 읽은 글자는 직접 고치고 글자 크기도 바꿔요.</span></li>
         <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">🔒</span><strong>내 폰 안에만</strong><span>회원가입·서버 없이 내 폰 안에만 저장돼요.</span></li>
         <li class="pk-feat card"><strong>광고 없이 무료</strong><span>광고 없이 무료로 쓸 수 있어요.</span></li>
+        <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">📖</span><strong>가로로 돌리면, 펼친 책처럼</strong><span>폰을 가로로 돌려 보면 실제 책이나 악보를 펼쳐 놓고 보는 느낌이에요.</span></li>
       </ul>
-    </section>
-
-    <section class="card pk-landscape">
-      <span class="pk-emo" aria-hidden="true">📖</span>
-      <div>
-        <h2>가로로 돌리면, 펼친 책처럼</h2>
-        <p>폰을 가로로 돌려 보면 실제 책이나 악보를 펼쳐 놓고 보는 느낌이에요.</p>
-      </div>
     </section>
 
     <section>
