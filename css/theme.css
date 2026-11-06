@@ -217,4 +217,9 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
 html.dark-mode .hero-cta .button-primary { box-shadow: 0 10px 24px -8px rgba(107, 155, 255, 0.45); }
 :root:root:root .hero-cta .button-secondary { border: 1.5px solid var(--t-line); background: var(--t-card); box-shadow: var(--t-shadow); }
 :root:root:root .hero-cta .button-secondary:hover { border-color: var(--t-ac); color: var(--t-ac-text); }
-@media (max-width: 520px) { :root:root:root .hero-cta .button { padding: 14px 22px; font-size: 15px; } }
+@media (max-width: 520px) {
+    /* 버튼 세 개가 한 줄에 들어가도록 폰에서는 화살표를 빼고 크기·간격을 줄인다 */
+    .hero-cta { gap: 8px; }
+    :root:root:root .hero-cta .button { padding: 13px 14px; font-size: 14px; gap: 0; }
+    .hero-cta .button::after { display: none; }
+}
