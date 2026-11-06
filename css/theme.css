@@ -176,8 +176,6 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
 
 /* ===== 첫 화면: 버튼 줄과 회사 한 줄 소개 ===== */
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 32px; }
-.hero-company { margin: 20px 0 26px; max-width: 650px; word-break: keep-all; font-size: 14px; color: var(--t-muted); }
-.hero-company a { display: block; margin: 6px 0 0; color: var(--t-ac-text); font-weight: 600; white-space: nowrap; } /* 링크는 회사 소개 문장 아래 다음 줄 */
 .hero-build { margin: 0 0 10px; max-width: 650px; word-break: keep-all; font-size: 15px; line-height: 1.65; color: var(--t-muted); }
 .hero-build strong { color: var(--t-ink); }
 .hero-build a { margin-left: 6px; color: var(--t-ac-text); font-weight: 600; white-space: nowrap; }
