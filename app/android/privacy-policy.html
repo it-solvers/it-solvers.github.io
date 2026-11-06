@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaperKeeper 개인정보처리방침 / Privacy Policy</title>
+<!--
+  PaperKeeper 개인정보처리방침 초안이에요. 홈페이지(예: https://itsolvers.co.kr/paperkeeper/privacy)에 이 파일을 올리고,
+  그 주소를 Play Console의 "개인정보처리방침"에 적어요. (docs/출시-준비.md 3-2)
+  2026-11-06: 메모·원본 이미지(필터·자르기 되돌리기) 저장 내용과 삭제 내용을 1번·6번에 추가하고 시행일을 고쳤어요. 앱에 저장하는 것이 더 늘면 1번·6번을 같이 고쳐요.
+  ★ 7번 "자동 백업과 기기 변경"은 앱 설정(data_extraction_rules.xml, backup_rules.xml)과 맞아야 해요. 지금 글은 "구글 계정 백업은 끄고, 기기 변경 때 폰 대 폰 이전은 허용"한 설정을 기준으로 썼어요. (docs/출시-준비.md 3-1)
+  ★ 3번의 구글 ML Kit 데이터 내용은 구글 안내 페이지(https://developers.google.com/ml-kit/android-data-disclosure)를 기준으로 했어요. 올리기 전에 한 번 더 확인해요.
+-->
+<style>
+  body { font: 16px/1.7 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; color: #1b1b2f; max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.6rem; margin-bottom: .2rem; }
+  h2 { font-size: 1.15rem; margin-top: 2rem; }
+  .meta { color: #5a5a72; font-size: .9rem; }
+  .summary { background: #eef0ff; border-radius: 12px; padding: 12px 16px; }
+  hr { border: 0; border-top: 1px solid #d8d8e8; margin: 3rem 0; }
+  a { color: #3b4cd9; }
+  @media (prefers-color-scheme: dark) { body { background: #12121c; color: #ececf6; } .summary { background: #22243a; } .meta { color: #a5a5bc; } a { color: #9aa6ff; } hr { border-top-color: #34344a; } }
+</style>
+</head>
+<body>
+
+<h1 id="top">PaperKeeper 개인정보처리방침</h1>
+<p class="meta">시행일: 2026-11-06 (최근 고친 날: 2026-11-06) · 운영: 아이티해결단(IT Solvers) · 문의: <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a> · <a href="#en">English</a></p>
+
+<p class="summary"><strong>한 줄 요약.</strong> PaperKeeper에는 회원가입도, 서버도, 광고도 없어요. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고, 우리가 가져가지 않아요.</p>
+
+<h2>1. 폰 안에 저장되는 정보</h2>
+<p>앱을 쓰면 아래 정보가 <strong>내 폰 안</strong>에 저장돼요.</p>
+<ul>
+  <li>스캔한 쪽 이미지, 책 이름, 쪽 순서</li>
+  <li>돌리기·자르기·필터를 적용하기 전의 원본 이미지(되돌릴 수 있게 함께 보관해요)</li>
+  <li>쪽 이미지에서 읽어 낸 글자(글자 인식 결과)와 내가 고친 글자</li>
+  <li>내가 손으로 쓴 메모(볼펜·형광펜 획)</li>
+  <li>앱 설정(글자 크기, 펜 종류·색·굵기, 보기 방식 등)</li>
+</ul>
+<p>이 정보는 앱 전용 저장 공간에 있어서 다른 앱이 읽을 수 없어요. 앱을 지우면 함께 지워져요. 내가 "PDF 만들기"를 누르면 PDF 파일이 폰의 <code>문서/PaperKeeper</code> 폴더에 저장되는데, 이 폴더는 내 파일이라서 앱을 지워도 남아 있어요. 필요 없으면 직접 지우면 돼요.</p>
+
+<h2>2. 우리가 수집하는 정보</h2>
+<p>아이티해결단은 PaperKeeper를 통해 이름, 이메일, 위치, 연락처, 스캔한 문서, 읽은 글자 등 어떤 개인정보도 <strong>수집하지 않아요.</strong> 앱에는 운영 서버가 없고, 광고나 분석 도구(예: 광고 SDK)도 넣지 않았어요.</p>
+
+<h2>3. 구글 ML Kit (문서 스캔, 글자 인식)</h2>
+<p>PaperKeeper는 구글의 <strong>ML Kit 문서 스캐너</strong>(촬영·자르기 화면)와 <strong>ML Kit 글자 인식</strong>(앱에 들어 있는 한국어 인식 모델)을 써요. 구글은 이 기능들이 기기 안에서 처리된다고 안내해요. 우리 앱은 스캔 이미지와 읽은 글자를 서버로 보내지 않아요.</p>
+<p>다만 ML Kit 라이브러리는 서비스 개선과 오류 확인을 위해 <strong>기기 정보(제조사, 모델, OS 버전), 앱 정보(앱 이름과 버전), 설치별 식별자, 성능·오류 진단 정보</strong>를 구글에 보낼 수 있어요. 이 정보는 쪽 이미지나 읽은 글자를 포함하지 않으며, 사용자를 직접 식별하려는 것이 아니라고 구글은 안내해요. 이 때문에 앱에는 <code>INTERNET</code> 권한이 들어 있어요. 자세한 내용은 아래 구글 안내를 참고하세요.</p>
+<ul>
+  <li><a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit 데이터 공개 안내</a></li>
+  <li><a href="https://policies.google.com/privacy">Google 개인정보처리방침</a></li>
+</ul>
+
+<h2>4. 공유</h2>
+<p>PaperKeeper에는 PDF나 책을 다른 사람·다른 앱으로 보내는 공유 기능이 없어요. 앱이 만든 PDF는 폰의 문서/PaperKeeper 폴더에 저장되고, 앱이 그 파일을 어디로도 전송하지 않아요. (PDF를 폰의 다른 앱으로 열어 보는 것은 내가 그 앱을 고를 때만 일어나요.)</p>
+
+<h2>5. 권한</h2>
+<p>PaperKeeper가 직접 요청하는 권한은 없어요. 카메라 사용은 구글 스캐너 화면이 맡고, 스캐너에서 사진첩 이미지를 가져올 때는 내가 고른 이미지만 전달돼요. PDF는 저장 권한 없이 문서 폴더에 저장해요.</p>
+
+<h2>6. 보관과 삭제</h2>
+<ul>
+  <li>책을 지우면 그 책의 쪽 이미지, 읽은 글자, 메모와 함께, 그 책 이름으로 저장해 둔 PDF도 지워져요.</li>
+  <li>쪽 하나를 지우면 그 쪽의 이미지(원본 포함), 글자, 메모가 지워져요.</li>
+  <li>앱을 지우면 앱 전용 저장 공간의 모든 정보가 지워져요. 문서 폴더에 저장한 PDF는 직접 지워야 해요.</li>
+</ul>
+
+<h2>7. 자동 백업과 기기 변경</h2>
+<p>PaperKeeper는 앱 데이터를 <strong>구글 계정 백업(클라우드 백업)에 올리지 않아요.</strong> (안드로이드 12 이상)</p>
+<p>폰을 바꿀 때는 안드로이드의 폰 대 폰 이전이나 삼성 스마트 스위치 같은 이전 도구를 쓰면, 책과 쪽 이미지가 <strong>옛 폰에서 새 폰으로 직접</strong> 옮겨질 수 있어요. 이 과정에서 데이터는 우리에게 오지 않아요. 이전이 실제로 되는지는 쓰는 도구와 폰에 따라 달라요. 저장한 PDF는 문서 폴더의 파일이라 직접 옮길 수 있어요.</p>
+<p>안드로이드 11 이하 폰은 클라우드 백업과 기기 변경을 따로 정하는 기능이 없어서, 앱 데이터가 구글 계정 백업에 포함될 수 있어요. 그 백업은 사용자 본인의 구글 계정에 저장되며, 우리는 볼 수 없어요.</p>
+
+<h2>8. 어린이</h2>
+<p>PaperKeeper는 만 13세 미만 어린이를 대상으로 하지 않으며, 어린이를 포함한 누구의 개인정보도 수집하지 않아요.</p>
+
+<h2>9. 방침이 바뀔 때</h2>
+<p>이 방침이 바뀌면 이 페이지를 고치고 위의 시행일을 바꿔요. 중요한 변화가 있으면 앱 업데이트 설명에도 적을게요.</p>
+
+<h2>10. 문의</h2>
+<p>궁금한 점은 <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a>로 보내 주세요.</p>
+
+<hr>
+
+<h1 id="en">PaperKeeper Privacy Policy</h1>
+<p class="meta">Effective: 2026-11-06 (last updated: 2026-11-06) · Operated by IT Solvers (아이티해결단) · Contact: <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a> · <a href="#top">한국어</a></p>
+
+<p class="summary"><strong>In short.</strong> PaperKeeper has no accounts, no servers and no ads. Your scanned documents and recognized text stay on your phone. We do not collect them.</p>
+
+<h2>1. What is stored on your phone</h2>
+<p>When you use the app, the following is stored <strong>on your device</strong>:</p>
+<ul>
+  <li>Scanned page images, book titles and page order</li>
+  <li>The original images from before rotating, cropping or filtering (kept so you can undo)</li>
+  <li>Text recognized from page images (OCR results) and any corrections you make</li>
+  <li>Handwritten notes you draw (pen and highlighter strokes)</li>
+  <li>App settings (text size, pen type, color and thickness, view mode, etc.)</li>
+</ul>
+<p>This data lives in the app's private storage, so other apps cannot read it, and it is deleted when you uninstall the app. When you tap "Make PDF", the PDF is saved to the <code>Documents/PaperKeeper</code> folder on your phone. That folder holds your own files, so they remain after uninstalling. Delete them yourself if you no longer need them.</p>
+
+<h2>2. What we collect</h2>
+<p>IT Solvers does <strong>not</strong> collect any personal information through PaperKeeper: no name, email, location, contacts, scanned documents or recognized text. The app has no backend server, and we include no advertising or analytics SDKs.</p>
+
+<h2>3. Google ML Kit (document scanning and text recognition)</h2>
+<p>PaperKeeper uses Google's <strong>ML Kit Document Scanner</strong> (the capture and crop screen) and <strong>ML Kit Text Recognition</strong> (a Korean recognition model bundled in the app). Google states that these features run on the device. Our app does not send your scanned images or recognized text to any server.</p>
+<p>However, the ML Kit library may send <strong>device information (manufacturer, model, OS version), app information (app name and version), per-installation identifiers, and performance and error diagnostics</strong> to Google. According to Google, this data does not include your images or recognized text and is not meant to uniquely identify you. This is why the app includes the <code>INTERNET</code> permission. See Google's pages for details:</p>
+<ul>
+  <li><a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit data disclosure</a></li>
+  <li><a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
+</ul>
+
+<h2>4. Sharing</h2>
+<p>PaperKeeper has no feature for sending PDFs or books to other people or apps. PDFs it creates are saved in the Documents/PaperKeeper folder on your phone, and the app does not transmit them anywhere. (Opening a PDF in another app on your phone happens only when you choose that app.)</p>
+
+<h2>5. Permissions</h2>
+<p>PaperKeeper itself requests no permissions. Camera use is handled by Google's scanner screen, and when you import an image from your gallery in the scanner, only the images you choose are passed on. PDFs are saved to the Documents folder without any storage permission.</p>
+
+<h2>6. Retention and deletion</h2>
+<ul>
+  <li>Deleting a book deletes its page images, recognized text and notes, and also the saved PDF that has that book's name.</li>
+  <li>Deleting a page deletes that page's images (including originals), text and notes.</li>
+  <li>Uninstalling the app deletes everything in its private storage. PDFs in the Documents folder must be deleted by you.</li>
+</ul>
+
+<h2>7. Automatic backup and changing phones</h2>
+<p>PaperKeeper does <strong>not upload app data to Google account (cloud) backup</strong> (Android 12 and later).</p>
+<p>When you switch phones, Android's phone-to-phone transfer or tools such as Samsung Smart Switch may move your books and page images <strong>directly from the old phone to the new one</strong>. We never receive this data. Whether the transfer works depends on the tool and the phones you use. Saved PDFs are ordinary files in the Documents folder, so you can copy them yourself.</p>
+<p>On Android 11 and earlier there is no way to separate cloud backup from device transfer, so app data may be included in Google account backup. That backup is stored in your own Google account, and we cannot see it.</p>
+
+<h2>8. Children</h2>
+<p>PaperKeeper is not directed to children under 13, and we do not collect personal information from anyone, including children.</p>
+
+<h2>9. Changes</h2>
+<p>If this policy changes, we will update this page and the effective date above, and mention important changes in the app's release notes.</p>
+
+<h2>10. Contact</h2>
+<p>Questions? Email <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a>.</p>
+
+</body>
+</html>
