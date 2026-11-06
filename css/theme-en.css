@@ -106,3 +106,16 @@ input, select { border-radius: 8px; }
 }
 /* 카드 묶음 사이 간격(벤토로 카드가 커져서 묶음 제목이 앞 카드에 붙어 보이던 것을 띄운다) */
 main section + section { margin-top: 36px; }
+
+/* ===== 영문 메인 첫 화면: 한글 메인과 같은 제목 강조·버튼 세 개(같은 크기, % 명령어 모양) ===== */
+h1 span { color: var(--blue); }
+main h2[id] { scroll-margin-top: 90px; }
+.hero-cta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(100%, 660px); margin: 4px 0 32px; }
+.hero-cta a { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink);
+  font-family: var(--t-mono); font-size: 14px; font-weight: 600; white-space: nowrap; text-decoration: none; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+.hero-cta a::before { content: "%"; color: var(--blue); }
+.hero-cta a:hover, .hero-cta a:focus-visible { border-color: var(--blue); transform: translateY(-2px); text-decoration: none; }
+.hero-cta a.primary { background: var(--blue); border-color: var(--blue); color: var(--t-ac-ink); }
+.hero-cta a.primary::before { color: var(--t-ac-ink); opacity: 0.7; }
+@media (max-width: 520px) { .hero-cta { gap: 8px; } .hero-cta a { padding: 12px 8px; font-size: 12.5px; justify-content: center; gap: 4px; } }
+h1 { text-wrap: balance; }
