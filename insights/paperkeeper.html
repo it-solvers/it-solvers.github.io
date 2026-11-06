@@ -59,7 +59,6 @@
       .lease-overview > h1, .lease-overview > .sub, .pk-hero, .pk-hero img { animation: none; }
       .js-anim .pk-reveal { opacity: 1; transform: none; transition: none; }
       .pk-shot a { transition: none; }
-      .pk-shots { scroll-behavior: auto; }
       .pk-shot a:hover, .pk-shot a:focus-visible { transform: none; }
     }
     /* 카드 구성: 단계(4칸) → 기능(2열 타일) → 캡처(옆으로 넘기기) → 강조 띠 → 안내 목록 */
@@ -74,12 +73,12 @@
     html.dark-mode .pk-num { background: #6b9bff; color: #06122e; }
     /* 화면 미리보기 슬라이더: 옆으로 밀어서(터치), 화살표로, 점으로 넘기고, 가만히 두면 저절로 넘어가요. */
     .pk-slider { position: relative; margin-top: 12px; }
-    .pk-shots { list-style: none; margin: 0; padding: 14px 4px 22px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+    .pk-shots { list-style: none; margin: 0; padding: 14px 4px 22px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 4px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .pk-shots::-webkit-scrollbar { display: none; }
     .pk-shots { cursor: grab; }
     .pk-shots img { -webkit-user-drag: none; user-select: none; }
     /* 마우스로 끄는 동안: 자석처럼 붙는 동작과 부드러운 이동을 잠시 끄고 손을 떼면 가장 가까운 장에 맞춘다 */
-    .pk-shots.is-drag { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; user-select: none; }
+    .pk-shots.is-drag { cursor: grabbing; scroll-snap-type: none; user-select: none; }
     .pk-shots > li { flex: 0 0 calc((100% - 32px) / 3); scroll-snap-align: start; }
     .pk-arrow { position: absolute; top: 40%; z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(10, 18, 48, .3); }
     .pk-arrow:hover { background: #1e3a8a; }
@@ -301,7 +300,7 @@
       track.addEventListener('dragstart', function (e) { e.preventDefault(); }); // 이미지가 따로 끌려가는 것 방지
       track.addEventListener('pointerdown', function (e) {
         if (e.pointerType !== 'mouse' || e.button !== 0) return;
-        drag = { x: e.clientX, left: track.scrollLeft };
+        drag = { x: e.clientX, left: track.scrollLeft, lastX: e.clientX, lastT: e.timeStamp, v: 0 };
         moved = false;
         pause();
       });
@@ -309,14 +308,23 @@
         if (!drag) return;
         var dx = e.clientX - drag.x;
         if (!moved && Math.abs(dx) > 5) { moved = true; track.classList.add('is-drag'); }
-        if (moved) track.scrollLeft = drag.left - dx;
+        if (moved) {
+          track.scrollLeft = drag.left - dx;
+          // 손가락 떼기 직전의 속도(px/ms)를 부드럽게 기억해 둔다
+          var dt = e.timeStamp - drag.lastT;
+          if (dt > 0) drag.v = 0.8 * drag.v + 0.2 * ((e.clientX - drag.lastX) / dt);
+          drag.lastX = e.clientX; drag.lastT = e.timeStamp;
+        }
       });
       function endDrag() {
         if (!drag) return;
+        var v = drag.v;
         drag = null;
         if (moved) {
           track.classList.remove('is-drag');
-          goTo(current());          // 가장 가까운 장에 맞춘다
+          // 빠르게 튕기면 그 방향으로 더 나아가고(관성), 느리면 가장 가까운 장에 맞춘다
+          var target = (track.scrollLeft - v * 250) / step();
+          goTo(Math.round(target));
         }
       }
       window.addEventListener('pointerup', endDrag);
