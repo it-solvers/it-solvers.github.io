@@ -1,33 +1,33 @@
 /* 전자계약서 페이지 전용 색: 이 페이지는 자체 색 변수를 쓰므로 변수 값만 사이트 테마(밝은 푸른 바탕 + 블루 포인트)로 바꾼다 */
 html:not(.dark-mode) {
-  --text: #0a1230; --muted: #566085; --bg: #f6f9ff; --panel: #ffffff; --border: #dbe3f5;
-  --accent: #1d4ed8; --accent-bg: #eef3ff; --warm: #0f766e;
+  --text: #1f2328; --muted: #59636e; --bg: #f6f8fa; --panel: #ffffff; --border: #d0d7de;
+  --accent: #0a7a45; --accent-bg: #eef1f5; --warm: #0f766e;
 }
 html.dark-mode {
-  --text: #e8ecf8; --muted: #98a2c3; --bg: #0b0d14; --panel: #141826; --border: #262c40;
-  --accent: #6b9bff; --accent-bg: #14213f; --warm: #f0a050;
+  --text: #e6edf3; --muted: #8b98a9; --bg: #0b0e13; --panel: #121821; --border: #232c38;
+  --accent: #3fdc8a; --accent-bg: #15202b; --warm: #f0a050;
 }
 /* 버튼 글자: 밝은 화면은 진한 파랑 + 흰 글자, 어두운 화면은 밝은 파랑 + 남색 글자 */
-html:not(.dark-mode) .btn, html:not(.dark-mode) .btn:hover { color: #ffffff; background: #1d4ed8; }
-html:not(.dark-mode) .btn.ghost { background: transparent; color: #1d4ed8; border-color: #1d4ed8; }
-html.dark-mode .btn, html.dark-mode .btn:hover { color: #06122e; background: #6b9bff; }
-html.dark-mode .btn.ghost { background: transparent; color: #6b9bff; border-color: #6b9bff; }
-html.dark-mode .steps .n { color: #06122e; }
-html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0a0c12; color: #dfe5f7; border-color: #303756; }
-html.dark-mode .apply-submit { color: #06122e; }
-html.dark-mode .shot a, html.dark-mode .shot img { border-color: #262c40; }
-html.dark-mode .know { background: #141826; }
-html.dark-mode .price { background: #14213f; }
+html:not(.dark-mode) .btn, html:not(.dark-mode) .btn:hover { color: #ffffff; background: #0a7a45; }
+html:not(.dark-mode) .btn.ghost { background: transparent; color: #0a7a45; border-color: #0a7a45; }
+html.dark-mode .btn, html.dark-mode .btn:hover { color: #04130b; background: #3fdc8a; }
+html.dark-mode .btn.ghost { background: transparent; color: #3fdc8a; border-color: #3fdc8a; }
+html.dark-mode .steps .n { color: #04130b; }
+html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0a0d12; color: #dfe7ef; border-color: #2e3947; }
+html.dark-mode .apply-submit { color: #04130b; }
+html.dark-mode .shot a, html.dark-mode .shot img { border-color: #232c38; }
+html.dark-mode .know { background: #121821; }
+html.dark-mode .price { background: #15202b; }
 .btn, .apply-field input, .apply-field textarea, .apply-copy { border-radius: 12px; }
 
 /* 푸터: 연한 선 위에 흰 바탕(어두운 화면은 짙은 남색) */
 footer { border-top: 1px solid var(--border); padding: 28px 0; font-size: 13px; line-height: 1.65; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-html:not(.dark-mode) footer { background: #ffffff; color: #566085; }
-html:not(.dark-mode) footer a, html:not(.dark-mode) footer strong, html:not(.dark-mode) footer .name { color: #0a1230; }
-html.dark-mode footer { background: #080a10; color: #98a2c3; }
-html.dark-mode footer a { color: #c3cbe6; }
+html:not(.dark-mode) footer { background: #ffffff; color: #59636e; }
+html:not(.dark-mode) footer a, html:not(.dark-mode) footer strong, html:not(.dark-mode) footer .name { color: #1f2328; }
+html.dark-mode footer { background: #080a10; color: #8b98a9; }
+html.dark-mode footer a { color: #b4c0cf; }
 footer .name, footer strong { font-weight: 700; }
-html.dark-mode footer.site-footer strong { color: #e8ecf8; }
+html.dark-mode footer.site-footer strong { color: #e6edf3; }
 footer .footer-links { margin-top: 10px; }
 footer.site-footer a { text-decoration: underline; }
 

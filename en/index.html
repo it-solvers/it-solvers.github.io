@@ -55,7 +55,7 @@
   }
   </script>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="../css/theme-en.css?v=20261102">
+  <link rel="stylesheet" href="../css/theme-en.css?v=20261107">
   <!-- Automatic light/dark mode by sunrise and sunset in Incheon. Runs in the head to avoid a flash. -->
   <script src="../js/theme.js"></script>
 </head>
@@ -68,6 +68,12 @@
     </div>
   </div></header>
   <main>
+    <!-- Terminal decoration: three prompt lines (the last one is whoami). Screen readers skip them. -->
+    <div class="hero-prompts" aria-hidden="true">
+      <p><b>itsolvers@web</b> ~ %</p>
+      <p><b>itsolvers@web</b> ~ %</p>
+      <p><b>itsolvers@web</b> ~ % whoami</p>
+    </div>
     <h1>An AI-first IT problem solver</h1>
     <p class="lead">IT Solvers is an IT company that works AI-first, from analysis to testing, and handles software and app development, IT asset supply, and computer, server, and NAS setup. Below are the tools and MVPs we've built AI-first: designed by people who know the work, then developed and tested with AI. Calculator amounts are in U.S. dollars ($), and the guides follow K-IFRS (Korean accounting standards), not U.S. GAAP.</p>
     <aside class="news" aria-label="What's new">
@@ -80,6 +86,7 @@
         <li><span class="news-date">October 21, 2026</span><span class="news-tag">MVP</span><a href="insights/lease-estimate.html" target="_blank" rel="noopener">Get a Lease Estimate (in progress)</a></li>
       </ul>
     </aside>
+    <p class="hero-end-prompt" aria-hidden="true"><b>itsolvers@web</b> ~ % <span class="term-cursor"></span></p>
     <section aria-labelledby="guides-heading">
       <h2 id="guides-heading">Guides and terminology</h2>
       <div class="card-grid">

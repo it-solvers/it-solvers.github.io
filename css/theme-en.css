@@ -1,47 +1,48 @@
-/* 사이트 테마: 모던 SaaS (밝은 푸른 바탕 + 블루 포인트, 어두운 화면은 남색 계열). 영문 메인(en/index.html)용.
+/* 사이트 테마: 터미널(어두운 화면 = 검정+초록, 밝은 화면 = 같은 모양에 연한 회색+진한 초록). 영문 메인(en/index.html)용.
    en/styles.css 다음에 불러와 색 변수와 모양만 덮어쓴다. 한글 메인의 css/theme.css와 같은 색을 쓴다. */
 :root {
+  --t-mono: ui-monospace, "SF Mono", Menlo, Consolas, "D2Coding", monospace;
   --t-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 html:not(.dark-mode) {
-  --ink: #0a1230; --muted: #566085; --line: #dbe3f5; --blue: #1d4ed8; --pale: #eef3ff; --surface: #ffffff; --page: #f6f9ff;
-  --t-ac-ink: #ffffff; --t-ac-hover: #1e40af; --t-ac2: #06b6d4; --t-glow: rgba(37, 99, 235, 0.16);
-  --t-shadow: 0 1px 2px rgba(20, 40, 120, 0.06), 0 10px 28px -10px rgba(20, 40, 120, 0.18);
+  --ink: #1f2328; --muted: #59636e; --line: #d0d7de; --blue: #0a7a45; --pale: #eef1f5; --surface: #ffffff; --page: #f6f8fa;
+  --t-ac-ink: #ffffff; --t-ac-hover: #0d9356; --t-ac2: #0b63c4; --t-glow: rgba(10, 122, 69, 0.07);
+  --t-shadow: none;
 }
 html.dark-mode {
-  --ink: #e8ecf8; --muted: #98a2c3; --line: #262c40; --blue: #8db0ff; --pale: #14213f; --surface: #141826; --page: #0b0d14;
-  --t-ac-ink: #06122e; --t-ac-hover: #8db0ff; --t-ac2: #4fd1c5; --t-glow: rgba(107, 155, 255, 0.2);
-  --t-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --ink: #e6edf3; --muted: #8b98a9; --line: #232c38; --blue: #3fdc8a; --pale: #15202b; --surface: #121821; --page: #0b0e13;
+  --t-ac-ink: #04130b; --t-ac-hover: #3fdc8a; --t-ac2: #5cc8ff; --t-glow: rgba(63, 220, 138, 0.10);
+  --t-shadow: none;
 }
 body { font-family: var(--t-font); background: var(--page); color: var(--ink); }
 body::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 460px; z-index: -1; pointer-events: none;
   background: radial-gradient(ellipse 60% 70% at 50% -10%, var(--t-glow), transparent 70%);
 }
-h1, h2, h3 { font-family: var(--t-font); font-weight: 800; letter-spacing: -0.03em; }
+h1, h2, h3 { font-family: var(--t-mono); font-weight: 700; letter-spacing: -0.03em; }
 
 /* 헤더: 반투명 + 연한 선, 어두운 화면에서는 남색 */
 .site-header { position: sticky; top: 0; z-index: 20; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-html:not(.dark-mode) .site-header { background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid #dbe3f5; }
-html.dark-mode .site-header { background: rgba(11, 13, 20, 0.86); border-bottom: 1px solid #262c40; }
+html:not(.dark-mode) .site-header { background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid #d0d7de; }
+html.dark-mode .site-header { background: rgba(11, 14, 19, 0.86); border-bottom: 1px solid #232c38; }
 html:not(.dark-mode) .site-header img { mix-blend-mode: multiply; }
-html.dark-mode .site-header .brand { color: #e8ecf8; }
+html.dark-mode .site-header .brand { color: #e6edf3; }
 html.dark-mode .site-header .brand img { background: #fff; border-radius: 8px; padding: 2px 4px; }
 .site-header .language-link, html.dark-mode .site-header .language-link { color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 13px; }
 .site-header .language-link:hover, html.dark-mode .site-header .language-link:hover { color: var(--blue); border-color: var(--blue); }
 html.dark-mode .theme-toggle .light { background: transparent; }
-html.dark-mode .theme-toggle .dark { background: #14213f; }
-html:not(.dark-mode) .theme-toggle .light { background: #eef3ff; }
+html.dark-mode .theme-toggle .dark { background: #15202b; }
+html:not(.dark-mode) .theme-toggle .light { background: #eef1f5; }
 .theme-toggle { border-color: var(--line); background: var(--surface); color: var(--ink); }
 
 /* 푸터: 연한 선 위에 흰 바탕(어두운 화면은 짙은 남색). 영문 서브페이지의 footer.site-footer와 같은 모양 */
 .site-footer { border-top: 1px solid var(--line); line-height: 1.65; }
-html:not(.dark-mode) .site-footer { background: #ffffff; color: #566085; }
-html:not(.dark-mode) .footer-links a, html:not(.dark-mode) .site-footer a { color: #0a1230; }
-html:not(.dark-mode) .site-footer strong { color: #0a1230; }
-html.dark-mode .site-footer { background: #080a10; color: #98a2c3; border-top-color: #262c40; }
-html.dark-mode .site-footer a { color: #c3cbe6; }
-html.dark-mode .site-footer strong { color: #e8ecf8; }
+html:not(.dark-mode) .site-footer { background: #ffffff; color: #59636e; }
+html:not(.dark-mode) .footer-links a, html:not(.dark-mode) .site-footer a { color: #1f2328; }
+html:not(.dark-mode) .site-footer strong { color: #1f2328; }
+html.dark-mode .site-footer { background: #080a10; color: #8b98a9; border-top-color: #232c38; }
+html.dark-mode .site-footer a { color: #b4c0cf; }
+html.dark-mode .site-footer strong { color: #e6edf3; }
 
 /* 카드, 새소식 */
 .card, .card-link { border-width: 1px; border-radius: 16px; background: var(--surface); box-shadow: var(--t-shadow); transition: border-color .18s ease, transform .18s ease; }
@@ -57,17 +58,34 @@ html.dark-mode .site-footer strong { color: #e8ecf8; }
 
 /* 버튼: 어느 화면에서나 글자가 또렷하게(진한 파랑 + 흰 글자, 어두운 화면은 밝은 파랑 + 남색 글자) */
 .button-link, button:not(.theme-toggle) { border-radius: 12px; background: var(--blue); border-color: var(--blue); color: var(--t-ac-ink); font-weight: 700; }
-html:not(.dark-mode) .button-link, html:not(.dark-mode) button:not(.theme-toggle) { background: #1d4ed8; border-color: #1d4ed8; color: #ffffff; }
-html.dark-mode .button-link, html.dark-mode button:not(.theme-toggle) { background: #6b9bff; border-color: #6b9bff; color: #06122e; }
+html:not(.dark-mode) .button-link, html:not(.dark-mode) button:not(.theme-toggle) { background: #0a7a45; border-color: #0a7a45; color: #ffffff; }
+html.dark-mode .button-link, html.dark-mode button:not(.theme-toggle) { background: #3fdc8a; border-color: #3fdc8a; color: #04130b; }
 .button-link:hover, .button-link:focus-visible { background: var(--t-ac-hover); border-color: var(--t-ac-hover); color: var(--t-ac-ink); }
-html:not(.dark-mode) .button-link:hover { background: #1e40af; border-color: #1e40af; color: #ffffff; }
-html.dark-mode .button-link:hover { background: #8db0ff; border-color: #8db0ff; color: #06122e; }
+html:not(.dark-mode) .button-link:hover { background: #0d9356; border-color: #0d9356; color: #ffffff; }
+html.dark-mode .button-link:hover { background: #3fdc8a; border-color: #3fdc8a; color: #04130b; }
 button.secondary:not(.theme-toggle), .button-link.secondary, html.dark-mode button.secondary:not(.theme-toggle), html.dark-mode .button-link.secondary { background: transparent; color: var(--blue); border-color: var(--blue); }
 input, select { border-radius: 10px; border-color: var(--line); background: var(--surface); }
-html.dark-mode input, html.dark-mode select { background: #0a0c12; border-color: #303756; color: #e8ecf8; }
-html:not(.dark-mode) th { background: #eef3ff; }
-html.dark-mode th { background: #10131d; }
+html.dark-mode input, html.dark-mode select { background: #0a0d12; border-color: #2e3947; color: #e6edf3; }
+html:not(.dark-mode) th { background: #eef1f5; }
+html.dark-mode th { background: #0f141b; }
 
 /* 로고: 밝은 화면은 투명 로고(logo-light), 어두운 화면은 기존 로고(logo-dark, 흰 배경) */
 html:not(.dark-mode) .site-header .brand .logo-dark { display: none; }
 html.dark-mode .site-header .brand .logo-light { display: none; }
+
+/* ===== 터미널 모양: 로고 뒤 프롬프트, 프롬프트 장식 줄, 작은 모서리·그림자 없는 카드 ===== */
+.site-header .brand::after { content: "~ %"; margin-left: 8px; font-family: var(--t-mono); font-weight: 500; color: var(--blue); }
+.hero-prompts, .hero-end-prompt { font-family: var(--t-mono); font-size: 14px; color: var(--muted); }
+.hero-prompts { margin: 0 0 20px; }
+.hero-prompts p, .hero-end-prompt { margin: 0; line-height: 1.8; }
+.hero-prompts b, .hero-end-prompt b { color: var(--blue); font-weight: 500; }
+.hero-end-prompt { margin: 28px 0 8px; }
+.term-cursor { display: inline-block; width: 0.5em; height: 1em; margin-left: 6px; vertical-align: -0.12em; background: var(--blue); animation: term-blink 1.1s steps(1) infinite; }
+@keyframes term-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } }
+.lead::before { content: "// "; font-family: var(--t-mono); opacity: 0.55; }
+.card, .card-link, .news, .note { border-radius: 10px; box-shadow: none; }
+.news-title { font-family: var(--t-mono); }
+.news-tag { border-radius: 0; background: transparent; padding: 0; font-family: var(--t-mono); font-weight: 500; color: var(--t-ac2); }
+.button-link, button:not(.theme-toggle) { border-radius: 8px; }
+input, select { border-radius: 8px; }
