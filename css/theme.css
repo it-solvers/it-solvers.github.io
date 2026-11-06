@@ -183,3 +183,24 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
 .hero-build a { margin-left: 6px; color: var(--t-ac-text); font-weight: 600; white-space: nowrap; }
 /* 메인의 서비스 카드는 항목 목록 없이 요약만 있어서 아래 빈 공간이 생기지 않게 최소 높이를 푼다(소개 페이지는 목록이 있어 그대로) */
 .services-compact .service-card { min-height: 0; }
+
+/* ===== 기술 인사이트: 벤토(Bento) 카드 =====
+   6칸 격자에서 카드마다 칸 수를 달리해 크기가 섞인 타일 모양으로 보이게 한다.
+   - 카드 4개: 1번·4번은 4칸(넓게), 2번·3번은 2칸(좁게)
+   - 카드 3개: 1번은 왼쪽에 2줄 높이(크게), 2번·3번은 오른쪽에 쌓는다
+   첫 카드는 옅은 파란 바탕으로 강조한다. 폭 800px 이하(폰)에서는 한 줄에 한 장. */
+:root:root:root .insight-grid { grid-template-columns: repeat(6, 1fr); max-width: none; gap: 16px; }
+:root:root:root .insight-grid .insight-card { grid-column: span 3; padding: 24px 26px; border-radius: 20px; }
+:root:root:root .insight-grid .insight-card:first-child { background: var(--t-soft); }
+:root:root:root .insight-grid .insight-card:first-child h3 { font-size: 20px; }
+/* 카드 4개 */
+:root:root:root .insight-grid > .insight-card:first-child:nth-last-child(4) { grid-column: span 4; }
+:root:root:root .insight-grid > .insight-card:nth-child(2):nth-last-child(3) { grid-column: span 2; }
+:root:root:root .insight-grid > .insight-card:nth-child(3):nth-last-child(2) { grid-column: span 2; }
+:root:root:root .insight-grid > .insight-card:last-child:nth-child(4) { grid-column: span 4; }
+/* 카드 3개 */
+:root:root:root .insight-grid > .insight-card:first-child:nth-last-child(3) { grid-column: span 3; grid-row: span 2; }
+@media (max-width: 800px) {
+    :root:root:root .insight-grid { grid-template-columns: 1fr; }
+    :root:root:root .insight-grid > .insight-card:nth-child(n):nth-last-child(n) { grid-column: auto; grid-row: auto; }
+}
