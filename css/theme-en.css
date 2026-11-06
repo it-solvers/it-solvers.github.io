@@ -67,3 +67,7 @@ input, select { border-radius: 10px; border-color: var(--line); background: var(
 html.dark-mode input, html.dark-mode select { background: #0a0c12; border-color: #303756; color: #e8ecf8; }
 html:not(.dark-mode) th { background: #eef3ff; }
 html.dark-mode th { background: #10131d; }
+
+/* 로고: 밝은 화면은 투명 로고(logo-light), 어두운 화면은 기존 로고(logo-dark, 흰 배경) */
+html:not(.dark-mode) .site-header .brand .logo-dark { display: none; }
+html.dark-mode .site-header .brand .logo-light { display: none; }
