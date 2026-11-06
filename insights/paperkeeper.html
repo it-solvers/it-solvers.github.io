@@ -34,7 +34,7 @@
     /* PaperKeeper 소개: 대표 그림과 화면 캡처 (밝은·어두운 화면 모두 같은 테두리 색을 쓴다) */
     .pk-hero { margin: 20px 0 8px; }
     .pk-hero img { display: block; width: 100%; height: auto; border-radius: 12px; }
-    .pk-shots { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 16px; }
+    
     .pk-shot { margin: 0; }
     .pk-shot a { display: block; border: 1px solid rgba(128,128,128,.35); border-radius: 12px; overflow: hidden; }
     .pk-shot img { display: block; width: 100%; height: auto; }
@@ -58,7 +58,27 @@
       .pk-shot a { transition: none; }
       .pk-shot a:hover, .pk-shot a:focus-visible { transform: none; }
     }
-    @media (max-width: 640px) { .pk-shots { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; } }
+    /* 카드 구성: 단계(4칸) → 기능(2열 타일) → 캡처(옆으로 넘기기) → 강조 띠 → 안내 목록 */
+    .pk-h { margin: 40px 0 12px; }
+    .pk-steps, .pk-feats, .pk-notes { list-style: none; margin: 0; padding: 0; }
+    .pk-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: none; }
+    .pk-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .pk-step, .pk-feat { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 16px; border: 1px solid var(--lo-line); border-radius: 14px; font-size: 14px; line-height: 1.5; transition: transform .25s ease, box-shadow .25s ease; }
+    .pk-step:hover, .pk-feat:hover { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(10, 18, 48, .16); }
+    .pk-step strong, .pk-feat strong { font-size: 16px; }
+    .pk-ico { font-size: 28px; line-height: 1; }
+    .pk-num { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    html.dark-mode .pk-num { background: #6b9bff; color: #06122e; }
+    .pk-shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 14px; }
+    .pk-shots > li { flex: 0 0 min(220px, 52%); scroll-snap-align: start; }
+    .lease-overview > section.pk-privacy { margin-top: 40px; padding: 28px 24px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #1e3a8a, #1d4ed8); }
+    .lease-overview > section.pk-privacy h2, .lease-overview > section.pk-privacy p { color: #fff; margin-top: 0; }
+    .lease-overview > section.pk-privacy a, html.dark-mode .lease-overview > section.pk-privacy a { color: #fff; font-weight: 700; text-decoration: underline; }
+    .pk-notes { display: flex; flex-direction: column; gap: 10px; }
+    .pk-notes li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border: 1px solid var(--lo-line); border-radius: 12px; font-size: 15px; }
+    html.dark-mode .pk-notes li { border-color: #262c40; }
+    html.dark-mode .pk-step, html.dark-mode .pk-feat { border-color: #262c40; }
+    @media (max-width: 860px) { .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } }
   </style>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/dark.css">
@@ -85,26 +105,31 @@
     <p class="pk-hero"><img src="../app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%ED%95%9C%EA%B5%AD%EC%96%B4.png" width="1024" height="500" alt="PaperKeeper – 찍어서 한 권의 책으로. 책·악보·문서를 스캔해 PDF로, 손글씨 메모와 글자 검색, 내 폰 안에서 광고 없이 무료"></p>
     <p class="muted">출시 전이라 아직 내려받을 수 없어요. 출시되면 이 페이지에 안내를 올립니다.</p>
 
-    <section class="card">
-      <h2>무엇을 하는 앱인가요</h2>
-      <p>책 쪽을 촬영하면 자르기와 보정을 거쳐 쪽 이미지로 저장하고, 이미지 속 한국어 글자를 읽어 줍니다. 읽은 글자는 직접 고칠 수 있고, 볼펜·형광펜으로 메모를 할 수 있으며, 책 단위로 묶어 PDF로 만들 수 있어요.</p>
+    <section>
+      <h2 class="pk-h">이렇게 써요</h2>
+      <ol class="pk-steps">
+        <li class="pk-step card"><span class="pk-num">1</span><span class="pk-ico" aria-hidden="true">📷</span><strong>찍기</strong><span>책 쪽을 한 쪽씩, 또는 펼친 두 쪽을 한 번에 스캔해요.</span></li>
+        <li class="pk-step card"><span class="pk-num">2</span><span class="pk-ico" aria-hidden="true">✂️</span><strong>다듬기</strong><span>돌리고, 자르고, 밝게·회색조·흑백 필터로 읽기 좋게 만들어요.</span></li>
+        <li class="pk-step card"><span class="pk-num">3</span><span class="pk-ico" aria-hidden="true">🔎</span><strong>읽고 메모하기</strong><span>한국어 글자를 읽어 주고, 검색하고, 손글씨로 메모해요.</span></li>
+        <li class="pk-step card"><span class="pk-num">4</span><span class="pk-ico" aria-hidden="true">📄</span><strong>PDF로 보관</strong><span>책 한 권을 PDF로 만들어 문서 폴더에 저장해요.</span></li>
+      </ol>
     </section>
 
-    <section class="card">
-      <h2>주요 기능</h2>
-      <ul>
-        <li>문서 스캔: 촬영, 자르기, 돌리기, 필터 (원본으로 되돌리기 가능)</li>
-        <li>글자 인식: 한국어 글자 읽기와 직접 고치기</li>
-        <li>손글씨 메모: 볼펜·형광펜</li>
-        <li>글자 검색: 읽은 글자 전체에서 찾기</li>
-        <li>책 단위 관리와 PDF 만들기</li>
-        <li>내 폰 안에서, 광고 없이 무료</li>
+    <section>
+      <h2 class="pk-h">주요 기능</h2>
+      <ul class="pk-feats">
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">📚</span><strong>책·악보·문서</strong><span>책, 악보, 문서를 쪽 단위로 모아 한 권으로 관리해요.</span></li>
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">✍️</span><strong>손글씨 메모</strong><span>볼펜, 형광펜, 지우개로 쪽 위에 바로 메모해요.</span></li>
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🔍</span><strong>글자 검색</strong><span>읽은 글자 전체에서 단어를 찾고 그 쪽으로 바로 가요.</span></li>
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">✏️</span><strong>글자 고치기</strong><span>잘못 읽은 글자는 직접 고치고 글자 크기도 바꿔요.</span></li>
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🔒</span><strong>내 폰 안에만</strong><span>회원가입·서버 없이 내 폰 안에만 저장돼요.</span></li>
+        <li class="pk-feat card"><span class="pk-ico" aria-hidden="true">🆓</span><strong>광고 없이 무료</strong><span>광고 없이 무료로 쓸 수 있어요.</span></li>
       </ul>
     </section>
 
-    <section class="card">
-      <h2>화면 미리보기</h2>
-      <p>누르면 크게 볼 수 있어요.</p>
+    <section>
+      <h2 class="pk-h">화면 미리보기</h2>
+      <p class="muted">옆으로 넘겨 보세요. 누르면 크게 볼 수 있어요.</p>
       <ul class="pk-shots">
         <li>
           <figure class="pk-shot">
@@ -163,18 +188,18 @@
       </ul>
     </section>
 
-    <section class="card">
+    <section class="pk-privacy">
       <h2>내 정보는 내 폰 안에만</h2>
       <p>회원가입도, 서버도, 광고도 없어요. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고, 아이티해결단이 가져가지 않습니다.</p>
-      <p><a href="../app/android/paperkeeper/privacy-policy.html">PaperKeeper 개인정보처리방침</a></p>
+      <p><a href="../app/android/paperkeeper/privacy-policy.html">PaperKeeper 개인정보처리방침 →</a></p>
     </section>
 
-    <section class="card">
-      <h2>알아 두실 점</h2>
-      <ul>
-        <li>안드로이드 앱이에요. 폰과 태블릿, 갤럭시 Z 폴드 같은 접는 폰에서도 쓸 수 있어요.</li>
-        <li>출시 일정은 11월 중이며, 심사 상황에 따라 달라질 수 있습니다.</li>
-        <li>아이폰(iOS)용은 추후 출시 예정입니다.</li>
+    <section>
+      <h2 class="pk-h">알아 두실 점</h2>
+      <ul class="pk-notes">
+        <li><span aria-hidden="true">📱</span><span>안드로이드 앱이에요. 폰과 태블릿, 갤럭시 Z 폴드 같은 접는 폰에서도 쓸 수 있어요.</span></li>
+        <li><span aria-hidden="true">🗓️</span><span>출시 일정은 11월 중이며, 심사 상황에 따라 달라질 수 있습니다.</span></li>
+        <li><span aria-hidden="true">🍎</span><span>아이폰(iOS)용은 추후 출시 예정입니다.</span></li>
       </ul>
     </section>
 
@@ -193,7 +218,7 @@
   <script>
     // 스크롤해서 화면에 들어오면 .is-in을 붙여 나타나게 해요. 자바스크립트가 꺼져 있으면 처음부터 모두 보여요.
     (function () {
-      var items = document.querySelectorAll('.lease-overview .card, .pk-shot');
+      var items = document.querySelectorAll('.lease-overview .card, .pk-shot, .pk-privacy, .pk-notes li');
       if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       document.documentElement.classList.add('js-anim');
       var io = new IntersectionObserver(function (entries) {
