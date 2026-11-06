@@ -36,8 +36,11 @@
     .pk-hero img { display: block; width: 100%; height: auto; border-radius: 12px; }
     
     .pk-shot { margin: 0; }
-    .pk-shot a { display: block; border: 1px solid rgba(128,128,128,.35); border-radius: 12px; overflow: hidden; }
-    .pk-shot img { display: block; width: 100%; height: auto; }
+    /* 폰 모형 프레임: 검은 테두리, 위쪽 카메라 구멍, 오른쪽 전원 버튼을 CSS로 그린다. 밝은·어두운 화면 모두 같은 검은 기기 색. */
+    .pk-shot a { position: relative; display: block; padding: 7px; border-radius: 28px; background: linear-gradient(145deg, #2a2e3b, #0d0f15); box-shadow: 0 6px 16px rgba(10, 18, 48, .25), inset 0 0 0 1px rgba(255, 255, 255, .12); }
+    .pk-shot a::before { content: ""; position: absolute; right: -3px; top: 22%; width: 3px; height: 14%; border-radius: 0 3px 3px 0; background: #1b1e29; }
+    .pk-shot a::after { content: ""; position: absolute; top: 14px; left: 50%; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 50%; background: #05060a; box-shadow: 0 0 0 2px rgba(255, 255, 255, .06); }
+    .pk-shot img { display: block; width: 100%; height: auto; border-radius: 21px; }
     .pk-shot figcaption { margin-top: 8px; font-size: 14px; line-height: 1.5; }
     .pk-shot figcaption strong { display: block; font-size: 15px; margin-bottom: 2px; }
     /* 움직임: 처음 열 때 제목·그림이 떠오르고, 스크롤하면 카드와 화면 캡처가 차례로 나타나요. 마우스를 올리면 캡처가 살짝 올라와요.
@@ -49,7 +52,7 @@
     .pk-hero { animation-delay: .24s; }
     .pk-hero img { animation: pk-float 6s ease-in-out 1s infinite; }
     .pk-shot a { transition: transform .25s ease, box-shadow .25s ease; }
-    .pk-shot a:hover, .pk-shot a:focus-visible { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(10, 18, 48, .22); }
+    .pk-shot a:hover, .pk-shot a:focus-visible { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(10, 18, 48, .35), inset 0 0 0 1px rgba(255, 255, 255, .12); }
     .js-anim .pk-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--d, 0s); }
     .js-anim .pk-reveal.is-in { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
