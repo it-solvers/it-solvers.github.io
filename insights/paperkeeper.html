@@ -56,6 +56,7 @@
       .lease-overview > h1, .lease-overview > .sub, .pk-hero, .pk-hero img { animation: none; }
       .js-anim .pk-reveal { opacity: 1; transform: none; transition: none; }
       .pk-shot a { transition: none; }
+      .pk-shots { scroll-behavior: auto; }
       .pk-shot a:hover, .pk-shot a:focus-visible { transform: none; }
     }
     /* 카드 구성: 단계(4칸) → 기능(2열 타일) → 캡처(옆으로 넘기기) → 강조 띠 → 안내 목록 */
@@ -68,7 +69,23 @@
     .pk-step strong, .pk-feat strong { font-size: 16px; }
     .pk-num { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
     html.dark-mode .pk-num { background: #6b9bff; color: #06122e; }
-    .pk-shots { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 16px; }
+    /* 화면 미리보기 슬라이더: 옆으로 밀어서(터치), 화살표로, 점으로 넘기고, 가만히 두면 저절로 넘어가요. */
+    .pk-slider { position: relative; margin-top: 12px; }
+    .pk-shots { list-style: none; margin: 0; padding: 14px 4px 22px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+    .pk-shots::-webkit-scrollbar { display: none; }
+    .pk-shots > li { flex: 0 0 calc((100% - 32px) / 3); scroll-snap-align: start; }
+    .pk-arrow { position: absolute; top: 40%; z-index: 2; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #1d4ed8; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(10, 18, 48, .3); }
+    .pk-arrow:hover { background: #1e3a8a; }
+    .pk-arrow[disabled] { opacity: .35; cursor: default; }
+    .pk-prev { left: -10px; } .pk-next { right: -10px; }
+    html.dark-mode .pk-arrow { background: #6b9bff; color: #06122e; }
+    html.dark-mode .pk-arrow:hover { background: #8db0ff; }
+    .pk-arrow:focus-visible, .pk-dot:focus-visible { outline: 3px solid #06b6d4; outline-offset: 2px; }
+    .pk-dots { display: flex; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .pk-dot { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%; background: rgba(128, 128, 128, .45); cursor: pointer; transition: width .25s ease, background .25s ease; }
+    .pk-dot[aria-current="true"] { width: 26px; border-radius: 6px; background: #1d4ed8; }
+    html.dark-mode .pk-dot[aria-current="true"] { background: #6b9bff; }
+    .pk-slider:not(.is-ready) .pk-arrow, .pk-slider:not(.is-ready) .pk-dots { display: none; }
     .lease-overview > section.pk-privacy { margin-top: 40px; padding: 28px 24px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #1e3a8a, #1d4ed8); }
     .lease-overview > section.pk-privacy h2, .lease-overview > section.pk-privacy p { color: #fff; margin-top: 0; }
     .lease-overview > section.pk-privacy a, html.dark-mode .lease-overview > section.pk-privacy a { color: #fff; font-weight: 700; text-decoration: underline; }
@@ -76,7 +93,7 @@
     .pk-notes li { padding: 12px 16px; border: 1px solid var(--lo-line); border-radius: 12px; font-size: 15px; }
     html.dark-mode .pk-notes li { border-color: #262c40; }
     html.dark-mode .pk-step, html.dark-mode .pk-feat { border-color: #262c40; }
-    @media (max-width: 860px) { .pk-shots { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; } .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 860px) { .pk-shots > li { flex-basis: calc((100% - 16px) / 2); } .pk-prev { left: 0; } .pk-next { right: 0; } .pk-steps { grid-template-columns: repeat(2, 1fr); } .pk-feats { grid-template-columns: repeat(2, 1fr); } }
   </style>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/dark.css">
@@ -127,7 +144,9 @@
 
     <section>
       <h2 class="pk-h">화면 미리보기</h2>
-      <p class="muted">누르면 크게 볼 수 있어요.</p>
+      <p class="muted">옆으로 넘겨 보세요. 누르면 크게 볼 수 있어요.</p>
+      <div class="pk-slider" role="region" aria-roledescription="carousel" aria-label="PaperKeeper 화면 미리보기">
+      <button type="button" class="pk-arrow pk-prev" aria-label="이전 화면">&#8249;</button>
       <ul class="pk-shots">
         <li>
           <figure class="pk-shot">
@@ -184,6 +203,9 @@
           </figure>
         </li>
       </ul>
+      <button type="button" class="pk-arrow pk-next" aria-label="다음 화면">&#8250;</button>
+      <div class="pk-dots" role="group" aria-label="화면 선택"></div>
+      </div>
     </section>
 
     <section class="pk-privacy">
@@ -229,6 +251,60 @@
         if (el.classList.contains('pk-shot')) el.style.setProperty('--d', ((i % 3) * 0.08) + 's'); // 같은 줄 캡처는 조금씩 늦게
         io.observe(el);
       });
+    })();
+  </script>
+
+  <script>
+    // 화면 미리보기 슬라이더. 화살표·점·터치 밀기로 넘기고, 4초마다 저절로 넘어가요(마우스를 올리거나 손이 닿으면 멈춤).
+    (function () {
+      var box = document.querySelector('.pk-slider');
+      if (!box) return;
+      var track = box.querySelector('.pk-shots');
+      var items = track.children;
+      var prev = box.querySelector('.pk-prev'), next = box.querySelector('.pk-next');
+      var dotsBox = box.querySelector('.pk-dots');
+      var dots = [];
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function step() { return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : track.clientWidth; }
+      function current() { return Math.round(track.scrollLeft / step()); }
+      function goTo(i) { track.scrollTo({ left: Math.max(0, Math.min(items.length - 1, i)) * step(), behavior: reduce ? 'auto' : 'smooth' }); }
+      function lastIndex() { return Math.round((track.scrollWidth - track.clientWidth) / step()); }
+
+      for (var i = 0; i < items.length; i++) {
+        (function (n) {
+          var d = document.createElement('button');
+          d.type = 'button'; d.className = 'pk-dot'; d.setAttribute('aria-label', (n + 1) + '번째 화면');
+          d.addEventListener('click', function () { goTo(n); });
+          dotsBox.appendChild(d); dots.push(d);
+        })(i);
+      }
+      function update() {
+        var c = Math.min(current(), items.length - 1), last = lastIndex();
+        dots.forEach(function (d, n) { if (n === c) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = c >= last;
+      }
+      prev.addEventListener('click', function () { goTo(current() - 1); });
+      next.addEventListener('click', function () { goTo(current() + 1); });
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+
+      // 자동 넘김: 끝에 닿으면 처음으로. '움직임 줄이기'를 켠 사람에게는 하지 않는다.
+      var timer = null;
+      function play() {
+        if (reduce || timer) return;
+        timer = setInterval(function () { goTo(current() >= lastIndex() ? 0 : current() + 1); }, 4000);
+      }
+      function pause() { clearInterval(timer); timer = null; }
+      box.addEventListener('mouseenter', pause);
+      box.addEventListener('mouseleave', play);
+      box.addEventListener('focusin', pause);
+      box.addEventListener('touchstart', pause, { passive: true });
+      document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else play(); });
+
+      box.classList.add('is-ready');
+      update(); play();
     })();
   </script>
 </body>
