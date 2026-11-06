@@ -175,7 +175,8 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
 }
 
 /* ===== 첫 화면: 버튼 줄과 회사 한 줄 소개 ===== */
-.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 32px; }
+.hero-cta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: min(100%, 600px); margin: 4px 0 32px; } /* 버튼 세 개를 같은 크기로 */
+.hero-cta .button { white-space: nowrap; }
 .hero-build { margin: 0 0 10px; max-width: 650px; word-break: keep-all; font-size: 15px; line-height: 1.65; color: var(--t-muted); }
 .hero-build strong { color: var(--t-ink); }
 .hero-build a { margin-left: 6px; color: var(--t-ac-text); font-weight: 600; white-space: nowrap; }
@@ -223,3 +224,4 @@ html.dark-mode .hero-cta .button-primary { box-shadow: 0 10px 24px -8px rgba(107
     :root:root:root .hero-cta .button { padding: 13px 14px; font-size: 14px; gap: 0; }
     .hero-cta .button::after { display: none; }
 }
+@media (max-width: 400px) { :root:root:root .hero-cta .button { padding: 12px 4px; font-size: 13px; } }
