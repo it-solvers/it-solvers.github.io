@@ -32,11 +32,12 @@
   <meta property="og:url" content="https://itsolvers.co.kr/contact.html">
   <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/dark.css">
-  <link rel="stylesheet" href="css/theme-sub.css?v=20261102">
+  <link rel="stylesheet" href="css/theme.css?v=20261102">
+  <link rel="stylesheet" href="css/company-pages.css?v=20261107">
   <script src="js/theme.js"></script>
+  <script src="js/contact-form.js" defer></script>
 </head>
-<body class="lease-page">
+<body>
   <header>
     <div class="container nav">
       <a href="/" class="logo" title="아이티해결단 메인으로 이동">
@@ -48,35 +49,134 @@
     </div>
   </header>
 
-  <main class="lease-overview">
-    <div class="page-date-row"><time class="page-date" datetime="2026-10-21">작성일 2026.10.21</time></div>
-    <h1>문의 안내</h1>
-    <p class="sub">편하게 문의해 주세요. 받은 순서대로 이메일로 답해 드려요.</p>
+  <main>
 
-    <section class="card">
-      <h2>문의하실 수 있는 내용</h2>
-      <ul>
-        <li>소프트웨어·웹·앱 개발, 시스템 유지보수 상담</li>
-        <li>IT자산·PC 공급과 컴퓨터 설치 상담</li>
-        <li>기술 인사이트 글·계산도구의 오류 제보와 질문</li>
-        <li>협업·제휴 제안</li>
-      </ul>
+    <section class="about-section alt" id="inquiry-info">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">안내</span>
+          <h2>문의 안내</h2>
+          <p>편하게 문의해 주세요. 받은 순서대로 이메일로 답해 드려요.</p>
+        </div>
+        <p class="about-page-date"><time class="page-date" datetime="2026-10-21">작성일 2026.10.21</time></p>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>문의하실 수 있는 내용</h3>
+            <ul>
+              <li>소프트웨어·웹·앱 개발, 시스템 유지보수 상담</li>
+              <li>IT자산·PC 공급과 컴퓨터 설치 상담</li>
+              <li>기술 인사이트 글·계산도구의 오류 제보와 질문</li>
+              <li>협업·제휴 제안</li>
+            </ul>
+          </div>
+          <div class="about-card">
+            <h3>사업자 정보</h3>
+            <p>아이티해결단 (IT Solvers) · 대표 이혁 · 사업자등록번호 364-11-03265</p>
+            <p>답장이 필요한 문의라면 답변받을 이메일 주소와 상황(어떤 업무인지, 어떤 환경인지)을 같이 적어 주세요. 더 빨리 답해 드릴 수 있어요.</p>
+            <p>보내 주신 정보는 <a href="privacy.html">개인정보처리방침</a>에 따라 다룹니다.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>문의 방법</h2>
-      <h3>1. 문의 폼</h3>
-      <p><a href="/#contact">메인 페이지의 문의 폼</a>에 이름, 답변받을 이메일, 문의 내용을 적어 보내 주세요. 개인정보 수집·이용에 동의하셔야 전송돼요.</p>
-      <h3>2. 이메일</h3>
-      <p><a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a></p>
-      <p>답장이 필요한 문의라면 답변받을 이메일 주소와 상황(어떤 업무인지, 어떤 환경인지)을 같이 적어 주세요. 더 빨리 답해 드릴 수 있어요.</p>
-    </section>
+        <section id="contact" class="contact">
 
-    <section class="card">
-      <h2>사업자 정보</h2>
-      <p>아이티해결단 (IT Solvers) · 대표 이혁 · 사업자등록번호 364-11-03265</p>
-      <p>보내 주신 정보는 <a href="privacy.html">개인정보처리방침</a>에 따라 다룹니다.</p>
-    </section>
+            <div class="container">
+
+
+                <span class="section-label">
+                    문의
+                </span>
+
+
+                <h2>
+                    궁금한 점을 남겨 주세요
+                </h2>
+
+
+                <p>
+
+                    질문이나 오류 제보, 개발·IT자산 상담, 협업 제안을
+                    아래 폼이나 이메일로 편하게 보내 주세요.
+
+                </p>
+
+
+                <!-- 문의 폼: Web3Forms(폼 전달 서비스)로 전송되어 itsolvers 메일로 도착한다.
+                     access_key는 공개 키라서 HTML에 그대로 두는 것이 정상이다(서비스가 한도를 막아 준다).
+                     JavaScript가 꺼져 있어도 action/method로 그대로 전송된다. -->
+                <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+
+                    <input type="hidden" name="access_key" value="28bac450-407f-4eca-80e8-d56aa9b0e839">
+                    <input type="hidden" name="subject" value="[아이티해결단 홈페이지] 문의가 도착했습니다">
+                    <input type="hidden" name="from_name" value="아이티해결단 홈페이지">
+
+                    <!-- 스팸 방지: 사람에게는 보이지 않는 칸. 봇이 채우면 서비스가 거른다 -->
+                    <input type="checkbox" name="botcheck" class="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                    <div class="contact-field">
+                        <label for="cfName">이름 (또는 회사·기관명)</label>
+                        <input type="text" id="cfName" name="name" autocomplete="name" maxlength="80" required>
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="cfEmail">답변받을 이메일</label>
+                        <input type="email" id="cfEmail" name="email" autocomplete="email" maxlength="120" required>
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="cfMessage">문의 내용</label>
+                        <textarea id="cfMessage" name="message" rows="5" maxlength="3000" required></textarea>
+                    </div>
+
+                    <label class="contact-consent">
+                        <input type="checkbox" name="consent" value="동의" required>
+                        <span>
+                            개인정보 수집·이용에 동의합니다.
+                            <small>
+                                수집 항목: 이름, 이메일, 문의 내용 / 이용 목적: 문의 확인과 답변 /
+                                보유 기간: 답변 완료 후 지체 없이 삭제(법령상 보존이 필요한 경우 제외) /
+                                동의를 거부할 수 있으나, 거부하면 폼으로 문의하실 수 없습니다(아래 이메일로 문의 가능).
+                                입력하신 내용은 폼 전송 서비스(Web3Forms)를 거쳐 이메일로 전달됩니다.
+                            </small>
+                        </span>
+                    </label>
+
+                    <button type="submit" class="contact-copy contact-submit" id="contactSubmit">
+                        문의 보내기
+                    </button>
+
+                    <p class="contact-status contact-form-status" id="contactStatus" role="status" aria-live="polite"></p>
+
+                </form>
+
+
+                <!-- 보조: 폼 대신 이메일로 직접 보내고 싶은 경우.
+                     메일 프로그램이 정해져 있지 않으면 mailto만으로는 크롬이 계정 선택 창을 띄우고 닫히는 등 동작이 불안정하므로
+                     주소를 보여 주고 복사 버튼을 주 수단으로 두고, 메일 앱 열기(mailto)는 한 줄 보조로 둔다.
+                     방문자가 쓰는 메일 서비스를 알 수 없으므로 특정 서비스(Gmail 등) 링크는 두지 않는다. -->
+                <div class="contact-email">
+
+                    <p class="contact-or">폼 대신 이메일로 직접 보내셔도 돼요</p>
+
+                    <p class="contact-address">dlgurpro@itsolvers.co.kr</p>
+
+                    <div class="contact-btn-row">
+                        <button type="button" class="contact-copy contact-copy-sub" id="copyEmail" data-email="dlgurpro@itsolvers.co.kr"
+                            title="이메일 주소를 클립보드에 복사합니다">
+                            이메일 주소 복사
+                        </button>
+                        <a class="contact-mailto" href="mailto:dlgurpro@itsolvers.co.kr">메일 앱으로 열기</a>
+                    </div>
+
+                    <p class="contact-status" id="copyStatus" role="status" aria-live="polite"></p>
+
+                </div>
+
+
+            </div>
+
+        </section>
 
   </main>
 
