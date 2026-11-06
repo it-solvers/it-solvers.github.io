@@ -32,20 +32,32 @@
   <meta property="og:url" content="https://itsolvers.co.kr/about.html">
   <meta property="og:image" content="https://itsolvers.co.kr/images/og-image.png">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/dark.css">
   <style>
-    /* 소개 카드: 오른쪽에 캐릭터, 왼쪽에 글(글이 사진 아래로 흘러내리지 않게 두 칸으로 나눈다) */
-    .about-who { display: flex; flex-direction: row-reverse; gap: 20px; align-items: flex-start; }
+    /* 소개 페이지는 메인과 같은 모양(css/theme.css의 변수 --t-*)으로 맞춘다. */
+    .about-section { padding: 72px 0; border-top: 1px solid var(--t-line); }
+    .about-section.alt { background: var(--t-bg2); }
+    .about-section:not(.alt) { background: var(--t-bg); }
+    .about-page-date { margin: 0 0 6px; font-size: 13px; color: var(--t-muted); }
+    .about-card { background: var(--t-card); border: 1px solid var(--t-line); border-radius: 16px; box-shadow: var(--t-shadow); padding: 28px 30px; }
+    .about-card + .about-card { margin-top: 18px; }
+    .about-card h3 { margin: 0 0 10px; font-size: 20px; font-weight: 800; color: var(--t-ink); }
+    .about-card p, .about-card li { color: var(--t-muted); line-height: 1.7; }
+    .about-card ul { margin: 8px 0 0; padding-left: 20px; }
+    .about-card a { color: var(--t-ac-text); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+    .about-grid .about-card + .about-card { margin-top: 0; }
+    /* 대표 소개: 오른쪽에 캐릭터, 왼쪽에 글(두 칸) */
+    .about-who { display: flex; flex-direction: row-reverse; gap: 22px; align-items: flex-start; }
     .about-who-text { flex: 1; min-width: 0; }
-    .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid #cdb98f; box-shadow: 3px 3px 0 rgba(80, 55, 20, .18); object-fit: cover; }
-    @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } }
+    .about-avatar { flex: none; width: 104px; height: 104px; border-radius: 50%; border: 3px solid var(--t-line); object-fit: cover; }
+    @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } .about-section { padding: 52px 0; } }
+    @media (max-width: 520px) { .about-who { gap: 14px; } .about-avatar { width: 68px; height: 68px; border-width: 2px; } .about-card { padding: 22px 20px; } }
   </style>
-  <link rel="stylesheet" href="css/theme-sub.css?v=20261102">
   <link rel="stylesheet" href="css/theme.css?v=20261102">
   <script src="js/theme.js"></script>
   <script src="js/history-years.js" defer></script>
 </head>
-<body class="lease-page">
+<body>
   <header>
     <div class="container nav">
       <a href="/" class="logo" title="아이티해결단 메인으로 이동">
@@ -57,58 +69,28 @@
     </div>
   </header>
 
-  <main class="lease-overview">
-    <div class="page-date-row"><time class="page-date" datetime="2026-10-21">작성일 2026.10.21</time></div>
-    <h1>아이티해결단 소개</h1>
-    <p class="sub">필요한 걸 먼저 듣고, 맞는 해결책을 찾는 일을 합니다.</p>
+  <main>
 
-    <section class="card about-who">
-      <img class="about-avatar" src="images/ceo-avatar.webp" alt="대표 이혁의 캐릭터 그림" width="104" height="104" loading="lazy">
-      <div class="about-who-text">
-        <h2>누가 운영하나요</h2>
-        <p>아이티해결단(IT Solvers)은 대표 이혁이 운영하는 IT 서비스 사업자예요(사업자등록번호 364-11-03265). 소프트웨어·웹·앱 개발과 유지보수, IT자산·PC 공급과 설치 일을 하고 있습니다.</p>
-        <p>대표는 금융·리스 시스템을 20년 넘게 만들고 운영해 왔어요. 이 사이트의 글은 그 현장에서 직접 겪은 내용을 바탕으로 씁니다.</p>
+    <!-- 1. 소개 -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">소개</span>
+          <h2>아이티해결단 소개</h2>
+          <p>필요한 걸 먼저 듣고, 맞는 해결책을 찾는 일을 합니다.</p>
+        </div>
+        <p class="about-page-date"><time class="page-date" datetime="2026-10-21">작성일 2026.10.21</time></p>
+        <div class="about-card about-who">
+          <img class="about-avatar" src="images/ceo-avatar.webp" alt="대표 이혁의 캐릭터 그림" width="104" height="104" loading="lazy">
+          <div class="about-who-text">
+            <h3>누가 운영하나요</h3>
+            <p>아이티해결단(IT Solvers)은 대표 이혁이 운영하는 IT 서비스 사업자예요(사업자등록번호 364-11-03265). 소프트웨어·웹·앱 개발과 유지보수, IT자산·PC 공급과 설치 일을 하고 있습니다.</p>
+            <p>대표는 금융·리스 시스템을 20년 넘게 만들고 운영해 왔어요. 이 사이트의 글은 그 현장에서 직접 겪은 내용을 바탕으로 씁니다.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="card">
-      <h2>하는 일</h2>
-      <ul>
-        <li>소프트웨어·웹·앱 개발과 시스템 유지보수</li>
-        <li>IT자산·PC 맞춤 공급, 구축, 컴퓨터 설치</li>
-        <li>금융·리스 업무 시스템 상담</li>
-      </ul>
-      <p>하는 일은 <a href="#services">서비스</a>와 <a href="#process">진행순서</a>, <a href="#history">주요실적</a>에 더 자세히 적어 두었어요.</p>
-    </section>
-
-    <section class="card">
-      <h2>이 사이트에서 볼 수 있는 것</h2>
-      <p><a href="/#insights">기술 인사이트</a>에는 이런 것들이 있어요.</p>
-      <ul>
-        <li><strong>업무지식</strong> – 리스 개요, 용어, 수익 인식(금융리스·운용리스)처럼 실무에서 자주 묻는 내용을 쉬운 말과 예시로 풀어 썼어요.</li>
-        <li><strong>계산도구</strong> – 리스료 계산기, 현금흐름 IRR 계산기, 목표 IRR 금리 역산 계산기예요. 계산 방법은 코드와 함께 공개해 두었습니다.</li>
-        <li><strong>MVP(최소 기능 제품)</strong> – 구독 없이 설치하는 전자계약서처럼, 직접 만들어 보고 있는 서비스예요.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>콘텐츠를 쓰는 원칙</h2>
-      <ul>
-        <li>회계·리스 내용은 K-IFRS 제1116호 같은 기준서를 바탕으로 설명하고, 기준서에 나온 내용과 실무에서 관행처럼 쓰는 내용을 구분해서 적으려고 해요.</li>
-        <li>예시 숫자는 이해를 돕기 위해 지어낸 값이에요. 계산도구는 학습용이라 견적이나 회계·세무 자문을 대신하지 못합니다.</li>
-        <li>오류를 발견하면 바로 고치고, 페이지 맨 위에 작성일을 표시해요.</li>
-        <li>글에서 틀린 부분을 발견하셨다면 <a href="contact.html">문의 안내</a>로 알려 주세요. 확인해서 반영하겠습니다.</li>
-      </ul>
-    </section>
-
-    <section class="card">
-      <h2>연락처</h2>
-      <p>이메일 <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a> · <a href="contact.html">문의 안내</a> · <a href="privacy.html">개인정보처리방침</a></p>
-    </section>
-
-  </main>
-
-  <!-- 메인에서 옮겨 온 구역: 서비스(전체)·진행순서·주요실적 -->
         <section id="services" class="services">
 
             <div class="container">
@@ -1020,7 +1002,47 @@
 
         </section>
 
+    <!-- 5. 이 사이트 -->
+    <section class="about-section" id="about-site">
+      <div class="container">
+        <div class="section-title">
+          <span class="section-label">이 사이트</span>
+          <h2>이 사이트에서 볼 수 있는 것</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>기술 인사이트</h3>
+            <p><a href="/#insights">기술 인사이트</a>에는 이런 것들이 있어요.</p>
+            <ul>
+              <li><strong>업무지식</strong> – 리스 개요, 용어, 수익 인식(금융리스·운용리스)처럼 실무에서 자주 묻는 내용을 쉬운 말과 예시로 풀어 썼어요.</li>
+              <li><strong>계산도구</strong> – 리스료 계산기, 현금흐름 IRR 계산기, 목표 IRR 금리 역산 계산기예요. 계산 방법은 코드와 함께 공개해 두었습니다.</li>
+              <li><strong>MVP(최소 기능 제품)</strong> – 구독 없이 설치하는 전자계약서처럼, 직접 만들어 보고 있는 서비스예요.</li>
+            </ul>
+          </div>
+          <div class="about-card">
+            <h3>콘텐츠를 쓰는 원칙</h3>
+            <ul>
+              <li>회계·리스 내용은 K-IFRS 제1116호 같은 기준서를 바탕으로 설명하고, 기준서에 나온 내용과 실무에서 관행처럼 쓰는 내용을 구분해서 적으려고 해요.</li>
+              <li>예시 숫자는 이해를 돕기 위해 지어낸 값이에요. 계산도구는 학습용이라 견적이나 회계·세무 자문을 대신하지 못합니다.</li>
+              <li>오류를 발견하면 바로 고치고, 페이지 맨 위에 작성일을 표시해요.</li>
+              <li>글에서 틀린 부분을 발견하셨다면 <a href="contact.html">문의 안내</a>로 알려 주세요. 확인해서 반영하겠습니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- 6. 연락처 -->
+    <section class="about-section alt" id="about-contact">
+      <div class="container">
+        <div class="about-card">
+          <h3>연락처</h3>
+          <p>이메일 <a href="mailto:dlgurpro@itsolvers.co.kr">dlgurpro@itsolvers.co.kr</a> · <a href="contact.html">문의 안내</a> · <a href="privacy.html">개인정보처리방침</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
     <div class="container">
