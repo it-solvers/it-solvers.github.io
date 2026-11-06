@@ -67,10 +67,10 @@
     .pk-feats .pk-feat:nth-child(4) { grid-column: 3 / 5; }
     .pk-feats .pk-feat:nth-child(7) { grid-column: 3 / 5; }
     .pk-feats .pk-feat { justify-content: center; }
-    /* 강조 타일: 밝은 푸른 바탕 + 파란 테두리(어두운 화면은 남색 바탕 + 밝은 파랑 테두리) */
-    .lease-overview .pk-feats .pk-feat:nth-child(4) { background: #e8f0ff; border: 2px solid #1d4ed8; }
+    /* Emphasis tile: light blue background with a blue border and a yellow left band taken from the app artwork (dark mode: navy background with a light blue border) */
+    .lease-overview .pk-feats .pk-feat:nth-child(4) { background: #e8f0ff; border: 2px solid #1d4ed8; border-left: 8px solid #ffd25e; }
     .lease-overview .pk-feats .pk-feat:nth-child(4) strong { font-size: 20px; }
-    html.dark-mode .lease-overview .pk-feats .pk-feat:nth-child(4) { background: #101c3a; border-color: #6b9bff; }
+    html.dark-mode .lease-overview .pk-feats .pk-feat:nth-child(4) { background: #101c3a; border-color: #6b9bff; border-left-color: #ffd25e; }
     .pk-emo { font-size: 24px; line-height: 1; }
     .pk-feats .pk-feat:nth-child(1) .pk-emo { font-size: 40px; }
     .pk-step, .pk-feat { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 16px; border: 1px solid var(--lo-line); border-radius: 14px; font-size: 14px; line-height: 1.5; transition: transform .25s ease, box-shadow .25s ease; }
@@ -153,7 +153,7 @@
         <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">📚</span><strong>Books, scores, papers</strong><span>Group pages into one book, whether it is a novel, sheet music, or documents.</span></li>
         <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">✍️</span><strong>Handwritten notes</strong><span>Write directly on a page with a pen, highlighter, and eraser.</span></li>
         <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">🔍</span><strong>Text search</strong><span>Search all recognized text and jump straight to the page.</span></li>
-        <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">🔒</span><strong>Stays on your phone</strong><span>No sign-up and no servers. Everything is stored on your phone.</span></li>
+        <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">🛡️</span><strong>Stays on your phone</strong><span>No sign-up and no servers. Everything is stored on your phone.</span></li>
         <li class="pk-feat card"><strong>Fix recognized text</strong><span>Correct any misread text yourself and change the text size.</span></li>
         <li class="pk-feat card"><strong>Free, no ads</strong><span>Free to use, with no ads.</span></li>
         <li class="pk-feat card"><span class="pk-emo" aria-hidden="true">📖</span><strong>Turn it sideways, like an open book</strong><span>Turn your phone sideways and it feels like reading a real book or score.</span></li>
