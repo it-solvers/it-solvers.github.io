@@ -21,6 +21,8 @@
     html.dark-mode .lang-switch button { border-color: #6b9bff; color: #6b9bff; }
     html.dark-mode .lang-switch button[aria-pressed="true"] { background: #6b9bff; color: #06122e; }
     .lang-switch button:focus-visible { outline: 3px solid #06b6d4; outline-offset: 2px; }
+    /* 카드는 원래 main 바로 아래 section만 모양이 입혀져요. 여기서는 언어 칸(div) 안에 있어서 같은 모양을 한 번 더 지정해요. */
+    .lease-overview > [data-lang] > section.card { min-width: 0; margin-top: 16px; padding: 20px; border: 1px solid var(--lo-line); border-radius: 10px; background: #fbf9f4; }
     /* 자바스크립트가 켜져 있을 때만 한쪽 언어를 숨긴다. 꺼져 있으면 두 언어가 모두 보인다. */
     .js-lang [data-lang][hidden] { display: none; }
     [data-lang="en"] { margin-top: 0; }
