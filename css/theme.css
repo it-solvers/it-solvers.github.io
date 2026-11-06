@@ -202,3 +202,19 @@ html.dark-mode .theme-toggle .dark { background: var(--t-soft); }
     :root:root:root .insight-grid { grid-template-columns: 1fr; }
     :root:root:root .insight-grid > .insight-card:nth-child(n):nth-last-child(n) { grid-column: auto; grid-row: auto; }
 }
+
+/* ===== 첫 화면 버튼 두 개: 크게, 둥글게, 살짝 떠오르는 효과, 화살표 =====
+   밝은 화면은 진한 파랑 바탕+흰 글자, 어두운 화면은 밝은 파랑 바탕+남색 글자(대비 4.5:1 이상 유지). */
+:root:root:root .hero-cta .button {
+    gap: 10px; padding: 16px 28px; font-size: 16px; font-weight: 700; letter-spacing: -0.3px; border-radius: 14px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.hero-cta .button::after { content: "→"; transition: transform 0.18s ease; }
+.hero-cta .button:hover::after, .hero-cta .button:focus-visible::after { transform: translateX(4px); }
+:root:root:root .hero-cta .button:hover, :root:root:root .hero-cta .button:focus-visible { transform: translateY(-2px); }
+:root:root:root .hero-cta .button-primary { box-shadow: 0 10px 24px -8px rgba(29, 78, 216, 0.55); }
+:root:root:root .hero-cta .button-primary:hover { box-shadow: 0 14px 28px -8px rgba(29, 78, 216, 0.65); }
+html.dark-mode .hero-cta .button-primary { box-shadow: 0 10px 24px -8px rgba(107, 155, 255, 0.45); }
+:root:root:root .hero-cta .button-secondary { border: 1.5px solid var(--t-line); background: var(--t-card); box-shadow: var(--t-shadow); }
+:root:root:root .hero-cta .button-secondary:hover { border-color: var(--t-ac); color: var(--t-ac-text); }
+@media (max-width: 520px) { :root:root:root .hero-cta .button { padding: 14px 22px; font-size: 15px; } }
