@@ -242,3 +242,9 @@ html:not(.dark-mode) header .logo-mark img { opacity: 0; }
 header .logo > span:last-child::after { content: "~ %"; margin-left: 8px; font-family: var(--t-mono); font-weight: 500; color: var(--accent, #0a7a45); }
 button, .button, .calculator-button, .calculator-example, .calculator-clear { border-radius: 8px; }
 input, select, textarea { border-radius: 8px; }
+
+/* 터미널 테마: 밝은 화면의 링크 버튼(.button-primary)과 강조색이 옛 파랑(styles.css의 --site-accent)으로 남지 않게 진한 초록으로 맞춘다.
+   어두운 화면은 위의 html.dark-mode main a.button 규칙이 초록(#3fdc8a)으로 처리한다. */
+html:not(.dark-mode) { --site-accent: #0a7a45; --site-accent-hover: #0d9356; --site-accent-soft: #f0f3f6; }
+html:not(.dark-mode) .button-primary { background: #0a7a45; border-color: #0a7a45; color: #ffffff; }
+html:not(.dark-mode) .button-primary:hover { background: #0d9356; border-color: #0d9356; }
