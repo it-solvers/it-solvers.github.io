@@ -83,3 +83,6 @@ header .logo > span:last-child::after { content: "~ %"; margin-left: 8px; font-f
     :root:root:root .hero-cta .button { padding: 12px 10px; font-size: 12.5px; justify-content: center; gap: 4px; }
     :root:root:root .hero-news-list li { padding: 9px 14px; }
 }
+
+/* 첫 화면 시작 위치: 헤더와 첫 프롬프트 줄(itsolvers@web ~ %) 사이를 프롬프트 한 줄 높이(14px x 1.8 = 약 25px)만큼만 띄운다 */
+:root:root:root .hero { padding-top: 25px; }

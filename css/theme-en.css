@@ -119,6 +119,7 @@ main h2[id] { scroll-margin-top: 90px; }
 .hero-cta a.primary::before { color: var(--t-ac-ink); opacity: 0.7; }
 @media (max-width: 520px) { .hero-cta { gap: 8px; } .hero-cta a { padding: 12px 8px; font-size: 12.5px; justify-content: center; gap: 4px; } }
 h1 { text-wrap: balance; }
-/* 첫 줄(프롬프트)이 한글 메인과 같은 높이에서 시작하게 위쪽 여백을 맞춘다 */
-main > .hero-prompts:first-child { margin-top: 63px; }
-@media (max-width: 800px) { main > .hero-prompts:first-child { margin-top: 36px; } }
+/* 첫 줄(프롬프트)이 한글 메인과 같은 높이에서 시작하게 위쪽 여백을 맞춘다.
+   헤더와 첫 줄 사이는 프롬프트 한 줄 높이(약 25px). 한글 메인은 .hero 위 여백 25px, 영문은 main 기본 여백(약 37px)에서 12px을 뺀다 */
+main > .hero-prompts:first-child { margin-top: -12px; }
+@media (max-width: 800px) { main > .hero-prompts:first-child { margin-top: -11px; } }
