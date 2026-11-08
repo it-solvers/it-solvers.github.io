@@ -65,7 +65,7 @@ html:not(.dark-mode) .button-link:hover { background: #0d9356; border-color: #0d
 html.dark-mode .button-link:hover { background: #3fdc8a; border-color: #3fdc8a; color: #04130b; }
 button.secondary:not(.theme-toggle), .button-link.secondary, html.dark-mode button.secondary:not(.theme-toggle), html.dark-mode .button-link.secondary { background: transparent; color: var(--blue); border-color: var(--blue); }
 input, select { border-radius: 10px; border-color: var(--line); background: var(--surface); }
-html.dark-mode input, html.dark-mode select { background: #0a0d12; border-color: #2e3947; color: #e6edf3; }
+html.dark-mode input, html.dark-mode select { background: #0a0d12; border-color: #5b6a7e; color: #e6edf3; }
 html:not(.dark-mode) th { background: #eef1f5; }
 html.dark-mode th { background: #0f141b; }
 

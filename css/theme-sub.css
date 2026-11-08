@@ -79,7 +79,7 @@ html.dark-mode .calculator-field label,
 html.dark-mode label { color: #b4c0cf; }
 html.dark-mode input,
 html.dark-mode select,
-html.dark-mode textarea { background: #0a0d12; color: #dfe7ef; border-color: #2e3947; }
+html.dark-mode textarea { background: #0a0d12; color: #dfe7ef; border-color: #5b6a7e; }
 html.dark-mode input::placeholder { color: #6f7d8f; }
 html.dark-mode input:focus,
 html.dark-mode select:focus { border-color: #3fdc8a; outline-color: #15202b; }

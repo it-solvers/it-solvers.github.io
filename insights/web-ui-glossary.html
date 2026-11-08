@@ -948,7 +948,7 @@
   <style>
 @import url("../css/styles.css") layer(site);
 @import url("../css/dark.css") layer(site);
-@import url("../css/theme-sub.css?v=20261108-1") layer(site);
+@import url("../css/theme-sub.css?v=20261108-4") layer(site);
   </style>
   <script src="../js/theme.js"></script>
   <style>/* Site common CSS is loaded in layer(site); rules for this page always win */
@@ -1105,6 +1105,8 @@ details.code summary{cursor:pointer;font:600 13px var(--sans);padding:6px 0;colo
 .item,.gloss,.foot,#empty{border-radius:14px}
 .stage,.note,.code-wrap pre{border-radius:12px}
 .item{box-shadow:0 1px 2px rgba(20,40,120,.06),0 10px 28px -12px rgba(20,40,120,.16)}
+/* 어두운 화면: 입력칸 테두리를 더 또렷하게(바탕과 3:1 이상) */
+html.dark-mode #q,html.dark-mode .d-ctl select,html.dark-mode .d-ctl input[type=text],html.dark-mode .x-ph input,html.dark-mode .x-iv input{border-color:#5b6a7e}
 html.dark-mode .item{box-shadow:0 0 0 1px rgba(255,255,255,.04)}
 .item h2 .en{font-weight:800;letter-spacing:-.02em}
 .foot h2{font-weight:800}

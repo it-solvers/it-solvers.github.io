@@ -13,7 +13,7 @@ html:not(.dark-mode) .btn.ghost { background: transparent; color: #0a7a45; borde
 html.dark-mode .btn, html.dark-mode .btn:hover { color: #04130b; background: #3fdc8a; }
 html.dark-mode .btn.ghost { background: transparent; color: #3fdc8a; border-color: #3fdc8a; }
 html.dark-mode .steps .n { color: #04130b; }
-html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0a0d12; color: #dfe7ef; border-color: #2e3947; }
+html.dark-mode .apply-field input, html.dark-mode .apply-field textarea { background: #0a0d12; color: #dfe7ef; border-color: #5b6a7e; }
 html.dark-mode .apply-submit { color: #04130b; }
 html.dark-mode .shot a, html.dark-mode .shot img { border-color: #232c38; }
 html.dark-mode .know { background: #121821; }
