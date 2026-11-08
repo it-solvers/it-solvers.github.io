@@ -61,6 +61,9 @@ html.dark-mode {
 
 /* ===== 문의 폼 · 버튼 모서리 ===== */
 :root:root:root .contact-field input, :root:root:root .contact-field textarea { border-radius: 8px; }
+/* 어두운 화면: 입력칸 테두리를 더 또렷하게(바탕과 3:1 이상) */
+html.dark-mode:root:root:root .contact-field input, html.dark-mode:root:root:root .contact-field textarea { border-color: #5b6a7e; }
+html.dark-mode:root:root:root .contact-field input:focus, html.dark-mode:root:root:root .contact-field textarea:focus { border-color: var(--t-ac); }
 :root:root:root .contact-submit, :root:root:root .contact-copy, :root:root:root .contact-btn-row > .contact-copy, :root:root:root .contact-btn-row > .contact-mailto { border-radius: 8px; }
 
 /* ===== 폰 ===== */
