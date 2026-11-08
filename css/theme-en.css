@@ -112,3 +112,7 @@ main h2[id] { scroll-margin-top: 90px; }
 h1 { text-wrap: balance; }
 /* 첫 줄(프롬프트)이 한글 메인과 같은 높이에서 시작하게 위쪽 여백을 맞춘다.
    헤더와 첫 줄 사이는 프롬프트 한 줄 높이(약 25px). 한글 메인은 .hero 위 여백 25px, 영문은 main 기본 여백(약 37px)에서 12px을 뺀다 */
+
+/* 푸터 바로 위 작성자·작성일·최종 수정일 한 줄(영문 메인은 css/styles.css를 쓰지 않아 여기서도 지정) */
+.page-meta { margin-top: 28px; margin-bottom: 20px; font-size: 13px; line-height: 1.7; text-align: right; color: var(--muted); }
+.page-meta a { color: var(--muted); text-decoration: underline; }
