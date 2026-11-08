@@ -2156,7 +2156,7 @@ body.lease-page footer .container span {
     margin-bottom: 20px;
     font-size: 13px;
     line-height: 1.7;
-    text-align: left;
+    text-align: right;
 }
 
 html:not(.dark-mode) .page-meta,
