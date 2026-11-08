@@ -7785,7 +7785,7 @@ demo:`<div class="r-cards"><article class="r-card"><div class="th" style="--c:va
 REAL['bento-grid']={
 css:`
 /* The bento grid: 4 equal columns, and grid-auto-rows:66px sets every row to 66px tall. */
-.r-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:66px;gap:8px}
+.r-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(66px,auto);gap:8px}
 /* The look of each cell. flex stacks the content vertically and justify-content:space-between pushes it to the top and bottom. color-mix blends two colors to make a pale background and border from the --c color. */
 .r-bento>div{border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;font:600 12px/1.3 var(--sans);background:color-mix(in srgb,var(--c) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
 /* The big number. cqi inside clamp means "1% of the container width", so the font size follows the box size. */
