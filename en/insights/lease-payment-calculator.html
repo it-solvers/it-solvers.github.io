@@ -63,7 +63,56 @@
     "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
   }
   </script>
-  <link rel="stylesheet" href="../../css/styles.css?v=20261108-9">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "en",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What formula calculates the monthly lease payment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The monthly lease payment is (vehicle price − residual value ÷ (1+i)^n) ÷ [(1 − (1+i)^−n) ÷ i], where i is the monthly rate (one twelfth of the annual rate) and n is the number of months. If the annual rate is 0%, the monthly payment is (vehicle price − residual value) ÷ number of months."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get the same result with the Excel or Google Sheets PMT function?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter the vehicle price as a negative number because it is paid out now, and the end-of-term residual value as a positive number because it is recovered at the end. PMT assumes end-of-month payments by default, and like this calculator it uses one twelfth of the annual rate as the monthly rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I enter as the residual value?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the sum of the guaranteed and unguaranteed residual values. Pass the annual rate as a percentage (for example, 5 means 5%)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the result include insurance or taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It is a reference calculation that excludes insurance, automobile tax, fees, and taxes. Beginning-of-month payments or separate fees, insurance, or taxes change the result, and the calculation does not represent accounting revenue recognized for finance or operating leases."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are the monthly principal, monthly interest, and total interest determined?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monthly principal and monthly interest are for the first month. Total principal is the principal repaid through the monthly payments (vehicle price − residual value), and total interest is the total lease payments minus the total principal. The residual value is not included in total principal."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="../../css/styles.css?v=20261108-13">
   <style>
     body {
       display: flex;
@@ -549,11 +598,27 @@ const monthlyPayment = monthlyRate === 0
       </p>
     </section>
 
+  <section class="calculator-card faq" aria-labelledby="faqHeading">
+    <h2 id="faqHeading">Frequently asked questions</h2>
+    <h3>What formula calculates the monthly lease payment?</h3>
+    <p>The monthly lease payment is (vehicle price − residual value ÷ (1+i)^n) ÷ [(1 − (1+i)^−n) ÷ i], where i is the monthly rate (one twelfth of the annual rate) and n is the number of months. If the annual rate is 0%, the monthly payment is (vehicle price − residual value) ÷ number of months.</p>
+    <h3>Can I get the same result with the Excel or Google Sheets PMT function?</h3>
+    <p>Yes. Enter the vehicle price as a negative number because it is paid out now, and the end-of-term residual value as a positive number because it is recovered at the end. PMT assumes end-of-month payments by default, and like this calculator it uses one twelfth of the annual rate as the monthly rate.</p>
+    <h3>What should I enter as the residual value?</h3>
+    <p>Enter the sum of the guaranteed and unguaranteed residual values. Pass the annual rate as a percentage (for example, 5 means 5%).</p>
+    <h3>Does the result include insurance or taxes?</h3>
+    <p>No. It is a reference calculation that excludes insurance, automobile tax, fees, and taxes. Beginning-of-month payments or separate fees, insurance, or taxes change the result, and the calculation does not represent accounting revenue recognized for finance or operating leases.</p>
+    <h3>How are the monthly principal, monthly interest, and total interest determined?</h3>
+    <p>Monthly principal and monthly interest are for the first month. Total principal is the principal repaid through the monthly payments (vehicle price − residual value), and total interest is the total lease payments minus the total principal. The residual value is not included in total principal.</p>
+  </section>
+
   <section class="calculator-card next-steps" aria-labelledby="nextStepsHeading">
     <h2 id="nextStepsHeading">Keep exploring</h2>
     <ul><li><a href="lease-revenue-recognition-guide.html"><strong>Lease revenue recognition guide</strong></a> — Compare revenue recognition and journal entries for finance and operating leases.</li><li><a href="lease-terms.html"><strong>Lease terminology</strong></a> — Residual value, lease payments, and IRR explained</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment calculator</strong></a> — Work backward from a target IRR to the monthly payment.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Calculate IRR from cash flows that include insurance and vehicle tax.</li><li><a href="e-contract.html"><strong>E-contract</strong></a> — Upload a PDF, send one link, and the other party signs on their phone.</li><li><a href="https://itsolvers-app-001.vercel.app/" target="_blank" rel="noopener"><strong>Get a Lease Estimate ↗</strong></a> — Build a lease estimate from the vehicle, term, and interest rate. Currently in development, and available in Korean only.</li><li><a href="https://itsolvers-app-002.vercel.app/" target="_blank" rel="noopener"><strong>E-contract service ↗</strong></a> — Review a contract and sign it electronically. Available in Korean only.</li></ul>
   </section>
   </main>
+
+  <div class="container page-meta">Author: <a href="/en/about.html">Hyeok Lee</a> (CEO, IT Solvers) · Published <time datetime="2026-10-13">October 13, 2026</time> · Last updated <time datetime="2026-11-08">November 8, 2026</time></div>
 
   <footer class="site-footer"><div class="container">
       <strong>IT Solvers</strong>

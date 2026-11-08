@@ -2150,6 +2150,45 @@ body.lease-page footer .container span {
 }
 
 /* 서브페이지 본문 최상단 우측 작성일 */
+/* 푸터 바로 위 한 줄: 작성자 · 작성일 · 최종 수정일 (글자를 흐리게 하지 않고 색으로 정한다: 4.5:1 이상) */
+.page-meta {
+    margin-top: 28px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: left;
+}
+
+html:not(.dark-mode) .page-meta,
+html:not(.dark-mode) .page-meta a {
+    color: #59636e;
+}
+
+html.dark-mode .page-meta,
+html.dark-mode .page-meta a {
+    color: #8b98a9;
+}
+
+.page-meta a {
+    text-decoration: underline;
+}
+
+/* 자주 묻는 질문(FAQ) 영역 */
+.faq h3 {
+    margin: 18px 0 6px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.faq h3:first-of-type {
+    margin-top: 12px;
+}
+
+.faq p {
+    margin: 0;
+    line-height: 1.75;
+}
+
 .page-date-row {
     text-align: left;
     margin: 0 0 12px;

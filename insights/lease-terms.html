@@ -51,30 +51,87 @@
   <meta name="twitter:description" content="리스 실무 용어(매수선택권, 잔존가치, 내재이자율, 규정손해금 등) 안내.">
   <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "리스 용어 정리",
-    "inLanguage": "ko-KR",
-    "description": "리스 실무에서 자주 쓰는 용어를 K-IFRS 제1116호 관점에서 정리한 안내 자료입니다.",
-    "url": "https://itsolvers.co.kr/insights/lease-terms.html",
-    "mainEntityOfPage": "https://itsolvers.co.kr/insights/lease-terms.html",
-    "author": {
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "리스 용어 정리",
+  "inLanguage": "ko-KR",
+  "description": "리스 실무에서 자주 쓰는 용어를 K-IFRS 제1116호 관점에서 정리한 안내 자료입니다.",
+  "url": "https://itsolvers.co.kr/insights/lease-terms.html",
+  "mainEntityOfPage": "https://itsolvers.co.kr/insights/lease-terms.html",
+  "author": {
+    "@type": "Person",
+    "name": "이혁",
+    "jobTitle": "대표",
+    "url": "https://itsolvers.co.kr/about.html",
+    "worksFor": {
       "@type": "Organization",
       "name": "아이티해결단 (IT Solvers)",
       "url": "https://itsolvers.co.kr/"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "아이티해결단 (IT Solvers)",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://itsolvers.co.kr/images/logo.png"
+    }
+  },
+  "datePublished": "2026-10-12",
+  "dateModified": "2026-11-08"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "ko-KR",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "매수선택권(염가매수선택권)이란 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "리스가 끝났을 때 리스이용자가 쓰던 물건을 싼 값에 살 수 있는 권리입니다. 현행 K-IFRS 제1116호에서는 \"매수선택권\"이라 부르며, 행사가격이 공정가치보다 충분히 낮고 계약할 때 이용자가 행사할 것이 상당히 확실하면 리스제공자는 금융리스로 분류할 수 있습니다."
+      }
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "아이티해결단 (IT Solvers)",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://itsolvers.co.kr/images/logo.png"
+    {
+      "@type": "Question",
+      "name": "잔존가치(RV)란 무엇이고 보증과 무보증은 어떻게 다른가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "잔존가치는 물건을 다 쓰고 난 뒤에도 팔면 받을 수 있는 금액입니다. 보증잔존가치는 리스가 끝났을 때 실제 가치가 이 금액보다 낮으면 모자란 만큼을 이용자가 채워 주기로 약속한 금액이고, 무보증잔존가치는 아무도 보장하지 않아 예상보다 적게 받으면 그 손해를 리스회사가 부담하는 금액입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "리스료와 과거 용어인 최소리스료는 어떻게 다른가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "리스료는 리스기간 동안 이용자가 리스회사에 내야 하는 돈으로, 흔히 말하는 월 리스료의 합계로 이해하면 됩니다. 과거 기준서(K-IFRS 제1017호)에서는 최소리스료라고 불렀고, 현행 기준서(K-IFRS 제1116호)에서는 이름이 리스료로 바뀌면서 구성도 조금 달라졌습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "내재이자율(IRR)이란 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "리스회사가 투자한 돈과 앞으로 받을 돈의 현재가치가 딱 맞아떨어지게 만드는 이자율입니다. 공정가치 + 리스개설직접원가 = (리스료 + 무보증잔존가치)의 현재가치라는 식에서 양쪽이 같아지게 하는 할인율이며, 순현재가치(NPV)가 0이 되는 할인율과 같습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "월 리스료는 어떻게 계산하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "리스료 = (차량가격 − 잔가 ÷ (1+i)의 n제곱) ÷ [(1 − (1+i)의 −n제곱) ÷ i]로 계산합니다(i는 월 금리, n은 리스기간 개월 수). 예를 들어 차량가격 50,000,000원, 36개월, 연 금리 5.5%, 만기 잔가 20,000,000원이면 월 리스료는 약 997,544원이며, 엑셀·구글시트에서는 =PMT(5.5%/12, 36, -50000000, 20000000, 0)으로 같은 값을 얻습니다."
       }
     }
-  }
+  ]
+}
   </script>
-  <link rel="stylesheet" href="../css/styles.css?v=20261108-9">
+  <link rel="stylesheet" href="../css/styles.css?v=20261108-13">
   <link rel="stylesheet" href="../css/dark.css">
   <link rel="stylesheet" href="../css/theme-sub.css?v=20261108-4">
   <link rel="stylesheet" href="../css/effects.css?v=20261108-8">
@@ -608,11 +665,27 @@
       </div>
     </section>
 
+    <section class="card faq" aria-labelledby="faqHeading">
+      <h2 id="faqHeading">자주 묻는 질문</h2>
+      <h3>매수선택권(염가매수선택권)이란 무엇인가요?</h3>
+      <p>리스가 끝났을 때 리스이용자가 쓰던 물건을 싼 값에 살 수 있는 권리입니다. 현행 K-IFRS 제1116호에서는 "매수선택권"이라 부르며, 행사가격이 공정가치보다 충분히 낮고 계약할 때 이용자가 행사할 것이 상당히 확실하면 리스제공자는 금융리스로 분류할 수 있습니다.</p>
+      <h3>잔존가치(RV)란 무엇이고 보증과 무보증은 어떻게 다른가요?</h3>
+      <p>잔존가치는 물건을 다 쓰고 난 뒤에도 팔면 받을 수 있는 금액입니다. 보증잔존가치는 리스가 끝났을 때 실제 가치가 이 금액보다 낮으면 모자란 만큼을 이용자가 채워 주기로 약속한 금액이고, 무보증잔존가치는 아무도 보장하지 않아 예상보다 적게 받으면 그 손해를 리스회사가 부담하는 금액입니다.</p>
+      <h3>리스료와 과거 용어인 최소리스료는 어떻게 다른가요?</h3>
+      <p>리스료는 리스기간 동안 이용자가 리스회사에 내야 하는 돈으로, 흔히 말하는 월 리스료의 합계로 이해하면 됩니다. 과거 기준서(K-IFRS 제1017호)에서는 최소리스료라고 불렀고, 현행 기준서(K-IFRS 제1116호)에서는 이름이 리스료로 바뀌면서 구성도 조금 달라졌습니다.</p>
+      <h3>내재이자율(IRR)이란 무엇인가요?</h3>
+      <p>리스회사가 투자한 돈과 앞으로 받을 돈의 현재가치가 딱 맞아떨어지게 만드는 이자율입니다. 공정가치 + 리스개설직접원가 = (리스료 + 무보증잔존가치)의 현재가치라는 식에서 양쪽이 같아지게 하는 할인율이며, 순현재가치(NPV)가 0이 되는 할인율과 같습니다.</p>
+      <h3>월 리스료는 어떻게 계산하나요?</h3>
+      <p>리스료 = (차량가격 − 잔가 ÷ (1+i)의 n제곱) ÷ [(1 − (1+i)의 −n제곱) ÷ i]로 계산합니다(i는 월 금리, n은 리스기간 개월 수). 예를 들어 차량가격 50,000,000원, 36개월, 연 금리 5.5%, 만기 잔가 20,000,000원이면 월 리스료는 약 997,544원이며, 엑셀·구글시트에서는 =PMT(5.5%/12, 36, -50000000, 20000000, 0)으로 같은 값을 얻습니다.</p>
+    </section>
+
     <section class="card next-steps" aria-labelledby="nextStepsHeading">
       <h2 id="nextStepsHeading">다음에 해볼 만한 것</h2>
       <ul><li><a href="lease-revenue-recognition-guide.html"><strong>리스 수익 인식 가이드</strong></a> — 금융리스와 운용리스의 수익 인식·분개를 36개월 예시로 비교해 봐요.</li><li><a href="lease-overview.html"><strong>리스 개요</strong></a> — K-IFRS 제1116호·리스 분류·종류</li><li><a href="lease-payment-calculator.html"><strong>리스료 계산기</strong></a> — 차량가격, 기간, 금리, 잔존가치로 월 리스료를 계산해요.</li><li><a href="irr-to-rate-calculator.html"><strong>목표 IRR 금리 역산 계산기</strong></a> — 목표 IRR에 맞는 월 리스료를 거꾸로 구해 줘요.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>리스 현금흐름 IRR 계산기</strong></a> — 보험료·자동차세를 반영한 현금흐름으로 IRR을 계산해요.</li><li><a href="e-contract.html"><strong>전자계약서</strong></a> — PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명해요.</li><li><a href="lease-estimate.html"><strong>리스 견적 내기 (진행중)</strong></a> — 차량, 기간, 금리 조건으로 리스 견적을 내 보는 도구예요. 지금은 개발 중이에요.</li></ul>
     </section>
   </main>
+
+  <div class="container page-meta">작성자 <a href="/about.html">이혁</a> (아이티해결단 대표) · 작성일 <time datetime="2026-10-12">2026.10.12</time> · 최종 수정일 <time datetime="2026-11-08">2026.11.08</time></div>
 
   <footer>
 

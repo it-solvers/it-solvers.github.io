@@ -62,7 +62,56 @@
     }
   }
   </script>
-  <link rel="stylesheet" href="../css/styles.css?v=20261108-9">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "ko-KR",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "월 리스료는 어떤 식으로 계산하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "리스료 = (차량대금 − 만기 잔가 ÷ (1+i)의 n제곱) ÷ [(1 − (1+i)의 −n제곱) ÷ i]로 계산합니다(i는 연 금리의 12분의 1인 월 금리, n은 리스 기간 개월 수). 연 금리가 0%이면 월 리스료 = (차량대금 − 만기 잔가) ÷ 개월 수입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "엑셀이나 구글 시트의 PMT 함수로도 같은 값을 구할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 같은 값을 구할 수 있습니다. 차량대금은 현재 지급하는 금액이라 음수로, 만기 잔가는 마지막에 회수되는 금액이라 양수로 입력합니다. PMT의 기본 지급 시점은 매월 말이며, 월 금리는 계산기와 같이 연 금리의 12분의 1로 계산합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "만기 잔가에는 무엇을 입력하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "보증잔가와 무보증잔가의 합을 입력합니다. 연 금리는 퍼센트 값(예: 5는 5%)으로 입력합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "이 계산 결과에는 보험료나 세금이 들어가나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아니요. 보험료·자동차세·수수료 및 세금은 제외한 참고용 계산입니다. 월초 납부 조건이나 별도 수수료·보험료·세금이 있으면 결과가 달라지며, 이 계산은 금융리스·운용리스의 회계상 수익인식액을 나타내지 않습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "월 원금과 월 이자, 전체 이자는 어떻게 나오나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "월 원금과 월 이자는 첫 달 기준입니다. 전체 원금은 월 리스료로 상환하는 원금(차량대금 − 만기 잔가)이고, 전체 이자는 전체 리스료에서 전체 원금을 뺀 금액입니다. 만기 잔가는 전체 원금에 포함되지 않습니다."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="../css/styles.css?v=20261108-13">
   <style>
     body {
       display: flex;
@@ -522,11 +571,27 @@ const monthlyPayment = monthlyRate === 0
       </p>
     </section>
 
+  <section class="calculator-card faq" aria-labelledby="faqHeading">
+    <h2 id="faqHeading">자주 묻는 질문</h2>
+    <h3>월 리스료는 어떤 식으로 계산하나요?</h3>
+    <p>리스료 = (차량대금 − 만기 잔가 ÷ (1+i)의 n제곱) ÷ [(1 − (1+i)의 −n제곱) ÷ i]로 계산합니다(i는 연 금리의 12분의 1인 월 금리, n은 리스 기간 개월 수). 연 금리가 0%이면 월 리스료 = (차량대금 − 만기 잔가) ÷ 개월 수입니다.</p>
+    <h3>엑셀이나 구글 시트의 PMT 함수로도 같은 값을 구할 수 있나요?</h3>
+    <p>네, 같은 값을 구할 수 있습니다. 차량대금은 현재 지급하는 금액이라 음수로, 만기 잔가는 마지막에 회수되는 금액이라 양수로 입력합니다. PMT의 기본 지급 시점은 매월 말이며, 월 금리는 계산기와 같이 연 금리의 12분의 1로 계산합니다.</p>
+    <h3>만기 잔가에는 무엇을 입력하나요?</h3>
+    <p>보증잔가와 무보증잔가의 합을 입력합니다. 연 금리는 퍼센트 값(예: 5는 5%)으로 입력합니다.</p>
+    <h3>이 계산 결과에는 보험료나 세금이 들어가나요?</h3>
+    <p>아니요. 보험료·자동차세·수수료 및 세금은 제외한 참고용 계산입니다. 월초 납부 조건이나 별도 수수료·보험료·세금이 있으면 결과가 달라지며, 이 계산은 금융리스·운용리스의 회계상 수익인식액을 나타내지 않습니다.</p>
+    <h3>월 원금과 월 이자, 전체 이자는 어떻게 나오나요?</h3>
+    <p>월 원금과 월 이자는 첫 달 기준입니다. 전체 원금은 월 리스료로 상환하는 원금(차량대금 − 만기 잔가)이고, 전체 이자는 전체 리스료에서 전체 원금을 뺀 금액입니다. 만기 잔가는 전체 원금에 포함되지 않습니다.</p>
+  </section>
+
   <section class="calculator-card next-steps" aria-labelledby="nextStepsHeading">
     <h2 id="nextStepsHeading">다음에 해볼 만한 것</h2>
     <ul><li><a href="lease-revenue-recognition-guide.html"><strong>리스 수익 인식 가이드</strong></a> — 금융리스와 운용리스의 수익 인식·분개를 36개월 예시로 비교해 봐요.</li><li><a href="lease-terms.html"><strong>리스 용어 정리</strong></a> — 잔존가치·내재이자율·리스료 등 핵심 용어</li><li><a href="lease-overview.html"><strong>리스 개요</strong></a> — K-IFRS 제1116호·리스 분류·종류</li><li><a href="irr-to-rate-calculator.html"><strong>목표 IRR 금리 역산 계산기</strong></a> — 목표 IRR에 맞는 월 리스료를 거꾸로 구해 줘요.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>리스 현금흐름 IRR 계산기</strong></a> — 보험료·자동차세를 반영한 현금흐름으로 IRR을 계산해요.</li><li><a href="e-contract.html"><strong>전자계약서</strong></a> — PDF를 올리고 링크 하나만 보내면 상대방이 휴대폰으로 서명해요.</li><li><a href="lease-estimate.html"><strong>리스 견적 내기 (진행중)</strong></a> — 차량, 기간, 금리 조건으로 리스 견적을 내 보는 도구예요. 지금은 개발 중이에요.</li></ul>
   </section>
   </main>
+
+  <div class="container page-meta">작성자 <a href="/about.html">이혁</a> (아이티해결단 대표) · 작성일 <time datetime="2026-10-07">2026.10.07</time> · 최종 수정일 <time datetime="2026-11-08">2026.11.08</time></div>
 
   <footer>
 

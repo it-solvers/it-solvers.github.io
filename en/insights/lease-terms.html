@@ -48,19 +48,84 @@
   <meta name="twitter:description" content="Definitions, examples, formulas, and calculator links for common lease and trade terms.">
   <meta name="twitter:image" content="https://itsolvers.co.kr/images/og-image.png">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Lease Terminology",
-    "inLanguage": "en",
-    "description": "A detailed glossary of lease and trade terms with examples, formulas, and links to related calculators.",
-    "url": "https://itsolvers.co.kr/en/insights/lease-terms.html",
-    "mainEntityOfPage": "https://itsolvers.co.kr/en/insights/lease-terms.html",
-    "author": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" },
-    "publisher": { "@type": "Organization", "name": "IT Solvers", "url": "https://itsolvers.co.kr/" }
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Lease Terminology",
+  "inLanguage": "en",
+  "description": "A detailed glossary of lease and trade terms with examples, formulas, and links to related calculators.",
+  "url": "https://itsolvers.co.kr/en/insights/lease-terms.html",
+  "mainEntityOfPage": "https://itsolvers.co.kr/en/insights/lease-terms.html",
+  "author": {
+    "@type": "Person",
+    "name": "Hyeok Lee",
+    "jobTitle": "CEO",
+    "url": "https://itsolvers.co.kr/en/about.html",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "IT Solvers",
+      "url": "https://itsolvers.co.kr/en/"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "IT Solvers",
+    "url": "https://itsolvers.co.kr/"
+  },
+  "datePublished": "2026-10-13",
+  "dateModified": "2026-11-08"
+}
   </script>
-  <link rel="stylesheet" href="../../css/styles.css?v=20261108-9">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "en",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a purchase option (formerly, a bargain purchase option)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the right, at the end of the lease, for the lessee to buy the leased asset at a low price. Under the current standard (K-IFRS 1116) it is called a purchase option; if the exercise price is sufficiently lower than fair value and it is reasonably certain at inception that the lessee will exercise it, the lessor can classify the lease as a finance lease."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is residual value (RV), and how do guaranteed and unguaranteed residual values differ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Residual value is the amount you could still receive by selling an asset after you have finished using it. A guaranteed residual value is an amount the lessee has promised to make up if the actual value at the end of the lease is lower. An unguaranteed residual value is not backed by anyone, so if the sale brings in less than expected, the leasing company bears the loss."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do lease payments differ from the older term \"minimum lease payments\"?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lease payments are the money the lessee has to pay the leasing company during the lease term; you can think of them as the total of the familiar monthly lease payments. The previous standard (K-IFRS 1017) called this \"minimum lease payments.\" In the current standard (K-IFRS 1116) the name has changed to lease payments, and its composition has changed somewhat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the implicit interest rate (IRR) in a lease?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the interest rate that makes the amount the leasing company invested exactly equal to the present value of the money it will receive. In the formula fair value + initial direct costs = present value of (lease payments + unguaranteed residual value), it is the discount rate that makes both sides equal, which is the same as the discount rate at which net present value (NPV) is zero."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is a monthly lease payment calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The monthly lease payment is (vehicle price − residual value ÷ (1+i)^n) ÷ [(1 − (1+i)^−n) ÷ i], where i is the monthly rate and n is the number of months. For example, a $37,000 vehicle, 36 months, a 5.5% annual rate, and a $14,800 residual value gives a monthly payment of about $738, and Excel or Google Sheets returns the same value with =PMT(5.5%/12, 36, -37000, 14800, 0)."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="../../css/styles.css?v=20261108-13">
   <style>
     .nav-right {
       display: flex;
@@ -620,11 +685,27 @@
       </div>
     </section>
 
+    <section class="card faq" aria-labelledby="faqHeading">
+      <h2 id="faqHeading">Frequently asked questions</h2>
+      <h3>What is a purchase option (formerly, a bargain purchase option)?</h3>
+      <p>It is the right, at the end of the lease, for the lessee to buy the leased asset at a low price. Under the current standard (K-IFRS 1116) it is called a purchase option; if the exercise price is sufficiently lower than fair value and it is reasonably certain at inception that the lessee will exercise it, the lessor can classify the lease as a finance lease.</p>
+      <h3>What is residual value (RV), and how do guaranteed and unguaranteed residual values differ?</h3>
+      <p>Residual value is the amount you could still receive by selling an asset after you have finished using it. A guaranteed residual value is an amount the lessee has promised to make up if the actual value at the end of the lease is lower. An unguaranteed residual value is not backed by anyone, so if the sale brings in less than expected, the leasing company bears the loss.</p>
+      <h3>How do lease payments differ from the older term "minimum lease payments"?</h3>
+      <p>Lease payments are the money the lessee has to pay the leasing company during the lease term; you can think of them as the total of the familiar monthly lease payments. The previous standard (K-IFRS 1017) called this "minimum lease payments." In the current standard (K-IFRS 1116) the name has changed to lease payments, and its composition has changed somewhat.</p>
+      <h3>What is the implicit interest rate (IRR) in a lease?</h3>
+      <p>It is the interest rate that makes the amount the leasing company invested exactly equal to the present value of the money it will receive. In the formula fair value + initial direct costs = present value of (lease payments + unguaranteed residual value), it is the discount rate that makes both sides equal, which is the same as the discount rate at which net present value (NPV) is zero.</p>
+      <h3>How is a monthly lease payment calculated?</h3>
+      <p>The monthly lease payment is (vehicle price − residual value ÷ (1+i)^n) ÷ [(1 − (1+i)^−n) ÷ i], where i is the monthly rate and n is the number of months. For example, a $37,000 vehicle, 36 months, a 5.5% annual rate, and a $14,800 residual value gives a monthly payment of about $738, and Excel or Google Sheets returns the same value with =PMT(5.5%/12, 36, -37000, 14800, 0).</p>
+    </section>
+
     <section class="card next-steps" aria-labelledby="nextStepsHeading">
       <h2 id="nextStepsHeading">Keep exploring</h2>
       <ul><li><a href="lease-revenue-recognition-guide.html"><strong>Lease revenue recognition guide</strong></a> — Compare revenue recognition and journal entries for finance and operating leases.</li><li><a href="lease-overview.html"><strong>Lease overview</strong></a> — K-IFRS 1116, classification, and lease types</li><li><a href="lease-payment-calculator.html"><strong>Lease payment calculator</strong></a> — Calculate the monthly payment from price, term, rate, and residual value.</li><li><a href="irr-to-rate-calculator.html"><strong>Target IRR payment calculator</strong></a> — Work backward from a target IRR to the monthly payment.</li><li><a href="lease-cashflow-irr-calculator.html"><strong>Lease cash-flow IRR calculator</strong></a> — Calculate IRR from cash flows that include insurance and vehicle tax.</li><li><a href="e-contract.html"><strong>E-contract</strong></a> — Upload a PDF, send one link, and the other party signs on their phone.</li><li><a href="https://itsolvers-app-001.vercel.app/" target="_blank" rel="noopener"><strong>Get a Lease Estimate ↗</strong></a> — Build a lease estimate from the vehicle, term, and interest rate. Currently in development, and available in Korean only.</li><li><a href="https://itsolvers-app-002.vercel.app/" target="_blank" rel="noopener"><strong>E-contract service ↗</strong></a> — Review a contract and sign it electronically. Available in Korean only.</li></ul>
     </section>
   </main>
+
+  <div class="container page-meta">Author: <a href="/en/about.html">Hyeok Lee</a> (CEO, IT Solvers) · Published <time datetime="2026-10-13">October 13, 2026</time> · Last updated <time datetime="2026-11-08">November 8, 2026</time></div>
 
   <footer class="site-footer"><div class="container">
       <strong>IT Solvers</strong>
