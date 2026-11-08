@@ -34,6 +34,12 @@ html.dark-mode {
 :root:root:root header .logo, :root:root:root header .logo span { color: var(--t-ink); }
 :root:root:root header nav, :root:root:root header nav a { color: var(--t-muted); }
 :root:root:root header nav a:hover { color: var(--t-ac-text); }
+/* 폰 햄버거 메뉴 펼침 상자: 밝은/어두운 화면 색을 따라간다 */
+@media (max-width: 800px) {
+    :root:root:root header nav { background: var(--t-bg2); border-color: var(--t-line); box-shadow: none; }
+    :root:root:root header nav a:hover { background: var(--t-soft); color: var(--t-ac-text); }
+    :root:root:root header .submenu { background: transparent; border-left-color: var(--t-line); }
+}
 :root:root:root header .logo-mark { border-radius: 8px; }
 html:not(.dark-mode) header img { mix-blend-mode: multiply; }
 html.dark-mode header .logo-mark { background: #fff; padding: 2px 4px; }
