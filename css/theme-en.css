@@ -106,7 +106,9 @@ main h2[id] { scroll-margin-top: 90px; }
 .hero-cta a:hover, .hero-cta a:focus-visible { border-color: var(--blue); transform: translateY(-2px); text-decoration: none; }
 .hero-cta a.primary { background: var(--blue); border-color: var(--blue); color: var(--t-ac-ink); }
 .hero-cta a.primary::before { color: var(--t-ac-ink); opacity: 0.7; }
-@media (max-width: 520px) { .hero-cta { gap: 8px; } .hero-cta a { padding: 12px 8px; font-size: 12.5px; justify-content: center; gap: 4px; } }
+/* 폰: 첫 버튼은 한 줄 전체, 나머지 두 개는 아래에 나란히(글자가 버튼 끝에 붙지 않게) */
+@media (max-width: 520px) { .hero-cta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .hero-cta a { padding: 14px 12px; font-size: 14px; justify-content: center; gap: 4px; text-align: center; } .hero-cta a.primary { grid-column: 1 / -1; } }
+@media (max-width: 380px) { .hero-cta a { padding: 13px 8px; font-size: 13px; } }
 h1 { text-wrap: balance; }
 /* 첫 줄(프롬프트)이 한글 메인과 같은 높이에서 시작하게 위쪽 여백을 맞춘다.
    헤더와 첫 줄 사이는 프롬프트 한 줄 높이(약 25px). 한글 메인은 .hero 위 여백 25px, 영문은 main 기본 여백(약 37px)에서 12px을 뺀다 */
