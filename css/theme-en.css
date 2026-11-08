@@ -74,16 +74,6 @@ html:not(.dark-mode) .site-header .brand .logo-dark { display: none; }
 html.dark-mode .site-header .brand .logo-light { display: none; }
 
 /* ===== 터미널 모양: 로고 뒤 프롬프트, 프롬프트 장식 줄, 작은 모서리·그림자 없는 카드 ===== */
-.site-header .brand::after { content: "~ %"; margin-left: 8px; font-family: var(--t-mono); font-weight: 500; color: var(--blue); }
-.hero-prompts, .hero-end-prompt { font-family: var(--t-mono); font-size: 14px; color: var(--muted); }
-.hero-prompts { margin: 0 0 20px; }
-.hero-prompts p, .hero-end-prompt { margin: 0; line-height: 1.8; }
-.hero-prompts b, .hero-end-prompt b { color: var(--blue); font-weight: 500; }
-.hero-end-prompt { margin: 28px 0 8px; }
-.term-cursor { display: inline-block; width: 0.5em; height: 1em; margin-left: 6px; vertical-align: -0.12em; background: var(--blue); animation: term-blink 1.1s steps(1) infinite; }
-@keyframes term-blink { 50% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } }
-.lead::before { content: "// "; font-family: var(--t-mono); opacity: 0.55; }
 .card, .card-link, .news, .note { border-radius: 10px; box-shadow: none; }
 .news-title { font-family: var(--t-mono); }
 .news-tag { border-radius: 0; background: transparent; padding: 0; font-family: var(--t-mono); font-weight: 500; color: var(--t-ac2); }
@@ -113,7 +103,6 @@ main h2[id] { scroll-margin-top: 90px; }
 .hero-cta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(100%, 660px); margin: 4px 0 32px; }
 .hero-cta a { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink);
   font-family: var(--t-mono); font-size: 14px; font-weight: 600; white-space: nowrap; text-decoration: none; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
-.hero-cta a::before { content: "%"; color: var(--blue); }
 .hero-cta a:hover, .hero-cta a:focus-visible { border-color: var(--blue); transform: translateY(-2px); text-decoration: none; }
 .hero-cta a.primary { background: var(--blue); border-color: var(--blue); color: var(--t-ac-ink); }
 .hero-cta a.primary::before { color: var(--t-ac-ink); opacity: 0.7; }
@@ -121,5 +110,3 @@ main h2[id] { scroll-margin-top: 90px; }
 h1 { text-wrap: balance; }
 /* 첫 줄(프롬프트)이 한글 메인과 같은 높이에서 시작하게 위쪽 여백을 맞춘다.
    헤더와 첫 줄 사이는 프롬프트 한 줄 높이(약 25px). 한글 메인은 .hero 위 여백 25px, 영문은 main 기본 여백(약 37px)에서 12px을 뺀다 */
-main > .hero-prompts:first-child { margin-top: -12px; }
-@media (max-width: 800px) { main > .hero-prompts:first-child { margin-top: -11px; } }

@@ -238,8 +238,7 @@ footer.site-footer a { opacity: 1; text-decoration: underline; }
 html:not(.dark-mode) header .logo-mark { background: url("../images/logo-light.png") center / contain no-repeat; }
 html:not(.dark-mode) header .logo-mark img { opacity: 0; }
 
-/* 터미널 테마: 헤더 로고 글자 뒤에 프롬프트(~ %), 버튼·입력칸 모서리를 작게 */
-header .logo > span:last-child::after { content: "~ %"; margin-left: 8px; font-family: var(--t-mono); font-weight: 500; color: var(--accent, #0a7a45); }
+/* 터미널 테마: 버튼·입력칸 모서리를 작게 */
 button, .button, .calculator-button, .calculator-example, .calculator-clear { border-radius: 8px; }
 input, select, textarea { border-radius: 8px; }
 
