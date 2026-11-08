@@ -233,9 +233,9 @@ html.dark-mode footer.site-footer a { color: #b4c0cf; }
 html.dark-mode footer.site-footer strong { color: #e6edf3; }
 footer.site-footer a { opacity: 1; text-decoration: underline; }
 
-/* 밝은 화면 로고: 투명 로고(images/logo-light.png)를 쓴다. 어두운 화면은 기존 로고(images/logo.png)와 흰 배경을 그대로 쓴다.
+/* 밝은 화면 로고: 투명 로고(images/logo-light-header.webp)를 쓴다. 어두운 화면은 기존 로고(images/logo.png)와 흰 배경을 그대로 쓴다.
    <img>는 자리·대체 글(alt)을 위해 남기고 투명하게 둔다. */
-html:not(.dark-mode) header .logo-mark { background: url("../images/logo-light.png") center / contain no-repeat; }
+html:not(.dark-mode) header .logo-mark { background: url("../images/logo-light-header.webp") center / contain no-repeat; }
 html:not(.dark-mode) header .logo-mark img { opacity: 0; }
 
 /* 터미널 테마: 버튼·입력칸 모서리를 작게 */

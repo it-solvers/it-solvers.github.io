@@ -232,7 +232,7 @@ html.dark-mode .hero-cta .button-primary { box-shadow: 0 10px 24px -8px rgba(107
 }
 @media (max-width: 400px) { :root:root:root .hero-cta .button { padding: 12px 4px; font-size: 13px; } }
 
-/* 밝은 화면 로고: 투명 로고(images/logo-light.png)를 쓴다. 어두운 화면은 기존 로고(images/logo.png)와 흰 배경을 그대로 쓴다.
+/* 밝은 화면 로고: 투명 로고(images/logo-light-header.webp)를 쓴다. 어두운 화면은 기존 로고(images/logo.png)와 흰 배경을 그대로 쓴다.
    <img>는 자리·대체 글(alt)을 위해 남기고 투명하게 둔다. */
-html:not(.dark-mode) header .logo-mark { background: url("../images/logo-light.png") center / contain no-repeat; }
+html:not(.dark-mode) header .logo-mark { background: url("../images/logo-light-header.webp") center / contain no-repeat; }
 html:not(.dark-mode) header .logo-mark img { opacity: 0; }
