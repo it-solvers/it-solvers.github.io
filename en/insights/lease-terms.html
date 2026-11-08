@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js): 첫 화면이 빨라지도록 첫 터치·스크롤·키 입력 또는 7초 뒤에 불러온다(그 전 기록은 dataLayer에 쌓였다가 함께 전송) -->
+  <!-- Google tag (gtag.js): 첫 화면이 빨라지도록 페이지 로딩이 끝난 뒤(또는 그 전에 첫 터치·스크롤·키 입력이 있으면 그때) 불러온다(그 전 기록은 dataLayer에 쌓였다가 함께 전송) -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -17,7 +17,10 @@
       document.head.appendChild(s);
     }
     evs.forEach(function (e) { addEventListener(e, load, { once: true, passive: true }); });
-    setTimeout(load, 7000);
+    function afterLoad() { // 페이지 로딩이 끝난 뒤, 브라우저가 한가할 때 불러온다
+    if (window.requestIdleCallback) requestIdleCallback(load, { timeout: 2000 }); else setTimeout(load, 500);
+  }
+  if (document.readyState === 'complete') afterLoad(); else addEventListener('load', afterLoad, { once: true });
   })();
   </script>
   <!-- 애드센스: 2026-10-21 반려로 잠시 꺼 둠(속도 개선). 재신청할 때 이 주석을 풀 것
