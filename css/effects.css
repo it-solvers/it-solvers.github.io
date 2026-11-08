@@ -7,6 +7,12 @@
 main h1, main .sub { animation: fx-rise .7s ease-out both; }
 main .sub { animation-delay: .12s; }
 
+/* 메인·소개·문의(한글)와 영문 메인: 첫 화면 제목, 설명, 버튼, 새소식이 차례로 떠오른다 */
+.hero h1, .hero-text, .hero-cta, .hero-news, main > .lead, main > .hero-cta, main > .news { animation: fx-rise .7s ease-out both; }
+.hero-text, main > .lead { animation-delay: .12s; }
+.hero-cta, main > .hero-cta { animation-delay: .24s; }
+.hero-news, main > .news { animation-delay: .36s; }
+
 .lease-overview .card, .cards .card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
 .lease-overview .card:hover, .cards .card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(10, 18, 48, .14); }
 html.dark-mode .lease-overview .card:hover, html.dark-mode .cards .card:hover { box-shadow: 0 10px 22px rgba(0, 0, 0, .45); }
@@ -17,7 +23,7 @@ html.dark-mode .lease-overview .card:hover, html.dark-mode .cards .card:hover { 
 .js-fx .fx-reveal.is-in { transition-delay: 0s; }
 
 @media (prefers-reduced-motion: reduce) {
-    main h1, main .sub { animation: none; }
+    main h1, main .sub, .hero h1, .hero-text, .hero-cta, .hero-news, main > .lead, main > .news { animation: none; }
     .js-fx .fx-reveal { opacity: 1; transform: none; transition: none; }
     .lease-overview .card, .cards .card { transition: none; }
     .lease-overview .card:hover, .cards .card:hover { transform: none; }
