@@ -2052,7 +2052,7 @@ body.lease-page {
 
 body.lease-page footer .container span {
     margin-left: 8px;
-    opacity: .8;
+    /* 글자 대비를 위해 흐리게(opacity) 하지 않는다(WCAG 4.5:1) */
 }
 
 @media (max-width: 760px) {
