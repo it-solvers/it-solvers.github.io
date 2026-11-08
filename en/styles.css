@@ -28,7 +28,7 @@ a { color: var(--blue); }
 .brand { --logo-h: clamp(34px, 5vw, 50px); display: inline-flex; align-items: center; gap: clamp(6px, 1vw, 10px); color: var(--ink); font-size: clamp(16px, 2.2vw, 20px); font-weight: 800; letter-spacing: -1px; text-decoration: none; white-space: nowrap; }
 .brand img { width: calc(var(--logo-h) * 1.4); height: var(--logo-h); flex-shrink: 0; object-fit: contain; }
 .language-link { font-size: 14px; font-weight: 600; }
-main { flex: 1; width: 90%; max-width: 1120px; margin: 0 auto; padding: 38px 0 56px; }
+main { flex: 1; width: 90%; max-width: 1120px; margin: 0 auto; padding: 29px 0 56px; }
 h1 { margin: 0 0 8px; font-size: clamp(27px, 5vw, 38px); line-height: 1.2; letter-spacing: -.025em; }
 h2 { margin: 0 0 12px; font-size: 21px; line-height: 1.35; }
 h3 { margin: 18px 0 8px; font-size: 17px; }

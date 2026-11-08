@@ -1692,7 +1692,7 @@ body.lease-page {
     width: min(100% - 32px, 960px);
     min-width: 0;
     margin: 0 auto;
-    padding: 28px 0 48px;
+    padding: 24px 0 48px;
     color: var(--lo-text);
     word-break: keep-all;
 }
@@ -2057,7 +2057,7 @@ body.lease-page footer .container span {
 
 @media (max-width: 760px) {
     .lease-overview {
-        padding-top: 24px;
+        padding-top: 22px;
     }
 }
 

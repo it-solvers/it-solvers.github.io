@@ -131,7 +131,7 @@
   ]
 }
   </script>
-  <link rel="stylesheet" href="../css/styles.css?v=20261108-14">
+  <link rel="stylesheet" href="../css/styles.css?v=20261108-16">
 <style>
 /* Layout: 단일 컬럼 교재형. 학습목표 → 용어 → 계산 → 비교 → 직접 해보기 → 연습문제 순서 */
 .guide{--pb:#2a8a6b;--pb-soft:#dff3ec;
@@ -143,6 +143,9 @@
   --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 .guide .wrap{display:flex;flex-direction:column;gap:32px}
+/* 맨 위 첫 줄이 작은 글자라, 다른 페이지와 헤더~첫 줄 간격이 같도록 위 여백을 더한다 */
+.lease-overview.guide{padding-top:37px}
+@media(max-width:760px){.lease-overview.guide{padding-top:34px}}
 .guide h1,.guide h2,.guide h3{line-height:1.35;text-wrap:balance;margin:0}
 .guide h2{font-size:22px;margin-bottom:4px}
 .guide h3{font-size:18px;margin-bottom:6px}
@@ -260,7 +263,6 @@ svg.chart text.val{font-size:10px;fill:var(--ink)}
 
 
     <main class="lease-overview guide">
-  <div class="page-date-row"><time class="page-date" datetime="2026-10-21">작성일 2026.10.21</time></div>
 <div class="wrap">
 <div class="g-head">
   <div class="kicker">신입 개발자 교육 · 금융 업무 기초</div>

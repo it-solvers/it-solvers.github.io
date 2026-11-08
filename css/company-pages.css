@@ -26,3 +26,6 @@
 /* 영문 주요실적: 날짜("Jul 2024 – Sep 2025")가 여러 줄로 쪼개지지 않게 한 줄로 두고, 폭을 같게 맞춘다 */
 html[lang="en"] .history-date { white-space: nowrap; flex: none; min-width: 150px; }
 @media (max-width: 760px) { html[lang="en"] .history-date { min-width: 0; } }
+/* 헤더~첫 줄 간격을 다른 페이지와 같게: 맨 위 구역의 위 여백만 줄인다 */
+main > .about-section:first-of-type { padding-top: 31px; }
+@media (max-width: 560px) { main > .about-section:first-of-type { padding-top: 28px; } }
