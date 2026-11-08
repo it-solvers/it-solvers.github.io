@@ -1,0 +1,24 @@
+/* 서브페이지 공통 움직임 (PaperKeeper 소개 페이지의 효과를 다른 페이지에도 적용)
+   1) 처음 열 때 제목·부제가 아래에서 떠오른다
+   2) 스크롤해서 카드가 화면에 들어오면 나타난다(js/effects.js가 .fx-reveal / .is-in을 붙임)
+   3) 카드에 마우스를 올리면 살짝 올라온다
+   '움직임 줄이기'를 켠 사람에게는 모두 끈다. 계산 화면(입력·결과)에는 스크롤 나타남을 쓰지 않는다. */
+@keyframes fx-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+main h1, main .sub { animation: fx-rise .7s ease-out both; }
+main .sub { animation-delay: .12s; }
+
+.lease-overview .card, .cards .card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.lease-overview .card:hover, .cards .card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(10, 18, 48, .14); }
+html.dark-mode .lease-overview .card:hover, html.dark-mode .cards .card:hover { box-shadow: 0 10px 22px rgba(0, 0, 0, .45); }
+
+.js-fx .fx-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--d, 0s); }
+.js-fx .fx-reveal.is-in { opacity: 1; transform: none; }
+/* 나타난 뒤에는 호버 효과가 .fx-reveal의 transition에 막히지 않게 */
+.js-fx .fx-reveal.is-in { transition-delay: 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+    main h1, main .sub { animation: none; }
+    .js-fx .fx-reveal { opacity: 1; transform: none; transition: none; }
+    .lease-overview .card, .cards .card { transition: none; }
+    .lease-overview .card:hover, .cards .card:hover { transform: none; }
+}
