@@ -1138,6 +1138,11 @@ MOBILE MENU
     transition: 0.2s;
 }
 
+/* 어두운 화면: 햄버거 막대가 검정 바탕에 묻히지 않게 밝은 초록으로 */
+html.dark-mode .menu-toggle span {
+    background: #3fdc8a;
+}
+
 
 /* =========================
 MOBILE
