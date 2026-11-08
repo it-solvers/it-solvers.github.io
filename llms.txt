@@ -1,0 +1,41 @@
+# 아이티해결단 (IT Solvers)
+
+> 아이티해결단(IT Solvers)은 AI와 함께 웹·모바일 앱·홈페이지를 만드는 IT 회사입니다. 직접 만든 앱(MVP)과 함께, 금융·리스 업무를 다루는 무료 계산기와 업무지식 글을 공개합니다. 사이트는 한국어가 기본이고 영어 페이지(/en/)도 있습니다. 계산기는 학습·참고용이며 실제 계약·회계 판단의 근거가 아닙니다.
+
+## 한눈에 보기
+
+- [메인 (한국어)](https://itsolvers.co.kr/): 직접 만든 앱, 리스 계산기, 업무지식, 새소식
+- [Home (English)](https://itsolvers.co.kr/en/): English version of the main page
+- [회사·서비스 소개](https://itsolvers.co.kr/about.html): 서비스, 진행순서, 주요실적
+- [문의](https://itsolvers.co.kr/contact.html): 문의 안내와 문의 양식
+- [개인정보처리방침](https://itsolvers.co.kr/privacy.html)
+
+## 직접 만든 앱 (MVP: 최소 기능 제품)
+
+- [PaperKeeper (출시 예정)](https://itsolvers.co.kr/insights/paperkeeper.html): 책·악보·문서를 폰으로 스캔해 PDF로 만들고 글자 검색과 손글씨 메모를 지원하는 안드로이드 앱. 회원가입·서버·광고 없이 폰 안에서만 동작
+- [구독 없는 전자계약서·전자서명](https://itsolvers.co.kr/insights/e-contract.html): 구독료 없이 직접 설치해 쓰는 전자계약서. PDF 업로드, 링크 전송, 휴대폰 서명, 서명 이력과 문서 지문
+- [리스 견적 내기 (진행중)](https://itsolvers.co.kr/insights/lease-estimate.html): 차량·기간·금리 조건으로 리스 견적을 내 보는 학습용 웹 도구. 개발 중
+- [개발자를 위한 회계 – 계정과목 퀴즈](https://itsolvers.co.kr/insights/account-quiz.html): 계정과목을 퀴즈로 익히는 개발자용 회계 기초 학습 도구
+
+## 계산도구
+
+- [리스료 계산기](https://itsolvers.co.kr/insights/lease-payment-calculator.html): 차량대금·기간·연 금리·만기 잔가로 월 리스료(PMT)를 계산
+- [리스 현금흐름 기준 IRR 계산기](https://itsolvers.co.kr/insights/lease-cashflow-irr-calculator.html): 보험료·자동차세를 반영해 월 리스료와 현금흐름 기준 연 IRR을 계산
+- [목표 IRR 기준 금리 역산 계산기](https://itsolvers.co.kr/insights/irr-to-rate-calculator.html): 목표 IRR에 맞는 리스료를 시행착오법·이분법으로 구하는 원리 설명
+
+## 업무지식
+
+- [리스 개요](https://itsolvers.co.kr/insights/lease-overview.html): K-IFRS 제1116호 기준 리스의 정의, 분류, 종류
+- [리스 용어 정리](https://itsolvers.co.kr/insights/lease-terms.html): 잔존가치, 내재이자율, 리스료, 규정손해금 등 실무 용어
+- [리스 수익 인식 가이드](https://itsolvers.co.kr/insights/lease-revenue-recognition-guide.html): 금융리스·운용리스 수익 인식과 분개를 36개월 예시로 비교
+- [웹 UI 용어 사전](https://itsolvers.co.kr/insights/web-ui-glossary.html): UI 용어 105개를 한글·영어로 정리하고 직접 눌러 보는 예시와 코드 제공
+
+## English pages
+
+- [PaperKeeper (coming soon)](https://itsolvers.co.kr/en/insights/paperkeeper.html): Android app that scans books, scores, and papers into PDFs with text search and handwritten notes
+- [Lease Revenue Recognition Guide](https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html): finance lease vs. operating lease revenue recognition and journal entries
+- [Web UI Glossary](https://itsolvers.co.kr/en/insights/web-ui-glossary.html): 105 web UI terms with interactive examples and code
+
+## Optional
+
+- [Sitemap](https://itsolvers.co.kr/sitemap.xml): full list of pages
