@@ -1343,6 +1343,17 @@ MOBILE
 
     .history-meta {
         align-self: flex-start;
+
+        /* 긴 영문 라벨이 화면 오른쪽으로 넘치지 않게 줄바꿈 허용 */
+        flex-wrap: wrap;
+        white-space: normal;
+        max-width: 100%;
+    }
+
+    .history-main,
+    .history-header {
+        min-width: 0;
+        max-width: 100%;
     }
 
 
