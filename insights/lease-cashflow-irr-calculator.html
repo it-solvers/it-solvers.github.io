@@ -1,14 +1,24 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8"></script>
+  <!-- Google tag (gtag.js): 첫 화면이 빨라지도록 첫 터치·스크롤·키 입력 또는 7초 뒤에 불러온다(그 전 기록은 dataLayer에 쌓였다가 함께 전송) -->
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-SBGBVC3WB8');
+  (function () {
+    var loaded = false, evs = ['scroll', 'touchstart', 'pointerdown', 'keydown'];
+    function load() {
+      if (loaded) return; loaded = true;
+      evs.forEach(function (e) { removeEventListener(e, load); });
+      var s = document.createElement('script');
+      s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SBGBVC3WB8';
+      document.head.appendChild(s);
+    }
+    evs.forEach(function (e) { addEventListener(e, load, { once: true, passive: true }); });
+    setTimeout(load, 7000);
+  })();
   </script>
 
     <!-- 애드센스: 2026-10-21 반려로 잠시 꺼 둠(속도 개선). 재신청할 때 이 주석을 풀 것
