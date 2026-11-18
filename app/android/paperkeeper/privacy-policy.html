@@ -28,7 +28,7 @@
 <body class="lease-page">
   <main class="lease-overview">
     <h1 id="top">PaperKeeper 개인정보처리방침</h1>
-<p class="sub">시행일: 2026-11-06 (최근 고친 날: 2026-11-06) · 운영: 개인 개발자 · 문의: <a href="mailto:dlgurpro@gmail.com">dlgurpro@gmail.com</a> · <a href="#en">English</a></p>
+<p class="sub">시행일: 2026-11-06 (최근 고친 날: 2026-11-18) · 운영: 개인 개발자 · 문의: <a href="mailto:dlgurpro@gmail.com">dlgurpro@gmail.com</a> · <a href="#en">English</a></p>
 
 <p class="note"><strong>한 줄 요약.</strong> PaperKeeper에는 회원가입도, 서버도, 광고도 없어요. 스캔한 문서와 읽은 글자는 내 폰 안에만 저장되고, 우리가 가져가지 않아요.</p>
 
@@ -37,7 +37,7 @@
       <p>앱을 쓰면 아래 정보가 <strong>내 폰 안</strong>에 저장돼요.</p>
       <ul>
         <li>스캔한 쪽 이미지, 책 이름, 쪽 순서</li>
-        <li>돌리기·자르기·필터를 적용하기 전의 원본 이미지(되돌릴 수 있게 함께 보관해요)</li>
+        <li>펴기·돌리기·자르기·필터를 적용하기 전의 원본 이미지(되돌릴 수 있게 함께 보관해요)</li>
         <li>쪽 이미지에서 읽어 낸 글자(글자 인식 결과)와 내가 고친 글자</li>
         <li>내가 손으로 쓴 메모(볼펜·형광펜 획)</li>
         <li>앱 설정(글자 크기, 펜 종류·색·굵기, 보기 방식 등)</li>
@@ -52,7 +52,7 @@
 
     <section class="card">
       <h2>3. 구글 ML Kit (문서 스캔, 글자 인식)</h2>
-      <p>PaperKeeper는 구글의 <strong>ML Kit 문서 스캐너</strong>(촬영·자르기 화면)와 <strong>ML Kit 글자 인식</strong>(앱에 들어 있는 한국어 인식 모델)을 써요. 구글은 이 기능들이 기기 안에서 처리된다고 안내해요. 우리 앱은 스캔 이미지와 읽은 글자를 서버로 보내지 않아요.</p>
+      <p>PaperKeeper는 구글의 <strong>ML Kit 문서 스캐너</strong>(촬영·자르기 화면)와 <strong>ML Kit 글자 인식</strong>(앱에 들어 있는 한국어 인식 모델)을 써요. 구글은 이 기능들이 기기 안에서 처리된다고 안내해요. 우리 앱은 스캔 이미지와 읽은 글자를 서버로 보내지 않아요. 휘어진 쪽을 평평하게 펴는 기능도 폰 안에서만 처리하고(오픈소스 이미지 처리 라이브러리 OpenCV 사용), 이미지를 밖으로 보내지 않아요.</p>
       <p>다만 ML Kit 라이브러리는 서비스 개선과 오류 확인을 위해 <strong>기기 정보(제조사, 모델, OS 버전), 앱 정보(앱 이름과 버전), 설치별 식별자, 성능·오류 진단 정보</strong>를 구글에 보낼 수 있어요. 이 정보는 쪽 이미지나 읽은 글자를 포함하지 않으며, 사용자를 직접 식별하려는 것이 아니라고 구글은 안내해요. 이 때문에 앱에는 <code>INTERNET</code> 권한이 들어 있어요. 자세한 내용은 아래 구글 안내를 참고하세요.</p>
       <ul>
         <li><a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit 데이터 공개 안내</a></li>
@@ -105,7 +105,7 @@
     <hr>
 
     <h1 id="en" lang="en">PaperKeeper Privacy Policy</h1>
-<p class="sub">Effective: 2026-11-06 (last updated: 2026-11-06) · Operated by an individual developer · Contact: <a href="mailto:dlgurpro@gmail.com">dlgurpro@gmail.com</a> · <a href="#top">한국어</a></p>
+<p class="sub">Effective: 2026-11-06 (last updated: 2026-11-18) · Operated by an individual developer · Contact: <a href="mailto:dlgurpro@gmail.com">dlgurpro@gmail.com</a> · <a href="#top">한국어</a></p>
 
 <p class="note"><strong>In short.</strong> PaperKeeper has no accounts, no servers and no ads. Your scanned documents and recognized text stay on your phone. We do not collect them.</p>
 
@@ -114,7 +114,7 @@
       <p>When you use the app, the following is stored <strong>on your device</strong>:</p>
       <ul>
         <li>Scanned page images, book titles and page order</li>
-        <li>The original images from before rotating, cropping or filtering (kept so you can undo)</li>
+        <li>The original images from before flattening, rotating, cropping or filtering (kept so you can undo)</li>
         <li>Text recognized from page images (OCR results) and any corrections you make</li>
         <li>Handwritten notes you draw (pen and highlighter strokes)</li>
         <li>App settings (text size, pen type, color and thickness, view mode, etc.)</li>
@@ -129,7 +129,7 @@
 
     <section class="card">
       <h2>3. Google ML Kit (document scanning and text recognition)</h2>
-      <p>PaperKeeper uses Google's <strong>ML Kit Document Scanner</strong> (the capture and crop screen) and <strong>ML Kit Text Recognition</strong> (a Korean recognition model bundled in the app). Google states that these features run on the device. Our app does not send your scanned images or recognized text to any server.</p>
+      <p>PaperKeeper uses Google's <strong>ML Kit Document Scanner</strong> (the capture and crop screen) and <strong>ML Kit Text Recognition</strong> (a Korean recognition model bundled in the app). Google states that these features run on the device. Our app does not send your scanned images or recognized text to any server. The feature that flattens curved pages also runs only on your phone (using the open-source image library OpenCV) and never sends images out.</p>
       <p>However, the ML Kit library may send <strong>device information (manufacturer, model, OS version), app information (app name and version), per-installation identifiers, and performance and error diagnostics</strong> to Google. According to Google, this data does not include your images or recognized text and is not meant to uniquely identify you. This is why the app includes the <code>INTERNET</code> permission. See Google's pages for details:</p>
       <ul>
         <li><a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit data disclosure</a></li>

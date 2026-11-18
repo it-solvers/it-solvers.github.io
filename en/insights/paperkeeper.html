@@ -32,7 +32,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="IT Solvers (CEO Hyeok Lee)">
-  <meta name="description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
+  <meta name="description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. Curved pages are flattened automatically. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
   <title>PaperKeeper (coming soon) – Book & Score Scanner App for Android | IT Solvers</title>
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://itsolvers.co.kr/en/insights/paperkeeper.html">
@@ -44,7 +44,7 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="IT Solvers">
   <meta property="og:title" content="PaperKeeper (coming soon) – Book & Score Scanner App for Android | IT Solvers">
-  <meta property="og:description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
+  <meta property="og:description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. Curved pages are flattened automatically. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
   <meta property="og:url" content="https://itsolvers.co.kr/en/insights/paperkeeper.html">
   <meta property="og:image" content="https://itsolvers.co.kr/app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png">
   <meta property="og:image:width" content="1024">
@@ -52,7 +52,7 @@
   <meta property="og:image:alt" content="PaperKeeper Android app: Scan into one book">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="PaperKeeper (coming soon) – Book & Score Scanner App for Android | IT Solvers">
-  <meta name="twitter:description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
+  <meta name="twitter:description" content="PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. Curved pages are flattened automatically. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.">
   <meta name="twitter:image" content="https://itsolvers.co.kr/app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png">
   <script type="application/ld+json">
 {
@@ -60,24 +60,26 @@
   "@type": "WebPage",
   "name": "PaperKeeper (coming soon) – Book & Score Scanner App for Android | IT Solvers",
   "inLanguage": "en-US",
-  "description": "PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.",
+  "description": "PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. Curved pages are flattened automatically. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.",
   "url": "https://itsolvers.co.kr/en/insights/paperkeeper.html",
   "mainEntityOfPage": "https://itsolvers.co.kr/en/insights/paperkeeper.html",
   "datePublished": "2026-11-06",
-  "dateModified": "2026-11-09",
+  "dateModified": "2026-11-18",
   "primaryImageOfPage": "https://itsolvers.co.kr/app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png",
   "about": {
     "@type": "MobileApplication",
     "name": "PaperKeeper",
     "operatingSystem": "Android",
     "applicationCategory": "ProductivityApplication",
-    "description": "PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.",
+    "description": "PaperKeeper is an Android app that scans books, scores, and papers into PDFs, with text search and handwritten notes. Curved pages are flattened automatically. The Android version is planned for November. No sign-up, no servers, no ads. Everything stays on your phone.",
     "inLanguage": "en-US",
     "image": "https://itsolvers.co.kr/app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png",
     "url": "https://itsolvers.co.kr/en/insights/paperkeeper.html",
     "featureList": [
       "Scan books, scores, and papers (one page or two pages)",
-      "Rotate, crop, and filters",
+      "Flatten curved pages automatically (original kept, one-tap undo)",
+      "Upside-down scans turned upright automatically",
+      "Flatten, rotate, crop and filters with one tap",
       "Korean text recognition and text search",
       "Handwritten notes with pen and highlighter",
       "Make PDFs",
@@ -227,6 +229,15 @@
     .nav-right { display: flex; align-items: center; gap: 16px; }
     .language-link { padding: 4px 10px; border: 1px solid #d0d5dd; border-radius: 999px; color: #475467; font-size: 13px; font-weight: 600; white-space: nowrap; }
     .language-link:hover { border-color: #2563eb; color: #2563eb; }
+    /* 태블릿 미리보기 슬라이더: 폰 슬라이더와 같은 동작(밀기·화살표·점·자동 넘김)이고 한 번에 한 장씩 크게 보여 줘요. 틀만 태블릿 모양이에요. */
+    .pk-tab-h { margin: 34px 0 6px; font-size: 20px; }
+    .pk-tab-lead { margin: 0 0 6px; }
+    .pk-shots.pk-shots-tab > li { flex-basis: 100%; }
+    .pk-shot-tab a { padding: 9px; border-radius: 18px; }
+    .pk-shot-tab a::before { display: none; }
+    .pk-shot-tab a::after { top: 4px; width: 5px; height: 5px; margin-left: -2.5px; }
+    .pk-shot-tab img { border-radius: 10px; }
+    @media (max-width: 860px) { .pk-shots.pk-shots-tab > li { flex-basis: 100%; } }
   </style>
   <link rel="stylesheet" href="../../css/styles.css?v=20261108-16">
   <link rel="stylesheet" href="../../css/dark.css">
@@ -252,14 +263,14 @@
     <h1>PaperKeeper (coming soon)</h1>
     <p class="sub">An Android app that scans pages of a paper book, reads the text, and lets you add notes. The Android version is planned for release in November.</p>
 
-    <p class="pk-hero"><img src="../../app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png?v=20261107" width="1024" height="500" alt="PaperKeeper: Scan into one book. Scan books, scores and papers to PDF. Handwritten notes and text search. Stays on your phone. Free, no ads."></p>
+    <p class="pk-hero"><img src="../../app/android/paperkeeper/%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%98%81%EC%96%B4.png?v=20261118f" width="1024" height="500" alt="PaperKeeper: Scan into one book. Scan books, scores and papers to PDF. Handwritten notes and text search. Stays on your phone. Free, no ads."></p>
     <p class="muted">It is not available to download yet. We will post details here when it launches.</p>
 
     <section>
       <h2 class="pk-h">How it works</h2>
       <ol class="pk-steps">
         <li class="pk-step card"><span class="pk-num">1</span><strong>Scan</strong><span>Scan one page at a time, or both pages of an open book at once.</span></li>
-        <li class="pk-step card"><span class="pk-num">2</span><strong>Clean up</strong><span>Rotate, crop, and apply Bright, Grayscale, or Black &amp; white filters.</span></li>
+        <li class="pk-step card"><span class="pk-num">2</span><strong>Clean up</strong><span>Curved pages are flattened automatically and upside-down scans are turned upright. Rotate, crop, and apply filters.</span></li>
         <li class="pk-step card"><span class="pk-num">3</span><strong>Read and annotate</strong><span>Recognize Korean text, search it, and write handwritten notes.</span></li>
         <li class="pk-step card"><span class="pk-num">4</span><strong>Save as PDF</strong><span>Turn a whole book into a PDF saved to your Documents folder.</span></li>
       </ol>
@@ -274,6 +285,11 @@
         <li class="pk-feat card"><strong>Stays on your phone</strong><span>No sign-up and no servers. Everything is stored on your phone.</span></li>
         <li class="pk-feat card"><strong>Turn it sideways, like an open book</strong><span>Turn your phone sideways and it feels like reading a real book or score.</span></li>
         <li class="pk-feat card"><strong>Fix recognized text</strong><span>Correct any misread text yourself and change the text size.</span></li>
+        <li class="pk-feat card"><strong>Two pages at once on tablets</strong><span>On tablets and foldables you can read two pages side by side like an open book. Turn on "First page alone" and page 1 sits on the right, matching a real book.</span></li>
+        <li class="pk-feat card"><strong>Flatten curved pages automatically</strong><span>A scanned book page that curves is flattened for you. The original is kept, so you can undo it with one tap.</span></li>
+        <li class="pk-feat card"><strong>Upside-down scans turned upright</strong><span>Even if the scanner returns a page upside down, the app reads the text direction and saves it upright.</span></li>
+        <li class="pk-feat card"><strong>Fix pages with one tap</strong><span>Rotate, crop, flatten and filters are icons right above the page, with no menu.</span></li>
+        <li class="pk-feat card"><strong>Scanning tips</strong><span>Home shows tips such as how to press the pages flat and how to set the scanner corners.</span></li>
         <li class="pk-feat card"><strong>Free, no ads</strong><span>Free to use, with no ads.</span></li>
       </ul>
     </section>
@@ -286,56 +302,192 @@
       <ul class="pk-shots">
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/01_home.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/01_home.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Home"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/01_home.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/01_home.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Home"></a>
             <figcaption><strong>Home</strong>See recent books and PDFs, and start with Scan 1 page or Scan 2 pages.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/02_book.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/02_book.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: One book"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/11_tips.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/11_tips.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Scanning tips"></a>
+            <figcaption><strong>Scanning tips</strong>Home shows tips such as how to press the pages flat and how to set the scanner corners.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot">
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/09_books.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/09_books.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: My books"></a>
+            <figcaption><strong>My books</strong>All your scanned books in one list.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot">
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/02_book.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/02_book.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: One book"></a>
             <figcaption><strong>One book</strong>Collect pages into a book. Tap a page to flip through it like a book.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/03_viewer.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/03_viewer.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Book view"></a>
-            <figcaption><strong>Book view</strong>Flip through pages like a book.</figcaption>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/03_viewer.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/03_viewer.png?v=20261118f" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Book view"></a>
+            <figcaption><strong>Book view</strong>Flip through pages like a book. The icons above the page can be folded away.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/04_fixmenu.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/04_fixmenu.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Rotate, crop, filters"></a>
-            <figcaption><strong>Rotate, crop, filters</strong>Rotate, crop, retake, and apply Bright, Grayscale, or Black &amp; white filters.</figcaption>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/16_score.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/16_score.png?v=20261118f" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Score view"></a>
+            <figcaption><strong>Score view</strong>Read sheet music like a book: see the whole page large and turn it as you play. Handwritten notes stay on top of the score.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/05_memo.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/05_memo.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Handwritten notes"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/04_fixicons.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/04_fixicons.png?v=20261118f" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Fix pages"></a>
+            <figcaption><strong>Fix pages</strong>Rotate, crop, flatten and apply Bright, Grayscale, or Black &amp; white filters with one tap, no menu.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot">
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/10_help.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/10_help.png?v=20261118f" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Icon guide"></a>
+            <figcaption><strong>Icon guide</strong>The first few times, every icon shows its name. Tap the screen to fold them, or press and hold an icon any time.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot">
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/05_memo.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/05_memo.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Handwritten notes"></a>
             <figcaption><strong>Handwritten notes</strong>Take notes on a page with a pen, highlighter, or eraser.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/06_text.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/06_text.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Recognized text"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/06_text.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/06_text.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Recognized text"></a>
             <figcaption><strong>Recognized text</strong>Read the text found in the image, resize it, or correct it yourself.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/07_search.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/07_search.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Text search"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/07_search.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/07_search.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Text search"></a>
             <figcaption><strong>Text search</strong>Search all recognized text and jump to the page where it appears.</figcaption>
           </figure>
         </li>
         <li>
           <figure class="pk-shot">
-            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261107" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261107" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Saved PDFs"></a>
+            <a href="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261118c" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%8F%B0-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261118c" width="1080" height="2154" loading="lazy" alt="PaperKeeper screen: Saved PDFs"></a>
             <figcaption><strong>Saved PDFs</strong>Make a PDF of a book and find it again later. Your notes are included.</figcaption>
+          </figure>
+        </li>
+</ul>
+      <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
+      <div class="pk-dots" role="group" aria-label="Choose a screenshot"></div>
+      </div>
+      <h3 class="pk-tab-h">On tablets</h3>
+      <p class="muted pk-tab-lead">On wide screens such as tablets and foldables, you can read two pages side by side like an open book. These are the same screens as on the phone, shot on a tablet. Swipe to browse.</p>
+      <div class="pk-slider" role="region" aria-roledescription="carousel" aria-label="PaperKeeper tablet screenshots">
+      <button type="button" class="pk-arrow pk-prev" aria-label="Previous screenshot">&#8249;</button>
+      <ul class="pk-shots pk-shots-tab">
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/01_home.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/01_home.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet home"></a>
+            <figcaption><strong>Home</strong>Recent books and PDFs at a glance.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/11_tips.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/11_tips.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet scanning tips"></a>
+            <figcaption><strong>Scanning tips</strong>Tips for good scans, ready to unfold.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/09_books.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/09_books.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet my books"></a>
+            <figcaption><strong>My books</strong>All your scanned books in one list.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/02_book.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/02_book.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet one book"></a>
+            <figcaption><strong>One book</strong>Collect pages into one book.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/03_viewer.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/03_viewer.png?v=20261118f" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet book view"></a>
+            <figcaption><strong>Book view</strong>The icons above the page can be folded away.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/16_score.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/16_score.png?v=20261118f" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Score view"></a>
+            <figcaption><strong>Score view</strong>Read sheet music like a book: see the whole page large and turn it as you play. Handwritten notes stay on top of the score.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/04_fixicons.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/04_fixicons.png?v=20261118f" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet fix pages"></a>
+            <figcaption><strong>Fix pages</strong>Rotate, crop, flatten and filters with one tap.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/10_help.png?v=20261118f" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/10_help.png?v=20261118f" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet icon guide"></a>
+            <figcaption><strong>Icon guide</strong>The first few times, every icon shows its name.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/05_memo.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/05_memo.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet handwritten notes"></a>
+            <figcaption><strong>Handwritten notes</strong>Take notes with a pen, highlighter, or eraser.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/12_two_page.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/12_two_page.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Two-page view"></a>
+            <figcaption><strong>Books and scores, two pages at once</strong>See two pages side by side like an open book and turn two at a time. Tap a page to apply Fix pages to it.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/17_two_fold.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/17_two_fold.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: two-page view with the header folded"></a>
+            <figcaption><strong>Fold the header for a bigger view</strong>In two-page view, fold the header and the status bar hides too, so the pages grow to the top of the screen. Tap the button at the top left to bring it back.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/14_first_alone.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/14_first_alone.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: First page alone"></a>
+            <figcaption><strong>Put page 1 on the right</strong>Place a one-page start, like a cover or the first page of a score, on the right. After that the pages pair up like a real book: (2, 3), (4, 5).</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/15_two_help.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/15_two_help.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Two-page icon guide"></a>
+            <figcaption><strong>Icons in two-page view</strong>Two-page view has the same icons as one-page view.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/13_two_memo.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/13_two_memo.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet two-page notes"></a>
+            <figcaption><strong>Two-page notes</strong>Write notes right on the page you touch.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/06_text.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/06_text.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet recognized text"></a>
+            <figcaption><strong>Recognized text</strong>Read the text found in the image.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/07_search.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/07_search.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet text search"></a>
+            <figcaption><strong>Text search</strong>Find words in all recognized text.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="pk-shot pk-shot-tab">
+            <a href="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261118e" target="_blank" rel="noopener"><img src="../../app/android/paperkeeper/%ED%83%9C%EB%B8%94%EB%A6%BF-%EC%98%81%EC%96%B4/08_pdfs.png?v=20261118e" width="2560" height="1528" loading="lazy" alt="PaperKeeper tablet screen: Tablet saved PDFs"></a>
+            <figcaption><strong>Saved PDFs</strong>Browse the PDFs you made.</figcaption>
           </figure>
         </li>
       </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Choose a screenshot"></div>
+      <div class="pk-dots" role="group" aria-label="PaperKeeper tablet screenshots"></div>
       </div>
+
     </section>
 
     <section class="pk-privacy">
@@ -348,6 +500,7 @@
       <h2 class="pk-h">Good to know</h2>
       <ul class="pk-notes">
         <li>It is an Android app. It also works on tablets and on foldable phones such as the Galaxy Z Fold.</li>
+        <li>Flattening depends on the photo. Badly distorted photos, or fingers covering the text, have limits, so the app shows scanning tips on the Home screen.</li>
         <li>The release is planned for November and may change depending on store review.</li>
         <li>An iPhone (iOS) version is planned for a later release.</li>
       </ul>
@@ -355,7 +508,7 @@
 
   </main>
 
-  <div class="container page-meta">Author: <a href="/en/about.html">Hyeok Lee</a> · Published <time datetime="2026-11-06">November 6, 2026</time> · Last updated <time datetime="2026-11-09">November 9, 2026</time></div>
+  <div class="container page-meta">Author: <a href="/en/about.html">Hyeok Lee</a> · Published <time datetime="2026-11-06">November 6, 2026</time> · Last updated <time datetime="2026-11-18">November 18, 2026</time></div>
 
   <footer class="site-footer"><div class="container">
       <strong>IT Solvers</strong>
@@ -386,9 +539,7 @@
   </script>
 
   <script>
-    (function () {
-      var box = document.querySelector('.pk-slider');
-      if (!box) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.pk-slider'), function (box) {
       var track = box.querySelector('.pk-shots');
       var items = track.children;
       var prev = box.querySelector('.pk-prev'), next = box.querySelector('.pk-next');
@@ -467,7 +618,7 @@
 
       box.classList.add('is-ready');
       update(); play();
-    })();
+    });
   </script>
 </body>
 </html>
