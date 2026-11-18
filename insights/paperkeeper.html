@@ -616,7 +616,7 @@
   <script>
     // 스크롤해서 화면에 들어오면 .is-in을 붙여 나타나게 해요. 자바스크립트가 꺼져 있으면 처음부터 모두 보여요.
     (function () {
-      var items = document.querySelectorAll('.lease-overview .card, .pk-shot, .pk-privacy, .pk-notes li');
+      var items = document.querySelectorAll('.lease-overview .card, .pk-scroll, .pk-shot, .pk-privacy, .pk-notes li');
       if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       document.documentElement.classList.add('js-anim');
       var io = new IntersectionObserver(function (entries) {
