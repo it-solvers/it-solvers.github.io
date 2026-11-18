@@ -238,31 +238,47 @@
     .pk-shot-tab img { border-radius: 10px; }
     @media (max-width: 860px) { .pk-shots.pk-shots-tab > li { flex-basis: 100%; } }
     /* 흩어진 사진이 저절로 책이 되는 구역 (화면에 들어오면 재생, 마지막은 책) */
-    .pk-scroll { --ps-bg: #ffffff; --ps-glow: rgba(10, 122, 69, .12); --ps-line: #d0d7de; --ps-ink: #0b0e13; --ps-muted: #3d4650; --ps-a: #0a7a45; --ps-b: #0b63c4; position: relative; margin: 14px 0 6px; }
-    html.dark-mode .pk-scroll { --ps-bg: #121821; --ps-glow: rgba(63, 220, 138, .16); --ps-line: #232c38; --ps-ink: #e6edf3; --ps-muted: #a3adb8; --ps-a: #3fdc8a; --ps-b: #5cc8ff; }
+    .pk-scroll { --ps-bg: #ffffff; --ps-glow: rgba(29, 78, 216, .09); --ps-line: #d0d7de; --ps-ink: #0b0e13; --ps-muted: #3d4650; --ps-a: #1d4ed8; --ps-b: #f2a900; --ps-btn: #1d4ed8; --ps-btn-ink: #ffffff; position: relative; margin: 14px 0 6px; }
+    html.dark-mode .pk-scroll { --ps-bg: #121821; --ps-glow: rgba(107, 155, 255, .16); --ps-line: #232c38; --ps-ink: #e6edf3; --ps-muted: #a3adb8; --ps-a: #6b9bff; --ps-b: #ffc94d; --ps-btn: #6b9bff; --ps-btn-ink: #06122e; }
     .pk-stick { position: relative; height: 520px; border: 1px solid var(--ps-line); border-radius: 22px; overflow: hidden; background: radial-gradient(80% 80% at 50% 0, var(--ps-glow), var(--ps-bg) 70%); }
     .pk-prog { position: absolute; left: 24px; right: 24px; top: 18px; height: 4px; border-radius: 2px; background: var(--ps-line); }
     .pk-prog i { display: block; height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--ps-a), var(--ps-b)); }
-    .pk-again { position: absolute; right: 14px; top: 26px; z-index: 20; border: 1px solid var(--ps-line); border-radius: 99px; background: var(--ps-bg); color: var(--ps-ink); font: 600 12px ui-monospace, Menlo, monospace; padding: 3px 11px; cursor: pointer; }
-    .pk-again:hover { border-color: var(--ps-a); color: var(--ps-a); }
+    html body .lease-overview .pk-scroll button.pk-again { position: absolute; right: 14px; top: 26px; z-index: 45; border: 1px solid var(--ps-line) !important; border-radius: 99px; background: transparent !important; color: var(--ps-muted) !important; font: 600 12px ui-monospace, Menlo, monospace; padding: 3px 11px; cursor: pointer; }
+    html body .lease-overview .pk-scroll button.pk-again:hover { color: var(--ps-ink) !important; border-color: var(--ps-muted) !important; }
     .pk-ph { position: absolute; left: 50%; top: 44%; width: 168px; height: 234px; will-change: transform; }
     .pk-ph .a, .pk-ph .b { position: absolute; inset: 0; border-radius: 10px; padding: 13px 12px; }
-    .pk-ph .a { background: linear-gradient(145deg, #4a5668, #29313d); color: #c9d3df; font: 700 18px ui-monospace, Menlo, monospace; box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .6); }
+    .pk-ph .a { background: linear-gradient(145deg, #515862, #2c3138); color: #c9d3df; font: 700 18px ui-monospace, Menlo, monospace; box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .6); }
     .pk-ph .b { background: #f4efe4; color: #2b2f36; opacity: 0; }
     .pk-ph .b i { display: block; height: 6px; border-radius: 3px; background: #b9b1a1; margin-bottom: 10px; }
     .pk-ph .b i:nth-child(3n) { width: 78%; } .pk-ph .b i:nth-child(4n) { width: 58%; }
     .pk-ph .b em { position: absolute; bottom: 9px; left: 12px; font: 700 15px ui-monospace, Menlo, monospace; font-style: normal; color: #6b6556; }
     .pk-stick::after { content: ""; position: absolute; inset: 0; background: var(--ps-bg); opacity: 0; pointer-events: none; transition: opacity .6s; z-index: 40; }
     .pk-stick.pk-out::after { opacity: 1; }
+    /* 한 권의 책: 표지(cover)와 쪽 두 장(leaf)이 책등을 축으로 넘어가요. JS가 각 요소의 회전 각도를 정해요. */
+    .pk-book { position: absolute; left: 50%; top: 44%; width: 270px; height: 360px; margin: -180px 0 0 -135px; opacity: 0; perspective: 2400px; z-index: 30; will-change: transform; }
+    .pk-book .bk { position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; }
+    .pk-book .fc, .pk-book .bc, .pk-book .base { position: absolute; inset: 0; backface-visibility: hidden; }
+    .pk-book .fc { border-radius: 4px 10px 10px 4px; }
+    .pk-book .bc { transform: rotateY(180deg); border-radius: 10px 4px 4px 10px; }
+    .pk-book .pg { background: linear-gradient(270deg, #ebe5d6, #f4efe4 14%, #f4efe4); color: #2b2f36; padding: 34px 28px 28px 34px; box-shadow: 0 22px 30px -14px rgba(0, 0, 0, .55); }
+    .pk-book .bc.pg { background: linear-gradient(90deg, #ebe5d6, #f4efe4 14%, #f4efe4); padding: 34px 34px 28px 28px; }
+    .pk-book .pg i { display: block; height: 7px; border-radius: 4px; background: #b9b1a1; margin-bottom: 14px; }
+    .pk-book .pg i:nth-child(3n) { width: 78%; } .pk-book .pg i:nth-child(4n) { width: 58%; }
+    .pk-book .pg i.h { background: rgba(255, 193, 7, .75); width: 68%; }
+    .pk-book .pg em { position: absolute; bottom: 14px; right: 20px; font: 700 14px ui-monospace, Menlo, monospace; font-style: normal; color: #6b6556; }
+    .pk-book .bc.pg em { right: auto; left: 20px; }
+    .pk-book .base::after { content: ""; position: absolute; right: -12px; top: 6px; bottom: 6px; width: 12px; border-radius: 0 4px 4px 0; background: repeating-linear-gradient(#f4efe4 0 2px, #cfc8b5 2px 3px); }
+    .pk-book .cv { background: linear-gradient(135deg, #4c5be0, #2c379f); color: #eef0ff; padding: 39px 30px 30px 45px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 22px 30px -14px rgba(0, 0, 0, .65); }
+    .pk-book .cv::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 24px; border-radius: 4px 0 0 4px; background: linear-gradient(90deg, rgba(0, 0, 0, .3), rgba(255, 255, 255, .12) 55%, rgba(0, 0, 0, .12)); }
+    .pk-book .cv small { font: 600 14px ui-monospace, Menlo, monospace; letter-spacing: .08em; color: #ffd45e; }
+    .pk-book .cv b { font-size: 42px; line-height: 1.2; letter-spacing: -.02em; color: #fff; }
+    .pk-book .inside { display: flex; flex-direction: column; justify-content: center; gap: 12px; font-size: 16px; line-height: 1.5; }
+    .pk-book .inside b { font-size: 22px; line-height: 1.3; color: #2c379f; }
+    @media (max-width: 560px) { .pk-book { width: 210px; height: 285px; margin: -143px 0 0 -105px; } .pk-book .pg { padding: 26px 20px 22px 26px; } .pk-book .bc.pg { padding: 26px 26px 22px 20px; } .pk-book .pg i { height: 5px; margin-bottom: 10px; } .pk-book .cv { padding: 30px 21px 21px 36px; } .pk-book .cv b { font-size: 32px; } .pk-book .cv small { font-size: 12px; } .pk-book .inside { font-size: 13px; } .pk-book .inside b { font-size: 17px; } }
     .pk-cap { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; padding: 0 16px; }
     .pk-cap b { display: block; font-size: 21px; letter-spacing: -.02em; color: var(--ps-ink); }
     .pk-cap span { color: var(--ps-muted); font-size: 15px; }
-    .pk-book { position: absolute; left: 50%; top: 44%; width: 270px; height: 360px; margin: -180px 0 0 -135px; opacity: 0; border-radius: 4px 10px 10px 4px; background: linear-gradient(135deg, #1f8f5c, #136a42); color: #eafff3; padding: 39px 30px 30px 45px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 22px 30px -14px rgba(0, 0, 0, .65); z-index: 30; will-change: transform; }
-    .pk-book::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 24px; border-radius: 4px 0 0 4px; background: linear-gradient(90deg, rgba(0, 0, 0, .3), rgba(255, 255, 255, .12) 55%, rgba(0, 0, 0, .12)); }
-    .pk-book::after { content: ""; position: absolute; right: -12px; top: 6px; bottom: 6px; width: 12px; border-radius: 0 4px 4px 0; background: repeating-linear-gradient(#f4efe4 0 2px, #cfc8b5 2px 3px); }
-    .pk-book small { font: 600 14px ui-monospace, Menlo, monospace; letter-spacing: .08em; opacity: .9; }
-    .pk-book b { font-size: 42px; line-height: 1.2; letter-spacing: -.02em; color: #fff; }
-    @media (max-width: 560px) { .pk-stick { height: 470px; } .pk-book { width: 210px; height: 285px; margin: -143px 0 0 -105px; padding: 30px 21px 21px 36px; } .pk-book b { font-size: 32px; } .pk-book small { font-size: 12px; } }
+    @media (max-width: 560px) { .pk-stick { height: 470px; } }
     @media (max-width: 560px) { .pk-ph { width: 112px; height: 157px; } .pk-cap b { font-size: 18px; } }
     .pk-vs-list { margin: 14px 0 0; padding-left: 1.2em; }
   </style>
@@ -306,16 +322,21 @@
     <section>
       <h2 class="pk-h">Isn't it just taking photos?</h2>
       <p>If you only look at the shooting, it's the same as any camera app. The difference is what happens after.</p>
-      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"
-           data-c1="Photos pile up, scattered" data-s1="No book order, and no way to tell which book they belong to." data-c2="They line up in book order" data-s2="Page 1, page 2, page 3, page 4…" data-c3="Then they become one book" data-s3="Loose pages, bound into one. That's PaperKeeper.">
+      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"
+           data-c1="Photos pile up, scattered" data-s1="No book order, and no way to tell which book they belong to." data-c2="They line up in book order" data-s2="Page 1, page 2, page 3, page 4…" data-c3="Then they become one book" data-s3="Loose pages, bound into one. That's PaperKeeper." data-c4="Open it, and read in page order" data-s4="Open the cover and it's page 1, 2, 3… in book order.">
         <div class="pk-stick" id="pkStick">
           <div class="pk-prog"><i id="pkBar"></i></div><button type="button" class="pk-again" id="pkAgain">↻ Replay</button>
           <div class="pk-ph"><div class="a">12</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">11</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">10</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">9</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-book" id="pkBook"><small>PAPERKEEPER</small><b>My Book</b><small>Scan it into one book</small></div>
-          <div class="pk-cap"><b id="pkCapB">Then they become one book</b><span id="pkCapS">Loose pages, bound into one. That's PaperKeeper.</span></div>
+          <div class="pk-book" id="pkBook">
+            <div class="bk" data-k="base"><div class="base pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>5</em></div></div>
+            <div class="bk" data-k="b"><div class="fc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>3</em></div><div class="bc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>4</em></div></div>
+            <div class="bk" data-k="a"><div class="fc pg"><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>1</em></div><div class="bc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>2</em></div></div>
+            <div class="bk" data-k="cover"><div class="fc cv"><small>PAPERKEEPER</small><b>My Book</b><small>Scan it into one book</small></div><div class="bc pg inside"><b>Stays on your phone</b><span>No sign-up, no server, no ads.</span></div></div>
+          </div>
+          <div class="pk-cap"><b id="pkCapB"></b><span id="pkCapS"></span></div>
         </div>
       </div>
       <ul class="pk-vs-list">
@@ -434,7 +455,7 @@
         </li>
 </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"></div>
+      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"></div>
       </div>
       <h3 class="pk-tab-h">On tablets</h3>
       <p class="muted pk-tab-lead">On wide screens such as tablets and foldables, you can read two pages side by side like an open book. These are the same screens as on the phone, shot on a tablet. Swipe to browse.</p>
@@ -545,7 +566,7 @@
         </li>
       </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"></div>
+      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"></div>
       </div>
 
     </section>
@@ -681,7 +702,7 @@
     });
   </script>
   <script>
-    // 화면에 보이는 동안 계속 반복 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 한 권의 책으로 묶임 → 잠깐 멈춤 → 처음부터.
+    // 화면에 보이는 동안 계속 반복 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 한 권의 책 → 표지가 열리고 쪽이 순서대로 펼쳐짐 → 잠깐 멈춤 → 처음부터.
     // 화면 밖으로 나가면 멈추고, 움직임 줄이기 설정이면 처음부터 완성된 모습(책)으로 멈춰 있어요. "다시 보기"는 처음부터 다시 재생해요.
     (function () {
       var box = document.getElementById('pkScroll'), stick = document.getElementById('pkStick');
@@ -691,7 +712,7 @@
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var scatter = [[-150, -70, -16], [130, -30, 12], [-60, 70, -7], [170, 60, 20]]; // 흩어진 위치 x, y, 기울기
       var pageNo = [4, 3, 2, 1]; // 사진 12·11·10·9가 책에서는 4·3·2·1쪽
-      var DELAY = 600, LENGTH = 5200, HOLD = 3200, FADE = 600; // 시작 전 대기, 재생, 책으로 멈춰 있는 시간, 사라지는 시간(밀리초)
+      var DELAY = 600, LENGTH = 9500, HOLD = 3400, FADE = 600; // 시작 전 대기, 재생, 책으로 멈춰 있는 시간, 사라지는 시간(밀리초)
       var raf = 0, last = 0, running = false;
       function clamp(x) { return Math.max(0, Math.min(1, x)); }
       function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
@@ -699,7 +720,7 @@
       function draw(p) {
         last = p;
         var w = stick.clientWidth, k = Math.min(1, w / 560), ky = stick.clientHeight / 400, step = w < 520 ? 70 : 176;
-        var s1 = ease(clamp(p / .5)), s2 = ease(clamp((p - .5) / .5));
+        var s1 = ease(clamp(p / .3)), s2 = ease(clamp((p - .3) / .22));   // 0~.3 정렬, .3~.52 한곳으로 모임
         bar.style.width = (p * 100) + '%';
         cards.forEach(function (c, i) {
           var pg = pageNo[i];
@@ -713,9 +734,20 @@
           c.lastChild.querySelector('em').textContent = pg;
         });
         var sb = clamp((s2 - .4) / .6);
+        // 책: 표지(.62~.72) → 첫 장(.74~.84) → 둘째 장(.86~.96) 순서로 넘어가요
+        var ang = { cover: 180 * ease(clamp((p - .62) / .1)), a: 180 * ease(clamp((p - .74) / .1)), b: 180 * ease(clamp((p - .86) / .1)) };
+        var open = ang.cover / 180, bw = book.offsetWidth, fit = Math.min(1, (stick.clientWidth - 24) / (2 * bw));
+        // 겹침 순서: 넘어가기 전에는 표지가 맨 위, 다 넘어가면(90도 지나면) 왼쪽 더미의 맨 위가 돼요
+        var z = { base: 10, cover: ang.cover > 90 ? 20 : 50, a: ang.a > 90 ? 30 : 40, b: ang.b > 90 ? 40 : 25 };
+        [].forEach.call(book.querySelectorAll('.bk'), function (el) {
+          var k = el.getAttribute('data-k');
+          el.style.transform = k === 'base' ? 'none' : 'rotateY(' + (-ang[k]) + 'deg)';
+          el.style.zIndex = z[k];
+        });
         book.style.opacity = sb;
-        book.style.transform = 'translateY(' + lerp(14, 0, sb) + 'px) scale(' + lerp(.82, 1, sb) + ')';
-        var n = p < .33 ? 1 : p < .8 ? 2 : 3;
+        book.style.transformOrigin = lerp(50, 0, open) + '% 50%';
+        book.style.transform = 'translate(' + (bw / 2 * open) + 'px,' + lerp(14, 0, sb) + 'px) scale(' + lerp(.82, 1, sb) * lerp(1, fit, open) + ')';
+        var n = p < .2 ? 1 : p < .5 ? 2 : p < .7 ? 3 : 4;
         capB.textContent = box.getAttribute('data-c' + n); capS.textContent = box.getAttribute('data-s' + n);
       }
       function play() {
