@@ -325,14 +325,14 @@
     <section>
       <h2 class="pk-h">사진만 찍으면 되는 거 아닌가요?</h2>
       <p>찍는 것만 보면 카메라 앱과 다르지 않아요. 달라지는 건 찍은 다음이에요.</p>
-      <div class="pk-scroll" id="pkScroll" role="group" aria-label="흩어진 사진이 책 순서로 정렬되어 한 권의 책이 되고, 표지가 열려 쪽 순서대로 펼쳐지는 애니메이션"
-           data-c1="찍은 사진은 흩어져 있어요" data-s1="최근에 찍은 것이 맨 위, 첫 쪽은 저 아래에 묻혀요." data-c2="찍은 순서대로 볼 수 있어요" data-s2="첫 쪽부터 차례대로 줄을 서요." data-c3="낱장이 한 권의 책이 돼요" data-s3="찍은 사진이 묶여 한 권이 돼요. 이게 페이퍼키퍼예요." data-c4="펼쳐서 책처럼 읽어요" data-s4="기기에 따라 한 쪽 또는 두 쪽씩 보고, 글자로 바꿔 검색도 해요.">
+      <div class="pk-scroll" id="pkScroll" role="group" aria-label="사진첩에 거꾸로 놓인 사진이 찍은 순서대로 정렬되고, 한 권의 책이 되어 표지가 열리며 쪽이 펼쳐지는 애니메이션"
+           data-c1="사진첩에는 거꾸로 쌓여요" data-s1="최근에 찍은 것이 맨 앞, 첫 쪽은 맨 뒤에 있어요." data-c2="찍은 순서대로 볼 수 있어요" data-s2="첫 쪽부터 차례대로 줄을 서요." data-c3="낱장이 한 권의 책이 돼요" data-s3="찍은 사진이 묶여 한 권이 돼요. 이게 페이퍼키퍼예요." data-c4="펼쳐서 책처럼 읽어요" data-s4="기기에 따라 한 쪽 또는 두 쪽씩 보고, 글자로 바꿔 검색도 해요.">
         <div class="pk-stick" id="pkStick">
           <div class="pk-prog"><i id="pkBar"></i></div><button type="button" class="pk-again" id="pkAgain">↻ 다시 보기</button>
-          <div class="pk-ph"><div class="a">12</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">11</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">10</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">9</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">4</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">3</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">2</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">1</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-book" id="pkBook">
             <div class="bk" data-k="base"><div class="base pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>4</em></div></div>
             <div class="bk" data-k="a"><div class="fc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>2</em></div><div class="bc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>3</em></div></div>
@@ -457,7 +457,7 @@
         </li>
 </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="다음 화면">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="흩어진 사진이 책 순서로 정렬되어 한 권의 책이 되고, 표지가 열려 쪽 순서대로 펼쳐지는 애니메이션"></div>
+      <div class="pk-dots" role="group" aria-label="화면 선택"></div>
       </div>
       <h3 class="pk-tab-h">태블릿에서는</h3>
       <p class="muted pk-tab-lead">태블릿이나 접는 폰처럼 폭이 넓은 화면에서는 책을 펼친 것처럼 두 쪽을 나란히 볼 수 있어요. 폰과 같은 화면을 태블릿에서 찍은 거예요. 옆으로 넘겨 보세요.</p>
@@ -568,7 +568,7 @@
         </li>
       </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="다음 화면">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="흩어진 사진이 책 순서로 정렬되어 한 권의 책이 되고, 표지가 열려 쪽 순서대로 펼쳐지는 애니메이션"></div>
+      <div class="pk-dots" role="group" aria-label="PaperKeeper 태블릿 화면 미리보기"></div>
       </div>
 
     </section>
@@ -721,7 +721,7 @@
     });
   </script>
   <script>
-    // 화면에 보이는 동안 계속 반복 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 번호 순서대로 한 줄 → 차례로 포개져 한 권의 책 → 표지가 열려 1·2쪽 → 한 장 넘겨 3·4쪽 → 잠깐 멈춤 → 처음부터.
+    // 화면에 보이는 동안 계속 반복 재생돼요: 사진첩처럼 거꾸로 놓인 사진 → 책 순서로 정렬 → 거꾸로 놓인 사진이 찍은 순서대로 정렬 → 차례로 포개져 한 권의 책 → 표지가 열려 1·2쪽 → 한 장 넘겨 3·4쪽 → 잠깐 멈춤 → 처음부터.
     // 화면 밖으로 나가면 멈추고, 움직임 줄이기 설정이면 처음부터 완성된 모습(책)으로 멈춰 있어요. "다시 보기"는 처음부터 다시 재생해요.
     (function () {
       var box = document.getElementById('pkScroll'), stick = document.getElementById('pkStick');
@@ -729,8 +729,7 @@
       var cards = [].slice.call(stick.querySelectorAll('.pk-ph')), bar = document.getElementById('pkBar');
       var book = document.getElementById('pkBook'), capB = document.getElementById('pkCapB'), capS = document.getElementById('pkCapS'), again = document.getElementById('pkAgain');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var scatter = [[-150, -70, -16], [130, -30, 12], [-60, 70, -7], [170, 60, 20]]; // 흩어진 위치 x, y, 기울기
-      var pageNo = [4, 3, 2, 1]; // 사진 12·11·10·9가 책에서는 4·3·2·1쪽
+      var pageNo = [4, 3, 2, 1]; // 사진첩 순서(최근 것이 맨 앞): 4쪽, 3쪽, 2쪽, 1쪽
       var DELAY = 600, LENGTH = 9500, HOLD = 3400, FADE = 600; // 시작 전 대기, 재생, 책으로 멈춰 있는 시간, 사라지는 시간(밀리초)
       var raf = 0, last = 0, running = false;
       function clamp(x) { return Math.max(0, Math.min(1, x)); }
@@ -738,13 +737,15 @@
       function lerp(a, b, t) { return a + (b - a) * t; }
       function draw(p) {
         last = p;
-        var w = stick.clientWidth, k = Math.min(1, w / 560), ky = stick.clientHeight / 400, step = w < 520 ? 70 : Math.min(190, (w - cards[0].offsetWidth - 40) / 3);   // 넓은 화면은 190px, 좁으면 칸 폭에 맞춰 줄임
-        var s1 = ease(clamp(p / .28));   // 0~.28: 흩어진 사진이 번호 순서대로 한 줄로 정렬
+        var w = stick.clientWidth, step = w < 520 ? 70 : Math.min(190, (w - cards[0].offsetWidth - 40) / 3);   // 넓은 화면은 190px, 좁으면 칸 폭에 맞춰 줄임
+        var s1 = ease(clamp((p - .08) / .2));   // .08~.28: 거꾸로 놓인 사진이 서로 자리를 바꿔 1·2·3·4 순서가 돼요
         bar.style.width = (p * 100) + '%';
         cards.forEach(function (c, i) {
           var pg = pageNo[i];
           var rowX = (pg - 2.5) * step;
-          var x = lerp(scatter[i][0] * k, rowX, s1), y = lerp(scatter[i][1] * ky, 0, s1), r = lerp(scatter[i][2], 0, s1);
+          // 시작은 거꾸로 놓인 한 줄(-rowX), 끝은 바른 순서(rowX). 서로 지나칠 때 번갈아 위·아래로 살짝 비켜가요
+          var swing = Math.sin(Math.PI * s1), side = (pg % 2) ? -1 : 1;
+          var x = lerp(-rowX, rowX, s1), y = side * swing * 44, r = side * swing * 6;
           // .38~.58: 1쪽부터 차례로 가운데에 포개져 한 묶음이 돼요
           var g = ease(clamp((p - .38 - (pg - 1) * .025) / .12));
           x = lerp(x, (pg - 2.5) * 3, g); y = lerp(y, 6, g); r = lerp(r, (pg - 2.5) * 2, g);

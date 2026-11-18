@@ -320,14 +320,14 @@
     <section>
       <h2 class="pk-h">Isn't it just taking photos?</h2>
       <p>If you only look at the shooting, it's the same as any camera app. The difference is what happens after.</p>
-      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"
-           data-c1="Your photos are scattered" data-s1="The newest sits on top, and page 1 is buried far below." data-c2="Read them in the order you shot" data-s2="Page 1 first, then page 2, page 3…" data-c3="The loose pages become one book" data-s3="Your scans are bound into a single book. That's PaperKeeper." data-c4="Open it and read it like a book" data-s4="One page or two at a time, depending on your device. Turn pages into text to search.">
+      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: photos lined up in reverse order get sorted into the order you shot, are bound into one book, then the cover opens and the pages turn"
+           data-c1="Photo galleries show them in reverse" data-s1="The newest comes first, and page 1 ends up at the very end." data-c2="Read them in the order you shot" data-s2="Page 1 first, then page 2, page 3…" data-c3="The loose pages become one book" data-s3="Your scans are bound into a single book. That's PaperKeeper." data-c4="Open it and read it like a book" data-s4="One page or two at a time, depending on your device. Turn pages into text to search.">
         <div class="pk-stick" id="pkStick">
           <div class="pk-prog"><i id="pkBar"></i></div><button type="button" class="pk-again" id="pkAgain">↻ Replay</button>
-          <div class="pk-ph"><div class="a">12</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">11</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">10</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-ph"><div class="a">9</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">4</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">3</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">2</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
+          <div class="pk-ph"><div class="a">1</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-book" id="pkBook">
             <div class="bk" data-k="base"><div class="base pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>4</em></div></div>
             <div class="bk" data-k="a"><div class="fc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>2</em></div><div class="bc pg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><em>3</em></div></div>
@@ -452,7 +452,7 @@
         </li>
 </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"></div>
+      <div class="pk-dots" role="group" aria-label="Choose a screenshot"></div>
       </div>
       <h3 class="pk-tab-h">On tablets</h3>
       <p class="muted pk-tab-lead">On wide screens such as tablets and foldables, you can read two pages side by side like an open book. These are the same screens as on the phone, shot on a tablet. Swipe to browse.</p>
@@ -563,7 +563,7 @@
         </li>
       </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, are bound into one book, then the cover opens and the pages turn in order"></div>
+      <div class="pk-dots" role="group" aria-label="PaperKeeper tablet screenshots"></div>
       </div>
 
     </section>
@@ -699,7 +699,7 @@
     });
   </script>
   <script>
-    // 화면에 보이는 동안 계속 반복 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 번호 순서대로 한 줄 → 차례로 포개져 한 권의 책 → 표지가 열려 1·2쪽 → 한 장 넘겨 3·4쪽 → 잠깐 멈춤 → 처음부터.
+    // 화면에 보이는 동안 계속 반복 재생돼요: 사진첩처럼 거꾸로 놓인 사진 → 책 순서로 정렬 → 거꾸로 놓인 사진이 찍은 순서대로 정렬 → 차례로 포개져 한 권의 책 → 표지가 열려 1·2쪽 → 한 장 넘겨 3·4쪽 → 잠깐 멈춤 → 처음부터.
     // 화면 밖으로 나가면 멈추고, 움직임 줄이기 설정이면 처음부터 완성된 모습(책)으로 멈춰 있어요. "다시 보기"는 처음부터 다시 재생해요.
     (function () {
       var box = document.getElementById('pkScroll'), stick = document.getElementById('pkStick');
@@ -707,8 +707,7 @@
       var cards = [].slice.call(stick.querySelectorAll('.pk-ph')), bar = document.getElementById('pkBar');
       var book = document.getElementById('pkBook'), capB = document.getElementById('pkCapB'), capS = document.getElementById('pkCapS'), again = document.getElementById('pkAgain');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var scatter = [[-150, -70, -16], [130, -30, 12], [-60, 70, -7], [170, 60, 20]]; // 흩어진 위치 x, y, 기울기
-      var pageNo = [4, 3, 2, 1]; // 사진 12·11·10·9가 책에서는 4·3·2·1쪽
+      var pageNo = [4, 3, 2, 1]; // 사진첩 순서(최근 것이 맨 앞): 4쪽, 3쪽, 2쪽, 1쪽
       var DELAY = 600, LENGTH = 9500, HOLD = 3400, FADE = 600; // 시작 전 대기, 재생, 책으로 멈춰 있는 시간, 사라지는 시간(밀리초)
       var raf = 0, last = 0, running = false;
       function clamp(x) { return Math.max(0, Math.min(1, x)); }
@@ -716,13 +715,15 @@
       function lerp(a, b, t) { return a + (b - a) * t; }
       function draw(p) {
         last = p;
-        var w = stick.clientWidth, k = Math.min(1, w / 560), ky = stick.clientHeight / 400, step = w < 520 ? 70 : Math.min(190, (w - cards[0].offsetWidth - 40) / 3);   // 넓은 화면은 190px, 좁으면 칸 폭에 맞춰 줄임
-        var s1 = ease(clamp(p / .28));   // 0~.28: 흩어진 사진이 번호 순서대로 한 줄로 정렬
+        var w = stick.clientWidth, step = w < 520 ? 70 : Math.min(190, (w - cards[0].offsetWidth - 40) / 3);   // 넓은 화면은 190px, 좁으면 칸 폭에 맞춰 줄임
+        var s1 = ease(clamp((p - .08) / .2));   // .08~.28: 거꾸로 놓인 사진이 서로 자리를 바꿔 1·2·3·4 순서가 돼요
         bar.style.width = (p * 100) + '%';
         cards.forEach(function (c, i) {
           var pg = pageNo[i];
           var rowX = (pg - 2.5) * step;
-          var x = lerp(scatter[i][0] * k, rowX, s1), y = lerp(scatter[i][1] * ky, 0, s1), r = lerp(scatter[i][2], 0, s1);
+          // 시작은 거꾸로 놓인 한 줄(-rowX), 끝은 바른 순서(rowX). 서로 지나칠 때 번갈아 위·아래로 살짝 비켜가요
+          var swing = Math.sin(Math.PI * s1), side = (pg % 2) ? -1 : 1;
+          var x = lerp(-rowX, rowX, s1), y = side * swing * 44, r = side * swing * 6;
           // .38~.58: 1쪽부터 차례로 가운데에 포개져 한 묶음이 돼요
           var g = ease(clamp((p - .38 - (pg - 1) * .025) / .12));
           x = lerp(x, (pg - 2.5) * 3, g); y = lerp(y, 6, g); r = lerp(r, (pg - 2.5) * 2, g);
