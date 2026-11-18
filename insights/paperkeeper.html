@@ -243,6 +243,17 @@
     .pk-shot-tab a::after { top: 4px; width: 5px; height: 5px; margin-left: -2.5px; }
     .pk-shot-tab img { border-radius: 10px; }
     @media (max-width: 860px) { .pk-shots.pk-shots-tab > li { flex-basis: 100%; } }
+    /* 사진첩과 비교하는 구역 */
+    .pk-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+    .pk-vs > div { padding: 16px; border: 1px solid var(--lo-line); border-radius: 14px; font-size: 15px; line-height: 1.6; }
+    .pk-vs > div:last-child { background: #e8f0ff; border: 2px solid #1d4ed8; }
+    html.dark-mode .pk-vs > div { border-color: #262c40; }
+    html.dark-mode .pk-vs > div:last-child { background: #101c3a; border-color: #6b9bff; }
+    .pk-vs strong { display: block; font-size: 16px; margin-bottom: 4px; }
+    .pk-vs ol { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    .pk-vs li { padding: 2px 10px; border: 1px solid var(--lo-line); border-radius: 6px; font-size: 13px; }
+    .pk-vs-list { margin: 8px 0 0; padding-left: 1.2em; }
+    @media (max-width: 560px) { .pk-vs { grid-template-columns: 1fr; } }
   </style>
   <link rel="stylesheet" href="../css/styles.css?v=20261108-16">
   <link rel="stylesheet" href="../css/dark.css">
@@ -279,6 +290,22 @@
         <li class="pk-step card"><span class="pk-num">3</span><strong>읽고 메모하기</strong><span>한국어 글자를 읽어 주고, 검색하고, 손글씨로 메모해요.</span></li>
         <li class="pk-step card"><span class="pk-num">4</span><strong>PDF로 보관</strong><span>책 한 권을 PDF로 만들어 문서 폴더에 저장해요.</span></li>
       </ol>
+    </section>
+
+    <section>
+      <h2 class="pk-h">사진만 찍으면 되는 거 아닌가요?</h2>
+      <p>찍는 것만 보면 카메라 앱과 다르지 않아요. 달라지는 건 찍은 다음이에요.</p>
+      <div class="pk-vs">
+        <div><strong>카메라·사진첩</strong>최근에 찍은 사진이 맨 끝에 쌓여요. 책의 첫 쪽은 저 아래 어딘가에 묻혀요.
+          <ol><li>12쪽 (방금 찍음)</li><li>11쪽</li><li>…</li><li>1쪽 (저 아래)</li></ol></div>
+        <div><strong>페이퍼키퍼</strong>찍은 쪽이 책 순서대로 한 권이 돼요. 넘기면 1쪽, 2쪽, 3쪽 순서예요.
+          <ol><li>1쪽</li><li>2쪽</li><li>3쪽</li><li>…</li></ol></div>
+      </div>
+      <ul class="pk-vs-list">
+        <li><strong>책처럼 차례대로</strong> 넘겨 봐요.</li>
+        <li><strong>글자로 바꿔서</strong> 읽고, 검색하고, 고쳐요.</li>
+        <li><strong>두 쪽씩 나란히</strong>, 펼친 책처럼 봐요.</li>
+      </ul>
     </section>
 
     <section>
