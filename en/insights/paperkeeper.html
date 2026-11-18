@@ -255,6 +255,12 @@
     .pk-cap { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; padding: 0 16px; }
     .pk-cap b { display: block; font-size: 21px; letter-spacing: -.02em; color: var(--ps-ink); }
     .pk-cap span { color: var(--ps-muted); font-size: 15px; }
+    .pk-book { position: absolute; left: 50%; top: 44%; width: 150px; height: 200px; margin: -100px 0 0 -75px; opacity: 0; border-radius: 4px 10px 10px 4px; background: linear-gradient(135deg, #1f8f5c, #136a42); color: #eafff3; padding: 26px 20px 20px 30px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 22px 30px -14px rgba(0, 0, 0, .65); z-index: 30; will-change: transform; }
+    .pk-book::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 16px; border-radius: 4px 0 0 4px; background: linear-gradient(90deg, rgba(0, 0, 0, .3), rgba(255, 255, 255, .12) 55%, rgba(0, 0, 0, .12)); }
+    .pk-book::after { content: ""; position: absolute; right: -8px; top: 4px; bottom: 4px; width: 8px; border-radius: 0 3px 3px 0; background: repeating-linear-gradient(#f4efe4 0 2px, #cfc8b5 2px 3px); }
+    .pk-book small { font: 600 10px ui-monospace, Menlo, monospace; letter-spacing: .08em; opacity: .9; }
+    .pk-book b { font-size: 24px; line-height: 1.2; letter-spacing: -.02em; color: #fff; }
+    @media (max-width: 560px) { .pk-book { width: 118px; height: 160px; margin: -80px 0 0 -59px; padding: 20px 14px 14px 24px; } .pk-book b { font-size: 19px; } }
     @media (max-width: 560px) { .pk-ph { width: 72px; height: 100px; } .pk-cap b { font-size: 18px; } }
     .pk-vs-list { margin: 14px 0 0; padding-left: 1.2em; }
   </style>
@@ -298,15 +304,16 @@
     <section>
       <h2 class="pk-h">Isn't it just taking photos?</h2>
       <p>If you only look at the shooting, it's the same as any camera app. The difference is what happens after.</p>
-      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: scattered photos line up in book order, then become an open book"
-           data-c1="Photos pile up, scattered" data-s1="No book order, and no way to tell which book they belong to." data-c2="They line up in book order" data-s2="Page 1, page 2, page 3, page 4…" data-c3="Then they open like a book" data-s3="Pages 1 and 2, side by side. That's PaperKeeper.">
+      <div class="pk-scroll" id="pkScroll" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"
+           data-c1="Photos pile up, scattered" data-s1="No book order, and no way to tell which book they belong to." data-c2="They line up in book order" data-s2="Page 1, page 2, page 3, page 4…" data-c3="Then they become one book" data-s3="Loose pages, bound into one. That's PaperKeeper.">
         <div class="pk-stick" id="pkStick">
           <div class="pk-prog"><i id="pkBar"></i></div><button type="button" class="pk-again" id="pkAgain">↻ Replay</button>
           <div class="pk-ph"><div class="a">12</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">11</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">10</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
           <div class="pk-ph"><div class="a">9</div><div class="b"><i></i><i></i><i></i><i></i><i></i><em></em></div></div>
-          <div class="pk-cap"><b id="pkCapB">Then they open like a book</b><span id="pkCapS">Pages 1 and 2, side by side. That's PaperKeeper.</span></div>
+          <div class="pk-book" id="pkBook"><small>PAPERKEEPER</small><b>My Book</b><small>Scan it into one book</small></div>
+          <div class="pk-cap"><b id="pkCapB">Then they become one book</b><span id="pkCapS">Loose pages, bound into one. That's PaperKeeper.</span></div>
         </div>
       </div>
       <ul class="pk-vs-list">
@@ -425,7 +432,7 @@
         </li>
 </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="Choose a screenshot"></div>
+      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"></div>
       </div>
       <h3 class="pk-tab-h">On tablets</h3>
       <p class="muted pk-tab-lead">On wide screens such as tablets and foldables, you can read two pages side by side like an open book. These are the same screens as on the phone, shot on a tablet. Swipe to browse.</p>
@@ -536,7 +543,7 @@
         </li>
       </ul>
       <button type="button" class="pk-arrow pk-next" aria-label="Next screenshot">&#8250;</button>
-      <div class="pk-dots" role="group" aria-label="PaperKeeper tablet screenshots"></div>
+      <div class="pk-dots" role="group" aria-label="Animation: scattered photos line up in book order, then are bound into one book"></div>
       </div>
 
     </section>
@@ -672,13 +679,13 @@
     });
   </script>
   <script>
-    // 화면에 들어오면 저절로 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 펼친 책. 마지막(책)에서 멈춰요.
+    // 화면에 들어오면 저절로 재생돼요: 흩어진 사진 → 책 순서로 정렬 → 한 권의 책으로 묶임. 마지막(책)에서 멈춰요.
     // 움직임 줄이기 설정이면 처음부터 완성된 모습(책)으로 멈춰 있어요. "다시 보기" 버튼으로 한 번 더 볼 수 있어요.
     (function () {
       var box = document.getElementById('pkScroll'), stick = document.getElementById('pkStick');
       if (!box || !stick) return;
       var cards = [].slice.call(stick.querySelectorAll('.pk-ph')), bar = document.getElementById('pkBar');
-      var capB = document.getElementById('pkCapB'), capS = document.getElementById('pkCapS'), again = document.getElementById('pkAgain');
+      var book = document.getElementById('pkBook'), capB = document.getElementById('pkCapB'), capS = document.getElementById('pkCapS'), again = document.getElementById('pkAgain');
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var scatter = [[-150, -70, -16], [130, -30, 12], [-60, 70, -7], [170, 60, 20]]; // 흩어진 위치 x, y, 기울기
       var pageNo = [4, 3, 2, 1]; // 사진 12·11·10·9가 책에서는 4·3·2·1쪽
@@ -688,19 +695,23 @@
       function lerp(a, b, t) { return a + (b - a) * t; }
       function draw(p) {
         last = p;
-        var w = stick.clientWidth, k = Math.min(1, w / 560), step = w < 520 ? 70 : 110, gap = w < 520 ? 40 : 58;
+        var w = stick.clientWidth, k = Math.min(1, w / 560), step = w < 520 ? 70 : 110;
         var s1 = ease(clamp(p / .5)), s2 = ease(clamp((p - .5) / .5));
         bar.style.width = (p * 100) + '%';
         cards.forEach(function (c, i) {
           var pg = pageNo[i];
           var x = lerp(scatter[i][0] * k, (pg - 2.5) * step, s1), y = lerp(scatter[i][1] * k, 0, s1), r = lerp(scatter[i][2], 0, s1);
-          x = lerp(x, pg === 1 ? -gap : gap, s2);
-          c.style.transform = 'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg)';
-          c.style.opacity = pg > 2 ? 1 - s2 : 1;
+          x = lerp(x, 0, s2);                       // 정렬된 낱장이 가운데로 모여요
+          y = lerp(y, 6, s2);
+          c.style.transform = 'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg) scale(' + lerp(1, .9, s2) + ')';
+          c.style.opacity = 1 - clamp((s2 - .45) / .4);   // 모이면서 사라지고, 그 자리에 책이 나타나요
           c.style.zIndex = 10 - pg;
           c.firstChild.style.opacity = 1 - s1; c.lastChild.style.opacity = s1;
           c.lastChild.querySelector('em').textContent = pg;
         });
+        var sb = clamp((s2 - .4) / .6);
+        book.style.opacity = sb;
+        book.style.transform = 'translateY(' + lerp(14, 0, sb) + 'px) scale(' + lerp(.82, 1, sb) + ')';
         var n = p < .33 ? 1 : p < .8 ? 2 : 3;
         capB.textContent = box.getAttribute('data-c' + n); capS.textContent = box.getAttribute('data-s' + n);
       }
