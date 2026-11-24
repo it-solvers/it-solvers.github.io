@@ -170,6 +170,7 @@ CLAUDE.md                        Claude 작업 규칙
 | `lease-payment-calculator.html`, `lease-cashflow-irr-calculator.html`, `irr-to-rate-calculator.html` | 계산기 3종 |
 | `e-contract.html` | 전자계약서 소개(7장) |
 | `lease-estimate.html`, `account-quiz.html` | 리스 견적 내기(진행중), 개발자를 위한 회계 — MVP 소개 페이지 |
+| `soundstaff.html` | SoundStaff(MIDI·음원 → 악보) — MVP 소개 페이지, 사용 화면 캡처 3장 포함 (2026-11-25 07:51) |
 
 - 모든 서브페이지(한글·영문) 헤더 우상단에 작성일(`<time class="page-date">`)이 있고, 각 페이지 `<head>`에는 구글 태그, 애드센스, title, description, robots, canonical, hreflang, 파비콘, OG, 트위터 카드, JSON-LD가 같은 형식으로 있다.
 - 서브페이지 `<head>` 끝에는 `css/dark.css`, `css/theme-sub.css`, `js/theme.js`를 이 순서로 불러온다(전자계약서는 `dark-econtract.css`, `theme-econtract.css`도).
@@ -333,3 +334,4 @@ CLAUDE.md                        Claude 작업 규칙
 | v1.0 | 2026-11-07 08:14 | 기술 인사이트 카드 그룹 순서를 **MVP → 계산도구 → 업무지식**으로 바꿨다(메인 첫 화면 버튼 "직접 만든 앱 보기 · 리스 계산기 · 업무 지식" 순서와 맞춤). 한글 메인의 본문 그룹과 상단 하위 메뉴("기술 인사이트 ▾"), 영문 메인의 세 섹션(MVP · Calculators · Guides and terminology)을 같은 순서로 옮겼다. CLAUDE.md의 그룹 순서 규칙도 같이 바꿨다. (2026-11-07 08:14) |
 | v1.0 | 2026-11-07 08:19 | 영문 메인(`en/index.html`) 첫 화면을 한글 메인과 같게 바꿨다. 제목 "A developer who knows the work builds web and apps."(뒤 절반 초록), 설명(웹앱·모바일 앱·웹사이트를 AI와 함께 만들고 리스 계산기·업무 지식은 무료 공개), 같은 크기 버튼 세 개(`% See our apps` / `% Lease calculators` / `% Guides`, 각각 MVP·Calculators·Guides 구역으로 이동). 옛 설명에 있던 "계산기 금액은 달러, 가이드는 K-IFRS 기준" 안내는 아래 "Important:" 안내문으로 옮겼다. 스타일은 `css/theme-en.css` 끝. (2026-11-07 08:19) |
 | v1.0 | 2026-11-07 08:43 | 영문 메인 첫 화면의 시작 높이(첫 프롬프트 줄)를 한글 메인과 같게 맞췄다(위쪽 여백 63px, 800px 이하 36px, `css/theme-en.css`). 터미널 테마를 다른 곳(버셀 앱, 다른 프로젝트, 다음 달 테마)에 옮길 때 보는 **`docs/인수인계.md`**를 만들었다(색·글꼴·구성 요소 조각·전환 방식·파일별 역할·주의점·미확인 사항). (2026-11-07 08:43) |
+| v1.0 | 2026-11-25 07:51 | SoundStaff(MIDI·음원을 악보로 바꾸는 웹앱, `https://soundstaff.itsolvers.co.kr`) 소개 페이지 `insights/soundstaff.html`을 추가했다(MVP 그룹 맨 앞 카드, 새소식 MVP 항목, `sitemap.xml`, `llms.txt`). 사용 화면 캡처 3장은 `images/soundstaff/`에 있고 앱 1.22.3 화면이다(시험용 MIDI `test-midi/07_합창_4성부.mid`로 만든 화면이라 저작권 있는 곡이 없다). 새소식은 5개 유지를 위해 가장 오래된 전자계약서(2026.10.19)를 뺐다. 한글 페이지만 만들었고 영문은 요청이 없어 만들지 않았다. **미확인:** 브라우저 화면(PC·폰), 카드가 5개가 된 MVP 그룹의 벤토 모양. (2026-11-25 07:51) |
