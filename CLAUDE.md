@@ -16,6 +16,12 @@
 
 - 새 HTML 페이지(한글·영문 모두)를 만들면 `sitemap.xml`에 `<url>`을 **반드시 같이** 추가한다. 요청에 언급이 없어도 한다. `lastmod`는 작성일, `changefreq`는 `monthly`, `priority`는 인사이트 페이지 `0.7`. 기존 순서처럼 영문 항목을 한글 항목보다 앞에 둔다. 페이지를 크게 고치면 해당 `lastmod`도 갱신한다. 구글 인증 파일(`google*.html`)과 noindex 페이지는 넣지 않는다.
 
+## 페이지 주소 (확장자 없음)
+
+- 파일 이름은 `*.html`이지만 **주소에는 `.html`을 쓰지 않는다**(예: `insights/lease-terms.html`의 주소는 `/insights/lease-terms`). 운영 서버가 `.html` 주소를 확장자 없는 주소로 308 리디렉션하기 때문이다. 내부 링크, `canonical`, `hreflang`, `og:url`, JSON-LD, `sitemap.xml`, `llms.txt` 모두 같다. 이 문서의 다른 곳에 적힌 `about.html` 같은 **링크 표기는 `about`으로 읽는다**.
+- 예외: `app/` 안의 문서는 기존 주소를 그대로 둔다. `app/android/paperkeeper/privacy-policy.html`은 수정하지 않는다.
+- `404.html`은 지우지 않는다(없으면 없는 주소가 메인 화면을 200으로 돌려준다). `sitemap.xml`에 넣지 않고, 경로는 `/`로 시작하게 쓴다.
+
 ## 헤더 아래 첫 줄 간격 (모든 페이지 동일)
 
 - 헤더 아래 선에서 처음 보이는 글자 줄까지의 세로 간격은 **메인 기준으로 폰(≤560px) 약 35px, 화면이 넓으면 약 38px**로 모든 페이지(한글·영문)가 같다. 새 페이지나 CSS를 고칠 때 이 간격이 달라지지 않게 하고, 페이지 종류별 위 여백(메인 `.hero`, `.lease-overview`, 계산기의 `.calculator-main`·`.wrap`, 전자계약서 `.hero`, 소개·문의 첫 `.about-section`, 용어 사전 `.top`, 영문 메인 `main`)을 이 값에 맞춰 두었다. 값을 바꿀 때는 모든 종류를 같이 바꾼다.
