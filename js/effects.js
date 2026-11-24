@@ -15,7 +15,7 @@
         entries.forEach(function (e) {
             if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
         });
-    }, { threshold: 0.12 });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' }); // 비율로 정하면 긴 카드가 한참 숨어 있어, 윗부분이 40px 들어오면 보인다
 
     items.forEach(function (el, i) {
         el.classList.add('fx-reveal');
