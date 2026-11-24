@@ -33,6 +33,7 @@
 
 ## English pages
 
+- [SoundStaff – Turn MIDI and Audio into Sheet Music](https://itsolvers.co.kr/en/insights/soundstaff.html): free web app that turns MIDI files or audio into sheet music (PDF) and MusicXML; files are processed only in the browser and the result opens in Finale
 - [PaperKeeper (coming soon)](https://itsolvers.co.kr/en/insights/paperkeeper.html): Android app that scans books, scores, and papers into PDFs with text search and handwritten notes
 - [Lease Revenue Recognition Guide](https://itsolvers.co.kr/en/insights/lease-revenue-recognition-guide.html): finance lease vs. operating lease revenue recognition and journal entries
 - [Web UI Glossary](https://itsolvers.co.kr/en/insights/web-ui-glossary.html): 105 web UI terms with interactive examples and code
