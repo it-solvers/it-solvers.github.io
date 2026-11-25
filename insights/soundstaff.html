@@ -192,7 +192,7 @@
 
     <section class="card">
       <h2>무엇을 하는 앱인가요</h2>
-      <p>MIDI 파일을 끌어다 놓으면 바로 악보로 바꿔 줘요. 악기별로 악보를 나누고, 박자·조성·템포를 고칠 수 있고, 만든 악보를 재생해서 들어 볼 수 있어요. 결과는 PDF와 MusicXML(뮤직엑스엠엘, 악보 프로그램끼리 주고받는 표준 파일)로 저장하고, Finale(피날레) 같은 악보 편집 프로그램에서 열어 고쳐 쓸 수 있어요.</p>
+      <p>MIDI 파일을 끌어다 놓으면 바로 악보로 바꿔 줘요. 박자·조성·템포를 고치고, 만든 악보를 재생해서 들어 볼 수 있어요. 결과는 PDF와 MusicXML(뮤직엑스엠엘, 악보 프로그램끼리 주고받는 표준 파일)로 저장하고, MuseScore(뮤즈스코어, 무료)나 Finale(피날레) 같은 악보 편집 프로그램에서 열어 고쳐 쓸 수 있어요.</p>
       <p>PC에서는 음원(mp3, wav 등)도 올릴 수 있어요. 소리에서 음을 찾아 악보 초안을 만들어 줍니다. 아래 "음원은 어디까지 맞나요"를 꼭 읽어 주세요.</p>
       <ul>
         <li>파일은 서버로 전송되지 않고 내 컴퓨터(브라우저) 안에서만 처리돼요.</li>
@@ -201,21 +201,34 @@
     </section>
 
     <section class="card">
+      <h2>연주자가 보기 편한 악보</h2>
+      <ul>
+        <li><strong>악기에 맞는 표기:</strong> 기타·베이스는 관례대로 한 옥타브 올려 적고(음자리표에 8 표시), 피아노는 두 보표에 양손을 나눠 적어요. 아주 높거나 낮은 음은 8va 같은 점선을 써서 덧줄을 줄여요.</li>
+        <li><strong>드럼과 타악기:</strong> 타악기 보표로 적고, 빠른 연타는 롤 기호로 표시해요.</li>
+        <li><strong>3연음:</strong> 셋잇단 8분·4분음표를 알아보고 그대로 적어요.</li>
+        <li><strong>한 줄에 4마디:</strong> 화면과 PDF를 4마디씩 보여 주고, 쪽마다 악기 이름과 곡 제목을 표시해요.</li>
+        <li><strong>파트보 한 번에 받기:</strong> 악기마다 따로 만든 PDF와 MusicXML을 ZIP으로 받아요. 이어지는 쉬는 마디는 숫자로 묶어요.</li>
+        <li><strong>악기별 재생:</strong> 악기 계열에 맞는 소리로 들어 볼 수 있어요. 피아노 녹음 소리 말고는 컴퓨터가 만든 소리예요.</li>
+      </ul>
+      <p class="muted">손 나누기나 3연음처럼 MIDI에 정보가 없는 부분은 앱이 추정해요. 연주에 쓰기 전에 한 번 확인해 주세요. [읽기 쉽게 정리하기]를 끄면 음 길이를 원본에 가깝게 적어요.</p>
+    </section>
+
+    <section class="card">
       <h2>사용 방법</h2>
       <h3>1. 파일 올리기</h3>
       <p>MIDI 파일(.mid, .midi)을 끌어다 놓거나 [파일 선택]을 눌러요. 음원 분석은 오른쪽 카드에서 하며 PC에서만 쓸 수 있어요.</p>
-      <img src="../images/soundstaff/01-start.png" alt="SoundStaff 첫 화면: 사용 방법 안내와 MIDI·음원 파일을 올리는 두 개의 카드" width="1100" height="1000" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
+      <img src="../images/soundstaff/01-start.png" alt="SoundStaff 첫 화면: 사용 방법 안내와 MIDI·음원 파일을 올리는 두 개의 카드" width="1100" height="1050" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
 
       <h3>2. 악보 다듬기 (선택)</h3>
       <p>읽은 곡의 템포·박자·조성이 보여요. 제목과 작곡자를 적고, 악기 순서를 바꾸거나 소리를 끄거나 악보에서 뺄 수 있어요. 바꾸면 악보가 바로 다시 만들어집니다.</p>
       <img src="../images/soundstaff/02-settings.png" alt="읽은 곡의 트랙 목록과 악보 설정(제목, 작곡자, 템포, 박자, 조성)과 악기 순서·소리 끄기·빼기 버튼" width="1100" height="1190" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
 
       <h3>3. 확인하고 저장</h3>
-      <p>악보를 재생해 들어 보고 확대·축소해서 확인한 뒤, PDF·MusicXML·피아노 MIDI로 저장해요.</p>
-      <img src="../images/soundstaff/03-score.png" alt="악보 미리보기 화면과 PDF·MusicXML·피아노 MIDI 다운로드 버튼" width="1100" height="990" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
+      <p>악보를 재생해 들어 보고 확대·축소해서 확인한 뒤, PDF·MusicXML·피아노 MIDI로 저장해요. 악기가 둘 이상이면 [파트보 ZIP 만들기]로 악기별 악보도 받을 수 있어요.</p>
+      <img src="../images/soundstaff/03-score.png" alt="악보 미리보기 화면과 PDF·MusicXML·피아노 MIDI 다운로드 버튼" width="1100" height="1063" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
 
-      <h3>4. Finale에서 열기</h3>
-      <p>PC의 Finale에서 저장한 MusicXML 파일을 열고, 다른 이름으로 저장하면 Finale 파일(.musx)이 돼요. Finale는 PC에서만 열 수 있으니 폰에서 받았다면 파일을 PC로 옮겨 주세요.</p>
+      <h3>4. 악보 프로그램에서 고치기 (선택)</h3>
+      <p>PC의 악보 프로그램(MuseScore, Finale 등)에서 저장한 MusicXML 파일을 열어 고쳐요. 폰에서 받았다면 파일을 PC로 옮겨 주세요. 프로그램마다 보이는 모습은 조금 다를 수 있어요.</p>
     </section>
 
     <section class="card">
@@ -231,7 +244,8 @@
     <section class="card">
       <h2>이런 분께 맞습니다</h2>
       <ul>
-        <li>MIDI로 만든 곡을 악보로 뽑아 Finale에서 편집하려는 분</li>
+        <li>MIDI로 만든 곡을 악보로 뽑아 연주자에게 나눠 주려는 분</li>
+        <li>MIDI로 만든 곡을 악보 프로그램에서 이어서 편집하려는 분</li>
         <li>악기 하나로 연주한 음원의 선율을 악보 초안으로 만들고 싶은 분</li>
         <li>파일을 외부 서버에 올리고 싶지 않은 분</li>
       </ul>
@@ -243,7 +257,8 @@
         <li>자동 변환 결과는 정확하지 않을 수 있어요. 악보 편집 프로그램에서 확인하고 고쳐 주세요.</li>
         <li>사용 권한이 있는 파일만 올려 주세요. 무료 요금제로 만든 곡은 비상업적 용도로만 쓸 수 있는 경우가 있어요.</li>
         <li>폰·태블릿에서는 MIDI 변환만 쓸 수 있고, 음원 분석은 PC에서 이용해 주세요.</li>
-        <li>음원 분석은 악기를 구분하지 못해요.</li>
+        <li>음원 분석은 악기를 구분하지 못하고 타악기는 옮기지 않아요.</li>
+        <li>16분 셋잇단음표나 5연음은 가까운 자리로 맞춰 적어요.</li>
       </ul>
     </section>
 

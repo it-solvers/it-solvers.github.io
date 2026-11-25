@@ -195,12 +195,25 @@
 
     <section class="card">
       <h2>What is this app?</h2>
-      <p>Drop in a MIDI file and it turns it into sheet music right away. It splits the score by instrument, lets you change the time signature, key, and tempo, and plays the score back so you can listen to it. You can save the result as a PDF or as MusicXML (a standard file format that music notation programs use to exchange scores), then open it in a notation program such as Finale to edit it.</p>
+      <p>Drop in a MIDI file and it turns it into sheet music right away. You can change the time signature, key, and tempo, and play the score back to listen to it. Save the result as a PDF or as MusicXML (a standard file format that music notation programs use to exchange scores), then open it in a notation program such as MuseScore (free) or Finale to edit it.</p>
       <p>On a PC you can also upload audio (mp3, wav, and so on). It finds the notes in the sound and makes a rough draft of the score. Please read "How accurate is audio analysis?" below.</p>
       <ul>
         <li>Your files are never sent to a server. They are processed only inside your own computer (the browser).</li>
         <li>It is free and has no ads, and the source code is open under the MIT License.</li>
       </ul>
+    </section>
+
+    <section class="card">
+      <h2>Scores that are easy to play from</h2>
+      <ul>
+        <li><strong>Notation that fits the instrument:</strong> guitar and bass are written an octave higher, as is customary (with an 8 under the clef), and piano is split into two staves for the two hands. Very high or low passages get 8va-style dashed lines to cut down on ledger lines.</li>
+        <li><strong>Drums and percussion:</strong> written on percussion staves, with fast repeated hits shown as rolls.</li>
+        <li><strong>Triplets:</strong> eighth-note and quarter-note triplets are recognized and written as triplets.</li>
+        <li><strong>Four measures per line:</strong> on screen and in the PDF, with instrument names and the piece title on every page.</li>
+        <li><strong>All parts at once:</strong> download a ZIP with a separate PDF and MusicXML for each instrument. Consecutive rest measures are grouped under a number.</li>
+        <li><strong>Playback by instrument:</strong> each instrument family has its own sound. Apart from the recorded piano, the sounds are computer-generated.</li>
+      </ul>
+      <p class="muted">A MIDI file does not say which hand plays a note, for example, so the app estimates things like hand splits and triplets. Please check the score before performing from it. Turn off [Simplify for reading] to write note lengths closer to the original.</p>
     </section>
 
     <section class="card">
@@ -214,11 +227,11 @@
       <img src="../../images/soundstaff/en/02-settings.png" alt="The track list of the piece, the score settings (title, composer, tempo, time signature, key), and buttons to reorder, mute, or remove each instrument" width="1100" height="1190" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
 
       <h3>3. Check and save</h3>
-      <p>Play the score to hear it, zoom in and out to check it, and then save it as a PDF, MusicXML, or piano MIDI.</p>
+      <p>Play the score to hear it, zoom in and out to check it, and then save it as a PDF, MusicXML, or piano MIDI. With two or more instruments, [Make ZIP of parts] gives you a score for each one.</p>
       <img src="../../images/soundstaff/en/03-score.png" alt="The score preview and the download buttons for PDF, MusicXML, and piano MIDI" width="1100" height="1063" loading="lazy" style="max-width:100%;height:auto;border:1px solid #c8d1dc;border-radius:8px;display:block;margin:12px 0">
 
-      <h3>4. Open it in Finale</h3>
-      <p>On a PC, open the saved MusicXML file in Finale, then save it under a new name to get a Finale file (.musx). Finale only runs on a PC, so if you downloaded the file on a phone, move it to a PC first.</p>
+      <h3>4. Edit in a notation program (optional)</h3>
+      <p>On a computer, open the saved MusicXML file in a notation program such as MuseScore or Finale and edit it. If you downloaded the file on a phone, move it to a computer first. Each program may display the score a little differently.</p>
     </section>
 
     <section class="card">
@@ -234,7 +247,8 @@
     <section class="card">
       <h2>Who is it for?</h2>
       <ul>
-        <li>People who made a piece in MIDI and want to turn it into a score to edit in Finale</li>
+        <li>People who made a piece in MIDI and want to hand out scores to players</li>
+        <li>People who want to keep editing a MIDI piece in a notation program</li>
         <li>People who want a draft score of a melody played on a single instrument in a recording</li>
         <li>People who do not want to upload their files to an outside server</li>
       </ul>
@@ -246,7 +260,8 @@
         <li>Automatic conversion results may not be accurate. Please check and correct them in a notation program.</li>
         <li>Use only files you have the right to use. Songs made on a free plan may be limited to non-commercial use.</li>
         <li>On phones and tablets only MIDI conversion works; please use a PC for audio analysis.</li>
-        <li>Audio analysis cannot tell instruments apart.</li>
+        <li>Audio analysis cannot tell instruments apart and does not transcribe percussion.</li>
+        <li>16th-note triplets and quintuplets are moved to a nearby position.</li>
       </ul>
     </section>
   </main>
