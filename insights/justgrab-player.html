@@ -74,6 +74,10 @@
     .os { margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(128, 128, 128, .3); }
     .os h3 { margin: 0 0 4px; }
     .os p { margin: 0 0 12px; }
+    .os-icon { width: 24px; height: 24px; flex: 0 0 auto; }
+    .os h3.os-title { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .lease-overview ul.os-list { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 14px 0 4px; padding: 0; list-style: none; }
+    .os-list li { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 600; }
     .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
     .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
@@ -203,12 +207,19 @@
 
 
   <main class="lease-overview">
+    <!-- 운영체제 아이콘(직접 그린 단순한 모양) -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="os-windows" viewBox="0 0 24 24"><path fill="#0078d4" d="M2 2h9.5v9.5H2zM12.5 2H22v9.5h-9.5zM2 12.5h9.5V22H2zM12.5 12.5H22V22h-9.5z"/></symbol>
+      <symbol id="os-mac" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="4.5" width="16" height="11.5" rx="1.6"/><path d="M1.5 19.5h21"/></g></symbol>
+      <symbol id="os-ubuntu" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#e95420"/><circle cx="12" cy="12" r="5.2" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8.8 2.09" stroke-dashoffset="-1"/><g fill="#fff" stroke="#e95420" stroke-width="1"><circle cx="5.4" cy="12" r="2.1"/><circle cx="15.3" cy="6.3" r="2.1"/><circle cx="15.3" cy="17.7" r="2.1"/></g></symbol>
+    </svg>
     <img src="../images/justgrab/icon.png" alt="" width="96" height="96">
     <h1>모아모아 플레이어 (JustGrab Player)</h1>
     <p class="sub">링크를 넣어 소리와 영상을 저장하고, 모아서 듣는 무료 프로그램이에요. 광고도 회원가입도 없어요.</p>
 
     <p><a class="button button-primary" href="#download">다운로드 안내 보기</a></p>
-    <p class="muted">Windows · Mac · Ubuntu용. 다운로드는 준비 중이에요.</p>
+    <ul class="os-list" aria-label="지원하는 운영체제"><li><svg class="os-icon" aria-hidden="true"><use href="#os-windows"/></svg>Windows</li><li><svg class="os-icon" aria-hidden="true"><use href="#os-mac"/></svg>Mac</li><li><svg class="os-icon" aria-hidden="true"><use href="#os-ubuntu"/></svg>Ubuntu</li></ul>
+    <p class="muted">다운로드는 준비 중이에요.</p>
 
     <section class="card">
       <h2>무엇을 하는 프로그램인가요</h2>
@@ -317,7 +328,7 @@
       <p><strong>설치하거나 처음 실행할 때 경고가 나올 수 있어요.</strong> 무료로 배포하는 프로그램이라 코드 서명 인증서가 없어서, Windows와 Mac이 "확인되지 않은 앱"이라는 경고를 보여줄 수 있어요. 이 페이지에서 받은 파일이 맞는지 확인한 뒤 아래 설치 방법을 따라 주세요.</p>
 
       <div class="os">
-      <h3>Windows</h3>
+      <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-windows"/></svg>Windows</h3>
       <p>Windows 64bit · 약 149MB<br><span class="muted">JustGrab-Player-Setup-1.0.72.exe</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Windows용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Windows용 다운로드 준비 중</span></p>
@@ -350,7 +361,7 @@
       </div>
 
       <div class="os">
-      <h3>Mac</h3>
+      <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-mac"/></svg>Mac</h3>
       <p>Apple Silicon(M1 이후) Mac · 약 178MB<br><span class="muted">JustGrab-Player-1.0.72-arm64.dmg</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Mac용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Mac용 다운로드 준비 중</span></p>
@@ -364,7 +375,7 @@
       </div>
 
       <div class="os">
-      <h3>Ubuntu</h3>
+      <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-ubuntu"/></svg>Ubuntu</h3>
       <p>Ubuntu 22.04 이상, Intel·AMD 64bit · 약 222MB<br><span class="muted">JustGrab-Player-1.0.72-amd64.deb</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Ubuntu용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Ubuntu용 다운로드 준비 중</span></p>
