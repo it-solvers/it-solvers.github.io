@@ -135,3 +135,4 @@ input, select { border-radius: 14px; }
     :root:root:root .card-grid:has(.shot) > .card-link:nth-child(n):nth-child(n) { grid-column: span 2; grid-row: auto; }
     :root:root:root .card-grid:has(.shot) > .card-link:nth-child(-n+2):nth-child(-n+2) { grid-column: span 3; }
 }
+h1 span { white-space: nowrap; } /* 폰에서 "web and apps."가 둘로 갈리지 않게 */
