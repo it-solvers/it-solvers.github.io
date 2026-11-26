@@ -77,9 +77,13 @@
     .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
     .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
-    .app-shot { margin: 16px 0 16px var(--step); max-width: 480px; }
-    .app-shot img { display: block; width: 100%; height: auto; margin: 0; }
-    .app-shot figcaption { margin-top: 8px; font-size: 14px; }
+    /* 사용 방법: 단계마다 설명 아래에 앱 화면. 넓으면 두 줄로 */
+    .lease-overview .card ol.how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px 24px; padding-left: 0; margin: 20px 0; list-style: none; }
+    .lease-overview .card .how-steps li { display: flex; flex-direction: column; margin: 0; max-width: 440px; }
+    .how-steps h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; }
+    .how-steps .step-no { display: inline-flex; flex: 0 0 28px; height: 28px; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid currentColor; font-size: 14px; }
+    .how-steps p { margin: 0 0 12px; }
+    .how-steps img { display: block; width: 100%; height: auto; margin-top: auto; }
   </style>
   <style>
     /* 설치 경고 예시 그림: 두 화면 밝기에서 똑같이 보이도록 색을 고정 */
@@ -217,17 +221,45 @@
 
     <section class="card">
       <h2>사용 방법</h2>
-      <ol>
-        <li>영상 링크(URL)를 입력창에 붙여넣어요.</li>
-        <li>소리(MP3)와 영상(MP4) 가운데 하나를 골라요.</li>
-        <li>저장할 폴더를 확인하고 [저장하기]를 눌러요.</li>
-        <li>저장한 파일은 재생목록에 추가돼요. 목록에서 눌러 재생해요.</li>
+      <p>링크를 붙여넣고 저장해서 듣기까지, 실제 앱 화면을 따라가 보세요.</p>
+      <ol class="how-steps">
+        <li>
+          <h3><span class="step-no">1</span>주소 붙여넣기</h3>
+          <p>저장하고 싶은 영상의 링크(URL)를 복사해 맨 위 입력창에 붙여넣어요. [저장하기] 버튼이 켜져요.</p>
+          <img src="../images/justgrab/step-1-paste.png" alt="1단계 주소 붙여넣기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">2</span>형식 고르기</h3>
+          <p>음악처럼 듣기만 할 거면 소리(MP3), 화면까지 필요하면 영상(MP4)을 골라요. 저장할 폴더는 아래 줄의 [변경]으로 바꿔요.</p>
+          <img src="../images/justgrab/step-2-format.png" alt="2단계 형식 고르기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">3</span>안내 확인하기</h3>
+          <p>[저장하기]를 누르면 저작권 안내가 나와요. 읽고 [동의하고 저장]을 눌러요. "다시 보지 않기"를 선택하면 다음부터는 바로 저장해요.</p>
+          <img src="../images/justgrab/step-3-notice.png" alt="3단계 안내 확인하기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">4</span>저장되는 것 지켜보기</h3>
+          <p>진행률이 막대로 보여요. 다 받은 뒤에는 MP3로 바꾸는 과정이 이어져요.</p>
+          <img src="../images/justgrab/step-4-progress.png" alt="4단계 저장되는 것 지켜보기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">5</span>재생목록에서 확인하기</h3>
+          <p>저장이 끝나면 재생목록 맨 아래에 NEW 표시와 함께 새 파일이 생겨요.</p>
+          <img src="../images/justgrab/step-5-done.png" alt="5단계 재생목록에서 확인하기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">6</span>눌러서 듣기</h3>
+          <p>파일을 누르면 바로 재생돼요. 일시정지, 이전·다음 곡, 반복, 섞기를 쓸 수 있어요. 영상 파일은 컴퓨터의 기본 동영상 프로그램에서 열려요.</p>
+          <img src="../images/justgrab/step-6-play.png" alt="6단계 눌러서 듣기 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3><span class="step-no">7</span>목록 정리하기</h3>
+          <p>연필 버튼을 누르면 파일을 골라 목록에서 빼거나 휴지통으로 옮기고, 끌어서 순서를 바꿀 수 있어요.</p>
+          <img src="../images/justgrab/step-7-edit.png" alt="7단계 목록 정리하기 화면" width="760" height="803" loading="lazy">
+        </li>
       </ol>
-      <figure class="app-shot">
-        <img src="../images/justgrab/app-main.png" alt="모아모아 플레이어 화면: 위에 영상 URL 입력창과 소리(MP3) 선택, 저장 폴더, 저장하기 버튼, 가운데 재생 영역, 아래 재생목록" width="1120" height="1184" loading="lazy">
-        <figcaption>앱 화면(Mac, 시험용 파일). 위에서 주소·형식·폴더를 정해 저장하고, 아래 재생목록에서 눌러 재생해요.</figcaption>
-      </figure>
-      <p class="muted">링크 하나에 영상 하나씩 저장해요. 사이트의 사정에 따라 저장되지 않는 주소도 있어요.</p>
+      <p class="muted">화면은 Mac에서 시험용 파일로 찍었어요. 링크 하나에 영상 하나씩 저장하며, 사이트의 사정에 따라 저장되지 않는 주소도 있어요.</p>
     </section>
 
     <section class="card">
