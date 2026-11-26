@@ -79,6 +79,13 @@
     .lease-overview ul.os-list { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 14px 0 4px; padding: 0; list-style: none; }
     .os-list li { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 600; }
     .os .ubuntu-confirm { max-width: 260px; }
+    /* 프로그램 소개·사용 방법·편의 기능: 설명 아래에 앱 화면. 넓으면 한 줄에 3개 */
+    .lease-overview .card .how-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 28px 24px; padding-left: 0; margin: 20px 0; list-style: none; }
+    .lease-overview .card .how-steps li { display: flex; flex-direction: column; margin: 0; max-width: 280px; }
+    .how-steps h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; }
+    .how-steps .step-no { display: inline-flex; flex: 0 0 24px; height: 24px; box-sizing: border-box; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid currentColor; font-size: 12px; }
+    .lease-overview .card .how-steps p { margin: 0 0 12px; font-size: 14px; }
+    .how-steps img { display: block; width: 100%; height: auto; margin-top: auto; }
     /* 설치 순서: 번호와 설명, 그 아래 화면. 넓으면 나란히 놓고 화면의 위쪽을 맞춘다 */
     .lease-overview .card ol.install-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px 24px; margin: 8px 0 0; padding: 0; list-style: none; }
     .lease-overview .card .install-steps li { display: grid; grid-row: span 2; grid-template-rows: subgrid; gap: 10px; margin: 0; max-width: 440px; }
