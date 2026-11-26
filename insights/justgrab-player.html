@@ -77,8 +77,8 @@
     .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
     .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
-    /* 사용 방법: 단계마다 설명 아래에 앱 화면. 넓으면 두 줄로 */
-    .lease-overview .card ol.how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px 24px; padding-left: 0; margin: 20px 0; list-style: none; }
+    /* 사용 방법·편의 기능: 항목마다 설명 아래에 앱 화면. 넓으면 두 줄로 */
+    .lease-overview .card .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px 24px; padding-left: 0; margin: 20px 0; list-style: none; }
     .lease-overview .card .how-steps li { display: flex; flex-direction: column; margin: 0; max-width: 440px; }
     .how-steps h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; }
     .how-steps .step-no { display: inline-flex; flex: 0 0 28px; height: 28px; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid currentColor; font-size: 14px; }
@@ -264,12 +264,28 @@
 
     <section class="card">
       <h2>재생목록과 편의 기능</h2>
-      <ul>
-        <li>내 컴퓨터에 있는 음악·영상 파일과 폴더를 끌어다 놓아 재생목록에 추가해요. 원본은 옮기거나 복사하지 않아요.</li>
-        <li>MP3, WAV, FLAC, OGG, M4A, AAC와 MIDI 파일을 앱에서 재생해요.</li>
-        <li>반복(전체·한 곡)과 섞기, 재생 위치 이동, 음량 조절을 지원해요.</li>
-        <li>편집 모드에서 순서를 바꾸고, 목록에서 빼거나 파일을 휴지통으로 옮겨요.</li>
-        <li>화면 색상을 고를 수 있고, 한국어와 영어를 지원해요.</li>
+      <p>내 컴퓨터에 있는 음악·영상 파일과 폴더를 끌어다 놓아도 재생목록에 추가돼요. 원본은 옮기거나 복사하지 않아요.</p>
+      <ul class="how-steps">
+        <li>
+          <h3>다양한 파일 재생</h3>
+          <p>MP3, WAV, FLAC, OGG, M4A, AAC는 물론 MIDI 파일도 재생해요. 반복(전체·한 곡)과 섞기, 재생 위치 이동이 되고, 스피커에 마우스를 올리면 음량 막대가 열려요.</p>
+          <img src="../images/justgrab/feature-play.png" alt="MIDI 파일을 재생하며 음량 막대를 연 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3>끌어서 순서 바꾸기</h3>
+          <p>편집 모드에서 여러 파일을 선택해 함께 끌면 한 번에 자리를 옮겨요. 선택한 개수가 숫자로 보여요. 목록에서 빼거나 휴지통으로 옮길 수도 있어요.</p>
+          <img src="../images/justgrab/feature-drag.png" alt="파일 2개를 함께 끌어 순서를 바꾸는 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3>화면 색상 고르기</h3>
+          <p>하늘, 산호, 연보라 가운데 고르거나 바탕색·글자색·강조색을 직접 정해요.</p>
+          <img src="../images/justgrab/feature-colors.png" alt="화면 색상 창에서 산호색을 고른 화면" width="760" height="803" loading="lazy">
+        </li>
+        <li>
+          <h3>한국어와 영어</h3>
+          <p>지구본 버튼을 누르면 한국어와 영어가 바로 바뀌어요.</p>
+          <img src="../images/justgrab/feature-english.png" alt="영어로 바꾼 앱 화면" width="760" height="803" loading="lazy">
+        </li>
       </ul>
     </section>
 
