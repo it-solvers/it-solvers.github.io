@@ -79,22 +79,23 @@
     .lease-overview ul.os-list { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 14px 0 4px; padding: 0; list-style: none; }
     .os-list li { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 600; }
     .os .ubuntu-confirm { max-width: 260px; }
-    .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
-    .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
+    /* 설치 순서: 번호와 설명, 그 아래 화면. 넓으면 나란히 놓고 화면의 위쪽을 맞춘다 */
+    .lease-overview .card ol.install-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px 24px; margin: 8px 0 0; padding: 0; list-style: none; }
+    .lease-overview .card .install-steps li { display: grid; grid-row: span 2; grid-template-rows: subgrid; gap: 10px; margin: 0; max-width: 440px; }
+    .lease-overview .card .install-steps li.wide { grid-column: 1 / -1; grid-row: auto; grid-template-rows: none; max-width: none; }
+    .lease-overview .card .install-steps p { display: flex; gap: 10px; margin: 0; }
+    .install-steps .step-no { display: inline-flex; flex: 0 0 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid currentColor; box-sizing: border-box; font-size: 12px; font-weight: 700; }
+    .install-steps .shot { display: flex; align-items: flex-start; padding-left: 34px; }
+    .install-steps .shot > * { width: 100%; }
+    .install-steps .shot img { display: block; height: auto; margin: 0; border-radius: 10px; }
+    .install-steps li.small .shot img { max-width: 260px; }
+    .os .note-line { margin: 14px 0 0; }
+    .os summary { cursor: pointer; font-weight: 600; }
+    .os details p { margin: 10px 0 0; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
-    /* 사용 방법·편의 기능: 항목마다 설명 아래에 앱 화면. 넓으면 두 줄로 */
-    .lease-overview .card .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px 24px; padding-left: 0; margin: 20px 0; list-style: none; }
-    .lease-overview .card .how-steps li { display: flex; flex-direction: column; margin: 0; max-width: 440px; }
-    .how-steps h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; }
-    .how-steps .step-no { display: inline-flex; flex: 0 0 28px; height: 28px; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid currentColor; font-size: 14px; }
-    .how-steps p { margin: 0 0 12px; }
-    .how-steps img { display: block; width: 100%; height: auto; margin-top: auto; }
   </style>
   <style>
     /* 설치 경고 예시 그림: 두 화면 밝기에서 똑같이 보이도록 색을 고정 */
-    .warn-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 0 0 0 var(--step); max-width: 640px; }
-    .warn-steps figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
-    .warn-steps figcaption { font-size: 14px; }
     .warn-box { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 10px; border: 1px solid #98a2b3; font-size: 13px; line-height: 1.55; }
     .warn-box span { color: inherit !important; }
     .warn-win { background: #0b5cab; color: #ffffff; }
@@ -333,32 +334,31 @@
       <p>Windows 64bit · 약 149MB<br><span class="muted">JustGrab-Player-Setup-1.0.72.exe</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Windows용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Windows용 다운로드 준비 중</span></p>
-      <ol>
-        <li>내려받은 파일을 실행해 설치해요. 관리자 권한은 필요 없어요.</li>
-        <li>"Windows의 PC 보호" 경고가 나오면 [추가 정보] → [실행]을 눌러 주세요.</li>
-      </ol>
-      <p class="muted" style="margin-left:var(--step)">Windows 설치 경고 예시 그림이에요. 실제 화면의 모양과 문구는 운영체제 버전에 따라 다를 수 있어요. 노란 테두리가 누를 곳이에요.</p>
-      <div class="warn-steps">
-        <figure>
+      <ol class="install-steps">
+        <li>
+          <p><span class="step-no">1</span><span>내려받은 파일을 실행해요. "Windows의 PC 보호" 경고가 나오면 [추가 정보]를 눌러요.</span></p>
+          <div class="shot">
           <div class="warn-box warn-win">
             <span class="warn-title">Windows의 PC 보호</span>
             <span>Microsoft Defender SmartScreen에서 인식할 수 없는 앱의 시작을 차단했습니다.</span>
             <span class="warn-link warn-press">추가 정보</span>
             <span class="warn-buttons"><span class="warn-btn">실행 안 함</span></span>
           </div>
-          <figcaption>① [추가 정보]를 눌러요.</figcaption>
-        </figure>
-        <figure>
+          </div>
+        </li>
+        <li>
+          <p><span class="step-no">2</span><span>[실행]을 누르고 화면을 따라 설치해요. 관리자 권한은 필요 없어요.</span></p>
+          <div class="shot">
           <div class="warn-box warn-win">
             <span class="warn-title">Windows의 PC 보호</span>
             <span>앱: JustGrab-Player-Setup-1.0.72.exe</span>
             <span>게시자: 알 수 없는 게시자</span>
             <span class="warn-buttons"><span class="warn-btn warn-press">실행</span><span class="warn-btn">실행 안 함</span></span>
           </div>
-          <figcaption>② [실행]을 눌러요.</figcaption>
-        </figure>
-      </div>
-
+          </div>
+        </li>
+      </ol>
+      <p class="muted note-line">경고 화면은 예시 그림이에요. 실제 모양과 문구는 운영체제 버전에 따라 다를 수 있어요. 노란 테두리가 누를 곳이에요.</p>
       </div>
 
       <div class="os">
@@ -366,13 +366,17 @@
       <p>Apple Silicon(M1 이후) Mac · 약 178MB<br><span class="muted">JustGrab-Player-1.0.72-arm64.dmg</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Mac용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Mac용 다운로드 준비 중</span></p>
-      <ol>
-        <li>DMG 파일을 열고 "모아모아 플레이어"를 Applications(응용 프로그램) 폴더로 끌어다 놓아 복사해요. 별도의 설치 과정은 없어요.</li>
+      <ol class="install-steps">
+        <li>
+          <p><span class="step-no">1</span><span>DMG 파일을 열고 "모아모아 플레이어"를 Applications(응용 프로그램) 폴더로 끌어다 놓아 복사해요.</span></p>
+          <div class="shot">
+            <img src="../images/justgrab/mac-dmg.png" alt="DMG 파일을 연 창: Applications 폴더, 모아모아 플레이어 앱, 설치 안내 파일. 앱을 Applications 폴더로 끌어다 놓는다" width="1142" height="534" loading="lazy">
+          </div>
+        </li>
+        <li class="wide">
+          <p><span class="step-no">2</span><span>별도의 설치 과정은 없어요. Applications 폴더에서 실행해요.</span></p>
+        </li>
       </ol>
-      <div class="os-shot">
-        <img src="../images/justgrab/mac-dmg.png" alt="DMG 파일을 연 창: Applications 폴더, 모아모아 플레이어 앱, 설치 안내 파일. 앱을 Applications 폴더로 끌어다 놓는다" width="1142" height="534" loading="lazy">
-      </div>
-
       </div>
 
       <div class="os">
@@ -380,22 +384,27 @@
       <p>Ubuntu 22.04 이상, Intel·AMD 64bit · 약 222MB<br><span class="muted">JustGrab-Player-1.0.72-amd64.deb</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Ubuntu용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Ubuntu용 다운로드 준비 중</span></p>
-      <ol>
-        <li>내려받은 파일을 열어요. 파일을 받은 프로그램에서 바로 열어 아래 확인 창이 나오면, 이 페이지에서 받은 파일이 맞는지 확인하고 [실행]을 눌러요.</li>
+      <ol class="install-steps">
+        <li class="small">
+          <p><span class="step-no">1</span><span>내려받은 파일을 열어요. 확인 창이 나오면 이 페이지에서 받은 파일인지 확인하고 [실행]을 눌러요.</span></p>
+          <div class="shot">
+            <img src="../images/justgrab/ubuntu-confirm.png" alt="확인 창: 이 파일은 .deb 확장자입니다. 회원님의 컴퓨터를 손상시킬 수 있습니다. 정말 실행하시겠습니까? 취소와 실행 버튼" width="634" height="370" loading="lazy">
+          </div>
+        </li>
+        <li>
+          <p><span class="step-no">2</span><span>앱 센터에서 [설치하기]를 눌러요. "안전하지 않을 수 있음" 안내가 보이고, 암호를 물으면 입력해요.</span></p>
+          <div class="shot">
+            <img src="../images/justgrab/ubuntu-appcenter.png" alt="앱 센터의 justgrab-player 설치 화면: 안전하지 않을 수 있음 안내와 설치하기 버튼, 버전 1.0.72" width="1280" height="816" loading="lazy">
+          </div>
+        </li>
+        <li class="wide">
+          <p><span class="step-no">3</span><span>설치가 끝나면 앱 목록에서 "모아모아 플레이어"를 실행해요.</span></p>
+        </li>
       </ol>
-      <div class="os-shot ubuntu-confirm">
-        <img src="../images/justgrab/ubuntu-confirm.png" alt="확인 창: 이 파일은 .deb 확장자입니다. 회원님의 컴퓨터를 손상시킬 수 있습니다. 정말 실행하시겠습니까? 취소와 실행 버튼" width="634" height="370" loading="lazy">
-      </div>
-      <ol start="2">
-        <li>앱 센터가 열리면 [설치하기]를 눌러요. 앱 센터 밖에서 받은 파일이라 "안전하지 않을 수 있음"이라는 안내가 보여요. 암호를 물으면 입력해요.</li>
-      </ol>
-      <div class="os-shot">
-        <img src="../images/justgrab/ubuntu-appcenter.png" alt="앱 센터의 justgrab-player 설치 화면: 안전하지 않을 수 있음 안내와 설치하기 버튼, 버전 1.0.72" width="1280" height="816" loading="lazy">
-      </div>
-      <ol start="3">
-        <li>설치가 끝나면 앱 목록에서 "모아모아 플레이어"를 실행해요.</li>
-      </ol>
-      <p>앱 센터로 설치되지 않으면 파일을 받은 폴더에서 터미널을 열고 아래 명령을 써요.<code class="command">sudo apt install ./JustGrab-Player-1.0.72-amd64.deb</code></p>
+      <details class="note-line">
+        <summary>앱 센터로 설치되지 않을 때</summary>
+        <p>파일을 받은 폴더에서 터미널을 열고 아래 명령을 써요.<code class="command">sudo apt install ./JustGrab-Player-1.0.72-amd64.deb</code></p>
+      </details>
       </div>
     </section>
 
