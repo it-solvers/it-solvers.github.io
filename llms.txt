@@ -12,7 +12,7 @@
 
 ## 직접 만든 앱 (MVP: 최소 기능 제품)
 
-- [모아모아 플레이어 (출시 예정)](https://itsolvers.co.kr/insights/justgrab-player): 영상 링크를 MP3·MP4로 저장하고 재생목록으로 듣는 무료 데스크톱 프로그램. Windows·Mac·Ubuntu용, 광고·회원가입 없음
+- [모아모아 플레이어](https://itsolvers.co.kr/insights/justgrab-player): 영상 링크를 MP3·MP4로 저장하고 재생목록으로 듣는 무료 데스크톱 프로그램. Windows·Mac·Ubuntu용, 광고·회원가입 없음
 - [SoundStaff – MIDI·음원을 악보로](https://itsolvers.co.kr/insights/soundstaff): MIDI 파일이나 음원을 악보(PDF)와 MusicXML로 바꿔 주는 무료 웹앱. 파일은 브라우저 안에서만 처리되고 타악기·파트보를 지원하며 MusicXML을 악보 프로그램에서 열어 고칠 수 있음
 - [PaperKeeper (출시 예정)](https://itsolvers.co.kr/insights/paperkeeper): 책·악보·문서를 폰으로 스캔해 PDF로 만들고 글자 검색과 손글씨 메모를 지원하는 안드로이드 앱. 회원가입·서버·광고 없이 폰 안에서만 동작
 - [구독 없는 전자계약서·전자서명](https://itsolvers.co.kr/insights/e-contract): 구독료 없이 직접 설치해 쓰는 전자계약서. PDF 업로드, 링크 전송, 휴대폰 서명, 서명 이력과 문서 지문

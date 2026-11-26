@@ -64,7 +64,7 @@
   <link rel="stylesheet" href="../css/effects.css?v=20261108-8">
   <script src="../js/effects.js?v=20261125-1" defer></script>
   <script src="../js/theme.js"></script>
-  <style>.download-pending { display: inline-block; padding: 10px 16px; border: 1px dashed currentColor; border-radius: 8px; font-weight: 600; } .lease-overview code { overflow-wrap: anywhere; }</style>
+  <style>.lease-overview code { overflow-wrap: anywhere; }</style>
   <style>
     /* 왼쪽 맞춤: 제목·본문은 카드의 왼쪽 선, 번호 단계의 글과 그림은 한 단계(--step) 안쪽 선에 맞춘다 */
     .lease-overview { --step: 22px; }
@@ -168,6 +168,11 @@
       "재생목록 편집, 반복과 섞기",
       "화면 색상 선택, 한국어·영어 지원",
       "광고·회원가입 없이 내 컴퓨터에서 실행"
+    ],
+    "downloadUrl": [
+      "https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-Setup-1.0.74.exe",
+      "https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-1.0.74-arm64.dmg",
+      "https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-1.0.74-amd64.deb"
     ]
   },
   "author": {
@@ -251,7 +256,7 @@
 
     <p><a class="button button-primary" href="#download">다운로드 안내 보기</a></p>
     <ul class="os-list" aria-label="지원하는 운영체제"><li><svg class="os-icon" aria-hidden="true"><use href="#os-windows"/></svg>Windows</li><li><svg class="os-icon" aria-hidden="true"><use href="#os-mac"/></svg>Mac</li><li><svg class="os-icon" aria-hidden="true"><use href="#os-ubuntu"/></svg>Ubuntu</li></ul>
-    <p class="muted">다운로드는 준비 중이에요.</p>
+    <p class="muted">무료로 내려받을 수 있어요.</p>
 
     <section class="card">
       <h2>무엇을 하는 프로그램인가요</h2>
@@ -356,14 +361,13 @@
 
     <section class="card" id="download">
       <h2>Windows·Mac·Ubuntu 다운로드 (버전 x.x.x)</h2>
-      <p>내 컴퓨터에 맞는 파일을 받아 주세요.</p>
+      <p>내 컴퓨터에 맞는 파일을 받아 주세요. 파일은 GitHub에서 내려받으며, 이전 버전과 파일 확인값(SHA-256)은 <a href="https://github.com/it-solvers/yt-mp3/releases" target="_blank" rel="noopener">릴리스 페이지 ↗</a>에 있어요.</p>
       <p><strong>설치하거나 처음 실행할 때 경고가 나올 수 있어요.</strong> 무료로 배포하는 프로그램이라 코드 서명 인증서가 없어서, Windows, Mac, Ubuntu가 "확인되지 않은 앱"이나 "안전하지 않을 수 있음" 같은 경고를 보여줄 수 있어요. 이 페이지에서 받은 파일이 맞는지 확인한 뒤 아래 설치 방법을 따라 주세요.</p>
 
       <div class="os">
       <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-windows"/></svg>Windows</h3>
       <p>Windows 64bit · 약 149MB<br><span class="muted">JustGrab-Player-Setup-x.x.x.exe</span></p>
-      <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Windows용 다운로드</a> 로 바꾼다 -->
-      <p><span class="download-pending">Windows용 다운로드 준비 중</span></p>
+      <p><a class="button button-primary" href="https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-Setup-1.0.74.exe" target="_blank" rel="noopener">Windows용 다운로드 ↗</a></p>
       <ol class="install-steps">
         <li>
           <p><span class="step-no">1</span><span>내려받은 파일을 실행해요. "Windows의 PC 보호" 경고가 나오면 [추가 정보]를 눌러요.</span></p>
@@ -394,8 +398,7 @@
       <div class="os">
       <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-mac"/></svg>Mac</h3>
       <p>Apple Silicon(M1 이후) Mac · 약 178MB<br><span class="muted">JustGrab-Player-x.x.x-arm64.dmg</span></p>
-      <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Mac용 다운로드</a> 로 바꾼다 -->
-      <p><span class="download-pending">Mac용 다운로드 준비 중</span></p>
+      <p><a class="button button-primary" href="https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-1.0.74-arm64.dmg" target="_blank" rel="noopener">Mac용 다운로드 ↗</a></p>
       <ol class="install-steps">
         <li>
           <p><span class="step-no">1</span><span>DMG 파일을 열고 "모아모아 플레이어"를 Applications(응용 프로그램) 폴더로 끌어다 놓아 복사해요.</span></p>
@@ -412,8 +415,7 @@
       <div class="os">
       <h3 class="os-title"><svg class="os-icon" aria-hidden="true"><use href="#os-ubuntu"/></svg>Ubuntu</h3>
       <p>Ubuntu 22.04 이상, Intel·AMD 64bit · 약 222MB<br><span class="muted">JustGrab-Player-x.x.x-amd64.deb</span></p>
-      <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Ubuntu용 다운로드</a> 로 바꾼다 -->
-      <p><span class="download-pending">Ubuntu용 다운로드 준비 중</span></p>
+      <p><a class="button button-primary" href="https://github.com/it-solvers/yt-mp3/releases/download/v1.0.74/JustGrab-Player-1.0.74-amd64.deb" target="_blank" rel="noopener">Ubuntu용 다운로드 ↗</a></p>
       <ol class="install-steps">
         <li class="small">
           <p><span class="step-no">1</span><span>내려받은 파일을 열어요. 확인 창이 나오면 이 페이지에서 받은 파일인지 확인하고 [실행]을 눌러요.</span></p>
