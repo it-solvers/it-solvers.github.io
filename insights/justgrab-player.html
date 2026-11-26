@@ -73,9 +73,24 @@
     .warn-box { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 10px; border: 1px solid #98a2b3; font-size: 13px; line-height: 1.55; }
     .warn-box span { color: inherit !important; }
     .warn-win { background: #0b5cab; color: #ffffff; }
-    .warn-mac { background: #ececee; color: #1d1d1f; box-shadow: 0 8px 24px rgba(0, 0, 0, .28); }
-    /* Mac 창 왼쪽 위의 동그란 버튼 3개 */
-    .warn-mac::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: 20px 0 0 #febc2e, 40px 0 0 #28c840; }
+    /* Mac 경고창과 시스템 설정 창 */
+    .mac-win { flex: 1; border-radius: 14px; border: 1px solid #c4c4c8; background: #ececee; color: #1d1d1f; box-shadow: 0 12px 28px rgba(0, 0, 0, .3); overflow: hidden; font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .mac-win span { color: inherit !important; }
+    .mac-win .mac-lights { display: block; width: 12px; height: 12px; margin: 14px 0 0 14px; border-radius: 50%; background: #ff5f57; box-shadow: 20px 0 0 #febc2e, 40px 0 0 #28c840; }
+    .mac-alert { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; box-sizing: border-box; width: 100%; max-width: 270px; justify-self: center; align-self: center; }
+    .mac-alert img { width: 60px; height: 60px; }
+    .mac-win .mac-title { font-size: 14px; font-weight: 700; }
+    .mac-win .mac-btn { display: block; padding: 5px 14px; border-radius: 7px; background: #dcdce0; }
+    .mac-alert .mac-btn { align-self: stretch; }
+    .mac-alert .mac-default { background: #0a60d8; color: #ffffff !important; font-weight: 600; }
+    .mac-body { display: flex; margin-top: 12px; border-top: 1px solid #d2d2d6; min-height: 210px; }
+    .mac-side { flex: 0 0 34%; display: flex; flex-direction: column; gap: 3px; padding: 10px 8px; background: #dededf; font-size: 12px; }
+    .mac-side span { padding: 3px 6px; border-radius: 5px; }
+    .mac-side .mac-selected { background: #0a60d8; color: #ffffff !important; }
+    .mac-main { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f6f6f7; min-width: 0; }
+    .mac-group { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding: 10px; border: 1px solid #dcdce0; border-radius: 9px; background: #ffffff; }
+    .mac-group > span:first-child { align-self: stretch; }
+    .mac-win .warn-press { outline: 3px solid #ffb000; outline-offset: 2px; font-weight: 700; }
     .warn-box .warn-title { font-size: 17px; font-weight: 700; }
     .warn-box .warn-buttons { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
     .warn-box .warn-btn { padding: 5px 14px; border: 1px solid currentColor; border-radius: 6px; }
@@ -280,20 +295,35 @@
       <p class="muted">Mac 설치 경고 예시 그림이에요. 실제 화면의 모양과 문구는 운영체제 버전에 따라 다를 수 있어요. 노란 테두리가 누를 곳이에요.</p>
       <div class="warn-steps">
         <figure>
-          <div class="warn-box warn-mac">
-            <span class="warn-title">"모아모아 플레이어"을(를) 열 수 없음</span>
+          <div class="mac-win mac-alert">
+            <img src="../images/justgrab/icon.png" alt="" width="60" height="60" loading="lazy">
+            <span class="mac-title">"모아모아 플레이어"을(를) 열 수 없음</span>
             <span>Apple은 이 앱에 악성 코드가 없는지 확인할 수 없습니다.</span>
-            <span class="warn-buttons"><span class="warn-btn">휴지통으로 이동</span><span class="warn-btn warn-press">완료</span></span>
+            <span class="mac-btn mac-default warn-press">완료</span>
+            <span class="mac-btn">휴지통으로 이동</span>
           </div>
           <figcaption>① [완료]를 눌러 창을 닫아요. 휴지통으로 옮기지 마세요.</figcaption>
         </figure>
         <figure>
-          <div class="warn-box warn-mac">
-            <span class="warn-title">개인정보 보호 및 보안</span>
-            <span>"모아모아 플레이어"이(가) 차단되었습니다.</span>
-            <span class="warn-buttons"><span class="warn-btn warn-press">그래도 열기</span></span>
+          <div class="mac-win">
+            <span class="mac-lights"></span>
+            <div class="mac-body">
+              <div class="mac-side">
+                <span>일반</span>
+                <span>손쉬운 사용</span>
+                <span>제어 센터</span>
+                <span class="mac-selected">개인정보 보호 및 보안</span>
+              </div>
+              <div class="mac-main">
+                <span class="mac-title">보안</span>
+                <div class="mac-group">
+                  <span>"모아모아 플레이어"이(가) 차단되었습니다.</span>
+                  <span class="mac-btn warn-press">그래도 열기</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <figcaption>② [시스템 설정] → [개인정보 보호 및 보안]에서 [그래도 열기]를 눌러요.</figcaption>
+          <figcaption>② [시스템 설정] → [개인정보 보호 및 보안]에서 아래로 내려 [그래도 열기]를 눌러요.</figcaption>
         </figure>
       </div>
 
