@@ -66,8 +66,21 @@
   <script src="../js/theme.js"></script>
   <style>.download-pending { display: inline-block; padding: 10px 16px; border: 1px dashed currentColor; border-radius: 8px; font-weight: 600; } .lease-overview code { overflow-wrap: anywhere; }</style>
   <style>
+    /* 왼쪽 맞춤: 제목·본문은 카드의 왼쪽 선, 번호 단계의 글과 그림은 한 단계(--step) 안쪽 선에 맞춘다 */
+    .lease-overview { --step: 22px; }
+    .lease-overview .card ul, .lease-overview .card ol { margin: 12px 0; padding-left: var(--step); }
+    .lease-overview .card li { margin: 6px 0; }
+    .lease-overview .card > :last-child, .os > :last-child { margin-bottom: 0; }
+    .os { margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(128, 128, 128, .3); }
+    .os h3 { margin: 0 0 4px; }
+    .os p { margin: 0 0 12px; }
+    .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
+    .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
+    .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
+  </style>
+  <style>
     /* 설치 경고 예시 그림: 두 화면 밝기에서 똑같이 보이도록 색을 고정 */
-    .warn-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 12px 0 24px; }
+    .warn-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 0 0 0 var(--step); max-width: 640px; }
     .warn-steps figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
     .warn-steps figcaption { font-size: 14px; }
     .warn-box { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 10px; border: 1px solid #98a2b3; font-size: 13px; line-height: 1.55; }
@@ -236,6 +249,7 @@
       <p>내 컴퓨터에 맞는 파일을 받아 주세요.</p>
       <p><strong>설치하거나 처음 실행할 때 경고가 나올 수 있어요.</strong> 무료로 배포하는 프로그램이라 코드 서명 인증서가 없어서, Windows와 Mac이 "확인되지 않은 앱"이라는 경고를 보여줄 수 있어요. 이 페이지에서 받은 파일이 맞는지 확인한 뒤 아래 설치 방법을 따라 주세요.</p>
 
+      <div class="os">
       <h3>Windows</h3>
       <p>Windows 64bit · 약 149MB<br><span class="muted">JustGrab-Player-Setup-1.0.72.exe</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Windows용 다운로드</a> 로 바꾼다 -->
@@ -244,7 +258,7 @@
         <li>내려받은 파일을 실행해 설치해요. 관리자 권한은 필요 없어요.</li>
         <li>"Windows의 PC 보호" 경고가 나오면 [추가 정보] → [실행]을 눌러 주세요.</li>
       </ol>
-      <p class="muted">Windows 설치 경고 예시 그림이에요. 실제 화면의 모양과 문구는 운영체제 버전에 따라 다를 수 있어요. 노란 테두리가 누를 곳이에요.</p>
+      <p class="muted" style="margin-left:var(--step)">Windows 설치 경고 예시 그림이에요. 실제 화면의 모양과 문구는 운영체제 버전에 따라 다를 수 있어요. 노란 테두리가 누를 곳이에요.</p>
       <div class="warn-steps">
         <figure>
           <div class="warn-box warn-win">
@@ -266,23 +280,33 @@
         </figure>
       </div>
 
+      </div>
+
+      <div class="os">
       <h3>Mac</h3>
       <p>Apple Silicon(M1 이후) Mac · 약 178MB<br><span class="muted">JustGrab-Player-1.0.72-arm64.dmg</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Mac용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Mac용 다운로드 준비 중</span></p>
       <ol>
-        <li>DMG 파일을 열고 "모아모아 플레이어"를 Applications(응용 프로그램) 폴더로 끌어다 놓아 복사해요. 별도의 설치 과정은 없어요.
-          <img src="../images/justgrab/mac-dmg.png" alt="DMG 파일을 연 창: Applications 폴더, 모아모아 플레이어 앱, 설치 안내 파일. 앱을 Applications 폴더로 끌어다 놓는다" width="1142" height="534" loading="lazy" style="max-width:min(100%,560px);height:auto;display:block;margin:12px 0"></li>
+        <li>DMG 파일을 열고 "모아모아 플레이어"를 Applications(응용 프로그램) 폴더로 끌어다 놓아 복사해요. 별도의 설치 과정은 없어요.</li>
       </ol>
+      <div class="os-shot">
+        <img src="../images/justgrab/mac-dmg.png" alt="DMG 파일을 연 창: Applications 폴더, 모아모아 플레이어 앱, 설치 안내 파일. 앱을 Applications 폴더로 끌어다 놓는다" width="1142" height="534" loading="lazy">
+      </div>
 
+      </div>
+
+      <div class="os">
       <h3>Ubuntu</h3>
       <p>Ubuntu 22.04 이상, Intel·AMD 64bit · 약 222MB<br><span class="muted">JustGrab-Player-1.0.72-amd64.deb</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Ubuntu용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Ubuntu용 다운로드 준비 중</span></p>
       <ol>
         <li>파일을 받은 폴더에서 터미널을 열어요.</li>
-        <li><code>sudo apt install ./JustGrab-Player-1.0.72-amd64.deb</code> 명령으로 설치한 뒤 앱 목록에서 실행해요.</li>
+        <li>아래 명령으로 설치해요.<code class="command">sudo apt install ./JustGrab-Player-1.0.72-amd64.deb</code></li>
+        <li>앱 목록에서 실행해요.</li>
       </ol>
+      </div>
     </section>
 
     <section class="card">
