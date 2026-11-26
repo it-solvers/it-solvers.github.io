@@ -22,6 +22,8 @@
 - 예외: `app/` 안의 문서는 기존 주소를 그대로 둔다. `app/android/paperkeeper/privacy-policy.html`은 수정하지 않는다.
 - `404.html`은 지우지 않는다(없으면 없는 주소가 메인 화면을 200으로 돌려준다). `sitemap.xml`에 넣지 않고, 경로는 `/`로 시작하게 쓴다.
 
+- 새 HTML 페이지(한글·영문 모두)는 **전용 공유 이미지(`og:image`, 1200×630)를 반드시 같이 만든다.** 요청에 언급이 없어도 한다. 사이트 공통 로고(`images/og-image.png`)를 `og:image`·`twitter:image`로 쓰지 않는다. `tools/make_og.py`의 `PAGES`에 항목을 더하고 `python3 tools/make_og.py <페이지>`(예: `insights/lease-terms`)를 실행하면 이미지 생성과 태그 연결이 함께 된다. 앱 화면 등으로 직접 만든 전용 이미지(모아모아 플레이어, PaperKeeper)는 그대로 둔다. 페이지의 제목·핵심 내용이 바뀌면 이미지도 다시 만들고, 만든 이미지는 눈으로 확인한다. noindex 페이지와 `app/` 안 문서는 예외다.
+
 ## 헤더 아래 첫 줄 간격 (모든 페이지 동일)
 
 - 헤더 아래 선에서 처음 보이는 글자 줄까지의 세로 간격은 **메인 기준으로 폰(≤560px) 약 35px, 화면이 넓으면 약 38px**로 모든 페이지(한글·영문)가 같다. 새 페이지나 CSS를 고칠 때 이 간격이 달라지지 않게 하고, 페이지 종류별 위 여백(메인 `.hero`, `.lease-overview`, 계산기의 `.calculator-main`·`.wrap`, 전자계약서 `.hero`, 소개·문의 첫 `.about-section`, 용어 사전 `.top`, 영문 메인 `main`)을 이 값에 맞춰 두었다. 값을 바꿀 때는 모든 종류를 같이 바꾼다.
