@@ -90,8 +90,7 @@
     .install-steps .shot img { display: block; height: auto; margin: 0; border-radius: 10px; }
     .install-steps li.small .shot img { max-width: 260px; }
     .os .note-line { margin: 14px 0 0; }
-    .os summary { cursor: pointer; font-weight: 600; }
-    .os details p { margin: 10px 0 0; }
+    .os .note-line p { margin: 0 0 6px; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
   </style>
   <style>
@@ -400,10 +399,10 @@
           <p><span class="step-no">3</span><span>설치가 끝나면 앱 목록에서 "모아모아 플레이어"를 실행해요.</span></p>
         </li>
       </ol>
-      <details class="note-line">
-        <summary>앱 센터로 설치되지 않을 때</summary>
+      <div class="note-line">
+        <p><strong>※ 앱 센터로 설치되지 않을 때</strong></p>
         <p>파일을 받은 폴더에서 터미널을 열고 아래 명령을 써요. x.x.x는 받은 파일 이름의 버전 숫자로 바꿔요.<code class="command">sudo apt install ./JustGrab-Player-x.x.x-amd64.deb</code></p>
-      </details>
+      </div>
       </div>
     </section>
 
