@@ -1,0 +1,47 @@
+/* 크리스마스 장식(한글·영문 메인 전용). js/season-xmas.js가 html에 xmas 클래스를 붙인 기간(2026-12-25까지)에만 보인다. */
+html.xmas:not(.dark-mode) { --snow: #a9c6e2; }
+html.xmas.dark-mode { --snow: #ffffff; }
+#snow { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+
+/* 늘어진 전선과 전구 */
+.wire { height: 40px; overflow: hidden; margin-bottom: -14px; position: relative; z-index: 1; display: flex; justify-content: center; pointer-events: none; }
+.wire svg { flex: none; }
+.bulb { animation: xmas-blink 3.2s ease-in-out infinite; }
+@keyframes xmas-blink { 50% { opacity: 0.4; } }
+
+/* 인사말 */
+html.xmas .greet { display: inline-block; margin: 0 0 16px; padding: 8px 16px; border: 1px dashed currentColor; border-radius: 999px; font-size: 15px; font-weight: 700; line-height: 1.5; word-break: keep-all; }
+html.xmas:not(.dark-mode) .greet { background: #ffffff; color: #1d6444; }
+html.xmas.dark-mode .greet { background: #162641; color: #8fd8a8; }
+
+/* 겨울밤 마을 그림: 좁으면 아래에, 넓으면 첫 화면 오른쪽에 */
+.scene { width: min(100% - 32px, 520px); margin: 24px auto 0; }
+html[lang="en"] .scene { width: min(100%, 520px); margin-bottom: 32px; }
+.scene svg { display: block; width: 100%; height: auto; border-radius: 36px; filter: drop-shadow(0 16px 24px rgba(20, 25, 50, 0.25)); }
+.smoke { animation: xmas-puff 5s ease-in-out infinite; }
+@keyframes xmas-puff { 50% { transform: translateY(-7px); opacity: 0.6; } }
+@media (min-width: 1100px) {
+    html.xmas .hero { position: relative; }
+    .scene { position: absolute; right: calc(50% - 560px); top: 50px; width: 470px; margin: 0; }
+    html.xmas .hero-news { max-width: 600px; }
+    html[lang="en"].xmas main { position: relative; }
+    html[lang="en"] .scene { right: 0; top: 80px; width: min(440px, 40%); margin: 0; }
+    html[lang="en"].xmas :is(main > h1, main > .lead, main > .hero-cta, main > .news) { max-width: 600px; }
+}
+
+/* 눈 쌓인 새소식과 카드 */
+html.xmas:root :is(.hero-news, .news, .insight-grid .insight-card, .service-card, .card-link) { position: relative; overflow: visible; }
+html.xmas:root .hero-news-title { border-radius: 22px 22px 0 0; }
+html.xmas:root:root:root :is(.hero-news, .news, .insight-grid .insight-card, .service-card, .card-link)::before {
+    content: ""; position: absolute; left: 14px; right: 14px; top: -9px; width: auto; height: 16px; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='16'%3E%3Cpath d='M0 9Q8 1 20 5Q34 -2 48 5Q62 2 74 6Q88 -1 102 5Q114 2 120 9Q112 13 104 10Q98 17 90 10Q72 13 58 10Q52 16 44 10Q28 13 16 10Q8 14 0 9Z' fill='%23fff' stroke='%23cfdff0' stroke-width='.8'/%3E%3C/svg%3E") repeat-x; border: 0; border-radius: 0; opacity: 1; transform: none; }
+
+/* 제목 앞 작은 장식(화면 낭독기는 읽지 않게 대체 글을 비운다) */
+html.xmas:root:root:root .insights .section-label::before { content: "🎁 " / ""; }
+html.xmas:root:root:root .history-group-title::before { content: "🌲" / ""; margin-right: 8px; }
+html[lang="en"].xmas main section > h2[id]::before { content: "🌲 " / ""; }
+html.xmas:root:root:root main > section:not(.hero) { border-top: 2px dashed var(--t-line, var(--line)); }
+html[lang="en"].xmas:root:root:root main > section:not(.hero) { border-top: 0; }
+
+@media (max-width: 520px) { html.xmas .greet { padding: 7px 12px; font-size: 12.5px; } }
+@media (prefers-reduced-motion: reduce) { .bulb, .smoke { animation: none; } }

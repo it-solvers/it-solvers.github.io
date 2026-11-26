@@ -858,17 +858,17 @@
   </script>
   <!-- Site common CSS (styles.css → dark.css → theme-sub.css?v=20261107-1700) is loaded in layer(site) so that this page's own rules always win and site rules do not leak into the term cards. -->
   <style>
-@import url("../../css/styles.css?v=20261108-16") layer(site);
+@import url("../../css/styles.css?v=20261127-1") layer(site);
 @import url("../../css/dark.css?v=20261108-4") layer(site);
-@import url("../../css/theme-sub.css?v=20261108-4") layer(site);
+@import url("../../css/theme-sub.css?v=20261127-1") layer(site);
   </style>
   <script src="../../js/theme.js"></script>
   <style>/* Site common CSS is loaded in layer(site); rules for this page always win */
 :where(.gl) :where(header,nav,section,footer,main,aside,article,a,button,input,select,textarea,details,summary,code,pre,table,th,td,label,h1,h2,h3,h4,h5,p,ul,ol,li,dl,dt,dd,small,i,b,strong,em,span,div,img,svg,figure,form,fieldset,legend,time){all:revert}
 /* Layout concept: table of contents on the left, term cards on the right; inside each card, a table (left) and a live example (right) */
 :root{
-  --bg:#F6F8FA;--surface:#FFFFFF;--surface-2:#EEF1F5;--ink:#1F2328;--ink-2:#59636E;--line:#D0D7DE;
-  --accent:#0A7A45;--accent-ink:#FFFFFF;--accent-soft:#E6F4EC;
+  --bg:#eef5fb;--surface:#FFFFFF;--surface-2:#e0edf7;--ink:#3a2418;--ink-2:#6d5444;--line:#cfdfec;
+  --accent:#ab2330;--accent-ink:#FFFFFF;--accent-soft:#f8e9ea;
   --warm:#EA580C;--sun:#EAB308;--sky:#2563EB;--leaf:#16A34A;--rose:#E11D48;
   --code-bg:#0D1117;--code-ink:#E6EDF3;--code-dim:#8B98A9;
   --serif:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;
@@ -878,8 +878,8 @@
 }
 /* Dark screen: js/theme.js adds the dark-mode class to html (automatic by Incheon sunrise/sunset) */
 html.dark-mode{
-  --bg:#0B0E13;--surface:#121821;--surface-2:#171F2A;--ink:#E6EDF3;--ink-2:#8B98A9;--line:#232C38;
-  --accent:#3FDC8A;--accent-ink:#04130B;--accent-soft:#15202B;
+  --bg:#0e1a30;--surface:#162641;--surface-2:#1d2f4f;--ink:#fff4e2;--ink-2:#c4d0e4;--line:#2c4166;
+  --accent:#ffb454;--accent-ink:#2c1700;--accent-soft:#1a2b49;
   --warm:#FB923C;--sun:#FACC15;--sky:#7AA2FF;--leaf:#4ADE80;--rose:#FB7185;
   --code-bg:#0A0D12;--code-ink:#DFE7EF;--code-dim:#6F7D8F;color-scheme:dark;
 }

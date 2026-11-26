@@ -1,25 +1,24 @@
-/* 사이트 테마: 터미널(다크 터미널 + 같은 모양의 밝은 화면). 한글 메인(index.html)에만 쓴다.
-   css/styles.css, css/theme.css 다음에 불러와 색과 모양만 덮어쓴다.
-   theme.css의 색 변수(--t-*)를 터미널 색으로 바꾸면 카드·섹션·문의 폼 색이 한꺼번에 따라온다.
-   밝은/어두운 화면은 js/theme.js가 html에 dark-mode 클래스를 붙여 일출·일몰에 맞춰 바꾼다. */
+/* 사이트 테마: 겨울(눈빛 하늘 / 겨울밤 남색). 한글 메인과 소개·문의(한글·영문)에 쓴다(파일 이름은 11월 터미널 테마 때 그대로).
+   css/styles.css, css/theme.css 다음에 불러와 색과 모양만 덮어쓴다. theme.css의 색 변수(--t-*)를 바꾸면 카드·섹션·문의 폼 색이 한꺼번에 따라온다.
+   밝은/어두운 화면은 js/theme.js가 html에 dark-mode 클래스를 붙여 일출·일몰에 맞춰 바꾼다. 크리스마스 장식은 css/season-xmas.css에 따로 있다. */
 
-/* ===== 색: 어두운 화면 = 거의 검정 바탕 + 초록 포인트 / 밝은 화면 = 같은 모양, 색만 밝게(초록은 더 진하게) ===== */
+/* ===== 색: 어두운 화면 = 겨울밤 남색 + 금빛 포인트 / 밝은 화면 = 눈빛 하늘색 + 크랜베리 빨강 ===== */
 html:not(.dark-mode) {
-    --t-bg: #f6f8fa; --t-bg2: #eef1f5; --t-soft: #f0f3f6; --t-card: #ffffff;
-    --t-ink: #1f2328; --t-muted: #59636e; --t-line: #d0d7de;
-    --t-ac: #0a7a45; --t-ac-hover: #0d9356; --t-ac-ink: #ffffff; --t-ac2: #0b63c4; --t-ac-text: #0a7a45;
-    --t-glow: rgba(10, 122, 69, 0.07); --t-shadow: none;
-    --t-head: rgba(246, 248, 250, 0.88); --t-foot: #ffffff; --t-foot-ink: #59636e;
+    --t-bg: #eef5fb; --t-bg2: #e0edf7; --t-soft: #e6f0f9; --t-card: #ffffff;
+    --t-ink: #3a2418; --t-muted: #6d5444; --t-line: #cfdfec;
+    --t-ac: #ab2330; --t-ac-hover: #8f1a26; --t-ac-ink: #ffffff; --t-ac2: #1d6444; --t-ac-text: #ab2330;
+    --t-glow: rgba(171, 35, 48, 0.07); --t-shadow: 0 8px 24px rgba(40, 80, 120, 0.10);
+    --t-head: rgba(238, 245, 251, 0.88); --t-foot: #ffffff; --t-foot-ink: #6d5444;
 }
 html.dark-mode {
-    --t-bg: #0b0e13; --t-bg2: #10151c; --t-soft: #121821; --t-card: #121821;
-    --t-ink: #e6edf3; --t-muted: #8b98a9; --t-line: #232c38;
-    --t-ac: #3fdc8a; --t-ac-hover: #6af0aa; --t-ac-ink: #04130b; --t-ac2: #5cc8ff; --t-ac-text: #3fdc8a;
-    --t-glow: rgba(63, 220, 138, 0.10); --t-shadow: none;
-    --t-head: rgba(11, 14, 19, 0.85); --t-foot: #080a10; --t-foot-ink: #8b98a9;
+    --t-bg: #0e1a30; --t-bg2: #14233e; --t-soft: #162641; --t-card: #162641;
+    --t-ink: #fff4e2; --t-muted: #c4d0e4; --t-line: #2c4166;
+    --t-ac: #ffb454; --t-ac-hover: #ffc777; --t-ac-ink: #2c1700; --t-ac2: #8fd8a8; --t-ac-text: #ffb454;
+    --t-glow: rgba(255, 180, 84, 0.10); --t-shadow: none;
+    --t-head: rgba(14, 26, 48, 0.85); --t-foot: #0a1426; --t-foot-ink: #c4d0e4;
 }
 
-/* ===== 제목: 코드 글꼴 ===== */
+/* ===== 제목 글꼴 ===== */
 :root:root:root h1, :root:root:root h2, :root:root:root h3 { font-family: var(--t-mono); letter-spacing: -0.03em; }
 :root:root:root .section-label { font-family: var(--t-mono); font-size: 13px; font-weight: 500; letter-spacing: 0; }
 :root:root:root .section-title h2 { font-weight: 700; letter-spacing: -0.04em; word-break: keep-all; }
@@ -62,7 +61,7 @@ html.dark-mode {
 /* ===== 문의 폼 · 버튼 모서리 ===== */
 :root:root:root .contact-field input, :root:root:root .contact-field textarea { border-radius: 8px; }
 /* 어두운 화면: 입력칸 테두리를 더 또렷하게(바탕과 3:1 이상) */
-html.dark-mode:root:root:root .contact-field input, html.dark-mode:root:root:root .contact-field textarea { border-color: #5b6a7e; }
+html.dark-mode:root:root:root .contact-field input, html.dark-mode:root:root:root .contact-field textarea { border-color: #6b85b0; }
 html.dark-mode:root:root:root .contact-field input:focus, html.dark-mode:root:root:root .contact-field textarea:focus { border-color: var(--t-ac); }
 :root:root:root .contact-submit, :root:root:root .contact-copy, :root:root:root .contact-btn-row > .contact-copy, :root:root:root .contact-btn-row > .contact-mailto { border-radius: 8px; }
 
@@ -75,3 +74,25 @@ html.dark-mode:root:root:root .contact-field input:focus, html.dark-mode:root:ro
 
 /* 첫 화면 시작 위치: 헤더와 첫 제목 사이 간격 */
 :root:root:root .hero { padding-top: 25px; }
+
+/* ===== 12월 모양: 일반 산세리프 제목, 둥근 카드와 알약 버튼 ===== */
+html:root:root { --t-mono: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", "Malgun Gothic", sans-serif; }
+:root:root:root h1, :root:root:root h2, :root:root:root h3 { font-weight: 800; word-break: keep-all; }
+:root:root:root .hero-cta .button { justify-content: center; border-radius: 999px; font-size: 15px; font-weight: 700; }
+:root:root:root .hero-news { border-radius: 22px; box-shadow: var(--t-shadow); }
+:root:root:root .hero-news-title { padding: 14px 22px; font-size: 14px; font-weight: 700; color: var(--t-ink); }
+:root:root:root .hero-news-list li { padding-left: 22px; padding-right: 22px; }
+:root:root:root .hero-news-tag { padding: 2px 10px; border-radius: 999px; background: var(--t-soft); font-weight: 700; }
+:root:root:root .history-group-title { font-size: 18px; font-weight: 800; }
+:root:root:root .service-card, :root:root:root .insight-card, :root:root:root .insight-grid .insight-card { border-radius: 22px; box-shadow: var(--t-shadow); }
+:root:root:root .insight-card h3, :root:root:root .service-card h3 { font-size: 18px; }
+:root:root:root .service-icon { border-radius: 50%; }
+:root:root:root .contact-field input, :root:root:root .contact-field textarea, :root:root:root .contact-submit,
+:root:root:root .contact-copy, :root:root:root .contact-btn-row > .contact-copy, :root:root:root .contact-btn-row > .contact-mailto { border-radius: 14px; }
+@media (max-width: 520px) { :root:root:root .hero-cta .button { font-size: 13px; } }
+
+/* ===== 앱 화면이 있는 카드(MVP): 넓은 화면에서 한 줄에 3장 ===== */
+:root:root:root .insight-card .shot { display: block; width: 100%; height: 210px; margin: 0 0 16px; object-fit: cover; object-position: top; border: 1px solid var(--t-line); border-radius: 14px; background: var(--t-soft); }
+@media (min-width: 801px) {
+    :root:root:root .insight-grid:has(.shot) > .insight-card:nth-child(n):nth-child(n) { grid-column: span 2; grid-row: auto; }
+}

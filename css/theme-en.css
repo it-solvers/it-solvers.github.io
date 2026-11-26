@@ -1,17 +1,17 @@
-/* 사이트 테마: 터미널(어두운 화면 = 검정+초록, 밝은 화면 = 같은 모양에 연한 회색+진한 초록). 영문 메인(en/index.html)용.
-   en/styles.css 다음에 불러와 색 변수와 모양만 덮어쓴다. 한글 메인의 css/theme.css와 같은 색을 쓴다. */
+/* 사이트 테마: 겨울(눈빛 하늘 / 겨울밤 남색). 영문 메인(en/index.html)용.
+   en/styles.css 다음에 불러와 색 변수와 모양만 덮어쓴다. 한글 메인의 css/theme-terminal.css와 같은 색·모양을 쓴다. */
 :root {
   --t-mono: ui-monospace, "SF Mono", Menlo, Consolas, "D2Coding", monospace;
   --t-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 html:not(.dark-mode) {
-  --ink: #1f2328; --muted: #59636e; --line: #d0d7de; --blue: #0a7a45; --pale: #eef1f5; --surface: #ffffff; --page: #f6f8fa;
-  --t-ac-ink: #ffffff; --t-ac-hover: #0d9356; --t-ac2: #0b63c4; --t-glow: rgba(10, 122, 69, 0.07);
+  --ink: #3a2418; --muted: #6d5444; --line: #cfdfec; --blue: #ab2330; --pale: #e0edf7; --surface: #ffffff; --page: #eef5fb;
+  --t-ac-ink: #ffffff; --t-ac-hover: #8f1a26; --t-ac2: #1d6444; --t-glow: rgba(171, 35, 48, 0.07);
   --t-shadow: none;
 }
 html.dark-mode {
-  --ink: #e6edf3; --muted: #8b98a9; --line: #232c38; --blue: #3fdc8a; --pale: #15202b; --surface: #121821; --page: #0b0e13;
-  --t-ac-ink: #04130b; --t-ac-hover: #3fdc8a; --t-ac2: #5cc8ff; --t-glow: rgba(63, 220, 138, 0.10);
+  --ink: #fff4e2; --muted: #c4d0e4; --line: #2c4166; --blue: #ffb454; --pale: #1a2b49; --surface: #162641; --page: #0e1a30;
+  --t-ac-ink: #2c1700; --t-ac-hover: #ffb454; --t-ac2: #8fd8a8; --t-glow: rgba(255, 180, 84, 0.10);
   --t-shadow: none;
 }
 body { font-family: var(--t-font); background: var(--page); color: var(--ink); }
@@ -23,26 +23,26 @@ h1, h2, h3 { font-family: var(--t-mono); font-weight: 700; letter-spacing: -0.03
 
 /* 헤더: 반투명 + 연한 선, 어두운 화면에서는 남색 */
 .site-header { position: sticky; top: 0; z-index: 20; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-html:not(.dark-mode) .site-header { background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid #d0d7de; }
-html.dark-mode .site-header { background: rgba(11, 14, 19, 0.86); border-bottom: 1px solid #232c38; }
+html:not(.dark-mode) .site-header { background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid #cfdfec; }
+html.dark-mode .site-header { background: rgba(14, 26, 48, 0.86); border-bottom: 1px solid #2c4166; }
 html:not(.dark-mode) .site-header img { mix-blend-mode: multiply; }
-html.dark-mode .site-header .brand { color: #e6edf3; }
+html.dark-mode .site-header .brand { color: #fff4e2; }
 html.dark-mode .site-header .brand img { background: #fff; border-radius: 8px; padding: 2px 4px; }
 .site-header .language-link, html.dark-mode .site-header .language-link { color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 13px; }
 .site-header .language-link:hover, html.dark-mode .site-header .language-link:hover { color: var(--blue); border-color: var(--blue); }
 html.dark-mode .theme-toggle .light { background: transparent; }
-html.dark-mode .theme-toggle .dark { background: #15202b; }
-html:not(.dark-mode) .theme-toggle .light { background: #eef1f5; }
+html.dark-mode .theme-toggle .dark { background: #1a2b49; }
+html:not(.dark-mode) .theme-toggle .light { background: #e0edf7; }
 .theme-toggle { border-color: var(--line); background: var(--surface); color: var(--ink); }
 
 /* 푸터: 연한 선 위에 흰 바탕(어두운 화면은 짙은 남색). 영문 서브페이지의 footer.site-footer와 같은 모양 */
 .site-footer { border-top: 1px solid var(--line); line-height: 1.65; }
-html:not(.dark-mode) .site-footer { background: #ffffff; color: #59636e; }
-html:not(.dark-mode) .footer-links a, html:not(.dark-mode) .site-footer a { color: #1f2328; }
-html:not(.dark-mode) .site-footer strong { color: #1f2328; }
-html.dark-mode .site-footer { background: #080a10; color: #8b98a9; border-top-color: #232c38; }
-html.dark-mode .site-footer a { color: #b4c0cf; }
-html.dark-mode .site-footer strong { color: #e6edf3; }
+html:not(.dark-mode) .site-footer { background: #ffffff; color: #6d5444; }
+html:not(.dark-mode) .footer-links a, html:not(.dark-mode) .site-footer a { color: #3a2418; }
+html:not(.dark-mode) .site-footer strong { color: #3a2418; }
+html.dark-mode .site-footer { background: #0a1426; color: #c4d0e4; border-top-color: #2c4166; }
+html.dark-mode .site-footer a { color: #d5ddec; }
+html.dark-mode .site-footer strong { color: #fff4e2; }
 
 /* 카드, 새소식 */
 .card, .card-link { border-width: 1px; border-radius: 16px; background: var(--surface); box-shadow: var(--t-shadow); transition: border-color .18s ease, transform .18s ease; }
@@ -58,16 +58,16 @@ html.dark-mode .site-footer strong { color: #e6edf3; }
 
 /* 버튼: 어느 화면에서나 글자가 또렷하게(진한 파랑 + 흰 글자, 어두운 화면은 밝은 파랑 + 남색 글자) */
 .button-link, button:not(.theme-toggle) { border-radius: 12px; background: var(--blue); border-color: var(--blue); color: var(--t-ac-ink); font-weight: 700; }
-html:not(.dark-mode) .button-link, html:not(.dark-mode) button:not(.theme-toggle) { background: #0a7a45; border-color: #0a7a45; color: #ffffff; }
-html.dark-mode .button-link, html.dark-mode button:not(.theme-toggle) { background: #3fdc8a; border-color: #3fdc8a; color: #04130b; }
+html:not(.dark-mode) .button-link, html:not(.dark-mode) button:not(.theme-toggle) { background: #ab2330; border-color: #ab2330; color: #ffffff; }
+html.dark-mode .button-link, html.dark-mode button:not(.theme-toggle) { background: #ffb454; border-color: #ffb454; color: #2c1700; }
 .button-link:hover, .button-link:focus-visible { background: var(--t-ac-hover); border-color: var(--t-ac-hover); color: var(--t-ac-ink); }
-html:not(.dark-mode) .button-link:hover { background: #0d9356; border-color: #0d9356; color: #ffffff; }
-html.dark-mode .button-link:hover { background: #3fdc8a; border-color: #3fdc8a; color: #04130b; }
+html:not(.dark-mode) .button-link:hover { background: #8f1a26; border-color: #8f1a26; color: #ffffff; }
+html.dark-mode .button-link:hover { background: #ffb454; border-color: #ffb454; color: #2c1700; }
 button.secondary:not(.theme-toggle), .button-link.secondary, html.dark-mode button.secondary:not(.theme-toggle), html.dark-mode .button-link.secondary { background: transparent; color: var(--blue); border-color: var(--blue); }
 input, select { border-radius: 10px; border-color: var(--line); background: var(--surface); }
-html.dark-mode input, html.dark-mode select { background: #0a0d12; border-color: #5b6a7e; color: #e6edf3; }
-html:not(.dark-mode) th { background: #eef1f5; }
-html.dark-mode th { background: #0f141b; }
+html.dark-mode input, html.dark-mode select { background: #0a1426; border-color: #6b85b0; color: #fff4e2; }
+html:not(.dark-mode) th { background: #e0edf7; }
+html.dark-mode th { background: #12213b; }
 
 /* 로고: 밝은 화면은 투명 로고(logo-light), 어두운 화면은 기존 로고(logo-dark, 흰 배경) */
 html:not(.dark-mode) .site-header .brand .logo-dark { display: none; }
@@ -116,3 +116,22 @@ h1 { text-wrap: balance; }
 /* 푸터 바로 위 작성자·작성일·최종 수정일 한 줄(영문 메인은 css/styles.css를 쓰지 않아 여기서도 지정) */
 .page-meta { margin-top: 28px; margin-bottom: 20px; font-size: 13px; line-height: 1.7; text-align: right; color: var(--muted); }
 .page-meta a { color: var(--muted); text-decoration: underline; }
+
+/* ===== 12월 모양: 일반 산세리프 제목, 둥근 카드와 알약 버튼(한글 메인과 같음) ===== */
+html:root { --t-mono: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", "Malgun Gothic", sans-serif; --t-shadow: 0 8px 24px rgba(40, 80, 120, 0.10); }
+html.dark-mode:root { --t-shadow: none; }
+h1, h2, h3 { font-weight: 800; }
+.card, .card-link, .news { border-radius: 22px; box-shadow: var(--t-shadow); }
+.note { border-radius: 14px; }
+.news-tag { padding: 2px 10px; border-radius: 999px; background: var(--pale); font-weight: 700; }
+.hero-cta a { justify-content: center; border-radius: 999px; font-size: 15px; font-weight: 700; }
+.button-link, button:not(.theme-toggle) { border-radius: 14px; }
+input, select { border-radius: 14px; }
+@media (max-width: 380px) { .hero-cta a { font-size: 13px; } }
+
+/* ===== 앱 화면이 있는 카드(MVP): 첫 두 장은 반씩, 나머지는 한 줄에 3장 ===== */
+.card-link .shot { display: block; width: 100%; height: 210px; margin: 0 0 16px; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 14px; background: var(--pale); }
+@media (min-width: 801px) {
+    :root:root:root .card-grid:has(.shot) > .card-link:nth-child(n):nth-child(n) { grid-column: span 2; grid-row: auto; }
+    :root:root:root .card-grid:has(.shot) > .card-link:nth-child(-n+2):nth-child(-n+2) { grid-column: span 3; }
+}

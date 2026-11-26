@@ -1140,7 +1140,7 @@ MOBILE MENU
 
 /* 어두운 화면: 햄버거 막대가 검정 바탕에 묻히지 않게 밝은 초록으로 */
 html.dark-mode .menu-toggle span {
-    background: #3fdc8a;
+    background: #ffb454;
 }
 
 
@@ -2161,12 +2161,12 @@ body.lease-page footer .container span {
 
 html:not(.dark-mode) .page-meta,
 html:not(.dark-mode) .page-meta a {
-    color: #59636e;
+    color: #6d5444;
 }
 
 html.dark-mode .page-meta,
 html.dark-mode .page-meta a {
-    color: #8b98a9;
+    color: #c4d0e4;
 }
 
 .page-meta a {
