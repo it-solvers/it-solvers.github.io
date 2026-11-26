@@ -78,6 +78,9 @@
     .os h3.os-title { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .lease-overview ul.os-list { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 14px 0 4px; padding: 0; list-style: none; }
     .os-list li { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 600; }
+    .lease-overview figure.ubuntu-confirm { margin: 12px 0 12px var(--step); max-width: 360px; }
+    .ubuntu-confirm img { border-radius: 10px; }
+    .ubuntu-confirm figcaption { margin-top: 8px; font-size: 14px; }
     .os-shot { margin: 0 0 0 var(--step); max-width: 640px; }
     .os-shot img { display: block; width: 100%; height: auto; margin: 0; border-radius: 10px; }
     .os code.command { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid rgba(128, 128, 128, .35); border-radius: 8px; max-width: 640px; box-sizing: border-box; }
@@ -379,6 +382,10 @@
       <p>Ubuntu 22.04 이상, Intel·AMD 64bit · 약 222MB<br><span class="muted">JustGrab-Player-1.0.72-amd64.deb</span></p>
       <!-- 다운로드 주소가 정해지면 아래 span을 <a class="button button-primary" href="주소">Ubuntu용 다운로드</a> 로 바꾼다 -->
       <p><span class="download-pending">Ubuntu용 다운로드 준비 중</span></p>
+      <figure class="os-shot ubuntu-confirm">
+        <img src="../images/justgrab/ubuntu-confirm.png" alt="확인 창: 이 파일은 .deb 확장자입니다. 회원님의 컴퓨터를 손상시킬 수 있습니다. 정말 실행하시겠습니까? 취소와 실행 버튼" width="634" height="370" loading="lazy">
+        <figcaption>파일을 받은 프로그램에서 바로 열면 이런 확인 창이 나올 수 있어요. 이 페이지에서 받은 파일이 맞으면 [실행]을 눌러요. 터미널로 설치할 때는 아래 순서를 따라요.</figcaption>
+      </figure>
       <ol>
         <li>파일을 받은 폴더에서 터미널을 열어요.</li>
         <li>아래 명령으로 설치해요.<code class="command">sudo apt install ./JustGrab-Player-1.0.72-amd64.deb</code></li>
