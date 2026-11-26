@@ -73,7 +73,9 @@
     .warn-box { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 10px; border: 1px solid #98a2b3; font-size: 13px; line-height: 1.55; }
     .warn-box span { color: inherit !important; }
     .warn-win { background: #0b5cab; color: #ffffff; }
-    .warn-mac { background: #f2f2f4; color: #1d1d1f; }
+    .warn-mac { background: #ececee; color: #1d1d1f; box-shadow: 0 8px 24px rgba(0, 0, 0, .28); }
+    /* Mac 창 왼쪽 위의 동그란 버튼 3개 */
+    .warn-mac::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: 20px 0 0 #febc2e, 40px 0 0 #28c840; }
     .warn-box .warn-title { font-size: 17px; font-weight: 700; }
     .warn-box .warn-buttons { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
     .warn-box .warn-btn { padding: 5px 14px; border: 1px solid currentColor; border-radius: 6px; }
